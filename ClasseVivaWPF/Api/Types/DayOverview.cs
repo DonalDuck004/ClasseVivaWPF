@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Media;
+
+namespace ClasseVivaWPF.Api.Types
+{
+    
+    public record class DayOverview(List<Lesson> Lessons, List<AgendaEvent> Notes, List<AgendaEvent> Homeworks, List<Event> Absances, List<Event> Events)
+    {
+        public DateTime XCreationDate { get; private set; } = DateTime.Now;
+
+        public static readonly Color[] COLORS = new Color[] { Colors.Coral, Colors.Red, Colors.Brown, Colors.Gray,
+                                                              Colors.DarkCyan, Colors.Orchid, Colors.Teal, Colors.GreenYellow,
+                                                              Color.FromRgb(219, 195, 0), Colors.Green, Colors.Black,
+                                                              Colors.Purple, Colors.Blue, Colors.Orange, Colors.Pink };
+
+        public void Compress()
+        {
+            this.Lessons.Capacity = this.Lessons.Count;
+            this.Notes.Capacity = this.Notes.Count;
+            this.Homeworks.Capacity = this.Homeworks.Count;
+            this.Absances.Capacity = this.Absances.Count;
+            this.Events.Capacity = this.Events.Count;
+        }
+    }
+}

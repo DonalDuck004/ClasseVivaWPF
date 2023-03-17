@@ -1,0 +1,22 @@
+﻿<Window x:Class="ClasseVivaWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClasseVivaWPF"
+        mc:Ignorable="d" Name="window" Loaded="window_Loaded"
+        Title="MainWindow" MinHeight="562.5" MinWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Grid Name="wrapper">
+            </Grid>
+        </DockPanel>
+        <StackPanel Grid.Row="1" Name="Footer" Background="Black" VerticalAlignment="Center">
+            <Label Content="Unofficial Project Version 0.1a" Foreground="White" VerticalContentAlignment="Center" Cursor=""></Label>
+        </StackPanel>
+    </Grid>
+</Window>
