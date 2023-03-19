@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClasseVivaWPF" KeyDown="window_KeyDown"
-        mc:Ignorable="d" Name="window" Loaded="window_Loaded"
+        mc:Ignorable="d" Name="window" Loaded="window_Loaded" Closing="window_Closing"
         Title="MainWindow" MinHeight="562.5" MinWidth="1000">
     <Grid>
         <Grid.RowDefinitions>

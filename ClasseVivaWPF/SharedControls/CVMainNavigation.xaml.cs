@@ -21,16 +21,15 @@ namespace ClasseVivaWPF
             var c = 0;
             foreach (CVMenuIconValues item in Enum.GetValues(typeof(CVMenuIconValues)))
             {
-                tmp = CVMenuIcon.New(item);
+                tmp = CVMenuIcon.New(item, parent: this);
                 this.wp_buttons.ColumnDefinitions.Add(new());
                 this.wp_buttons.Children.Add(tmp);
                 Grid.SetColumn(tmp, c++);
             }
         }
 
-        public void SelectVoice(int idx)
+        internal void SelectVoice(int idx)
         {
-            ((CVMenuIcon)this.wp_buttons.Children[idx]).IsSelected = true;
             if (idx == 0)
             {
                 Current.Children.Clear();

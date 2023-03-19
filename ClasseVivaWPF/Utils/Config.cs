@@ -9,7 +9,9 @@ namespace ClasseVivaWPF
 {
     public static class Config
     {
-        public static readonly double HEADER_HEIGHT = 48.0D;
+        public const double HEADER_HEIGHT = 48.0D;
         public static readonly GridLength HEADER_HEIGHT_GL = new GridLength(48.0D);
+
+        public const int NOTIFY_UPDATE_DELAY = 60000;
     }
 }

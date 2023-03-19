@@ -47,26 +47,9 @@ namespace ClasseVivaWPF
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             var date = this.calendar.SelectedDate!.Value;
-            var week = CVDay.SelectedDay!.Parent;
+            
 
-            if (date < week.From){
-                while (date < week.From)
-                {
-                    if (week.Previus is null)
-                        CVHome.INSTANCE.AddWeek(week.Previus = new(date, next: week), 0);
-                    week = week.Previus;
-                }
-            } else if (date > week.To)
-            {
-                while (date > week.To)
-                {
-                    if (week.Next is null)
-                        CVHome.INSTANCE.AddWeek(week.Next = new(date, previus: week));
-                    week = week.Next;
-                }
-            }
-
-            week.SelectChild(date.DayOfWeek);
+            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
             this.Close();
         }
 

@@ -4,16 +4,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class Overview(object[] VirtualClassesAgenda,
-                                 Lesson[] Lessons,
-                                 AgendaEvent[] Agenda,
-                                 Event[] Events,
-                                 object[] Grades,
-                                 Note Notes) : ApiObject {
+    public class Overview : ApiObject {
 
+        [JsonProperty(Required = Required.Always)]
+        public required object[] VirtualClassesAgenda { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required Lesson[] Lessons { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required AgendaEvent[] Agenda { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required Event[] Events { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required object[] Grades { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required Note Notes { get; init; }
+
+
+        public BaseEvent[] GetBaseEvents()
+        {
+            var result = new BaseEvent[Lessons.Length + Agenda.Length + Events.Length];
+            Lessons.CopyTo(result, 0);
+            Agenda.CopyTo(result, Lessons.Length);
+            Events.CopyTo(result, Lessons.Length + Agenda.Length);
+
+            return result;
+        }
 
         public Dictionary<DateTime, DayOverview> GetDayOverviews()
         {

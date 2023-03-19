@@ -1,25 +1,25 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System;
 
 namespace ClasseVivaWPF.Api
 {
     public class Response
     {
-        public HttpResponseMessage? RawResponse { get; private set; }
+        public HttpResponseMessage? RawResponse { get; private init; }
         private string? _text = null;
         public string Text
         {
             get
             {
                 if (_text is null)
-                    _text = RawResponse.Content.ReadAsStringAsync().Result;
+                    _text = (RawResponse ?? throw new Exception()).Content.ReadAsStringAsync().Result;
 
                 return _text;
             }
         }
         public bool IsCached { get; private set; }
-
 
         public Response(HttpResponseMessage Response)
         {
@@ -37,7 +37,7 @@ namespace ClasseVivaWPF.Api
         {
             if (this.Text.Contains("error"))
                 return null;
-            return JsonConvert.DeserializeObject<T>(this.Text);
+            return JsonConvert.DeserializeObject<T>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error  });
         }
 
         public T[]? GetObjectList<T>() where T : ApiObject
@@ -45,7 +45,7 @@ namespace ClasseVivaWPF.Api
             if (this.Text.Contains("error"))
                 return new T[0];
 
-            return JsonConvert.DeserializeObject<T[]>(this.Text);
+            return JsonConvert.DeserializeObject<T[]>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
         }
 
         public void GetError()

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class ApiObject()
+    public class ApiObject
     {
         public DateTime XCreationDate { get; private set; } = DateTime.Now;
 

@@ -1,25 +1,56 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class Lesson : BaseEvent
+    public class Lesson : BaseEvent
     {
         private static List<int> ColorsIDS = new List<int>();
         private int? _color_id = null;
 
-        public DateTime EvtDate {get; internal set;}
-        public int EvtHPos {get; internal set;}
-        public int EvtDuration {get; internal set;}
-        public string ClassDesc {get; internal set;}
-        public string AuthorName {get; internal set;}
-        public int SubjectId {get; internal set;}
-        public string SubjectCode {get; internal set;}
-        public string SubjectDesc {get; internal set;}
-        public string LessonType {get; internal set;}
+        [JsonProperty(Required = Required.Always)] 
+        public required DateTime EvtDate {get; init;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required int EvtHPos {get; init;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required int EvtDuration {get; set;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required string ClassDesc {get; init;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required string AuthorName {get; init;}
+
+        private int _SubjectId;
+
+        [JsonProperty(Required = Required.Always)]
+        public required int SubjectId {
+            get => _SubjectId; 
+            init {
+                if (!ColorsIDS.Contains(value))
+                    ColorsIDS.Add(value);
+                _SubjectId = value;
+            }
+        }
+
+        [JsonProperty(Required = Required.AllowNull)]
+        public required string? SubjectCode {get; init;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required string SubjectDesc {get; init;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required string LessonType {get; init;}
+
+        [JsonProperty(Required = Required.Always)]
+        public required string LessonArg { get; init; }
+
         public Lesson MainTeacher { get; internal set; }
-        public string LessonArg { get; internal set; }
 
         public int ColorID
         {
@@ -29,34 +60,19 @@ namespace ClasseVivaWPF.Api.Types
 
         internal Tuple<int, string, string, string, string, DateTime> Identifiers => new(SubjectId, LessonType, LessonArg, AuthorName, ClassDesc, EvtDate);
 
-
-        public Lesson(int evtId,
-                      DateTime evtDate,
-                      string evtCode,
-                      int evtHPos,
-                      int evtDuration,
-                      string classDesc,
-                      string authorName,
-                      int subjectId,
-                      string subjectCode,
-                      string subjectDesc,
-                      string lessonType,
-                      string lessonArg) : base(evtId, evtCode)
+        [JsonConstructor]
+        public Lesson()
         {
-            if (!ColorsIDS.Contains(subjectId))
-                ColorsIDS.Add(subjectId);
-
-            EvtDate = evtDate;
-            EvtHPos = evtHPos;
-            EvtDuration = evtDuration;
-            ClassDesc = classDesc;
-            AuthorName = authorName;
-            SubjectId = subjectId;
-            SubjectCode = subjectCode;
-            SubjectDesc = subjectDesc;
-            LessonType = lessonType;
-            LessonArg = lessonArg;
             MainTeacher = this;
         }
+
+        public override void BuildNotifyText(ToastContentBuilder toast)
+        {
+            toast.AddText($"{AuthorName} a {EvtHPos}°");
+            toast.AddText(LessonArg);
+            toast.AddText(LessonType);
+        }
+
+        public override DateTime GetGotoDate() => this.EvtDate;
     }
 }

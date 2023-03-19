@@ -9,7 +9,7 @@
         <local:VisibilityConverter x:Key="VisibilityConverter"></local:VisibilityConverter>
         <local:AdjustValue x:Key="AdjustValue"></local:AdjustValue>
         <local:ColorIfConverter x:Key="ColorIfConverter"></local:ColorIfConverter>
-        
+
         <ControlTemplate x:Key="BackIcon">
             <Canvas>
                 <Path Fill="{TemplateBinding Background}" Data="M 40.03125 21.996094 L 15.683594 21.996094 L 26.90625 10.773438 L 24 7.96875 L 7.96875 24 L 24 40.03125 L 26.804688 37.226562 L 15.683594 26.003906 L 40.03125 26.003906 Z M 40.03125 21.996094"></Path>
@@ -39,7 +39,7 @@
                 <Path Fill="{TemplateBinding Background}" Data="M 9.6016 8 C 9.6016 7.1172 10.3164 6.3984 11.1992 6.3984 L 36.8008 6.3984 C 37.6836 6.3984 38.3984 7.1172 38.3984 8 L 38.3984 43.1992 C 38.3984 43.7813 38.0859 44.3164 37.5742 44.5977 C 37.0664 44.8828 36.4453 44.8633 35.9531 44.5586 L 24 37.0859 L 12.0469 44.5586 C 11.5547 44.8633 10.9336 44.8828 10.4258 44.5977 C 9.9141 44.3164 9.6016 43.7813 9.6016 43.1992 Z Z"></Path>
             </Canvas>
         </ControlTemplate>
-        
+
 
         <Style TargetType="{x:Type Button}">
             <Setter Property="Cursor" Value="Hand"></Setter>

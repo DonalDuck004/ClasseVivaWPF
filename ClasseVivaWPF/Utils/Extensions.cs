@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ClasseVivaWPF.Api.Types;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -79,6 +81,11 @@ namespace ClasseVivaWPF.Utils
                     UseShellExecute = true,
                     WorkingDirectory = Directory.GetCurrentDirectory()
             });
+        }
+
+        public static string ToTitle(this string str)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
         }
     }
 }

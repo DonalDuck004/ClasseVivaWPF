@@ -1,17 +1,35 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class Me(string Ident,
-                           string FirstName,
-                           string LastName,
-                           bool ShowPwdChangeReminder, 
-                           string Token,
-                           DateTime Release, 
-                           DateTime Expire) : ApiObject
+    public class Me : ApiObject
     {
+        [JsonProperty(Required = Required.Always)]
+        public required string Ident { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required string FirstName { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required string LastName { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required bool ShowPwdChangeReminder { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required string Token { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required DateTime Release { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required DateTime Expire { get; init; }
+
+
         private int? _id = null;
         public int Id => _id ??= int.Parse(new Regex("\\d+").Match(Ident).Value);
     };

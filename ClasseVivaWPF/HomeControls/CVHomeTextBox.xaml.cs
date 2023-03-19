@@ -97,7 +97,7 @@ namespace ClasseVivaWPF
             @this.Subject = lesson.SubjectDesc;
             @this.Hour = lesson.EvtHPos;
             @this.Hours = lesson.EvtDuration;
-            @this.Row2 = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lesson.AuthorName.ToLower());
+            @this.Row2 = lesson.AuthorName.ToTitle();
             @this.FillerColor = DayOverview.COLORS[lesson.ColorID];
 
             if (lesson.LessonArg == "")
@@ -125,7 +125,7 @@ namespace ClasseVivaWPF
         public static CVHomeTextBox FromAgendaEvent(AgendaEvent e, EventAppCategory category)
         {
             CVHomeTextBox @this = new();
-            @this.Subject = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc;
+            @this.Subject = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc!;
             if (category is EventAppCategory.Homework && !e.IsFullDay)
                 @this.Row2 = $"{e.EvtDatetimeBegin:HH:mm} - {e.EvtDatetimeEnd:HH:mm}";
             else

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Threading;
 using System.Diagnostics;
+using ClasseVivaWPF.Utils;
 
 namespace ClasseVivaWPF
 {
@@ -76,9 +77,13 @@ namespace ClasseVivaWPF
                     CVHome.INSTANCE.Contents[item.BeginDate].Add(item);
             }
 
-            Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
-            navigation.SelectVoice(0);
+            NotificationSystem.INSTANCE.SpawnTask();
 
+            Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
+            CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
+
+            if (MainWindow.INSTANCE.PostLogin is not null)
+                MainWindow.INSTANCE.PostLogin.Invoke();
         }
     }
 }

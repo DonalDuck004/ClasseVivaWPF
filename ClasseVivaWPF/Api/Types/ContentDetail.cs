@@ -1,4 +1,10 @@
-﻿namespace ClasseVivaWPF.Api.Types
+﻿using Newtonsoft.Json;
+
+namespace ClasseVivaWPF.Api.Types
 {
-    public record class ContentDetail (string Img) : ApiObject;
+    public class ContentDetail : ApiObject
+    {
+        [JsonProperty(Required = Required.Always)]
+        public required string Img { get; init; }
+    }
 }

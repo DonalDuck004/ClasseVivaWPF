@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ClasseVivaWPF
 {
@@ -24,24 +25,25 @@ namespace ClasseVivaWPF
     public partial class CVMenuIcon : UserControl
     {
         public static Dictionary<CVMenuIconValues, CVMenuIcon> INSTANCES = new();
+        public static CVMenuIcon? Selected = null;
+        private CVMainNavigation Navigation;
+        public CVMenuIconValues Type { get; private init; }
+        public int ParentIdx => (int)Type;
 
-        public CVMenuIconValues Type { get; private set; }
-
-        private bool _IsSelected = false;
         public bool IsSelected
         {
-            get => _IsSelected;
+            get => ReferenceEquals(this, Selected);
             set
             {
-                _IsSelected = value;
                 if (value)
                 {
-                    this.Desc.Foreground = this.Top.Fill = new SolidColorBrush(Colors.Red);
-                    foreach (var item in INSTANCES.Values)
-                        if (!ReferenceEquals(item, this) && item.IsSelected)
-                            item.IsSelected = false;
+                    if (Selected is not null)
+                        Selected.IsSelected = false;
 
+                    this.Desc.Foreground = this.Top.Fill = new SolidColorBrush(Colors.Red);
+                    Selected = this;
                     this.Desc.BeginAnimation(Label.FontSizeProperty, new DoubleAnimation(10, 15, new Duration(TimeSpan.FromMilliseconds(150))));
+                    this.Navigation.SelectVoice(this.ParentIdx);
                 }
                 else
                 {
@@ -54,17 +56,25 @@ namespace ClasseVivaWPF
 
         }
 
-        private CVMenuIcon(CVMenuIconValues type)
+#if DEBUG
+        private CVMenuIcon()
+        {
+
+        }
+#endif
+
+        private CVMenuIcon(CVMenuIconValues type, CVMainNavigation parent)
         {
             InitializeComponent();
             this.Type = type;
             this.Desc.Content = type.ToString();
+            this.Navigation = parent;
         }
 
-        public static CVMenuIcon New(CVMenuIconValues type)
+        public static CVMenuIcon New(CVMenuIconValues type, CVMainNavigation parent)
         {
             if (!INSTANCES.ContainsKey(type))
-                INSTANCES[type] = new(type);
+                INSTANCES[type] = new(type, parent);
 
             return INSTANCES[type];
         }

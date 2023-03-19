@@ -1,9 +1,13 @@
-﻿using System.Data;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
+using System.Windows.Navigation;
+using Windows.ApplicationModel.Activation;
 
 namespace ClasseVivaWPF
 {
@@ -15,6 +19,21 @@ namespace ClasseVivaWPF
         protected override void OnStartup(StartupEventArgs e)
         {
             var cult = new CultureInfo("it-IT");
+
+
+            ToastNotificationManagerCompat.OnActivated += toastArgs => {
+
+                // if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+                //    MessageBox.Show("Chiusa ed avviato da notifica");
+                
+                var args = ToastArguments.Parse(toastArgs.Argument);
+
+
+                Application.Current.Dispatcher.Invoke(delegate {
+
+                    ClasseVivaWPF.MainWindow.INSTANCE.Goto(args);
+                });
+            };
 
             cult.DateTimeFormat.MonthNames = cult.DateTimeFormat.MonthNames.Select(cult.TextInfo.ToTitleCase).ToArray();
             cult.DateTimeFormat.MonthGenitiveNames = cult.DateTimeFormat.MonthGenitiveNames.Select(cult.TextInfo.ToTitleCase).ToArray();
@@ -41,6 +60,7 @@ namespace ClasseVivaWPF
             );
 
             base.OnStartup(e);
+
         }
     }
 }

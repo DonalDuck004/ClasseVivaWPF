@@ -26,6 +26,8 @@ namespace ClasseVivaWPF.Sessions
             } 
         }
 
+        public static bool Logged => Me is not null;
+
         private SqliteConnection conn;
 
         private SessionHandler(string session_name) {
@@ -133,13 +135,13 @@ namespace ClasseVivaWPF.Sessions
             if (!result.Read())
                 throw new InvalidDataException("No Session Is Active");
 
-            SessionHandler.Me = new(Ident: result.GetString(0),
-                                    FirstName: result.GetString(1),
-                                    LastName: result.GetString(2),
-                                    ShowPwdChangeReminder: result.GetBoolean(3),
-                                    Token: result.GetString(4),
-                                    Release: result.GetDateTime(5),
-                                    Expire: result.GetDateTime(6));
+            SessionHandler.Me = new(){ Ident = result.GetString(0),
+                                       FirstName = result.GetString(1),
+                                       LastName = result.GetString(2),
+                                       ShowPwdChangeReminder = result.GetBoolean(3),
+                                       Token = result.GetString(4),
+                                       Release = result.GetDateTime(5),
+                                       Expire = result.GetDateTime(6) };
 
             this.RenewToken(SessionHandler.Me.Expire);
 

@@ -84,5 +84,31 @@ namespace ClasseVivaWPF
             
             this.grid.Children.Clear();
         }
+
+        internal static CVWeek GetWeekContaining(DateTime date)
+        {
+            var week = CVDay.SelectedDay!.Parent;
+
+            if (date < week.From)
+            {
+                while (date < week.From)
+                {
+                    if (week.Previus is null)
+                        CVHome.INSTANCE.AddWeek(week.Previus = new(date, next: week), 0);
+                    week = week.Previus;
+                }
+            }
+            else if (date > week.To)
+            {
+                while (date > week.To)
+                {
+                    if (week.Next is null)
+                        CVHome.INSTANCE.AddWeek(week.Next = new(date, previus: week));
+                    week = week.Next;
+                }
+            }
+
+            return week;
+        }
     }
 }

@@ -4,11 +4,21 @@ using System.Linq;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class Interaction([JsonProperty("id_contenuto")] int ContentID,
-                                    [JsonProperty("id_utente")] int UserID,
-                                    [JsonProperty("tipo_interazione")] string[] InteractionTypes,
-                                    [JsonProperty("piace_a")] int LikesTo) : ApiObject
-    { 
+    public class Interaction : ApiObject
+    {
+        [JsonProperty("id_contenuto", Required = Required.Always)]
+        public required int ContentID { get; init; }
+
+        [JsonProperty("id_utente", Required = Required.Always)]
+        public required int UserID { get; init; }
+
+        [JsonProperty("tipo_interazione", Required = Required.Always)]
+        public required string[] InteractionTypes { get; init; }
+
+        [JsonProperty("piace_a", Required = Required.Always)]
+        public required int LikesTo { get; init; }
+
+
         public const string REACTION_LIKE = "like";
         public const string REACTION_BOOKMARK = "bookmark";
 

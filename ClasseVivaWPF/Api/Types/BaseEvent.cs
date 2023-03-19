@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class BaseEvent(int EvtId,
-                                  string EvtCode) : ApiObject
+    public abstract class BaseEvent : ApiObject
     {
         public const string AGENDA_HOMEWORK = "AGHW";
         public const string AGENDA_NOTE = "AGNT";
@@ -13,7 +14,13 @@ namespace ClasseVivaWPF.Api.Types
         public const string PRESENCE = "LSF0";
         public const string CO_PRESENCE = "LSC0";
         public const string SUPPORT = "LSS0";
-        
+
+        [JsonProperty(Required = Required.Always)]
+        public required int EvtId { get; init; }
+        [JsonProperty(Required = Required.Always)]
+        public required string EvtCode { get; init; }
+
+
         public bool IsHomework => this.EvtCode == AGENDA_HOMEWORK;
         public bool IsNote => this.EvtCode == AGENDA_NOTE;
         public bool IsEarlyExit => this.EvtCode == EARLY_EXIT;
@@ -42,5 +49,8 @@ namespace ClasseVivaWPF.Api.Types
 
             throw new NotImplementedException();
         }
+
+        public abstract void BuildNotifyText(ToastContentBuilder toast);
+        public abstract DateTime GetGotoDate();
     }
 }

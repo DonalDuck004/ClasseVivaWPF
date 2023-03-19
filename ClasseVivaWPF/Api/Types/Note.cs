@@ -1,7 +1,20 @@
-﻿namespace ClasseVivaWPF.Api.Types
+﻿using Newtonsoft.Json;
+using System.Diagnostics;
+
+namespace ClasseVivaWPF.Api.Types
 {
-    public record class Note(object[] NTTE, 
-                             object[] NTCL, 
-                             object[] NTWN,
-                             object[] NTST) : ApiObject;
+    public class Note : ApiObject
+    {
+        [JsonProperty(Required = Required.Always)]
+        public required object[] NTTE { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required object[] NTCL { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required object[] NTWN { get; init; }
+
+        [JsonProperty(Required = Required.Always)]
+        public required object[] NTST { get; init; }
+    }
 }
