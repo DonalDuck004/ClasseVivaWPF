@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClasseVivaWPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
-    <StackPanel x:Name="wp" MouseLeftButtonDown="OnSelect">
+    <StackPanel x:Name="wp" MouseLeftButtonDown="OnSelect" Cursor="Hand">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="4"></RowDefinition>
@@ -14,7 +14,10 @@
                 <RowDefinition Height="32"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle Grid.Row="0" Fill="Transparent" Name="Top"></Rectangle>
-            <Rectangle Grid.Row="1" Fill="Green" Name="Img" Width="32" Height="32" Margin="0,4,0,0"></Rectangle>
+            <Grid Grid.Row="1" Background="Transparent" HorizontalAlignment="Center" Width="32" Height="32" Margin="-14,0,0,0">
+                <ContentControl x:Name="img_empty" Background="Gray" Template="{StaticResource ResourceKey=EmptyHomeIcon}" HorizontalAlignment="Center" Visibility="Visible"/>
+                <ContentControl x:Name="img_fIlled" Background="Red" Template="{StaticResource ResourceKey=FilledHomeIcon}" HorizontalAlignment="Center" Visibility="Hidden"/>
+            </Grid>
             <Label Grid.Row="2" x:Name="Desc" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="10"></Label>
         </Grid>
     </StackPanel>

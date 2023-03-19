@@ -59,5 +59,12 @@ namespace ClasseVivaWPF
         {
             MainWindow.INSTANCE.RemoveField(this);
         }
+
+        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var pos = e.GetPosition(this.wp);
+            if (pos.X < 0 || pos.Y < 0)
+                this.Close();
+        }
     }
 }

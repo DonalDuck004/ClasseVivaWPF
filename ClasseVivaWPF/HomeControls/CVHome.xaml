@@ -39,7 +39,9 @@
                     </local:CVCalenderSrollerViewer>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar">
-                    <Rectangle Width="16" Height="16" Fill="Red"></Rectangle>
+                    <WrapPanel Background="Transparent" VerticalAlignment="Center">
+                        <ContentControl Background="DarkCyan" Template="{StaticResource ResourceKey=CalendarIcon}"/>
+                    </WrapPanel>
                     <Label Name="day_lbl" Foreground="DarkCyan"></Label>
                 </StackPanel>
             </Grid>

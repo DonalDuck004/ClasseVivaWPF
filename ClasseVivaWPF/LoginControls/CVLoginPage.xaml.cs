@@ -82,8 +82,7 @@ namespace ClasseVivaWPF
             Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
             CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
 
-            if (MainWindow.INSTANCE.PostLogin is not null)
-                MainWindow.INSTANCE.PostLogin.Invoke();
+            MainWindow.INSTANCE.OnPostLogin();
         }
     }
 }

@@ -42,11 +42,14 @@ namespace ClasseVivaWPF
             ;
         }
 
-        public void SelectChild(DayOfWeek day) => SelectChild(day.AsInt32());
+        public void SelectChild(DayOfWeek day, bool update = false) => SelectChild(day.AsInt32(), update);
 
-        public void SelectChild(int idx)
+        public void SelectChild(int idx, bool update = false)
         {
-            this.GetChild(idx).IsSelected = true;
+            var child = this.GetChild(idx);
+            child.IsSelected = true;
+            if (update)
+                child.Update(require_new_call: true);
         }
 
         public void GetChild(DayOfWeek day) => GetChild(day.AsInt32());

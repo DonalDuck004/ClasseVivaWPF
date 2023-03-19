@@ -12,10 +12,20 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Background="Red" Grid.Row="0">
-            <Border Grid.ColumnSpan="2" Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0"></Border>
-            <Label Content="Classeviva *logo*" Foreground="White" FontSize="20" VerticalAlignment="Center"></Label>
-        </DockPanel>
+        <Grid DockPanel.Dock="Top" Background="Red" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="159"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0">
+                <Image x:Name="profile_image"></Image>
+            </Border>
+            <WrapPanel Background="Transparent" Grid.Column="1">
+                <WrapPanel Background="White" Grid.Column="1">
+                    <ContentControl Background="Red" Margin="0,-1.5,0,0" Template="{StaticResource ResourceKey=ClassevivaLogo}"/>
+                </WrapPanel>
+            </WrapPanel>
+        </Grid>
         <DockPanel Name="Current" Grid.Row="1"></DockPanel>
         <Grid Grid.Row="2" Background="White" x:Name="wp_buttons"></Grid>
     </Grid>

@@ -11,6 +11,8 @@
 	
 	<ItemGroup>
 		<None Remove="Assets\Fonts\password.ttf" />
+		<None Remove="Assets\Images\icon.ico" />
+		<None Remove="Assets\Images\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,6 +26,9 @@
 	<ItemGroup>
 		<Resource Include="Assets\Fonts\password.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Images\icon.ico">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>
 

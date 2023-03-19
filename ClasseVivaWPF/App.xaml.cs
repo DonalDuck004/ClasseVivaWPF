@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Windows.ApplicationModel.Activation;
 
@@ -19,7 +20,6 @@ namespace ClasseVivaWPF
         protected override void OnStartup(StartupEventArgs e)
         {
             var cult = new CultureInfo("it-IT");
-
 
             ToastNotificationManagerCompat.OnActivated += toastArgs => {
 

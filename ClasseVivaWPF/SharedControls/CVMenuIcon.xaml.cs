@@ -32,21 +32,25 @@ namespace ClasseVivaWPF
 
         public bool IsSelected
         {
-            get => ReferenceEquals(this, Selected);
+            get => ReferenceEquals(this, CVMenuIcon.Selected);
             set
             {
                 if (value)
                 {
-                    if (Selected is not null)
-                        Selected.IsSelected = false;
+                    if (CVMenuIcon.Selected is not null)
+                        CVMenuIcon.Selected.IsSelected = false;
 
+                    this.img_empty.Visibility = Visibility.Hidden;
+                    this.img_fIlled.Visibility = Visibility.Visible;
                     this.Desc.Foreground = this.Top.Fill = new SolidColorBrush(Colors.Red);
-                    Selected = this;
+                    CVMenuIcon.Selected = this;
                     this.Desc.BeginAnimation(Label.FontSizeProperty, new DoubleAnimation(10, 15, new Duration(TimeSpan.FromMilliseconds(150))));
                     this.Navigation.SelectVoice(this.ParentIdx);
                 }
                 else
                 {
+                    this.img_fIlled.Visibility = Visibility.Hidden;
+                    this.img_empty.Visibility = Visibility.Visible;
                     this.Desc.BeginAnimation(Label.FontSizeProperty, new DoubleAnimation(15, 10, new Duration(TimeSpan.FromMilliseconds(150))));
                     this.Top.Fill = new SolidColorBrush(Colors.Transparent);
                     this.Desc.Foreground = new SolidColorBrush(Colors.Gray);

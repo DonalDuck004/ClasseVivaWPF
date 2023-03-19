@@ -3,12 +3,14 @@ using System.Windows;
 using System.Windows.Input;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Sessions;
-
-using Forms = System.Windows.Forms;
 using System.IO;
 using System;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Forms = System.Windows.Forms;
+using System.Windows.Media.Imaging;
+using System.Windows.Media.Animation;
+using Windows.UI.Notifications;
 
 namespace ClasseVivaWPF
 {
@@ -20,11 +22,15 @@ namespace ClasseVivaWPF
     {
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
-        public Action? PostLogin = null;
+
+        public delegate void PostLoginEventHandler();
+        public event PostLoginEventHandler PostLogin;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            PostLogin = () => { };
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
         }
 
@@ -33,10 +39,23 @@ namespace ClasseVivaWPF
             this.wrapper.Children.Add(element);
         }
 
-        public void ReplaceMainContent(FrameworkElement element)
+        public void ReplaceMainContent(FrameworkElement element, bool animate = true)
         {
             if (this.wrapper.Children.Count != 0)
                 this.wrapper.Children.RemoveAt(0);
+
+            if (animate)
+            {
+                var animation = new DoubleAnimation()
+                {
+                    From = 0,
+                    To = 1,
+                    Duration = new Duration(TimeSpan.FromSeconds(1)),
+                };
+
+
+                element.BeginAnimation(FrameworkElement.OpacityProperty, animation);
+            }
 
             this.wrapper.Children.Insert(0, element);
             element.Focus();
@@ -50,8 +69,19 @@ namespace ClasseVivaWPF
             this.wrapper.Children.Remove(element);
         }
 
+        public new void Show()
+        {
+            if (this.WindowState is WindowState.Minimized)
+            {
+                this.WindowState = WindowState.Normal;
+                this.UpdateLayout();
+            }
 
-        private void window_Loaded(object sender, RoutedEventArgs e)
+            base.Show();
+            this.Activate();
+        }
+
+        private void window_Loaded(object sender, EventArgs e)
         {
             if (SessionHandler.TryInit())
                 CVLoginPage.EndLogin();
@@ -60,7 +90,7 @@ namespace ClasseVivaWPF
 
             if (icon.Visible is false)
             {
-                icon.Icon = new("pacman.ico");
+                icon.Icon = new(Application.GetResourceStream(new Uri("pack://application:,,,/Assets/Images/icon.ico")).Stream);
                 icon.ContextMenuStrip = new();
                 icon.ContextMenuStrip.Items.Add("Apri", null, (s, e) => this.Show());
 
@@ -102,38 +132,57 @@ namespace ClasseVivaWPF
             this.Hide();
         }
 
+        public void OnPostLogin()
+        {
+            MainWindow.INSTANCE.PostLogin();
+        }
+
         internal void Goto(ToastArguments args)
         {
             if (args.TryGetValue("goto_home_date", out string v))
             {
                 this.Show();
 
-                var fn = () =>
+                var date = DateTime.Parse(v);
+
+
+                if (!SessionHandler.Logged)
+                {
+                    PostLoginEventHandler? fn = null;
+                    this.PostLogin += fn = () =>
+                    {
+                        if (CVMenuIcon.Selected!.Type is not CVMenuIconValues.Home)
+                            CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
+
+
+                        if (CVHome.INSTANCE.IsLoaded)
+                            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
+                        else
+                            CVHome.INSTANCE.Loaded += (s, e) =>
+                            {
+                                CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
+                            };
+
+                        this.PostLogin -= fn!;
+                    };
+                }
+                else
                 {
                     if (CVMenuIcon.Selected!.Type is not CVMenuIconValues.Home)
                         CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
-                    
-                    var date = DateTime.Parse(v);
+
 
                     if (CVHome.INSTANCE.IsLoaded)
-                        CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
+                        CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
                     else
                         CVHome.INSTANCE.Loaded += (s, e) =>
                         {
-                            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
+                            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
                         };
-
-                    this.PostLogin = null;
-                };
-
-                if (!SessionHandler.Logged)
-                    this.PostLogin = fn;
-                else
-                    fn.Invoke();
+                }
                 return;
             }
-
-            throw new NotImplementedException();
+            return;
         }
     }
 }

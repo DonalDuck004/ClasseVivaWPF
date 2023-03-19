@@ -44,12 +44,13 @@ namespace ClasseVivaWPF.Utils
         private async Task Listener()
         {
             var displayed_ids = (await Client.INSTANCE.Overview(DateTime.Now)).GetBaseEvents().Select(x => x.EvtId).ToList();
-            displayed_ids.Shuffle();
+            /*displayed_ids.Shuffle();
             displayed_ids.RemoveAt(0);
             displayed_ids.RemoveAt(0);
             displayed_ids.RemoveAt(0);
             displayed_ids.RemoveAt(0);
-            displayed_ids.RemoveAt(0);
+            displayed_ids.RemoveAt(0);*/
+
 
             BaseEvent[] overview;
             ToastContentBuilder builder;

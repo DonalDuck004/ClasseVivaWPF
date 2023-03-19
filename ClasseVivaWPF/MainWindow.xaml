@@ -1,22 +1,25 @@
-﻿<Window x:Class="ClasseVivaWPF.MainWindow"
+﻿<Window x:Class="ClasseVivaWPF.MainWindow" Icon="/Assets/Images/icon.ico"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClasseVivaWPF" KeyDown="window_KeyDown"
-        mc:Ignorable="d" Name="window" Loaded="window_Loaded" Closing="window_Closing"
-        Title="MainWindow" MinHeight="562.5" MinWidth="1000">
+        mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
+        Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000" Background="Red">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
-        </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
-            <Grid Name="wrapper">
-            </Grid>
-        </DockPanel>
-        <StackPanel Grid.Row="1" Name="Footer" Background="Black" VerticalAlignment="Center">
-            <Label Content="Unofficial Project Version 0.8a" Foreground="White" VerticalContentAlignment="Center"></Label>
-        </StackPanel>
+        <ContentControl Template="{StaticResource ResourceKey=SplashIcon}" Foreground="White" Height="500" Background="Red" Width="998" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Grid Name="wrapper">
+                </Grid>
+            </DockPanel>
+            <StackPanel Grid.Row="1" Name="Footer" Background="Black" VerticalAlignment="Center">
+                <Label Content="Unofficial Project Version 0.9a" Foreground="White" VerticalContentAlignment="Center"></Label>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

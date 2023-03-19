@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
              xmlns:local="clr-namespace:ClasseVivaWPF"
-             mc:Ignorable="d" Background="#BF000000"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" Background="#BF000000" MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
+             d:DesignHeight="1495.339" d:DesignWidth="765.14">
     <UserControl.Resources>
         <Style TargetType="CalendarItem" x:Key="CVCalendarItem">
             <Setter Property="Template">
@@ -298,7 +298,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel VerticalAlignment="Center">
-        <Viewbox Height="{Binding Path=ActualWidth, Converter={StaticResource AdjustValue}, ConverterParameter=3 }">
+        <Viewbox Name="wp" Height="{Binding Path=ActualWidth, Converter={StaticResource AdjustValue}, ConverterParameter=3 }">
             <WrapPanel HorizontalAlignment="Center" Orientation="Vertical">
                 <StackPanel Width="{Binding ElementName=calendar, Path=ActualWidth}" Height="64" Background="Red" Margin="0,0,0,-3" Orientation="Vertical">
                     <Label Content="{Binding ElementName=calendar, Path=SelectedDate}" Foreground="#DF333333"
