@@ -6,21 +6,21 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace ClasseVivaWPF
 {
     /// <summary>
-    /// Logica di interazione per LoginPage.xaml
+    /// Logica di interazione per CVLoginPage.xaml
     /// </summary>
-    public partial class LoginPage : UserControl
+    public partial class CVLoginPage : UserControl
     {
-        public LoginPage()
+        public CVLoginPage()
         {
             InitializeComponent();
             this.password.HideContent();
-
-            this.username.Text = "S7319056Z";
-            this.password.Text = "bl32848n";
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -43,8 +43,8 @@ namespace ClasseVivaWPF
 
                 try
                 {
-                    var me = await Client.INSTANCE.Login(password: this.password.Text, uid: this.username.Text);
-                    SessionHandler.InitConn(me.Id).SetMe(me);
+                    var me = await Client.INSTANCE.Login(pass: this.password.Text, uid: this.username.Text);
+                    SessionHandler.InitConn(me.Id).SetMe(me, pass: this.password.Text, uid: this.username.Text);
                     EndLogin();
                 }
                 catch (ApiError exc)
@@ -65,17 +65,18 @@ namespace ClasseVivaWPF
             var raw_content = Client.INSTANCE.Contents().ConfigureAwait(false).GetAwaiter().GetResult();
             CVHome.INSTANCE.Contents = new();
 
-            foreach (var item in raw_content.OrderBy(x => x.Ordine))
+            foreach (var item in raw_content.OrderBy(x => x.Order))
             {
-                for (var from = item.Inizio; from <= item.Fine; from = from.AddDays(1))
-                {
-                    if (!CVHome.INSTANCE.Contents.ContainsKey(from))
-                        CVHome.INSTANCE.Contents[from] = new() { item };
-                    else
-                        CVHome.INSTANCE.Contents[from].Add(item);
-                }
+                if (item.BeginDate < item.ExpireDate)
+                    continue;
+
+                if (!CVHome.INSTANCE.Contents.ContainsKey(item.BeginDate))
+                    CVHome.INSTANCE.Contents[item.BeginDate] = new() { item };
+                else
+                    CVHome.INSTANCE.Contents[item.BeginDate].Add(item);
             }
 
+            Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
             navigation.SelectVoice(0);
 
         }

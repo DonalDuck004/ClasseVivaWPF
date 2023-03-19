@@ -29,9 +29,10 @@ namespace ClasseVivaWPF.Api
 
         public Client()
         {
+#if DEBUG
             HttpClient.DefaultProxy = new WebProxy("http://localhost", 8000);
-            
-            
+#endif   
+
             this.client = new HttpClient(new HttpClientHandler()
             {
                 AutomaticDecompression = DecompressionMethods.GZip,
@@ -44,7 +45,7 @@ namespace ClasseVivaWPF.Api
             this.client.DefaultRequestHeaders.Add("z-dev-apikey", "Tg1NWEwNGIgIC0K");
             this.client.DefaultRequestHeaders.Add("Connection", "keep-alive");
 
-            this.client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "CVVS/std/4.2.2 Android/7.1.2");
+            this.client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "CVVS/std/4.2.2 C# App/7.1.2");
 
             Client.INSTANCE = this;
         }
@@ -54,8 +55,17 @@ namespace ClasseVivaWPF.Api
             Debug.Assert(v is null);
         }
 
-        private async Task<Response> Send(HttpMethod method, string path, JObject? data, DateTime? cache_date = null)
+        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache)
         {
+            allow_cache = allow_cache && SessionHandler.INSTANCE is not null;
+
+            DateTime? cached_date = null;
+            string? cached_json_response = null;
+            string? cached_etag = null;
+            if (allow_cache)
+                cached_date = SessionHandler.INSTANCE!.CheckCache(path, out cached_json_response, out cached_etag);
+
+
             var message = new HttpRequestMessage()
             {
                 Method = method,
@@ -65,14 +75,38 @@ namespace ClasseVivaWPF.Api
             if (data is not null)
                 message.Content = new StringContent(data.ToString(Formatting.None), Encoding.UTF8, "application/json");
 
-            if (cache_date is not null)
-                message.Headers.IfModifiedSince = cache_date.Value; // TODO Fixxare bug, non cotiene orario, ma solo data
+            if (cached_date is not null)
+                message.Headers.IfModifiedSince = cached_date.Value; // TODO Fixxare bug, non cotiene orario, ma solo data
 
-            var response = await this.client.SendAsync(message).ConfigureAwait(false);
+            if (cached_etag is not null)
+                message.Headers.Add("z-if-none-match", cached_etag);
+
+            var raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
 
             // DumpMsg(response);
-            var result = new Response(response);
-            return result;
+            Response response;
+
+            if (raw_response.StatusCode is HttpStatusCode.Unauthorized)
+            {
+                Debug.Assert(SessionHandler.INSTANCE is not null);
+                SessionHandler.INSTANCE.RenewToken();
+                raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
+            }
+
+            if (raw_response.StatusCode is HttpStatusCode.NotModified && cached_json_response is not null)
+                response = new(cached_json_response);
+            else 
+            {
+                response = new(raw_response);
+                if (allow_cache)
+                {
+                    var new_etag = raw_response.Headers.ETag;
+                    SessionHandler.INSTANCE!.SetCache(path, response.Text, new_etag is null ? null : new_etag.ToString());
+                }
+            }
+
+
+            return response;
         }
 
         private void DumpMsg(HttpResponseMessage response)
@@ -92,22 +126,25 @@ namespace ClasseVivaWPF.Api
             MessageBox.Show(msg);
         }
 
-        public async Task<Me> Login(string uid, string password, object? indent = null)
+        public async Task<Me> Login(string uid, string pass, string? ident = null)
         {
-            _NotImplementedCheck(indent);
             var req = new JObject()
             {
                 { "uid", uid },
-                { "indent", null },
-                { "pass", password },
+                { "ident", ident },
+                { "pass", pass },
             };
 
-            var response = await this.Send(HttpMethod.Post, "rest/v1/auth/login", req).ConfigureAwait(false);
+            var response = await this.Send(HttpMethod.Post, "rest/v1/auth/login", req, allow_cache: false).ConfigureAwait(false);
             var me = response.GetObject<Me>();
             if (me is null)
                 response.GetError();
 
             return me!;
+        }
+        public void UnSetLoginToken()
+        {
+            this.client.DefaultRequestHeaders.Remove("z-auth-token");
         }
 
         public void SetLoginToken(Me me) => SetLoginToken(me.Token);
@@ -122,7 +159,7 @@ namespace ClasseVivaWPF.Api
 
         public async Task<Overview> Overview(string from, string to)
         {
-            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/overview/all/{from}/{to}", null).ConfigureAwait(false);
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/overview/all/{from}/{to}", null, allow_cache: true).ConfigureAwait(false);
             var overview = response.GetObject<Overview>();
             if (overview is null)
                 response.GetError();
@@ -132,15 +169,9 @@ namespace ClasseVivaWPF.Api
 
         public async Task<Content[]> Contents()
         {
-            const string path = "auc/api/v2/contents";
-            var cache_date = SessionHandler.INSTANCE!.CheckCache(path, out string? json_response);
-            var response = await this.Send(HttpMethod.Get, path, null, cache_date: cache_date).ConfigureAwait(false);
-
-            if (response.RawResponse.StatusCode is HttpStatusCode.NotModified)
-                return JsonConvert.DeserializeObject<Content[]>(json_response!)!;
+            var response = await this.Send(HttpMethod.Get, "auc/api/v2/contents", null, allow_cache: true).ConfigureAwait(false);
 
             var content = response.GetObjectList<Content>();
-            SessionHandler.INSTANCE!.SetCache(path, response.Text);
 
             if (content is null)
                 response.GetError();
@@ -167,6 +198,56 @@ namespace ClasseVivaWPF.Api
             }
 
             return new Uri(path);
+        }
+
+        public async Task<Interaction> GetInteractions(int content_id)
+        {
+            var response = await this.Send(HttpMethod.Get, $"auc/api/v2/getInteractions/{content_id}", null, allow_cache: true).ConfigureAwait(false);
+
+            var content = response.GetObject<Interaction>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+
+        public async Task<ApiObject[]> DeleteInteraction(int content_id, string interaction_type)
+        {
+            var req = new JObject()
+            {
+                { "content_id", content_id },
+                { "interaction_type", interaction_type },
+            };
+
+
+            var response = await this.Send(HttpMethod.Post, "auc/api/v2/deleteInteraction", req, allow_cache: false).ConfigureAwait(false);
+
+            var content = response.GetObjectList<ApiObject>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<ApiObject[]> SetInteraction(int content_id, string interaction_type)
+        {
+            var req = new JObject()
+            {
+                { "content_id", content_id },
+                { "interaction_type", interaction_type },
+            };
+
+            var response = await this.Send(HttpMethod.Post, "auc/api/v2/setInteraction", req, allow_cache: false).ConfigureAwait(false);
+
+            var content = response.GetObjectList<ApiObject>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
         }
     }
 }

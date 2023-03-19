@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Xml.Linq;
+using System.Windows.Input;
+using ClasseVivaWPF.Utils;
 
 namespace ClasseVivaWPF
 {
@@ -36,6 +38,9 @@ namespace ClasseVivaWPF
             element.Focus();
         }
 
+        public void RemoveField(UIElement element) => RemoveField((FrameworkElement)element);
+
+
         public void RemoveField(FrameworkElement element)
         {
             this.wrapper.Children.Remove(element);
@@ -45,38 +50,22 @@ namespace ClasseVivaWPF
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
             if (SessionHandler.TryInit())
-                LoginPage.EndLogin();
+                CVLoginPage.EndLogin();
             else
-                this.ReplaceMainContent(new LoginPage());
+                this.ReplaceMainContent(new CVLoginPage());
+        }
+
+        private void window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is Key.Escape && this.wrapper.Children.Count > 1)
+            {
+                var child = this.wrapper.Children[this.wrapper.Children.Count - 1];
+
+                if (child is IOnEscKey sub_win)
+                    sub_win.OnEscKey();
+                else
+                    this.RemoveField(child);
+            }
         }
     }
-
-
-    class DateTimeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return ((DateTime)value).ToString((string)parameter);
-        }
-
-        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException("ConvertBack should never be called");
-        }
-    }
-
-    class ToBrushConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return new SolidColorBrush((Color)value);
-        }
-
-        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException("ConvertBack should never be called");
-        }
-
-    }
-
 }

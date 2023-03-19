@@ -5,7 +5,11 @@ using System.Windows.Media;
 namespace ClasseVivaWPF.Api.Types
 {
     
-    public record class DayOverview(List<Lesson> Lessons, List<AgendaEvent> Notes, List<AgendaEvent> Homeworks, List<Event> Absances, List<Event> Events)
+    public record class DayOverview(List<Lesson> Lessons, 
+                                    List<AgendaEvent> Notes,
+                                    List<AgendaEvent> Homeworks, 
+                                    List<Event> Absances,
+                                    List<Event> Events)
     {
         public DateTime XCreationDate { get; private set; } = DateTime.Now;
 

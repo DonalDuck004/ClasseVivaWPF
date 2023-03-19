@@ -6,22 +6,31 @@ namespace ClasseVivaWPF.Api
 {
     public class Response
     {
-        public HttpResponseMessage RawResponse { get; private set; }
-        private string? _cache = null;
+        public HttpResponseMessage? RawResponse { get; private set; }
+        private string? _text = null;
         public string Text
         {
             get
             {
-                if (_cache is null)
-                    _cache = RawResponse.Content.ReadAsStringAsync().Result;
+                if (_text is null)
+                    _text = RawResponse.Content.ReadAsStringAsync().Result;
 
-                return _cache;
+                return _text;
             }
         }
+        public bool IsCached { get; private set; }
+
 
         public Response(HttpResponseMessage Response)
         {
+            this.IsCached = false;
             this.RawResponse = Response;
+        }
+
+        public Response(string Text)
+        {
+            this.IsCached = true;
+            this._text = Text;
         }
 
         public T? GetObject<T>() where T : ApiObject

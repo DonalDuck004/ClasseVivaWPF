@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
@@ -58,17 +60,25 @@ namespace ClasseVivaWPF.Utils
         public static int AsInt32(this DayOfWeek self)
         {
             var result = ((int)self) - 1;
-            return result == - 1 ? 6 : result;
+            return result == -1 ? 6 : result;
         }
-
 
         public static bool ContainsReference<T>(this IEnumerable<T> obj, T Needle)
         {
             foreach (var item in obj)
-                if (ReferenceEquals(item, Needle)) 
+                if (ReferenceEquals(item, Needle))
                     return true;
 
             return false;
+        }
+
+        public static void SystemOpening(this Uri uri)
+        {
+            Process.Start(new ProcessStartInfo{
+                    FileName = uri.ToString(),
+                    UseShellExecute = true,
+                    WorkingDirectory = Directory.GetCurrentDirectory()
+            });
         }
     }
 }

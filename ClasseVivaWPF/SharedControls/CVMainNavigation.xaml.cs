@@ -17,6 +17,7 @@ namespace ClasseVivaWPF
         {
             InitializeComponent();
             CVMenuIcon tmp;
+
             var c = 0;
             foreach (CVMenuIconValues item in Enum.GetValues(typeof(CVMenuIconValues)))
             {

@@ -10,6 +10,9 @@ using System.Windows.Media;
 using ClasseVivaWPF.Api;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
+using Microsoft.Web.WebView2.Wpf;
+using System.Reflection.Metadata;
+using Microsoft.Web.WebView2.Core;
 
 namespace ClasseVivaWPF
 {
@@ -18,6 +21,8 @@ namespace ClasseVivaWPF
     /// </summary>
     public partial class CVDay : UserControl
     {
+        private record OpenUriInfo(bool OpensExternally, Uri Uri, int ContentID);
+
         public static CVDay? SelectedDay { get; private set; } = null;
         private static DependencyProperty IsSelectedProperty;
         public DateTime Date { get; private set; }
@@ -172,7 +177,7 @@ namespace ClasseVivaWPF
 
 
             if (CVHome.INSTANCE.Contents!.TryGetValue(this.Date, out var ext_contents) &&
-                (iterator = ext_contents.Where(x => (x.Scadenza is null || x.Scadenza < DateTime.Now) && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
+                (iterator = ext_contents.Where(x => (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
             {
                 _content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label()
@@ -188,7 +193,7 @@ namespace ClasseVivaWPF
                     Image tmp;
                     sub_content.Children.Add(tmp = new() { SnapsToDevicePixels = true });
                     RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.NearestNeighbor); 
-                    Task.Run(() => Client.INSTANCE.Download(content.PanoramicaImg).ContinueWith(
+                    Task.Run(() => Client.INSTANCE.Download(content.PanoramicImg).ContinueWith(
                                 t => tmp.Dispatcher.BeginInvoke(
                                     () =>
                                     {
@@ -196,6 +201,11 @@ namespace ClasseVivaWPF
                                         tmp.MaxWidth = 1000;
                                         tmp.MaxHeight = 250;
                                         tmp.Cursor = Cursors.Hand;
+                                        if (content.Link is not null)
+                                        {
+                                            tmp.Tag = new OpenUriInfo(content.OpensExternally, new Uri(content.Link), content.ContentID);
+                                            tmp.MouseLeftButtonDown += OpenPage;
+                                        }
                                     }
                                 )
                             )
@@ -254,6 +264,22 @@ namespace ClasseVivaWPF
             }
 
             return _content;
+        }
+
+        private void OpenPage(object sender, MouseButtonEventArgs e)
+        {
+            var uri_info = (OpenUriInfo)((FrameworkElement)sender).Tag;
+
+            if (uri_info.OpensExternally)
+                uri_info.Uri.SystemOpening();
+            else
+            {
+                MainWindow.INSTANCE.AddFieldOverlap(new CVWebView(uri_info.ContentID)
+                {
+                    Uri = uri_info.Uri
+                });
+            }
+
         }
 
         internal void BeginDestroy()

@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -87,11 +88,7 @@ namespace ClasseVivaWPF
 
         private static void OpenUrl(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = e.Uri.ToString(),
-                UseShellExecute = true
-            });
+            e.Uri.SystemOpening();
         }
 
         public static CVHomeTextBox FromLesson(Lesson lesson)

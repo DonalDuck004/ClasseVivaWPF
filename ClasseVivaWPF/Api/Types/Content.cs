@@ -1,20 +1,21 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public record class Content(int IdContenuto,
-                                string App, 
-                                int Ordine,
+    public record class Content([JsonProperty("id_contenuto")] int ContentID,
+                                string App,
+                                [JsonProperty("ordine")] int Order,
                                 object[] Tags,
-                                DateTime Inizio, 
-                                DateTime Fine,
-                                DateTime? Scadenza,
-                                string Tipo, 
-                                string Titolo,
+                                [JsonProperty("inizio")] DateTime BeginDate,
+                                [JsonProperty("fine")] DateTime EndDate,
+                                [JsonProperty("scadenza")] DateTime? ExpireDate,
+                                [JsonProperty("Tipo")] string Type,
+                                [JsonProperty("titolo")] string Title,
                                 string? Link,
                                 string MediaType,
-                                string PanoramicaImg,
-                                string? PanoramicaPos, 
+                                [JsonProperty("PanoramicaImg")] string PanoramicImg,
+                                string? PanoramicaPos,
                                 string Gallery,
                                 ContentDetail[] ContentDetail,
                                 RelatedContentDetail[] Related,
@@ -29,5 +30,8 @@ namespace ClasseVivaWPF.Api.Types
         public const string PANORAMIC_TOP = "top";
         public const string PANORAMIC_BANNER = "banner";
 
+        public const string MEDIA_TYPE_VIDEO = "video";
+        public const string MEDIA_TYPE_WEB = "web";
     }
+
 }

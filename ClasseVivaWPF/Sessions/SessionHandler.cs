@@ -9,6 +9,7 @@ using ClasseVivaWPF.Api.Types;
 using Newtonsoft.Json.Linq;
 using System.Windows;
 using System.Runtime.ConstrainedExecution;
+using ClasseVivaWPF.Api;
 
 namespace ClasseVivaWPF.Sessions
 {
@@ -74,21 +75,21 @@ namespace ClasseVivaWPF.Sessions
 
         public void LoadSchema()
         {
-            var sql = "CREATE TABLE Session(ident VARCHAR(16) PRIMARY KEY, firstName VARCHAR(48) NOT NULL, lastName VARCHAR(48) NOT NULL, showPwdChangeReminder BOOL NOT NULL, token VARCHAR(512) NOT NULL, release VARCHAR(25) NOT NULL, expire VARCHAR(25) NOT NULL)";
+            var sql = "CREATE TABLE Session(ident VARCHAR(16) PRIMARY KEY, firstName VARCHAR(48) NOT NULL, lastName VARCHAR(48) NOT NULL, showPwdChangeReminder BOOL NOT NULL, token VARCHAR(512) NOT NULL, release VARCHAR(25) NOT NULL, expire VARCHAR(25) NOT NULL, uid VARCHAR(128) NOT NULL, pass NOT NULL)";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
 
 
-            sql = @"CREATE TABLE RequestCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(25) NOT NULL)";
+            sql = "CREATE TABLE RequestCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
         }
 
-        public DateTime? CheckCache(string url_path, out string? response)
+        public DateTime? CheckCache(string url_path, out string? response, out string? etag)
         {
-            var sql = "SELECT response, update_date FROM RequestCache WHERE url_path = $url_path";
+            var sql = "SELECT response, etag, update_date FROM RequestCache WHERE url_path = $url_path";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.Parameters.AddWithValue("$url_path", url_path);
@@ -96,20 +97,22 @@ namespace ClasseVivaWPF.Sessions
             if (r.Read())
             {
                 response = r.GetString(0);
-                return r.GetDateTime(1);
+                etag = r.IsDBNull(1) ? null : r.GetString(1);
+                return r.GetDateTime(2);
             }
 
-            response = null;
+            etag = response = null;
             return null;
         }
 
-        public void SetCache(string url_path, string response)
+        public void SetCache(string url_path, string response, string? etag)
         {
-            var sql = "INSERT OR REPLACE INTO RequestCache(url_path, response, update_date) VALUES ($url_path, $response, DATE('now'))";
+            var sql = "INSERT OR REPLACE INTO RequestCache(url_path, response, update_date, etag) VALUES ($url_path, $response, DATE('now'), $etag)";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.Parameters.AddWithValue("$url_path", url_path);
             cur.Parameters.AddWithValue("$response", response);
+            cur.Parameters.AddWithValue("$etag", etag is null ? DBNull.Value : etag);
             cur.ExecuteNonQuery();
         }
 
@@ -138,20 +141,30 @@ namespace ClasseVivaWPF.Sessions
                                     Release: result.GetDateTime(5),
                                     Expire: result.GetDateTime(6));
 
-            if (SessionHandler.Me.Expire <= DateTime.Now)
-                throw new InvalidDataException("Session expired");
+            this.RenewToken(SessionHandler.Me.Expire);
 
             return SessionHandler.Me;
         }
 
-        public void SetMe(Me me)
+        public (string, string, string) GetTokenRenewStuffs()
+        {
+            var sql = "SELECT ident, pass, uid FROM Session";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            var row = cur.ExecuteReader();
+            row.Read();
+
+            return (row.GetString(0), row.GetString(1), row.GetString(2));
+        }
+
+        public void SetMe(Me me, string uid, string pass)
         {
             var sql = "DELETE FROM Session";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
           
-            sql = "INSERT INTO Session(ident, firstName, lastName, showPwdChangeReminder, token, release, expire) VALUES($ident, $firstName, $lastName, $showPwdChangeReminder, $token, $release, $expire)";
+            sql = "INSERT INTO Session(ident, firstName, lastName, showPwdChangeReminder, token, release, expire, uid, pass) VALUES($ident, $firstName, $lastName, $showPwdChangeReminder, $token, $release, $expire, $uid, $pass)";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.Parameters.AddWithValue("$ident", me.Ident);
@@ -161,6 +174,8 @@ namespace ClasseVivaWPF.Sessions
             cur.Parameters.AddWithValue("$token", me.Token);
             cur.Parameters.AddWithValue("$release", me.Release);
             cur.Parameters.AddWithValue("$expire", me.Expire);
+            cur.Parameters.AddWithValue("$uid", uid);
+            cur.Parameters.AddWithValue("$pass", pass);
             cur.ExecuteNonQuery();
 
             SessionHandler.Me = me;
@@ -168,6 +183,18 @@ namespace ClasseVivaWPF.Sessions
             using (var sw = new StreamWriter("Sessions/Last", false))
             {
                 sw.WriteLine(me.Id.ToString());
+            }
+        }
+
+        public void RenewToken(DateTime? expire = null)
+        {
+            if ((expire ?? Me!.Expire) < DateTime.Now)
+            {
+                Client.INSTANCE.UnSetLoginToken();
+
+                (var ident, var pass, var uid) = this.GetTokenRenewStuffs();
+                var me = Client.INSTANCE.Login(ident: ident, pass: pass, uid: uid).ConfigureAwait(false).GetAwaiter().GetResult();
+                this.SetMe(me, uid, pass);
             }
         }
     }

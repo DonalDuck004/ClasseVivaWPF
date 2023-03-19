@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace ClasseVivaWPF
     /// <summary>
     /// Logica di interazione per CVCalendar.xaml
     /// </summary>
-    public partial class CVCalendar : UserControl
+    public partial class CVCalendar : UserControl, IOnEscKey
     {
         public CVCalendar()
         {
@@ -30,11 +31,6 @@ namespace ClasseVivaWPF
         private void SetToday()
         {
             this.calendar.SelectedDate = this.calendar.DisplayDate = DateTime.Now;
-        }
-
-        public void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) => SetToday();
@@ -73,23 +69,12 @@ namespace ClasseVivaWPF
             week.SelectChild(date.DayOfWeek);
             this.Close();
         }
-    }
 
-    class AdjustValue : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public void OnEscKey() => Close();
+
+        public void Close()
         {
-            var divisor = System.Convert.ToDouble(parameter); 
-            if (divisor == 0)
-                return "";
-
-            return (double)value / divisor;
+            MainWindow.INSTANCE.RemoveField(this);
         }
-
-        public object ConvertBack(object value, Type targetTypes, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotSupportedException("ConvertBack should never be called");
-        }
-
     }
 }

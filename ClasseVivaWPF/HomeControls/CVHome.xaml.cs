@@ -84,7 +84,7 @@ namespace ClasseVivaWPF
             else
                 this.days_wp.Children.Insert(idx.Value, week);
 
-            if (this.days_wp.Children.Count > 9)
+            if (this.days_wp.Children.Count > 5)
             {
                 CVWeek? to_delete;
                 if (idx is null)
