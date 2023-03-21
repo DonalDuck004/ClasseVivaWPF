@@ -57,5 +57,11 @@ namespace ClasseVivaWPF
             get => (Uri)base.GetValue(UriProperty);
             set => base.SetValue(UriProperty, value);
         }
+
+        public override void Close()
+        {
+            this.WebView.Dispose();
+            base.Close();
+        }
     }
 }

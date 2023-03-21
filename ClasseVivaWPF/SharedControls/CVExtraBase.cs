@@ -143,9 +143,10 @@ namespace ClasseVivaWPF
         }
 
         public void OnEscKey() => Close();
+
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
 
-        public void Close()
+        public virtual void Close()
         {
             MainWindow.INSTANCE.RemoveField(this);
         }
