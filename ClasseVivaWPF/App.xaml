@@ -9,6 +9,64 @@
         <local:VisibilityConverter x:Key="VisibilityConverter"></local:VisibilityConverter>
         <local:AdjustValue x:Key="AdjustValue"></local:AdjustValue>
         <local:ColorIfConverter x:Key="ColorIfConverter"></local:ColorIfConverter>
+        <local:CVMemeBg x:Key="CVMemeBg"></local:CVMemeBg>
+        
+        <ControlTemplate x:Key="CVMainMenuIcon">
+            <ControlTemplate.Resources>
+                <local:ColorIfConverter x:Key="SelectedConverter" FalseColor="Gray" TrueColor="Red"></local:ColorIfConverter>
+                <local:ColorIfConverter x:Key="SelectedTopConverter" FalseColor="Transparent" TrueColor="Red"></local:ColorIfConverter>
+            </ControlTemplate.Resources>
+            <StackPanel x:Name="wp" Cursor="Hand">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="32"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Rectangle Grid.Row="0" 
+                               Fill="{Binding IsSelected, 
+                                              RelativeSource={RelativeSource TemplatedParent},
+                                              Converter={StaticResource ResourceKey=SelectedTopConverter}}"
+                               Name="Top"></Rectangle>
+                    <Grid Grid.Row="1" Background="Transparent" HorizontalAlignment="Center" Width="32" Height="32" Margin="-14,0,0,0">
+                        <ContentControl x:Name="img_empty" Background="Gray" Template="{Binding EmptyIcon, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" Visibility="Visible"/>
+                        <ContentControl x:Name="img_fIlled" Background="Red" Template="{Binding FilledIcon, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" Visibility="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource VisibilityConverter}}"/>
+                    </Grid>
+                    <Label Grid.Row="2" x:Name="desc"
+                           Content="{Binding IconValue, 
+                                             RelativeSource={RelativeSource TemplatedParent}}"
+                           Foreground="{Binding IsSelected, 
+                                                RelativeSource={RelativeSource TemplatedParent},
+                                                Converter={StaticResource ResourceKey=SelectedConverter}}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="10">
+                        <Label.Resources>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="FontSize" From="10" To="15" Duration="0:0:0.15"></DoubleAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="FontSize" To="10" Duration="0:0:0.15"></DoubleAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Resources>
+                        
+                    </Label>
+                </Grid>
+            </StackPanel>
+        </ControlTemplate>
+       
 
         <ControlTemplate x:Key="FilledHomeIcon">
             <Canvas Height="32" Width="32">

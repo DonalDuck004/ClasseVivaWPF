@@ -36,13 +36,16 @@ namespace ClasseVivaWPF
 
         public void AddFieldOverlap(FrameworkElement element)
         {
+            if (this.wrapper.Children.Count - 1 >= Config.MAX_OVERLAPPED_WIN)
+                this.RemoveField(this.wrapper.Children[1]);
+
             this.wrapper.Children.Add(element);
         }
 
         public void ReplaceMainContent(FrameworkElement element, bool animate = true)
         {
             if (this.wrapper.Children.Count != 0)
-                this.wrapper.Children.RemoveAt(0);
+                this.RemoveField(this.wrapper.Children[0]);
 
             if (animate)
             {
@@ -52,7 +55,6 @@ namespace ClasseVivaWPF
                     To = 1,
                     Duration = new Duration(TimeSpan.FromSeconds(1)),
                 };
-
 
                 element.BeginAnimation(FrameworkElement.OpacityProperty, animation);
             }
@@ -151,8 +153,8 @@ namespace ClasseVivaWPF
                     PostLoginEventHandler? fn = null;
                     this.PostLogin += fn = () =>
                     {
-                        if (CVMenuIcon.Selected!.Type is not CVMenuIconValues.Home)
-                            CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
+                        if (CVMainMenuIcon.Selected!.IconValue is not CVMenuIconValues.Home)
+                            CVMainMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
 
 
                         if (CVHome.INSTANCE.IsLoaded)
@@ -168,8 +170,8 @@ namespace ClasseVivaWPF
                 }
                 else
                 {
-                    if (CVMenuIcon.Selected!.Type is not CVMenuIconValues.Home)
-                        CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
+                    if (CVMainMenuIcon.Selected!.IconValue is not CVMenuIconValues.Home)
+                        CVMainMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
 
 
                     if (CVHome.INSTANCE.IsLoaded)

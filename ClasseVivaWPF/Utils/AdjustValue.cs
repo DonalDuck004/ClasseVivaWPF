@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Controls;
+using System.Runtime.InteropServices;
 using System.Windows.Data;
 
 namespace ClasseVivaWPF
@@ -18,6 +20,5 @@ namespace ClasseVivaWPF
         {
             throw new NotSupportedException("ConvertBack should never be called");
         }
-
     }
 }

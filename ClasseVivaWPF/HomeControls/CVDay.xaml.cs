@@ -13,6 +13,8 @@ using System.Windows.Input;
 using Microsoft.Web.WebView2.Wpf;
 using System.Reflection.Metadata;
 using Microsoft.Web.WebView2.Core;
+using Windows.ApplicationModel.Contacts;
+using Windows.UI.WebUI;
 
 namespace ClasseVivaWPF
 {
@@ -21,8 +23,6 @@ namespace ClasseVivaWPF
     /// </summary>
     public partial class CVDay : UserControl
     {
-        private record OpenUriInfo(bool OpensExternally, Uri Uri, int ContentID);
-
         public static CVDay? SelectedDay { get; private set; } = null;
         private static DependencyProperty IsSelectedProperty;
         public DateTime Date { get; private set; }
@@ -177,7 +177,7 @@ namespace ClasseVivaWPF
 
 
             if (CVHome.INSTANCE.Contents!.TryGetValue(this.Date, out var ext_contents) &&
-                (iterator = ext_contents.Where(x => (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
+                (iterator = ext_contents.Where(x => (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicImg is not null && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
             {
                 _content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label()
@@ -191,25 +191,18 @@ namespace ClasseVivaWPF
                 foreach (var content in iterator)
                 {
                     Image tmp;
+
                     sub_content.Children.Add(tmp = new() { SnapsToDevicePixels = true });
-                    RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.NearestNeighbor); 
-                    Task.Run(() => Client.INSTANCE.Download(content.PanoramicImg).ContinueWith(
-                                t => tmp.Dispatcher.BeginInvoke(
-                                    () =>
-                                    {
-                                        tmp.Source = new BitmapImage(t.Result);
-                                        tmp.MaxWidth = 1000;
-                                        tmp.MaxHeight = 250;
-                                        tmp.Cursor = Cursors.Hand;
-                                        if (content.Link is not null)
-                                        {
-                                            tmp.Tag = new OpenUriInfo(content.OpensExternally, new Uri(content.Link), content.ContentID);
-                                            tmp.MouseLeftButtonDown += OpenPage;
-                                        }
-                                    }
-                                )
-                            )
-                        );
+                    RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.NearestNeighbor);
+                    
+                    tmp.AsyncLoading(content.PanoramicImg!, () => {
+                        tmp.MaxWidth = 1000;
+                        tmp.MaxHeight = 250;
+                        tmp.Cursor = Cursors.Hand;
+                        tmp.Tag = content;
+                        tmp.MouseLeftButtonDown += OpenPage;
+                    });
+                    
                     // Todo Tag ti open Extr
                 }
             }
@@ -268,16 +261,23 @@ namespace ClasseVivaWPF
 
         private void OpenPage(object sender, MouseButtonEventArgs e)
         {
-            var uri_info = (OpenUriInfo)((FrameworkElement)sender).Tag;
-
-            if (uri_info.OpensExternally)
-                uri_info.Uri.SystemOpening();
-            else
+            var content = (Content)((FrameworkElement)sender).Tag;
+            // new OpenUriInfo(content.OpensExternally, content.Link is null ? null : new Uri(content.Link), content.ContentID, content.Type)
+            if (content.OpensExternally)
+                new Uri(content.Link!).SystemOpening();
+            else if (content.Type == Api.Types.Content.TYPE_POPFESSORI)
             {
-                MainWindow.INSTANCE.AddFieldOverlap(new CVWebView(uri_info.ContentID)
+                MainWindow.INSTANCE.AddFieldOverlap(new CVWebView(content.ContentID)
+                {
+                    Uri = new Uri(content.Link!)
+                });
+            }
+            else if (content.Type == Api.Types.Content.TYPE_PILLOLE)
+            {
+                MainWindow.INSTANCE.AddFieldOverlap(new CVMemeViewer(content)); /* (uri_info.ContentID)
                 {
                     Uri = uri_info.Uri
-                });
+                });*/
             }
 
         }

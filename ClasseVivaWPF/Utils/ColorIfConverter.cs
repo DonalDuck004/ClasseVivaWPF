@@ -6,7 +6,7 @@ using System.Windows.Markup;
 
 namespace ClasseVivaWPF
 {
-    class ColorIfConverter : MarkupExtension, IValueConverter
+    public class ColorIfConverter : MarkupExtension, IValueConverter
     {
         public Color FalseColor { get; set; } = Colors.Transparent;
         public Color TrueColor { get; set; } = Colors.White;

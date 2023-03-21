@@ -1,12 +1,17 @@
-﻿using ClasseVivaWPF.Api.Types;
+﻿using ClasseVivaWPF.Api;
+using ClasseVivaWPF.Api.Types;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ClasseVivaWPF.Utils
 {
@@ -86,6 +91,40 @@ namespace ClasseVivaWPF.Utils
         public static string ToTitle(this string str)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+        }
+
+        public static Task AsyncLoading(this Image img, string url, Action? OnDone = null)
+        {
+            var task = Task.Run(() => Client.INSTANCE.Download(url).ContinueWith(
+                                t => img.Dispatcher.BeginInvoke(
+                                    () =>
+                                    {
+                                        img.Source = new BitmapImage(t.Result);
+
+                                        if (OnDone is not null)
+                                            OnDone.Invoke();
+                                    }
+                                )
+                            )
+                        );
+            return task;
+        }
+
+        public static Task AsyncImageLoading(this FrameworkElement img, string url, Action? OnDone = null)
+        {
+            var task = Task.Run(() => Client.INSTANCE.Download(url).ContinueWith(
+                                t => img.Dispatcher.BeginInvoke(
+                                    () =>
+                                    {
+                                        img.SetValue(Panel.BackgroundProperty, new ImageBrush(new BitmapImage(t.Result)));
+
+                                        if (OnDone is not null)
+                                            OnDone.Invoke();
+                                    }
+                                )
+                            )
+                        );
+            return task;
         }
     }
 }

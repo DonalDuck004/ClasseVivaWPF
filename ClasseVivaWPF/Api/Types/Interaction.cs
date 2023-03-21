@@ -19,6 +19,7 @@ namespace ClasseVivaWPF.Api.Types
         public required int LikesTo { get; init; }
 
 
+        public const string REACTION_CLICK = "click"; // TODO mandare quando si clicca su controllo
         public const string REACTION_LIKE = "like";
         public const string REACTION_BOOKMARK = "bookmark";
 

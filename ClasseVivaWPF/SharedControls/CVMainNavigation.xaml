@@ -27,6 +27,19 @@
             </WrapPanel>
         </Grid>
         <DockPanel Name="Current" Grid.Row="1"></DockPanel>
-        <Grid Grid.Row="2" Background="White" x:Name="wp_buttons"></Grid>
+        <Grid Grid.Row="2" Background="White" x:Name="wp_buttons">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <local:CVMainMenuIcon 
+                Grid.Column="0" 
+                IconValue="Home"
+                IsSelected="True"
+                FilledIcon="{StaticResource ResourceKey=FilledHomeIcon}" 
+                EmptyIcon="{StaticResource ResourceKey=EmptyHomeIcon}"
+                Template="{StaticResource ResourceKey=CVMainMenuIcon}">
+            </local:CVMainMenuIcon>
+        </Grid>
     </Grid>
 </UserControl>

@@ -55,17 +55,8 @@ namespace ClasseVivaWPF.Api
             Debug.Assert(v is null);
         }
 
-        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache)
+        private HttpRequestMessage BuildMessage(HttpMethod method, string path, JObject? data, string? cached_etag, DateTime? cached_date)
         {
-            allow_cache = allow_cache && SessionHandler.INSTANCE is not null;
-
-            DateTime? cached_date = null;
-            string? cached_json_response = null;
-            string? cached_etag = null;
-            if (allow_cache)
-                cached_date = SessionHandler.INSTANCE!.CheckCache(path, out cached_json_response, out cached_etag);
-
-
             var message = new HttpRequestMessage()
             {
                 Method = method,
@@ -81,6 +72,21 @@ namespace ClasseVivaWPF.Api
             if (cached_etag is not null)
                 message.Headers.Add("z-if-none-match", cached_etag);
 
+            return message;
+        }
+
+        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache)
+        {
+            allow_cache = allow_cache && SessionHandler.INSTANCE is not null;
+
+            DateTime? cached_date = null;
+            string? cached_json_response = null;
+            string? cached_etag = null;
+            if (allow_cache)
+                cached_date = SessionHandler.INSTANCE!.CheckCache(path, out cached_json_response, out cached_etag);
+
+
+            var message = BuildMessage(method, path, data, cached_etag, cached_date);
             var raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
 
             // DumpMsg(response);
@@ -90,6 +96,7 @@ namespace ClasseVivaWPF.Api
             {
                 Debug.Assert(SessionHandler.INSTANCE is not null);
                 SessionHandler.INSTANCE.RenewToken();
+                message = BuildMessage(method, path, data, cached_etag, cached_date); 
                 raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
             }
 

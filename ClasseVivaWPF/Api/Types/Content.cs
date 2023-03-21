@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ClasseVivaWPF.Api.Types;
 using Newtonsoft.Json;
 
@@ -71,6 +72,21 @@ namespace ClasseVivaWPF.Api.Types
 
         public const string MEDIA_TYPE_VIDEO = "video";
         public const string MEDIA_TYPE_WEB = "web";
-    }
 
+        public static bool operator ==(Content c1, Content c2) => c1.ContentID == c2.ContentID && c1.Type == c2.Type;
+
+        public static bool operator !=(Content c1, Content c2) => !(c1 == c2);
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Content content &&
+                   ContentID == content.ContentID &&
+                   Type == content.Type;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ContentID, Type);
+        }
+    }
 }

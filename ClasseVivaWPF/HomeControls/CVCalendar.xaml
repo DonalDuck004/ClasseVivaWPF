@@ -298,7 +298,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel VerticalAlignment="Center">
-        <Viewbox Name="wp" Height="{Binding Path=ActualWidth, Converter={StaticResource AdjustValue}, ConverterParameter=3 }">
+        <Viewbox Name="wp" Height="{Binding Path=ActualWidth, Converter={StaticResource AdjustValue}, ConverterParameter=3}">
             <WrapPanel HorizontalAlignment="Center" Orientation="Vertical">
                 <StackPanel Width="{Binding ElementName=calendar, Path=ActualWidth}" Height="64" Background="Red" Margin="0,0,0,-3" Orientation="Vertical">
                     <Label Content="{Binding ElementName=calendar, Path=SelectedDate}" Foreground="#DF333333"

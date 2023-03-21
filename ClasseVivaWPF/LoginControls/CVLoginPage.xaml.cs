@@ -22,6 +22,9 @@ namespace ClasseVivaWPF
         {
             InitializeComponent();
             this.password.HideContent();
+
+            this.username.Text = "S7319056Z";
+            this.password.Text = "bl32848n";
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -61,7 +64,7 @@ namespace ClasseVivaWPF
 
         public static void EndLogin()
         {
-            var navigation = new CVMainNavigation();
+            var navigation = CVMainNavigation.New();
             MainWindow.INSTANCE.ReplaceMainContent(navigation);
             var raw_content = Client.INSTANCE.Contents().ConfigureAwait(false).GetAwaiter().GetResult();
             CVHome.INSTANCE.Contents = new();
@@ -80,7 +83,6 @@ namespace ClasseVivaWPF
             NotificationSystem.INSTANCE.SpawnTask();
 
             Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
-            CVMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
 
             MainWindow.INSTANCE.OnPostLogin();
         }

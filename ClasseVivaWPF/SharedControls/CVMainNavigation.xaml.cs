@@ -14,19 +14,20 @@ namespace ClasseVivaWPF
     /// </summary>
     public partial class CVMainNavigation : UserControl
     {
-        public CVMainNavigation()
+        public static CVMainNavigation? INSTANCE = null;
+
+        private CVMainNavigation()
         {
             InitializeComponent();
-            CVMenuIcon tmp;
+        }
 
-            var c = 0;
-            foreach (CVMenuIconValues item in Enum.GetValues(typeof(CVMenuIconValues)))
-            {
-                tmp = CVMenuIcon.New(item, parent: this);
-                this.wp_buttons.ColumnDefinitions.Add(new());
-                this.wp_buttons.Children.Add(tmp);
-                Grid.SetColumn(tmp, c++);
-            }
+        public static CVMainNavigation New()
+        {
+            if (CVMainNavigation.INSTANCE is null)
+                CVMainNavigation.INSTANCE = new();
+
+            CVMainNavigation.INSTANCE.SelectVoice(0);
+            return CVMainNavigation.INSTANCE;
         }
 
         internal void SelectVoice(int idx)
