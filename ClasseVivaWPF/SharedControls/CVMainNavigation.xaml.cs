@@ -26,7 +26,6 @@ namespace ClasseVivaWPF
             if (CVMainNavigation.INSTANCE is null)
                 CVMainNavigation.INSTANCE = new();
 
-            CVMainNavigation.INSTANCE.SelectVoice(0);
             return CVMainNavigation.INSTANCE;
         }
 

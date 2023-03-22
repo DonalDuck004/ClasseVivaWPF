@@ -108,7 +108,7 @@ namespace ClasseVivaWPF
             if (e.Key is Key.Left || e.Key is Key.Right)
                 this.days_scroller.RaiseEvent(e);
             else if(e.Key is Key.Down || e.Key is Key.Up)
-                this.homework_scroll_bar.RaiseEvent(e);
+                this.homework_scroller.RaiseEvent(e);
         }
 
         private void DaysOnKeyDown(object sender, KeyEventArgs e)
@@ -165,7 +165,7 @@ namespace ClasseVivaWPF
             if (e.OriginalSource is Run)
                 return;
 
-            this.mouse_fist_snap = e.GetPosition(this.homework_scroll_bar);
+            this.mouse_fist_snap = e.GetPosition(this.homework_scroller);
         }
 
         private void OnSnapScrollerFromContent(object sender, MouseButtonEventArgs e)
@@ -173,7 +173,14 @@ namespace ClasseVivaWPF
             if (this.days_wp.Children.Count == 0 || this.mouse_fist_snap is null)
                 return;
 
-            Point pos = e.GetPosition(this.homework_scroll_bar);
+            Point pos = e.GetPosition(this.homework_scroller);
+            if (this.mouse_fist_snap.Value.Y <= this.homework_scroller.ActualHeight / 30 && pos.Y - this.mouse_fist_snap.Value.Y >= this.homework_scroller.ActualHeight / 2)
+            {
+                this.Loader.Visibility = Visibility.Visible;
+                CVDay.SelectedDay!.Update(require_new_call: true);
+                return;
+            }
+
 
             var required = this.head_wp.ActualWidth / 3;
 
@@ -197,6 +204,11 @@ namespace ClasseVivaWPF
         {
             if (CVDay.SelectedDay is not null)
                 CVDay.SelectedDay.Update(require_new_call: true);
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            this.Loader.Visibility = Visibility.Hidden;
         }
     }
 }

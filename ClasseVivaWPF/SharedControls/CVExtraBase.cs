@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace ClasseVivaWPF
 {
-    public class CVExtraBase : UserControl, IOnEscKey
+    public class CVExtraBase : UserControl
     {
         protected static DependencyProperty CounterProperty;
         protected static DependencyProperty SavedProperty;
@@ -141,8 +141,6 @@ namespace ClasseVivaWPF
           
             PreventOverlap.Release();
         }
-
-        public void OnEscKey() => Close();
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
 

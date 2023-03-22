@@ -161,7 +161,7 @@ namespace ClasseVivaWPF.Api
             this.client.DefaultRequestHeaders.Add("z-auth-token", z_auth_token);
         }
 
-        public Task<Overview> Overview(DateTime from) => this.Overview(from, from.AddDays(6));
+        public Task<Overview> Overview(DateTime from) => this.Overview(from.AddDays(-6), from.AddDays(6));
         public Task<Overview> Overview(DateTime from, DateTime to) => this.Overview(from.ToString("yyyyMMdd"), to.ToString("yyyyMMdd"));
 
         public async Task<Overview> Overview(string from, string to)

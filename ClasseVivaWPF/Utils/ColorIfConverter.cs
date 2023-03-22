@@ -13,7 +13,15 @@ namespace ClasseVivaWPF
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new SolidColorBrush((bool)value ? TrueColor : FalseColor);
+            bool swap = (string)parameter == "swap";
+
+            bool cond;
+            if (swap)
+                cond = !(bool)value;
+            else
+                cond = (bool)value;
+
+            return new SolidColorBrush(cond ? TrueColor : FalseColor);
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)

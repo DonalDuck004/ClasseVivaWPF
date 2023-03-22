@@ -22,7 +22,7 @@ namespace ClasseVivaWPF
     /// <summary>
     /// Logica di interazione per CVWebView.xaml
     /// </summary>
-    public partial class CVWebView : CVExtraBase
+    public partial class CVWebView : CVExtraBase, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 
@@ -58,10 +58,10 @@ namespace ClasseVivaWPF
             set => base.SetValue(UriProperty, value);
         }
 
-        public override void Close()
+        public void OnCloseRequested()
         {
             this.WebView.Dispose();
-            base.Close();
         }
+
     }
 }

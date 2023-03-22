@@ -22,7 +22,7 @@ namespace ClasseVivaWPF
     /// <summary>
     /// Logica di interazione per CVMemeViewer.xaml
     /// </summary>
-    public partial class CVMemeViewer : CVExtraBase, IOnEscKey
+    public partial class CVMemeViewer : CVExtraBase
     {
 #if DEBUG
         private CVMemeViewer()

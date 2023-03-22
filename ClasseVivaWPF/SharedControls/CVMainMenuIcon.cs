@@ -12,8 +12,7 @@ namespace ClasseVivaWPF
 {
     public class CVMainMenuIcon : ContentControl
     {
-        public static readonly DependencyProperty EmptyIconProperty;
-        public static readonly DependencyProperty FilledIconProperty;
+        public static readonly DependencyProperty IconProperty;
         public static readonly DependencyProperty IconValueProperty;
         public static readonly DependencyProperty IsSelectedProperty;
 
@@ -24,8 +23,7 @@ namespace ClasseVivaWPF
         static CVMainMenuIcon()
         {
             IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVMainMenuIcon), new PropertyMetadata(false));
-            EmptyIconProperty = DependencyProperty.Register("EmptyIcon", typeof(ControlTemplate), typeof(CVMainMenuIcon));
-            FilledIconProperty = DependencyProperty.Register("FilledIcon", typeof(ControlTemplate), typeof(CVMainMenuIcon));
+            IconProperty = DependencyProperty.Register("Icon", typeof(ControlTemplate), typeof(CVMainMenuIcon));
             IconValueProperty = DependencyProperty.Register("IconValue", typeof(CVMenuIconValues), typeof(CVMainMenuIcon));
         }
 
@@ -37,19 +35,17 @@ namespace ClasseVivaWPF
                     throw new Exception();
 
                 CVMainMenuIcon.INSTANCES[this.IconValue] = this;
+
+                if (this.IconValue is CVMenuIconValues.Home)
+                    this.IsSelected = true;
+
             };
         }
 
-        public ControlTemplate EmptyIcon
+        public ControlTemplate Icon
         {
-            get => (ControlTemplate)base.GetValue(EmptyIconProperty);
-            set => base.SetValue(EmptyIconProperty, value);
-        }
-
-        public ControlTemplate FilledIcon
-        {
-            get => (ControlTemplate)base.GetValue(FilledIconProperty);
-            set => base.SetValue(FilledIconProperty, value);
+            get => (ControlTemplate)base.GetValue(IconProperty);
+            set => base.SetValue(IconProperty, value);
         }
 
         public CVMenuIconValues IconValue

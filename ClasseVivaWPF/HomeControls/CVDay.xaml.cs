@@ -162,9 +162,10 @@ namespace ClasseVivaWPF
         {
             foreach (var item in overview.GetDayOverviews())
             {
-                READY_CONTENT[item.Key] = item.Value;
-                if (INSTANCES.ContainsKey(item.Key))
+                if (INSTANCES.ContainsKey(item.Key) && READY_CONTENT.ContainsKey(item.Key) && READY_CONTENT[item.Key].XCreationDate - item.Value.XCreationDate > TimeSpan.FromMinutes(5))
                     INSTANCES[item.Key].Update(require_new_call: false);
+
+                READY_CONTENT[item.Key] = item.Value;
             }
         }
 
@@ -177,7 +178,8 @@ namespace ClasseVivaWPF
 
 
             if (CVHome.INSTANCE.Contents!.TryGetValue(this.Date, out var ext_contents) &&
-                (iterator = ext_contents.Where(x => (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicImg is not null && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
+                (iterator = ext_contents.Where(x =>
+                    (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicImg is not null && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
             {
                 _content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label()
@@ -193,11 +195,10 @@ namespace ClasseVivaWPF
                     Image tmp;
 
                     sub_content.Children.Add(tmp = new() { SnapsToDevicePixels = true });
-                    RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.NearestNeighbor);
+                    RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.HighQuality);
                     
                     tmp.AsyncLoading(content.PanoramicImg!, () => {
-                        tmp.MaxWidth = 1000;
-                        tmp.MaxHeight = 250;
+                        tmp.Height = 200;
                         tmp.Cursor = Cursors.Hand;
                         tmp.Tag = content;
                         tmp.MouseLeftButtonDown += OpenPage;

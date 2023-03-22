@@ -19,7 +19,7 @@ namespace ClasseVivaWPF
     /// <summary>
     /// Logica di interazione per CVCalendar.xaml
     /// </summary>
-    public partial class CVCalendar : UserControl, IOnEscKey
+    public partial class CVCalendar : UserControl
     {
         public CVCalendar()
         {
@@ -52,8 +52,6 @@ namespace ClasseVivaWPF
             CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
             this.Close();
         }
-
-        public void OnEscKey() => Close();
 
         public void Close()
         {

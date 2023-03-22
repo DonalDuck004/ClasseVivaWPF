@@ -68,6 +68,9 @@ namespace ClasseVivaWPF
 
         public void RemoveField(FrameworkElement element)
         {
+            if (element is ICloseRequested sub_win)
+                sub_win.OnCloseRequested();
+
             this.wrapper.Children.Remove(element);
         }
 
@@ -121,10 +124,7 @@ namespace ClasseVivaWPF
             {
                 var child = this.wrapper.Children[this.wrapper.Children.Count - 1];
 
-                if (child is IOnEscKey sub_win)
-                    sub_win.OnEscKey();
-                else
-                    this.RemoveField(child);
+                this.RemoveField(child);
             }
         }
 
@@ -132,6 +132,13 @@ namespace ClasseVivaWPF
         {
             e.Cancel = true;
             this.Hide();
+            this.RemoveFields();
+        }
+
+        private void RemoveFields()
+        {
+            while (this.wrapper.Children.Count > 1)
+                this.RemoveField(this.wrapper.Children[1]);
         }
 
         public void OnPostLogin()
@@ -153,6 +160,8 @@ namespace ClasseVivaWPF
                     PostLoginEventHandler? fn = null;
                     this.PostLogin += fn = () =>
                     {
+                        RemoveFields();
+                        
                         if (CVMainMenuIcon.Selected!.IconValue is not CVMenuIconValues.Home)
                             CVMainMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
 
@@ -170,12 +179,16 @@ namespace ClasseVivaWPF
                 }
                 else
                 {
+                    RemoveFields();
+
                     if (CVMainMenuIcon.Selected!.IconValue is not CVMenuIconValues.Home)
                         CVMainMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
 
 
                     if (CVHome.INSTANCE.IsLoaded)
+                    {
                         CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
+                    }
                     else
                         CVHome.INSTANCE.Loaded += (s, e) =>
                         {

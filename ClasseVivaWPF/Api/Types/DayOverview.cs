@@ -15,7 +15,8 @@ namespace ClasseVivaWPF.Api.Types
 
         public static readonly Color[] COLORS = new Color[] { Colors.Coral, Colors.Red, Colors.Brown, Colors.Gray,
                                                               Colors.DarkCyan, Colors.Orchid, Colors.Teal, Colors.GreenYellow,
-                                                              Color.FromRgb(219, 195, 0), Colors.Green, Colors.Black,
+                                                              Color.FromRgb(219, 195, 0), Colors.Green, Colors.Black, Colors.DarkOrange,
+                                                              Colors.DarkGreen, Colors.DarkOrchid, Colors.DarkRed, Colors.RoyalBlue,
                                                               Colors.Purple, Colors.Blue, Colors.Orange, Colors.Pink };
 
         public void Compress()

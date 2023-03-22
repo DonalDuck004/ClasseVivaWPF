@@ -7,6 +7,17 @@
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              mc:Ignorable="d" Loaded="OnLoad"
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <UserControl.Resources>
+        <Storyboard Completed="Storyboard_Completed" x:Key="spawn_loading">
+            <DoubleAnimation 
+                Storyboard.TargetProperty="(Canvas.Top)"
+                From="10" 
+                To="100" 
+                Duration="0:0:0.25"
+                AutoReverse="True">
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="92"></RowDefinition>
@@ -46,12 +57,53 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
+        <Canvas HorizontalAlignment="Center" Grid.Row="1" Panel.ZIndex="1">
+            <Canvas Height="36" Width="36" x:Name="Loader" Visibility="Hidden">
+                <Canvas.Resources>
+                    <Style TargetType="Canvas">
+                        <Style.Triggers>
+                            <Trigger Property="Visibility" Value="Visible">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard x:Name="appear" Storyboard="{StaticResource spawn_loading}"></BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="appear"></RemoveStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Resources>
+                <Ellipse Height="36" Width="36" Fill="White" Canvas.Right="6" Canvas.Bottom="6"></Ellipse>
+                <Path RenderTransformOrigin="0.5, 0.5" Fill="Blue" Data="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z">
+                    <Path.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="0"></RotateTransform>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="Visibility" Value="Visible">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)" To="-360" Duration="0:0:1" RepeatBehavior="Forever" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Resources>
+                </Path>
+            </Canvas>
+        </Canvas>
         <local:CVHomeWorkViewer HorizontalScrollBarVisibility="Disabled"
                                 VerticalScrollBarVisibility="Hidden" 
                                 Grid.Row="1" 
                                 PreviewMouseDown="OnSetScrollerOffestFromContent" 
                                 PreviewMouseUp="OnSnapScrollerFromContent"
-                                x:Name="homework_scroll_bar">
+                                x:Name="homework_scroller">
             <StackPanel Name="wp" Orientation="Vertical">
 
             </StackPanel>

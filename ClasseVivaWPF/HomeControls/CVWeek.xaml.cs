@@ -66,7 +66,7 @@ namespace ClasseVivaWPF
             if (this.Previus is null)
                  CVHome.INSTANCE.AddWeek(this.Previus = new(from: this.From.AddDays(-7), next: this), idx: 0);
 
-            CVHome.INSTANCE.homework_scroll_bar.Content = content;
+            CVHome.INSTANCE.homework_scroller.Content = content;
             CVHome.INSTANCE.UpdateDayLabel();
             this.Dispatcher.InvokeAsync(this.BringIntoView);
         }

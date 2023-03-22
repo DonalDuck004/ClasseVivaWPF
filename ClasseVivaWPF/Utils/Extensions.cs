@@ -116,7 +116,13 @@ namespace ClasseVivaWPF.Utils
                                 t => img.Dispatcher.BeginInvoke(
                                     () =>
                                     {
-                                        img.SetValue(Panel.BackgroundProperty, new ImageBrush(new BitmapImage(t.Result)));
+                                        var b = new BitmapImage(t.Result);
+                                        img.SetValue(Panel.BackgroundProperty, new ImageBrush(b)
+                                        {
+                                            Stretch = Stretch.UniformToFill,
+                                        });
+                                        img.SetValue(Panel.SnapsToDevicePixelsProperty, true);
+                                        
 
                                         if (OnDone is not null)
                                             OnDone.Invoke();
