@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.HomeControls.HomeSection
 {
     /// <summary>
     /// Logica di interazione per CVCalendar.xaml

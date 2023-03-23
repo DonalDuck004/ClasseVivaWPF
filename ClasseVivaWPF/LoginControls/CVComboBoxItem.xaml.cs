@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.LoginControls
 {
     /// <summary>
     /// Logica di interazione per CVComboBoxItem.xaml

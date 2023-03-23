@@ -182,10 +182,9 @@ namespace ClasseVivaWPF.Sessions
 
             SessionHandler.Me = me;
 
-            using (var sw = new StreamWriter("Sessions/Last", false))
-            {
-                sw.WriteLine(me.Id.ToString());
-            }
+            var sw = new StreamWriter("Sessions/Last", false);
+            sw.WriteLine(me.Id.ToString());
+            sw.Close();
         }
 
         public void RenewToken(DateTime? expire = null)

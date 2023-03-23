@@ -3,20 +3,14 @@ using ClasseVivaWPF.Utils;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ClasseVivaWPF.Api;
-using System.Windows.Media.Imaging;
 using System.Windows.Input;
-using Microsoft.Web.WebView2.Wpf;
-using System.Reflection.Metadata;
-using Microsoft.Web.WebView2.Core;
-using Windows.ApplicationModel.Contacts;
-using Windows.UI.WebUI;
+using ClasseVivaWPF.SharedControls;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.HomeControls.HomeSection
 {
     /// <summary>
     /// Logica di interazione per CVDay.xaml
@@ -47,6 +41,12 @@ namespace ClasseVivaWPF
             ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CVDay));
         }
 
+#if DEBUG
+        private CVDay()
+        {
+
+        }
+#endif
         public CVDay(DateTime date, CVWeek parent)
         {
             InitializeComponent();
@@ -300,6 +300,12 @@ namespace ClasseVivaWPF
             
             if (this.IsSelected)
                 this.IsSelected = true;
+        }
+
+        internal static void GlobDispose()
+        {
+            INSTANCES.Clear();
+            SelectedDay = null;
         }
     }
 }

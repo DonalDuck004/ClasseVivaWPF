@@ -15,13 +15,8 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.HomeControls.HomeSection
 {
-    public enum EventAppCategory
-    {
-        Agenda,
-        Homework,
-    }
 
     /// <summary>
     /// Logica di interazione per CVHomeTextBox.xaml

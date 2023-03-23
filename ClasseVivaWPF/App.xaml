@@ -1,20 +1,23 @@
 ﻿<Application x:Class="ClasseVivaWPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:root="clr-namespace:ClasseVivaWPF"
              xmlns:local="clr-namespace:ClasseVivaWPF"
+             xmlns:homecontrols="clr-namespace:ClasseVivaWPF.HomeControls"
+             xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <local:DateTimeConverter x:Key="DateTimeConverter"></local:DateTimeConverter>
-        <local:ToBrushConverter x:Key="ToBrushConverter"></local:ToBrushConverter>
-        <local:VisibilityConverter x:Key="VisibilityConverter"></local:VisibilityConverter>
-        <local:AdjustValue x:Key="AdjustValue"></local:AdjustValue>
-        <local:ColorIfConverter x:Key="ColorIfConverter"></local:ColorIfConverter>
-        <local:CVMemeBg x:Key="CVMemeBg"></local:CVMemeBg>
+        <converters:DateTimeConverter x:Key="DateTimeConverter"></converters:DateTimeConverter>
+        <converters:ToBrushConverter x:Key="ToBrushConverter"></converters:ToBrushConverter>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"></converters:VisibilityConverter>
+        <converters:DivisionConverter x:Key="DivisionConverter"></converters:DivisionConverter>
+        <converters:ColorIfConverter x:Key="ColorIfConverter"></converters:ColorIfConverter>
+        <converters:CVMemeBackgroundConverter x:Key="CVMemeBackgroundConverter"></converters:CVMemeBackgroundConverter>
 
         <ControlTemplate x:Key="CVMainMenuIcon">
             <ControlTemplate.Resources>
-                <local:ColorIfConverter x:Key="SelectedConverter" FalseColor="Gray" TrueColor="Red"></local:ColorIfConverter>
-                <local:ColorIfConverter x:Key="T2WConverter" FalseColor="White" TrueColor="Red"></local:ColorIfConverter>
+                <converters:ColorIfConverter x:Key="SelectedConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                <converters:ColorIfConverter x:Key="T2WConverter" FalseColor="White" TrueColor="Red"></converters:ColorIfConverter>
             </ControlTemplate.Resources>
             <StackPanel x:Name="wp" Cursor="Hand">
                 <Grid>
@@ -28,9 +31,8 @@
                                               RelativeSource={RelativeSource TemplatedParent},
                                               Converter={StaticResource ResourceKey=T2WConverter}}"
                                Name="Top"></Rectangle>
-                    <StackPanel Grid.Row="1" Background="Transparent" HorizontalAlignment="Center" Width="64" Height="32" Margin="-14,0,0,0">
+                    <StackPanel Grid.Row="1" Background="Transparent" Width="64" Height="32">
                         <ContentControl x:Name="img" 
-                                        Margin="13,0,0,0"
                                         Background="{Binding IsSelected, 
                                                              RelativeSource={RelativeSource TemplatedParent},
                                                              Converter={StaticResource ResourceKey=SelectedConverter}}"
@@ -41,7 +43,6 @@
                                         HorizontalAlignment="Center"/>
                     </StackPanel>
                     <Label Grid.Row="2" x:Name="desc"
-                           Margin="0,-2,0,0"
                            Content="{Binding IconValue, 
                                              RelativeSource={RelativeSource TemplatedParent}}"
                            Foreground="{Binding IsSelected, 
@@ -77,61 +78,175 @@
             </StackPanel>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="RegistryIcon">
-            <StackPanel HorizontalAlignment="Center">
-                <Viewbox Height="32" Width="32">
-                    <Canvas Height="500" Width="500">
-                        <Canvas.Resources>
-                            <local:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></local:ColorIfConverter>
-                            <local:ColorIfConverter x:Key="FGConverter" FalseColor="Gray" TrueColor="Red"></local:ColorIfConverter>
-                            <Style TargetType="Path">
-                                <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
-                                <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
-                                <Setter Property="StrokeLineJoin" Value="Round"></Setter>
-                                <Setter Property="StrokeThickness" Value="14"></Setter>
-                            </Style>
-                        </Canvas.Resources>
-                        <Path Stroke="{Binding IsSelected, 
-                                             Converter={StaticResource BGConverter},
-                                             RelativeSource={RelativeSource AncestorType=local:CVMainMenuIcon}}"
-                              Fill="{Binding IsSelected, 
-                                             Converter={StaticResource FGConverter},
-                                             RelativeSource={RelativeSource AncestorType=local:CVMainMenuIcon}}"
-                              Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
-                        <Path Stroke="{Binding IsSelected, 
-                                               Converter={StaticResource BGConverter},
-                                               RelativeSource={RelativeSource AncestorType=local:CVMainMenuIcon}}"
-                              Fill="White" 
-                              Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
-                        <Path Stroke="{Binding IsSelected, 
-                                               Converter={StaticResource BGConverter},
-                                               RelativeSource={RelativeSource AncestorType=local:CVMainMenuIcon}}"
-                              Fill="White"
-                              Data="M351.94,240.61l-56.36,-56.36l-56.35,56.36l0,-206.65l112.71,0l0,206.65z"></Path>
-                    </Canvas>
-                </Viewbox>
-            </StackPanel>
+        <ControlTemplate x:Key="HomeIcon">
+            <Viewbox Height="32" Width="32">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="White" TrueColor="Red"></converters:ColorIfConverter>
+                    </Canvas.Resources>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            StrokeThickness="14"
+                            Data="M295.48,333.64l0,142.21l127.43,0l0,-238.92l47.78,0l-220.69,-210.48l-220.7,210.48l47.79,0l0,238.92l127.43,0l0,-142.21l90.96,0z"></Path>
+                </Canvas>
+            </Viewbox>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="HomeIcon">
-            <StackPanel HorizontalAlignment="Center">
-                <Viewbox Height="32" Width="32">
-                    <Canvas Height="500" Width="500">
-                        <Canvas.Resources>
-                            <local:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></local:ColorIfConverter>
-                            <local:ColorIfConverter x:Key="FGConverter" FalseColor="White" TrueColor="Red"></local:ColorIfConverter>
-                        </Canvas.Resources>
-                        <Path Stroke="{Binding IsSelected, 
-                                             Converter={StaticResource BGConverter},
-                                             RelativeSource={RelativeSource AncestorType=local:CVMainMenuIcon}}"
-                              Fill="{Binding IsSelected, 
-                                             Converter={StaticResource FGConverter},
-                                             RelativeSource={RelativeSource AncestorType=local:CVMainMenuIcon}}"
-                              StrokeThickness="14"
-                              Data="M295.48,333.64l0,142.21l127.43,0l0,-238.92l47.78,0l-220.69,-210.48l-220.7,210.48l47.79,0l0,238.92l127.43,0l0,-142.21l90.96,0z"></Path>
-                    </Canvas>
-                </Viewbox>
-            </StackPanel>
+        <ControlTemplate x:Key="RegistryIcon">
+            <Viewbox Height="32" Width="32">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="White" 
+                            Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="White"
+                            Data="M351.94,240.61l-56.36,-56.36l-56.35,56.36l0,-206.65l112.71,0l0,206.65z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="CameraIcon">
+            <Viewbox Height="32" Width="32">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="White" TrueColor="Red"></converters:ColorIfConverter>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M371.27,139l-13,-64.9A19.13,19.13 0,0 0,339.53 58.7H160.47a19.13,19.13 0,0 0,-18.76 15.37l-13,64.9A19.14,19.14 0,0 1,110 154.35H68.26A38.26,38.26 0,0 0,30 192.61V403A38.26,38.26 0,0 0,68.26 441.3H431.74A38.26,38.26 0,0 0,470 403V192.61a38.26,38.26 0,0 0,-38.26 -38.26H390A19.14,19.14 0,0 1,371.27 139Z"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="White" 
+                            Data="M250,290.33m-93.59,0a93.59,93.59 0,1 1,187.18 0a93.59,93.59 0,1 1,-187.18 0"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="BadgeIcon">
+            <Viewbox Height="32" Width="32">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="White" TrueColor="Red"></converters:ColorIfConverter>
+                        <converters:ColorIfConverter x:Key="FLConverter" FalseColor="Gray" TrueColor="White"></converters:ColorIfConverter>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M30.87,93.48L469.13,93.48A20.87,20.87 0,0 1,490 114.35L490,385.65A20.87,20.87 0,0 1,469.13 406.52L30.87,406.52A20.87,20.87 0,0 1,10 385.65L10,114.35A20.87,20.87 0,0 1,30.87 93.48z"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource FLConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}" 
+                            Data="M133.45,246.9m-78.71,0a78.71,78.71 0,1 1,157.42 0a78.71,78.71 0,1 1,-157.42 0"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource FLConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                          Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                          Data="M154.92,231.8c0,12.29 -9.61,22.26 -21.47,22.26S112,244.09 112,231.8V219.07c0,-12.29 9.61,-22.26 21.47,-22.26s21.47,10 21.47,22.26Z"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource FLConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}" 
+                            Data="M81,305.58c8.8,-17.68 29,-30.06 52.45,-30.06s43.65,12.38 52.45,30.06"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource FLConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M274.74,220.71L433.76,220.71"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource FLConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M274.74,279.29L433.76,279.29"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="MenuIcon">
+            <Viewbox Height="32" Width="32">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>
+                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="White" TrueColor="Red"></converters:ColorIfConverter>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M37.19,101.96L462.81,101.96"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M37.19,398.04L462.81,398.04"></Path>
+                    <Path Stroke="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Fill="{Binding IsSelected, 
+                                            Converter={StaticResource FGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                            Data="M37.19,250L462.81,250"></Path>
+                </Canvas>
+            </Viewbox>
         </ControlTemplate>
 
         <ControlTemplate x:Key="ClassevivaLogo">

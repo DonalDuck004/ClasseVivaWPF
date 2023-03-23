@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.SharedControls
 {
     public class CVExtraBase : UserControl
     {

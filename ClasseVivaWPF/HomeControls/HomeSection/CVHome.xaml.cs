@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.HomeControls.HomeSection
 {
     /// <summary>
     /// Logica di interazione per CVHome.xaml
@@ -23,6 +23,11 @@ namespace ClasseVivaWPF
             this.DataContext = this;
         }
 
+        public static void GlobDispose()
+        {
+            CVDay.GlobDispose();
+        }
+
         private void OnLoad(object sender, EventArgs e)
         {
             this.Init();
@@ -32,6 +37,8 @@ namespace ClasseVivaWPF
                 if (CVDay.SelectedDay is not null)
                     CVDay.SelectedDay.Parent.BringIntoView();
             };
+
+            this.Loaded -= OnLoad;
         }
 
         public void UpdateDayLabel()
@@ -84,9 +91,9 @@ namespace ClasseVivaWPF
             else
                 this.days_wp.Children.Insert(idx.Value, week);
 
-            if (this.days_wp.Children.Count > 5)
+            CVWeek? to_delete;
+            while (this.days_wp.Children.Count > 5)
             {
-                CVWeek? to_delete;
                 if (idx is null)
                 {
                     to_delete = (CVWeek)this.days_wp.Children[0];
@@ -98,9 +105,10 @@ namespace ClasseVivaWPF
                     this.days_wp.Children.RemoveAt(this.days_wp.Children.Count - 1);
                 }
                 to_delete.BeginDestroy();
-                to_delete = null;
-                GC.Collect();
             }
+
+            to_delete = null;
+            GC.Collect();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)

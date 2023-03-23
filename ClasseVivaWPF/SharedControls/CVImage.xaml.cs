@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.HomeControls.HomeSection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
     /// Logica di interazione per CVImage.xaml

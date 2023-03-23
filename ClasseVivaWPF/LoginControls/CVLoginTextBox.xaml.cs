@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.LoginControls
 {
     /// <summary>
     /// Logica di interazione per CVTextBox.xaml

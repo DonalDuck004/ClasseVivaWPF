@@ -1,15 +1,17 @@
-﻿<local:CVExtraBase x:Class="ClasseVivaWPF.CVWebView"
+﻿<local:CVExtraBase x:Class="ClasseVivaWPF.SharedControls.CVWebView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ClasseVivaWPF"
+             xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
+             xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d"
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="{x:Static local:Config.HEADER_HEIGHT_GL}"></RowDefinition>
+            <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel DockPanel.Dock="Top" Background="Red">
@@ -45,7 +47,7 @@
                     <ColumnDefinition Width="48"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <WrapPanel Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static local:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
+                <WrapPanel Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
                     <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
                 </WrapPanel>
 

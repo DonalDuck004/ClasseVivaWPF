@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
     /// Logica di interazione per CVMessageBox.xaml
@@ -12,8 +12,8 @@ namespace ClasseVivaWPF
         private static DependencyProperty DescriptionProperty;
         static CVMessageBox()
         {
-            TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(CVComboBoxItem));
-            DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(CVComboBoxItem));
+            TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(CVMessageBox));
+            DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(CVMessageBox));
         }
 
 

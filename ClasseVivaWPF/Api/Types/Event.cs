@@ -22,8 +22,8 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.AllowNull)]
         public required char? JustifReasonCode { get; init; }
 
-        [JsonProperty(Required = Required.Always)]
-        public required string JustifReasonDesc { get; init; }
+        [JsonProperty(Required = Required.AllowNull)]
+        public required string? JustifReasonDesc { get; init; }
 
         [JsonProperty(Required = Required.Always)]
         public required int[] HoursAbsence { get; init; }

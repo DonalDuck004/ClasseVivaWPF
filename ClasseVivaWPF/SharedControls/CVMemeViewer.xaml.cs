@@ -17,7 +17,7 @@ using ClasseVivaWPF;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Api;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
     /// Logica di interazione per CVMemeViewer.xaml

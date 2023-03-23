@@ -1,4 +1,5 @@
 ﻿using System;
+using ClasseVivaWPF.SharedControls;
 
 namespace ClasseVivaWPF.Api.Types
 {

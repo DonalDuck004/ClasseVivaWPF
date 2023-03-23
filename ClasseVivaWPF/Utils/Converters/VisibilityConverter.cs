@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.Utils.Converters
 {
     class VisibilityConverter : IValueConverter
     {

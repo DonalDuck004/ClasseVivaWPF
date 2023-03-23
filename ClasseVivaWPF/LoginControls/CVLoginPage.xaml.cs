@@ -10,8 +10,11 @@ using System.Security.Cryptography;
 using System.Windows.Threading;
 using System.Diagnostics;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.HomeControls;
+using ClasseVivaWPF.HomeControls.HomeSection;
 
-namespace ClasseVivaWPF
+
+namespace ClasseVivaWPF.LoginControls
 {
     /// <summary>
     /// Logica di interazione per CVLoginPage.xaml

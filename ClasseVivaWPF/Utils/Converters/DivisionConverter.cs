@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Runtime.InteropServices;
 using System.Windows.Data;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.Utils.Converters
 {
-    class AdjustValue : IValueConverter
+    class DivisionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

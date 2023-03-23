@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Markup;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.Utils.Converters
 {
     public class ColorIfConverter : MarkupExtension, IValueConverter
     {

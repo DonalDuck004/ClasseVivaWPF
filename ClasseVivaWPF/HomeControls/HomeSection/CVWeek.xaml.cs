@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.HomeControls.HomeSection
 {
     /// <summary>
     /// Logica di interazione per CVWeek.xaml

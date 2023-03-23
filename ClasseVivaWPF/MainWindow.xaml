@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClasseVivaWPF" KeyDown="window_KeyDown" WindowState="Maximized"
+        xmlns:root="clr-namespace:ClasseVivaWPF"
+        KeyDown="window_KeyDown" WindowState="Maximized"
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">
         <Border Background="Red">
-            <Viewbox Height="{Binding ActualHeight, ElementName=main_grid, Converter={StaticResource AdjustValue}, ConverterParameter=0.1}" Width="{Binding ActualWidth, ElementName=main_grid, ConverterParameter=0.1}">
+            <Viewbox Height="{Binding ActualHeight, ElementName=main_grid, Converter={StaticResource DivisionConverter}, ConverterParameter=0.1}" Width="{Binding ActualWidth, ElementName=main_grid, ConverterParameter=0.1}">
                 <ContentControl Template="{StaticResource ResourceKey=SplashIcon}" Height="495" Margin="0,-25,0,0" Width="990" Foreground="White" Background="Red" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             </Viewbox>
         </Border>

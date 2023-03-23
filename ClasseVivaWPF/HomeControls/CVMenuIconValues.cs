@@ -1,10 +1,10 @@
-﻿namespace ClasseVivaWPF
+﻿namespace ClasseVivaWPF.HomeControls
 {
     /// <summary>
     /// Logica di interazione per cvmENUiCON.xaml
     /// </summary>
     /// 
-    public enum CVMenuIconValues
+    public enum CVMainMenuIconValues
     {
         Home,
         Registro,

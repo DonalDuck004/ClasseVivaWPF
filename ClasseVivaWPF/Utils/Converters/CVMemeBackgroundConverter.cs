@@ -4,9 +4,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.Utils.Converters
 {
-    class CVMemeBg : IValueConverter
+    class CVMemeBackgroundConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

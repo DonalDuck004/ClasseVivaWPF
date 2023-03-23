@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
     /// Logica di interazione per CVWebView.xaml
@@ -43,9 +43,9 @@ namespace ClasseVivaWPF
         {
             InitializeComponent();
             var Options = new CoreWebView2EnvironmentOptions();
-#if DEBUG
-            Options.AdditionalBrowserArguments = "--proxy-server=http://localhost:8000";
-#endif
+            if (Config.USE_PROXY)
+                Options.AdditionalBrowserArguments = $"--proxy-server={Config.PROXY_HOST}:{Config.PROXY_PORT}";
+
             var env = CoreWebView2Environment.CreateAsync(null, null, Options).Result;
             this.WebView.EnsureCoreWebView2Async(env);
 

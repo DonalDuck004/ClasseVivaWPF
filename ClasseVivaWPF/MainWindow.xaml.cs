@@ -11,6 +11,9 @@ using Forms = System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using Windows.UI.Notifications;
+using ClasseVivaWPF.LoginControls;
+using ClasseVivaWPF.HomeControls;
+using ClasseVivaWPF.HomeControls.HomeSection;
 
 namespace ClasseVivaWPF
 {
@@ -162,8 +165,8 @@ namespace ClasseVivaWPF
                     {
                         RemoveFields();
                         
-                        if (CVMainMenuIcon.Selected!.IconValue is not CVMenuIconValues.Home)
-                            CVMainMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
+                        if (CVMainMenuIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
+                            CVMainMenuIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
 
 
                         if (CVHome.INSTANCE.IsLoaded)
@@ -181,8 +184,8 @@ namespace ClasseVivaWPF
                 {
                     RemoveFields();
 
-                    if (CVMainMenuIcon.Selected!.IconValue is not CVMenuIconValues.Home)
-                        CVMainMenuIcon.INSTANCES[CVMenuIconValues.Home].IsSelected = true;
+                    if (CVMainMenuIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
+                        CVMainMenuIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
 
 
                     if (CVHome.INSTANCE.IsLoaded)

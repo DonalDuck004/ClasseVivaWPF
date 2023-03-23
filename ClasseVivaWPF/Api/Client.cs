@@ -1,16 +1,13 @@
-﻿using ClasseVivaWPF.Api.Types;
-using ClasseVivaWPF.Sessions;
+﻿using ClasseVivaWPF.Sessions;
+using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Api.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SQLitePCL;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,9 +26,8 @@ namespace ClasseVivaWPF.Api
 
         public Client()
         {
-#if DEBUG
-            HttpClient.DefaultProxy = new WebProxy("http://localhost", 8000);
-#endif   
+            if (Config.USE_PROXY)
+                HttpClient.DefaultProxy = new WebProxy(Config.PROXY_HOST, Config.PROXY_PORT);
 
             this.client = new HttpClient(new HttpClientHandler()
             {

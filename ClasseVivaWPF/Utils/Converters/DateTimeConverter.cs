@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ClasseVivaWPF
+namespace ClasseVivaWPF.Utils.Converters
 {
     class DateTimeConverter : IValueConverter
     {
