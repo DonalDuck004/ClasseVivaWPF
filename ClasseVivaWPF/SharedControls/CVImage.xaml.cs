@@ -73,7 +73,7 @@ namespace ClasseVivaWPF.SharedControls
             }
             Debug.Assert(target_content is not null);
 
-            MainWindow.INSTANCE.AddFieldOverlap(new CVMemeViewer(target_content));
+            new CVMemeViewer(target_content).Inject();
 
             sem.Release();
         }

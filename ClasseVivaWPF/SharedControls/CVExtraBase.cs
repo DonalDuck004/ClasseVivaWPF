@@ -24,6 +24,8 @@ namespace ClasseVivaWPF.SharedControls
 
         protected int ID { get; init; }
 
+        protected bool CanPress => this.DataFetched && PreventOverlap.CurrentCount == 1;
+
         static CVExtraBase()
         {
             DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVExtraBase), new PropertyMetadata(false));
@@ -92,7 +94,7 @@ namespace ClasseVivaWPF.SharedControls
 
         protected async void OnLikeBtnClick(object sender, MouseButtonEventArgs e)
         {
-            if (!this.DataFetched)
+            if (!this.CanPress)
                 return;
 
             await PreventOverlap.WaitAsync();
@@ -121,7 +123,7 @@ namespace ClasseVivaWPF.SharedControls
 
         protected async void OnSaveBtnClick(object sender, MouseButtonEventArgs e)
         {
-            if (!this.DataFetched)
+            if (!this.CanPress)
                 return;
             
             await PreventOverlap.WaitAsync();
@@ -147,6 +149,11 @@ namespace ClasseVivaWPF.SharedControls
         public virtual void Close()
         {
             MainWindow.INSTANCE.RemoveField(this);
+        }
+
+        public void Inject()
+        {
+            MainWindow.INSTANCE.AddFieldOverlap(this);
         }
     }
 }

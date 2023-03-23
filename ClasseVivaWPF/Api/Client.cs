@@ -252,5 +252,16 @@ namespace ClasseVivaWPF.Api
 
             return content!;
         }
+
+        public async Task<Ticket> Ticket()
+        {
+            var response = await this.Send(HttpMethod.Get, "rest/v1/auth/ticket", null, allow_cache: false).ConfigureAwait(false);
+            var content = response.GetObject<Ticket>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
     }
 }

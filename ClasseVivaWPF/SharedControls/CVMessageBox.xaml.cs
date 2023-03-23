@@ -15,8 +15,13 @@ namespace ClasseVivaWPF.SharedControls
             TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(CVMessageBox));
             DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(CVMessageBox));
         }
-
-
+        public CVMessageBox(string title, string description)
+        {
+            InitializeComponent();
+            this.DataContext = this;
+            this.Title = title;
+            this.Description = description;
+        }
         public string Title
         {
             get => (string)base.GetValue(TitleProperty);
@@ -26,14 +31,6 @@ namespace ClasseVivaWPF.SharedControls
         {
             get => (string)base.GetValue(DescriptionProperty);
             set => base.SetValue(DescriptionProperty, value);
-        }
-
-        public CVMessageBox(string title, string description)
-        {
-            InitializeComponent();
-            this.DataContext = this;
-            this.Title = title;
-            this.Description = description;
         }
 
         public void Inject()

@@ -10,6 +10,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<None Remove="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf" />
 		<None Remove="Assets\Fonts\password.ttf" />
 		<None Remove="Assets\Images\icon.ico" />
 		<None Remove="Assets\Images\logo.png" />
@@ -24,6 +25,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Assets\Fonts\password.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>

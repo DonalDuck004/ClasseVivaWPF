@@ -37,7 +37,8 @@ namespace ClasseVivaWPF.Api
         {
             if (this.Text.Contains("error"))
                 return null;
-            return JsonConvert.DeserializeObject<T>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error  });
+
+            return JsonConvert.DeserializeObject<T>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
         }
 
         public T[]? GetObjectList<T>() where T : ApiObject

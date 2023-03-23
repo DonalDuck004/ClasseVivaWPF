@@ -1,11 +1,9 @@
-﻿using ClasseVivaWPF.Api;
-using ClasseVivaWPF.Utils;
+﻿using ClasseVivaWPF.Utils;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,26 +18,18 @@ using System.Windows.Shapes;
 namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
-    /// Logica di interazione per CVWebView.xaml
+    /// Logica di interazione per CVRestBridgeViewer.xaml
     /// </summary>
-    public partial class CVWebView : CVExtraBase, ICloseRequested
+    public partial class CVRestBridgeViewer : UserControl, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 
-        static CVWebView()
+        static CVRestBridgeViewer()
         {
-            UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVWebView));
+            UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVRestBridgeViewer));
         }
 
-#if DEBUG
-        private CVWebView() : base() // For vs editor
-        {
-            InitializeComponent();
-            this.DataContext = this;
-        }
-#endif
-
-        public CVWebView(int ID) : base(ID)
+        public CVRestBridgeViewer()
         {
             InitializeComponent();
             var Options = new CoreWebView2EnvironmentOptions();
@@ -52,16 +42,27 @@ namespace ClasseVivaWPF.SharedControls
             this.DataContext = this;
         }
 
+        public void OnCloseRequested()
+        {
+            this.WebView.Dispose();
+        }
+
+        protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
+
+        public virtual void Close()
+        {
+            MainWindow.INSTANCE.RemoveField(this);
+        }
+
         public required Uri Uri
         {
             get => (Uri)base.GetValue(UriProperty);
             set => base.SetValue(UriProperty, value);
         }
 
-        public void OnCloseRequested()
+        public void Inject()
         {
-            this.WebView.Dispose();
+            MainWindow.INSTANCE.AddFieldOverlap(this);
         }
-
     }
 }

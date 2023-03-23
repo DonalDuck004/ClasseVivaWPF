@@ -268,14 +268,14 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 new Uri(content.Link!).SystemOpening();
             else if (content.Type == Api.Types.Content.TYPE_POPFESSORI)
             {
-                MainWindow.INSTANCE.AddFieldOverlap(new CVWebView(content.ContentID)
+                new CVWebView(content.ContentID)
                 {
                     Uri = new Uri(content.Link!)
-                });
+                }.Inject();
             }
             else if (content.Type == Api.Types.Content.TYPE_PILLOLE)
             {
-                MainWindow.INSTANCE.AddFieldOverlap(new CVMemeViewer(content)); /* (uri_info.ContentID)
+                new CVMemeViewer(content).Inject(); /* (uri_info.ContentID)
                 {
                     Uri = uri_info.Uri
                 });*/

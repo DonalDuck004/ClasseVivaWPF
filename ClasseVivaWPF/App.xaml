@@ -14,6 +14,193 @@
         <converters:ColorIfConverter x:Key="ColorIfConverter"></converters:ColorIfConverter>
         <converters:CVMemeBackgroundConverter x:Key="CVMemeBackgroundConverter"></converters:CVMemeBackgroundConverter>
 
+        <Style TargetType="Control" x:Key="FT">
+            <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+        </Style>
+        <Style TargetType="{x:Type Control}" x:Key="baseStyle">
+            <Setter Property="FontSize" Value="100" />
+        </Style>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource FT}"></Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource FT}"></Style>
+        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource FT}"></Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+        </Style>
+        <Style TargetType="{x:Type Run}">
+            <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+        </Style>
+
+        <ControlTemplate x:Key="ClassevivaWebIcon">
+            <Viewbox Height="48" Width="48">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M250,250m-216,0a216,216 0,1 1,432 0a216,216 0,1 1,-432 0"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M127.91,259.39c24.46,-36.24 115.77,-31.43 131.48,0 18.78,37.57 -24.45,26.08 -37.56,75.13 -16.93,63.34 12.23,93.91 0,93.91 -56.35,0 -50.27,-52.66 -75.13,-93.91C125.58,299.49 112.08,282.86 127.91,259.39Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M466,259.39c-6.82,0 -131.48,-43 -131.48,0 0,18.78 -25.61,29.83 -18.78,56.35 8.61,33.45 56.25,36.19 56.35,56.35 0.11,25.64 -42.74,51.25 0,56.34"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M318.93,45.27c-9,37.94 12.4,60.67 34.37,82.64 26.3,26.3 16.16,63.3 37.57,56.35 34,-10.89 56,-22.91 56.35,-18.78"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M52.78,165.48c43.55,34.1 93.92,18.78 112.7,0 22.32,-22.33 85.64,-35.34 75.13,-56.35 -18.78,-37.56 -87,-44.61 -75.13,-56.35"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        
+        <ControlTemplate x:Key="ClassevivaExtraIcon">
+            <Viewbox Height="48" Width="48">
+                <Canvas Height="400" Width="400">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M345,200A145,145 0,1 1,200 55,145 145,0 0,1 345,200Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M127.5,227A96.32,96.32 0,0 0,200 266.52,96.32 96.32,0 0,0 272.5,227"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M156.49,156.5h0.19"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M243.46,156.5h0.2"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="SupportIcon">
+            <Viewbox Height="48" Width="48">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M109.78,352.83h18.7V203.26h-18.7A74.78,74.78 0,0 0,35 278h0A74.79,74.79 0,0 0,109.78 352.83Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M390.22,352.83h-18.7V203.26h18.7A74.78,74.78 0,0 1,465 278h0A74.79,74.79 0,0 1,390.22 352.83Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M109.78,203.26v-28A140.22,140.22 0,0 1,250 35h0A140.22,140.22 0,0 1,390.22 175.22v28"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M390.22,352.83c0,37.39 -18.7,74.78 -74.79,74.78"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M287.39,465H250a28,28 0,0 1,-28 -28h0a28,28 0,0 1,28 -28h37.39a28,28 0,0 1,28 28h0A28,28 0,0 1,287.39 465Z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="VirtualClassIcon">
+            <Viewbox Height="48" Width="48">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M438.06,319.29H61.94V81.73A19.79,19.79 0,0 1,81.73 61.94H418.27a19.79,19.79 0,0 1,19.79 19.79Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M438.06,319.29H61.94L31,412a19.8,19.8 0,0 0,18.78 26.05H450.19A19.8,19.8 0,0 0,469 412Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M220.31,398.47L279.69,398.47"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M353.17,133.63c-27.28,-18.19 -72.73,-18.19 -100,0V270c9.09,-18.18 81.81,-18.18 100,0Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M153.17,133.63c27.27,-18.19 72.72,-18.19 100,0V270c-9.1,-18.18 -81.82,-18.18 -100,0Z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="PreviusYearIcon">
+            <Viewbox Height="48" Width="48">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M387,80.65h73v347a18.27,18.27 0,0 1,-18.26 18.26H58.26A18.27,18.27 0,0 1,40 427.61v-347h73"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M160.98,80.65L343.59,80.65"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M131.3,44.13h0a18.27,18.27 0,0 1,18.27 18.26V98.91a18.26,18.26 0,0 1,-18.27 18.26h0A18.26,18.26 0,0 1,113 98.91V62.39A18.27,18.27 0,0 1,131.3 44.13Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M368.7,44.13h0A18.27,18.27 0,0 1,387 62.39V98.91a18.26,18.26 0,0 1,-18.26 18.26h0a18.26,18.26 0,0 1,-18.27 -18.26V62.39A18.27,18.27 0,0 1,368.7 44.13Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M51.41,166.22L453.15,166.22"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M116.17,307.32 L201.72,394a11.75,11.75 0,0 0,20.1 -8.25V342.54s70.43,-35.22 164.35,46.95c0,0 -23.48,-117.39 -164.35,-117.39v-41a11.74,11.74 0,0 0,-20 -8.36Z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="SettingsIcon">
+            <Viewbox Height="48" Width="48">
+                <Canvas Height="500" Width="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M108,171 L74.15,114.73l40.58,-40.58L171,108v0.09A152.35,152.35 0,0 1,205.43 93.7L221.3,30h57.4l15.87,63.7A152.35,152.35 0,0 1,329 108.05V108l56.27,-33.81 40.58,40.58L392,171H392a152.35,152.35 0,0 1,14.35 34.44L470,221.3v57.4l-63.7,15.87A152.35,152.35 0,0 1,392 329H392l33.81,56.27 -40.58,40.58L329,392V392a152.35,152.35 0,0 1,-34.44 14.35L278.7,470H221.3l-15.87,-63.7A152.35,152.35 0,0 1,171 392V392l-56.27,33.81L74.15,385.27 108,329h0.09A152.35,152.35 0,0 1,93.7 294.57L30,278.7V221.3l63.7,-15.87A152.35,152.35 0,0 1,108.05 171Z"></Path>
+                    <Path Stroke="Black"
+                          Fill="White"
+                          Data="M250,250m-86.09,0a86.09,86.09 0,1 1,172.18 0a86.09,86.09 0,1 1,-172.18 0"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
         <ControlTemplate x:Key="CVMainMenuIcon">
             <ControlTemplate.Resources>
                 <converters:ColorIfConverter x:Key="SelectedConverter" FalseColor="Gray" TrueColor="Red"></converters:ColorIfConverter>

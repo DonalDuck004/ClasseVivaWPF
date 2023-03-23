@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.HomeControls.HomeSection;
+using ClasseVivaWPF.HomeControls.MenuSection;
 using ClasseVivaWPF.Utils;
 using System;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace ClasseVivaWPF.HomeControls
                     CVHome.GlobDispose();
             }
             else if (idx is CVMainMenuIconValues.Menu){
-                
+                Current.Children.Add(new CVMenu());
             }
         }
     }

@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="ClasseVivaWPF.HomeControls.MenuSection.CVMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Label" x:Key="MenuVoice">
+            <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
+        </Style>
+        
+        <Style TargetType="Label" x:Key="OpenBridgeSP" BasedOn="{StaticResource MenuVoice}">
+            <Setter Property="Grid.Column" Value="1"></Setter>
+        </Style>
+
+        <Style TargetType="Label" x:Key="OpenBridge" BasedOn="{StaticResource OpenBridgeSP}">
+            <Setter Property="Grid.Column" Value="1"></Setter>
+            <EventSetter Event="MouseLeftButtonDown" Handler="OpenWebviewer"></EventSetter>
+        </Style>
+
+        <Style TargetType="Label" x:Key="OpenBridgeBW" BasedOn="{StaticResource MenuVoice}">
+            <Setter Property="Foreground" Value="Red"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Margin" Value="0,0,16,0"></Setter>
+            <Setter Property="Grid.Column" Value="2"></Setter>
+            <EventSetter Event="MouseLeftButtonDown" Handler="OpenWebviewerBw"></EventSetter>
+        </Style>
+        
+        
+        <Style TargetType="Rectangle" x:Key="HR">
+            <Setter Property="Fill" Value="Red"></Setter>
+            <Setter Property="Height" Value="0.2"></Setter>
+            <Setter Property="Grid.ColumnSpan" Value="3"></Setter>
+        </Style>
+
+        <Style TargetType="ContentControl">
+            <Setter Property="Grid.Column" Value="0"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <Label Content="Classeviva" Foreground="Red" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="96"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Template="{StaticResource ResourceKey=ClassevivaWebIcon}" Grid.Row="0"></ContentControl>
+            <Label Content="Classeviva Web" Grid.Row="0" Tag="https://web.spaggiari.eu/" Style="{StaticResource OpenBridge}"></Label>
+            <Label Content="Apri nel browser" Grid.Row="0" Tag="https://web.spaggiari.eu/" Style="{StaticResource OpenBridgeBW}"></Label>
+
+            <Rectangle Style="{StaticResource HR}" Grid.Row="1"></Rectangle>
+
+            <ContentControl Template="{StaticResource ResourceKey=VirtualClassIcon}" Grid.Row="2"></ContentControl>
+            <Label Content="Aule Virtuali" Grid.Row="2" Tag="https://web.spaggiari.eu/cvp/app/default/sva_aule.php" Style="{StaticResource OpenBridge}"></Label>
+            <Label Content="Apri nel browser" Grid.Row="2" Tag="https://web.spaggiari.eu/cvp/app/default/sva_aule.php" Style="{StaticResource OpenBridgeBW}"></Label>
+
+            <Rectangle Style="{StaticResource HR}" Grid.Row="3"></Rectangle>
+
+            <ContentControl Template="{StaticResource ResourceKey=PreviusYearIcon}" Grid.Row="4"></ContentControl>
+            <Label Content="Anno Precedente" Grid.Row="4" Style="{StaticResource OpenBridgeSP}" MouseLeftButtonDown="BeforeYear"></Label>
+            <Rectangle Style="{StaticResource HR}" Grid.Row="5"></Rectangle>
+
+            <ContentControl Template="{StaticResource ResourceKey=SupportIcon}" Grid.Row="6"></ContentControl>
+            <Label Content="Aiuto e Feedback" Grid.Row="6" Tag="ToDo" Style="{StaticResource OpenBridge}"></Label>
+
+            <Rectangle Style="{StaticResource HR}" Grid.Row="7"></Rectangle>
+
+            <ContentControl Template="{StaticResource ResourceKey=SettingsIcon}" Grid.Row="8"></ContentControl>
+            <Label Content="Impostazioni" Grid.Row="8" Grid.Column="1" Style="{StaticResource ResourceKey=MenuVoice}"></Label>
+            
+            <Rectangle Style="{StaticResource HR}" Grid.Row="9"></Rectangle>
+        </Grid>
+
+        <Label Content="Altri Contenuti" Foreground="Red" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="96"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ContentControl Template="{StaticResource ResourceKey=ClassevivaExtraIcon}" Grid.Row="0"></ContentControl>
+            <Label Content="Classeviva Extra" Grid.Row="0" Style="{StaticResource ResourceKey=MenuVoice}" Grid.Column="1" ></Label>
+        </Grid>
+    </StackPanel>
+</UserControl>
