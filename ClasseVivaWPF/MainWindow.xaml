@@ -8,9 +8,9 @@
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">
-        <Border Background="Red">
+        <Border Background="{StaticResource ResourceKey=CV_RED}">
             <Viewbox Height="{Binding ActualHeight, ElementName=main_grid, Converter={StaticResource DivisionConverter}, ConverterParameter=0.1}" Width="{Binding ActualWidth, ElementName=main_grid, ConverterParameter=0.1}">
-                <ContentControl Template="{StaticResource ResourceKey=SplashIcon}" Height="495" Margin="0,-25,0,0" Width="990" Foreground="White" Background="Red" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <ContentControl Template="{StaticResource ResourceKey=SplashIcon}" Height="495" Margin="0,-25,0,0" Width="990" Foreground="White" Background="{StaticResource ResourceKey=CV_RED}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             </Viewbox>
         </Border>
         <Grid>

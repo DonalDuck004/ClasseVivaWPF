@@ -13,7 +13,7 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="Red">
+        <DockPanel Background="{StaticResource ResourceKey=CV_RED}">
             <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
                 <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>

@@ -12,7 +12,7 @@
             <ColumnDefinition Width="12"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="0" Fill="Red" Height="12" VerticalAlignment="Center"></Rectangle>
+        <Rectangle Grid.Column="0" Fill="{StaticResource ResourceKey=CV_RED}" Height="12" VerticalAlignment="Center"></Rectangle>
         <Label Content="{Binding Path=LabelContent, Mode=OneWay}" Grid.Column="1"></Label>
     </Grid>
 </UserControl>

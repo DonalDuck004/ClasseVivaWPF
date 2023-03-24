@@ -14,7 +14,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid DockPanel.Dock="Top" Background="Red" Grid.Row="0">
+        <Grid DockPanel.Dock="Top" Background="{StaticResource ResourceKey=CV_RED}" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="159"></ColumnDefinition>
@@ -24,12 +24,12 @@
             </Border>
             <WrapPanel Background="Transparent" Grid.Column="1">
                 <WrapPanel Background="White" Grid.Column="1">
-                    <ContentControl Background="Red" Margin="0,-1.5,0,0" Template="{StaticResource ResourceKey=ClassevivaLogo}"/>
+                    <ContentControl Background="{StaticResource ResourceKey=CV_RED}" Margin="0,-1.5,0,0" Template="{StaticResource ResourceKey=ClassevivaLogo}"/>
                 </WrapPanel>
             </WrapPanel>
         </Grid>
         <DockPanel Name="Current" Grid.Row="1"></DockPanel>
-        <Grid Grid.Row="2" Background="White" x:Name="wp_buttons">
+        <Grid Grid.Row="2" Background="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" x:Name="wp_buttons">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

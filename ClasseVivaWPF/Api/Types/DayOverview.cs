@@ -5,12 +5,15 @@ using System.Windows.Media;
 namespace ClasseVivaWPF.Api.Types
 {
     
-    public record class DayOverview(List<Lesson> Lessons, 
-                                    List<AgendaEvent> Notes,
-                                    List<AgendaEvent> Homeworks, 
-                                    List<Event> Absances,
-                                    List<Event> Events)
+    public class DayOverview
     {
+        public List<Lesson> Lessons = new();
+        public List<AgendaEvent> Notes = new();
+        public List<AgendaEvent> Homeworks = new();
+        public List<Event> Absances = new();
+        public List<Grade> Grades = new();
+        public List<Event> Events = new();
+
         public DateTime XCreationDate { get; private set; } = DateTime.Now;
 
         public static readonly Color[] COLORS = new Color[] { Colors.Coral, Colors.Red, Colors.Brown, Colors.Gray,
@@ -26,6 +29,7 @@ namespace ClasseVivaWPF.Api.Types
             this.Homeworks.Capacity = this.Homeworks.Count;
             this.Absances.Capacity = this.Absances.Count;
             this.Events.Capacity = this.Events.Count;
+            this.Grades.Capacity = this.Grades.Count;
         }
     }
 }

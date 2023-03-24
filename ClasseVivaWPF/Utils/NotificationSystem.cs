@@ -43,14 +43,7 @@ namespace ClasseVivaWPF.Utils
 
         private async Task Listener()
         {
-            var displayed_ids = (await Client.INSTANCE.Overview(DateTime.Now)).GetBaseEvents().Select(x => x.EvtId).ToList();
-            /*displayed_ids.Shuffle();
-            displayed_ids.RemoveAt(0);
-            displayed_ids.RemoveAt(0);
-            displayed_ids.RemoveAt(0);
-            displayed_ids.RemoveAt(0);
-            displayed_ids.RemoveAt(0);*/
-
+            var displayed_ids = (await Client.INSTANCE.Overview(DateTime.Now)).GetBaseEvents().Select(x => x.EffectiveID).ToList();
 
             BaseEvent[] overview;
             ToastContentBuilder builder;
@@ -59,9 +52,9 @@ namespace ClasseVivaWPF.Utils
             {
                 overview = (await Client.INSTANCE.Overview(DateTime.Now)).GetBaseEvents();
 
-                foreach (var item in overview.Where(x => !displayed_ids.Contains(x.EvtId)))
+                foreach (var item in overview.Where(x => !displayed_ids.Contains(x.EffectiveID)))
                 {
-                    displayed_ids.Add(item.EvtId);
+                    displayed_ids.Add(item.EffectiveID);
 
                     builder = new ToastContentBuilder();
                     builder.AddArgument("goto_home_date", item.GetGotoDate().ToString());

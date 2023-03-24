@@ -14,12 +14,12 @@ namespace ClasseVivaWPF.Api.Types
         public const string PRESENCE = "LSF0";
         public const string CO_PRESENCE = "LSC0";
         public const string SUPPORT = "LSS0";
+        public const string GRADE = "GRV0";
 
         [JsonProperty(Required = Required.Always)]
         public required int EvtId { get; init; }
         [JsonProperty(Required = Required.Always)]
         public required string EvtCode { get; init; }
-
 
         public bool IsHomework => this.EvtCode == AGENDA_HOMEWORK;
         public bool IsNote => this.EvtCode == AGENDA_NOTE;
@@ -32,6 +32,9 @@ namespace ClasseVivaWPF.Api.Types
         public bool IsInAbsenceSection => IsAbsence || IsEarlyExit || IsLate;
         public bool IsLesson => IsPresence || IsCoPresence || IsSupport;
         public bool IsGenericCoPresence => IsCoPresence || IsSupport;
+        public bool IsGrade => this.EvtCode == GRADE;
+
+        public int EffectiveID => this.GetHashCode();
 
         public string GetHeader()
         {
@@ -47,10 +50,18 @@ namespace ClasseVivaWPF.Api.Types
             if (IsLesson)
                 return "Lezioni";
 
+            if (IsGrade)
+                return "Voti";
+
             throw new NotImplementedException();
         }
 
         public abstract void BuildNotifyText(ToastContentBuilder toast);
         public abstract DateTime GetGotoDate();
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.EvtId, this.EvtCode);
+        }
     }
 }

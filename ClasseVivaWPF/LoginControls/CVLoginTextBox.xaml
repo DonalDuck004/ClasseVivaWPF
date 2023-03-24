@@ -22,13 +22,13 @@
         <Label x:Name="top_lbl" Content="{Binding Path=PlaceHolder}" Grid.Row="0" FontSize="14" Height="32" HorizontalAlignment="Left" Margin="-5,0,0,0">
             <Label.Style>
                 <Style TargetType="Label">
-                    <Setter Property="Foreground" Value="Red"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Text, ElementName=Input}" Value="">
                             <Setter Property="Foreground" Value="Black"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsFocused, ElementName=Input}" Value="True">
-                            <Setter Property="Foreground" Value="Red"></Setter>
+                            <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Visibility, ElementName=placeholder_txt}" Value="Visible">
                             <Setter Property="Visibility" Value="Visible"></Setter>
@@ -73,10 +73,10 @@
                 </Style>
             </Label.Style>
         </Label>
-        <TextBox x:Name="Input" CaretBrush="Red" BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" SelectionBrush="Red" TextChanged="Input_TextChanged">
+        <TextBox x:Name="Input" CaretBrush="{StaticResource ResourceKey=CV_RED}" BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" SelectionBrush="{StaticResource ResourceKey=CV_RED}" TextChanged="Input_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
-                    <Setter Property="BorderBrush" Value="Red"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=CV_RED}"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TextBox}">
@@ -88,7 +88,7 @@
                                         <Setter Property="BorderBrush" Value="Black"/>
                                     </Trigger>
                                     <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="Red"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=CV_RED}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -97,10 +97,10 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Rectangle Width="12" Height="12" Fill="Red" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,4,0" Visibility="Hidden" x:Name="warn_symbol"></Rectangle>
+        <Rectangle Width="12" Height="12" Fill="{StaticResource ResourceKey=CV_RED}" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,4,0" Visibility="Hidden" x:Name="warn_symbol"></Rectangle>
         <StackPanel Width="90" Height="30" HorizontalAlignment="Right" Grid.Row="2" Visibility="Hidden" x:Name="warn_box">
             <Canvas>
-                <Path Fill="Red">
+                <Path Fill="{StaticResource ResourceKey=CV_RED}">
                     <Path.Data>
                         <PathGeometry>
                             <PathGeometry.Figures>

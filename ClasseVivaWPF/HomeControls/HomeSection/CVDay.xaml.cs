@@ -140,7 +140,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                         }
 
                         if (!READY_CONTENT.ContainsKey(this.Date))
-                            READY_CONTENT[this.Date] = new(new(), new(), new(), new(), new());
+                            READY_CONTENT[this.Date] = new();
 
                     }
                     catch (ApiError e)
@@ -176,7 +176,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             StackPanel sub_content;
             IEnumerable<Content> iterator;
 
-
             if (CVHome.INSTANCE.Contents!.TryGetValue(this.Date, out var ext_contents) &&
                 (iterator = ext_contents.Where(x =>
                     (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicImg is not null && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
@@ -207,6 +206,21 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     // Todo Tag ti open Extr
                 }
             }
+
+            if (READY_CONTENT[this.Date].Grades.Count != 0)
+            {
+                _content.Children.Add(sub_content = new StackPanel());
+                sub_content.Children.Add(new Label()
+                {
+                    Content = READY_CONTENT[this.Date].Grades[0].GetHeader(),
+                    FontWeight = FontWeights.SemiBold
+                });
+                foreach (var evt in READY_CONTENT[this.Date].Grades)
+                {
+                    sub_content.Children.Add(CVHomeTextBox.FromGrade(evt));
+                }
+            }
+
 
             if (READY_CONTENT[this.Date].Events.Count != 0)
             {

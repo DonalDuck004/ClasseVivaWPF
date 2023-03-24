@@ -10,7 +10,7 @@
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:ColorIfConverter x:Key="ButtonsBg" FalseColor="Gray" TrueColor="Red"/>
+        <converters:ColorIfConverter x:Key="ButtonsBg" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"/>
     </UserControl.Resources>
     <Grid x:Name="wp">
         <Grid.RowDefinitions>
@@ -21,7 +21,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="{Binding Path=ActualWidth, Converter={StaticResource DivisionConverter}, ConverterParameter=3, ElementName=wp}"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Background="Red" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0" Background="{StaticResource ResourceKey=CV_RED}" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -38,7 +38,7 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0" CornerRadius="30,30,0,0" Background="{Binding ElementName=main_img, Path=Source, Converter={StaticResource CVMemeBackgroundConverter}}" x:Name="main_img_wp">
                 <StackPanel>
-                    <Image Name="main_img" HorizontalAlignment="Center"  SnapsToDevicePixels="True" Height="{Binding ElementName=main_img_wp, Path=ActualHeight}"></Image>
+                    <Image Name="main_img" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="{Binding ElementName=main_img_wp, Path=ActualHeight}"></Image>
                 </StackPanel>
             </Border>
             <Border Grid.Row="1" Background="WhiteSmoke" CornerRadius="0,0,30,30">

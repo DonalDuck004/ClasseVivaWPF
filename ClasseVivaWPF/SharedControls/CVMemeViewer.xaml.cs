@@ -45,6 +45,7 @@ namespace ClasseVivaWPF.SharedControls
                 this.ExtraWp.Children.Add(new CVImage(x));
 
             new Task(async () => await Client.INSTANCE.SetInteraction(content.ContentID, Interaction.REACTION_CLICK));
+            // Todo Gestire .Detail 13 feb.
             this.main_img.AsyncLoading(content.Gallery!);
         }
     }

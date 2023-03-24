@@ -14,7 +14,7 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Background="Red">
+        <DockPanel DockPanel.Dock="Top" Background="{StaticResource ResourceKey=CV_RED}">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="WrapPanel" x:Key="ToLoad">

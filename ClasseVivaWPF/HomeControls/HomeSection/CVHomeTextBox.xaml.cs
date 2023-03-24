@@ -35,12 +35,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         static CVHomeTextBox()
         {
-            SubjectProperty = DependencyProperty.Register("Subject", typeof(string), typeof(CVHomeTextBox));
+            SubjectProperty = DependencyProperty.Register("Title", typeof(string), typeof(CVHomeTextBox));
             HourProperty = DependencyProperty.Register("Hour", typeof(int?), typeof(CVHomeTextBox));
             HoursProperty = DependencyProperty.Register("Hours", typeof(int?), typeof(CVHomeTextBox));
             Row2Property = DependencyProperty.Register("Row2", typeof(string), typeof(CVHomeTextBox), new PropertyMetadata(""));
-            FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Colors.WhiteSmoke));
-            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Colors.WhiteSmoke));
+            FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Config.OPAQUE_WHITE));
+            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Config.OPAQUE_WHITE));
             FontColorProperty = DependencyProperty.Register("FontColor", typeof(SolidColorBrush), typeof(CVHomeTextBox), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
         }
 
@@ -68,7 +68,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     {
                         NavigateUri = new Uri(block),
                         TextDecorations = null,
-                        Foreground = new SolidColorBrush(Colors.Red),
+                        Foreground = Config.CV_RED_BRUSH,
                     };
                     uri.RequestNavigate += OpenUrl;
                     target.Add(uri);
@@ -89,7 +89,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         public static CVHomeTextBox FromLesson(Lesson lesson)
         {
             CVHomeTextBox @this = new();
-            @this.Subject = lesson.SubjectDesc;
+            @this.Title = lesson.SubjectDesc;
             @this.Hour = lesson.EvtHPos;
             @this.Hours = lesson.EvtDuration;
             @this.Row2 = lesson.AuthorName.ToTitle();
@@ -97,13 +97,13 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             if (lesson.LessonArg == "")
             {
-                @this.SubjectControl.VerticalAlignment = VerticalAlignment.Center;
+                @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
                 @this.line.Visibility = Visibility.Hidden;
                 @this.line.Height = 0;
                 @this.last_wp.Visibility = Visibility.Hidden;
                 @this.last_wp.Height = 0;
 
-                @this.by.VerticalAlignment = VerticalAlignment.Bottom;
+                @this.Row2Control.VerticalAlignment = VerticalAlignment.Bottom;
             }
             else
             {
@@ -114,24 +114,26 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 });
                 @this.ParseText(lesson.LessonArg, @this.lesson_txt.Inlines, ": ");
             }
+            @this.LowerImgWP.Height = 0;
             return @this;
         }
 
         public static CVHomeTextBox FromAgendaEvent(AgendaEvent e, EventAppCategory category)
         {
             CVHomeTextBox @this = new();
-            @this.Subject = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc!;
+            @this.Title = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc!;
             if (category is EventAppCategory.Homework && !e.IsFullDay)
                 @this.Row2 = $"{e.EvtDatetimeBegin:HH:mm} - {e.EvtDatetimeEnd:HH:mm}";
             else
             {
-                Grid.SetRowSpan(@this.SubjectControl, 2);
-                @this.SubjectControl.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetRowSpan(@this.TitleControl, 2);
+                @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
             }
 
             @this.FillerColor = Colors.WhiteSmoke;
             
             @this.ParseText(e.Notes, @this.lesson_txt.Inlines);
+            @this.LowerImgWP.Height = 0;
             return @this;
         }
 
@@ -140,18 +142,19 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             CVHomeTextBox @this = new();
             if (e.IsAbsence)
             {
-                @this.FillerColor = @this.BackgroundColor = Colors.Red;
-                @this.Subject = "Assenze";
+                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xD0, 0x5A, 0x50);
+                @this.Title = "Assenze";
             }
             else if (e.IsEarlyExit)
             {
-                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(219, 195, 0);
-                @this.Subject = "Uscita anticipata";
+                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xDB, 0xB6, 0x3B);
+                // 0xC5, 0xA5, 0x35
+                @this.Title = "Uscita anticipata";
             }
             else if (e.IsLate)
             {
-                @this.Subject = "Ritardi";
-                @this.FillerColor = @this.BackgroundColor = Colors.DarkOrange;
+                @this.Title = "Ritardi";
+                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xEB, 0x98, 50);
             }
             else
                 throw new Exception();
@@ -163,16 +166,41 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (e.EvtHPos.HasValue)
                 @this.Row2 = $"A {e.EvtHPos}° ora";
             else
-                Grid.SetRowSpan(@this.SubjectControl, 2);
+                Grid.SetRowSpan(@this.TitleControl, 2);
 
-            @this.SubjectControl.VerticalAlignment = VerticalAlignment.Center;
-            @this.line.Visibility = Visibility.Hidden;
-            @this.line.Height = 0;
+            @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
+            @this.LowerImgWP.Height = 0;
 
             return @this;
         }
 
-        public string Subject
+        public static CVHomeTextBox FromGrade(Grade evt)
+        {
+            CVHomeTextBox @this = new();
+            @this.TitleControl.Foreground = new SolidColorBrush(Colors.White);
+
+            @this.FillerColor = @this.BackgroundColor = evt.GetColor();
+            @this.Title = evt.SubjectDesc.ToTitle();
+
+            if (evt.NotesForFamily == "")
+            {
+                Grid.SetRowSpan(@this.TitleControl, 2);
+                @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
+            }
+            else
+            {
+                @this.Row2 = evt.NotesForFamily;
+                @this.Row2Control.Foreground = @this.TitleControl.Foreground;
+            }
+
+            @this.lesson_txt.Inlines.Add(new Run() { FontSize = 24, Foreground = @this.TitleControl.Foreground, Text = evt.DisplayValue, FontWeight = FontWeights.SemiBold });
+            @this.lesson_txt.Inlines.Add(new Run() { Foreground = @this.TitleControl.Foreground, Text = $"\t{evt.ComponentDesc}", BaselineAlignment = BaselineAlignment.Center, FontSize = 16 });
+            @this.UpperImgWP.Visibility = Visibility.Hidden;
+
+            return @this;
+        }
+
+        public string Title
         {
             get => (string)base.GetValue(SubjectProperty);
             set => base.SetValue(SubjectProperty, value);

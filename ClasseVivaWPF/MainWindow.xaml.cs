@@ -66,15 +66,20 @@ namespace ClasseVivaWPF
             element.Focus();
         }
 
-        public void RemoveField(UIElement element) => RemoveField((FrameworkElement)element);
+        public void RemoveField(UIElement element, bool Focus = true) => RemoveField((FrameworkElement)element, Focus);
 
 
-        public void RemoveField(FrameworkElement element)
+        public void RemoveField(FrameworkElement element, bool Focus = true)
         {
             if (element is ICloseRequested sub_win)
                 sub_win.OnCloseRequested();
 
             this.wrapper.Children.Remove(element);
+
+            if (Focus)
+            {
+                this.wrapper.Children[this.wrapper.Children.Count - 1].Focus();
+            }
         }
 
         public new void Show()
@@ -135,13 +140,16 @@ namespace ClasseVivaWPF
         {
             e.Cancel = true;
             this.Hide();
-            this.RemoveFields();
+            this.RemoveFields(FocusOnMain: false);
         }
 
-        private void RemoveFields()
+        private void RemoveFields(bool FocusOnMain = true)
         {
             while (this.wrapper.Children.Count > 1)
-                this.RemoveField(this.wrapper.Children[1]);
+                this.RemoveField(this.wrapper.Children[1], Focus: false);
+
+            if (FocusOnMain)
+                this.wrapper.Children[0].Focus();
         }
 
         public void OnPostLogin()

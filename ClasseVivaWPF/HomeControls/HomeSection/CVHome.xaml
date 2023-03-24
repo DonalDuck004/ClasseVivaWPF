@@ -29,7 +29,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Background="Gray">
-            <Grid Background="WhiteSmoke">
+            <Grid Background="{StaticResource ResourceKey=CV_OPAQUE_WHITE}">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -52,9 +52,9 @@
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar">
                     <WrapPanel Background="Transparent" VerticalAlignment="Center">
-                        <ContentControl Background="DarkCyan" Template="{StaticResource ResourceKey=CalendarIcon}"/>
+                        <ContentControl Background="#6a96ae" Template="{StaticResource ResourceKey=CalendarIcon}"/>
                     </WrapPanel>
-                    <Label Name="day_lbl" Foreground="DarkCyan"></Label>
+                    <Label Name="day_lbl" Foreground="#6a96ae"></Label>
                 </StackPanel>
             </Grid>
         </StackPanel>

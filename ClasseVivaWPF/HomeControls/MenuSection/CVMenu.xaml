@@ -24,7 +24,7 @@
         </Style>
 
         <Style TargetType="Label" x:Key="OpenBridgeBW" BasedOn="{StaticResource MenuVoice}">
-            <Setter Property="Foreground" Value="Red"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="Margin" Value="0,0,16,0"></Setter>
             <Setter Property="Grid.Column" Value="2"></Setter>
@@ -33,7 +33,7 @@
         
         
         <Style TargetType="Rectangle" x:Key="HR">
-            <Setter Property="Fill" Value="Red"></Setter>
+            <Setter Property="Fill" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
             <Setter Property="Height" Value="0.2"></Setter>
             <Setter Property="Grid.ColumnSpan" Value="3"></Setter>
         </Style>
@@ -43,7 +43,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel>
-        <Label Content="Classeviva" Foreground="Red" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
+        <Label Content="Classeviva" Foreground="{StaticResource ResourceKey=CV_RED}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -91,7 +91,7 @@
             <Rectangle Style="{StaticResource HR}" Grid.Row="9"></Rectangle>
         </Grid>
 
-        <Label Content="Altri Contenuti" Foreground="Red" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
+        <Label Content="Altri Contenuti" Foreground="{StaticResource ResourceKey=CV_RED}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
