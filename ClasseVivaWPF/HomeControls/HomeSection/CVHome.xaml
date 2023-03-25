@@ -21,7 +21,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="88"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="26"></RowDefinition>
         </Grid.RowDefinitions>
@@ -50,11 +50,9 @@
                         </StackPanel>
                     </local:CVCalenderSrollerViewer>
                 </StackPanel>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar">
-                    <WrapPanel Background="Transparent" VerticalAlignment="Center">
-                        <ContentControl Background="#6a96ae" Template="{StaticResource ResourceKey=CalendarIcon}"/>
-                    </WrapPanel>
-                    <Label Name="day_lbl" Foreground="#6a96ae"></Label>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar" Margin="0,0,0,2">
+                    <ContentControl Background="#6a96ae" Template="{StaticResource ResourceKey=CalendarIcon}"/>
+                    <TextBlock Name="day_lbl" Foreground="#6a96ae" VerticalAlignment="Center" Margin="3,1,0,0"></TextBlock>
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -99,15 +97,26 @@
                 </Path>
             </Canvas>
         </Canvas>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=homework_scroller, Path=Content.Children.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Nessun evento" FontSize="28" VerticalAlignment="Center" Foreground="#6E6E6E"></Label>
+        </StackPanel>
         <local:CVHomeworksViewer HorizontalScrollBarVisibility="Disabled"
-                                VerticalScrollBarVisibility="Hidden" 
-                                Grid.Row="1" 
-                                PreviewMouseDown="OnSetScrollerOffestFromContent" 
-                                PreviewMouseUp="OnSnapScrollerFromContent"
-                                x:Name="homework_scroller">
-            <StackPanel Name="wp" Orientation="Vertical">
-
-            </StackPanel>
+                                 VerticalScrollBarVisibility="Hidden" 
+                                 Grid.Row="1" 
+                                 PreviewMouseDown="OnSetScrollerOffestFromContent" 
+                                 PreviewMouseUp="OnSnapScrollerFromContent"
+                                 x:Name="homework_scroller">
+            <StackPanel></StackPanel>
         </local:CVHomeworksViewer>
         <Label Grid.Row="2" Name="last_update_date" ContentStringFormat="Data aggiornamento: {0} (Clicca per aggiornare)" MouseLeftButtonDown="OnUpdateContent" Cursor="Hand"></Label>
     </Grid>

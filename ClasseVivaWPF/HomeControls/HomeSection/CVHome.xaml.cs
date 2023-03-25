@@ -43,7 +43,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         public void UpdateDayLabel()
         {
-            this.day_lbl.Content = CVDay.SelectedDay!.Date.ToString("dddd dd MMMM yyyy");
+            this.day_lbl.Text = CVDay.SelectedDay!.Date.ToString("dddd dd MMMM yyyy");
         }
 
         public void Init()

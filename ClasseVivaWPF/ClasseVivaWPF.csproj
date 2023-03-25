@@ -12,8 +12,11 @@
 	<ItemGroup>
 		<None Remove="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf" />
 		<None Remove="Assets\Fonts\password.ttf" />
+		<None Remove="Assets\Images\header_classeviva.png" />
+		<None Remove="Assets\Images\home_classeviva.png" />
 		<None Remove="Assets\Images\icon.ico" />
 		<None Remove="Assets\Images\logo.png" />
+		<None Remove="Assets\Images\placeholder.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,7 +34,16 @@
 		<Resource Include="Assets\Fonts\password.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Assets\Images\header_classeviva.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Images\home_classeviva.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Assets\Images\icon.ico">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Images\placeholder.jpg">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>

@@ -4,15 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
-        KeyDown="window_KeyDown" WindowState="Maximized"
+        KeyDown="window_KeyDown"
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">
-        <Border Background="{StaticResource ResourceKey=CV_RED}">
-            <Viewbox Height="{Binding ActualHeight, ElementName=main_grid, Converter={StaticResource DivisionConverter}, ConverterParameter=0.1}" Width="{Binding ActualWidth, ElementName=main_grid, ConverterParameter=0.1}">
-                <ContentControl Template="{StaticResource ResourceKey=SplashIcon}" Height="495" Margin="0,-25,0,0" Width="990" Foreground="White" Background="{StaticResource ResourceKey=CV_RED}" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            </Viewbox>
-        </Border>
+        <DockPanel Background="{StaticResource ResourceKey=CV_RED}">
+            <StackPanel Width="{Binding Path=ActualWidth, ElementName=window, Converter={StaticResource DivisionConverter}, ConverterParameter=2}"
+                        Height="{Binding Path=ActualHeight, ElementName=window, Converter={StaticResource DivisionConverter}, ConverterParameter=2}">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/Assets/Images/home_classeviva.png" Stretch="Uniform"></ImageBrush>
+                </StackPanel.Background>
+            </StackPanel>
+        </DockPanel>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>

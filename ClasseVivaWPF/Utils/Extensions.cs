@@ -7,11 +7,15 @@ using System.Globalization;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace ClasseVivaWPF.Utils
 {
@@ -93,44 +97,82 @@ namespace ClasseVivaWPF.Utils
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
         }
 
-        public static Task AsyncLoading(this Image img, string url, Action? OnDone = null)
-        {
-            var task = Task.Run(() => Client.INSTANCE.Download(url).ContinueWith(
-                                t => img.Dispatcher.BeginInvoke(
-                                    () =>
-                                    {
-                                        img.Source = new BitmapImage(t.Result);
+        private static MD5 cacher = MD5.Create();
 
-                                        if (OnDone is not null)
-                                            OnDone.Invoke();
-                                    }
-                                )
-                            )
-                        );
-            return task;
+        private static bool Donwloaded(string url, out string save_path)
+        {
+            var md5 = Convert.ToHexString(cacher.ComputeHash(Encoding.UTF8.GetBytes(url))) + Path.GetExtension(url);
+            save_path = Path.Join(Path.GetTempPath(), md5);
+
+            return File.Exists(save_path);
         }
 
-        public static Task AsyncImageLoading(this FrameworkElement img, string url, Action? OnDone = null)
+        public static Task? AsyncLoading(this Image img, string url, Action? OnDone = null)
         {
-            var task = Task.Run(() => Client.INSTANCE.Download(url).ContinueWith(
-                                t => img.Dispatcher.BeginInvoke(
-                                    () =>
-                                    {
-                                        var b = new BitmapImage(t.Result);
-                                        img.SetValue(Panel.BackgroundProperty, new ImageBrush(b)
-                                        {
-                                            Stretch = Stretch.UniformToFill,
-                                        });
-                                        img.SetValue(Panel.SnapsToDevicePixelsProperty, true);
-                                        
+            if (Donwloaded(url, out string save_path))
+                Set(new Uri(save_path));
+            else
+            {
+                Set(new Uri("pack://application:,,,/Assets/Images/placeholder.jpg"), done: false);
+                return Task.Run(() => Client.INSTANCE.Download(url, save_path).ContinueWith(
+                        t => img.Dispatcher.BeginInvoke(
+                            () => Set(new(save_path))
+                        )
+                    )
+                );
+            }
 
-                                        if (OnDone is not null)
-                                            OnDone.Invoke();
-                                    }
-                                )
+            return null;
+
+            void Set(Uri img_path, bool done = true)
+            {
+                img.Dispatcher.BeginInvoke(
+                    () =>
+                    {
+                        img.Source = new BitmapImage(img_path);
+                        if (done && OnDone is not null)
+                            OnDone.Invoke();
+                    }
+                    );
+            }
+        }
+
+        public static Task? AsyncImageLoading(this FrameworkElement img, string url, Action? OnDone = null)
+        {
+
+            if (Donwloaded(url, out string save_path))
+                Set(new Uri(save_path));
+            else
+            {
+                Set(new Uri("pack://application:,,,/Assets/Images/placeholder.jpg"), done: false);
+                return Task.Run(
+                        () => Client.INSTANCE.Download(url, save_path).ContinueWith(
+                            t => img.Dispatcher.BeginInvoke(() => Set(new(save_path))
                             )
-                        );
-            return task;
+                        )
+                    );
+            }
+
+            return null;
+
+            void Set(Uri img_path, bool done = true)
+            {
+                img.Dispatcher.BeginInvoke(
+                    () =>
+                    {
+                        var b = new BitmapImage(img_path);
+                        img.SetValue(Panel.BackgroundProperty, new ImageBrush(b)
+                        {
+                            Stretch = Stretch.UniformToFill,
+                        });
+                        img.SetValue(Panel.SnapsToDevicePixelsProperty, true);
+
+
+                        if (done && OnDone is not null)
+                            OnDone.Invoke();
+                    }
+                    );
+            }
         }
     }
 }

@@ -178,15 +178,22 @@ namespace ClasseVivaWPF.SharedControls
             var catch_height = GetCatchHeightProperty(target);
             var catch_width = GetCatchWidthProperty(target);
 
+
+            if (dy == 0 && dx == 0)
+                return;
+            
+            e.Handled = true;
+
+
             if ((Math.Abs(dy) > 5 && catch_height) || (Math.Abs(dx) > 5 && catch_width))
                 target.CaptureMouse();
             var speed = GetSpeed(target);
 
 
-            if (catch_height)
+            if (catch_height && capture.VerticalOffset != dy)
                 target.ScrollToVerticalOffset((capture.VerticalOffset - dy) * speed);
 
-            if (catch_width)
+            if (catch_width && capture.HorizontalOffset != dx)
                 target.ScrollToHorizontalOffset((capture.HorizontalOffset - dx) * speed);
         }
     }

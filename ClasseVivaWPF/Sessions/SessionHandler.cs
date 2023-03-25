@@ -47,24 +47,25 @@ namespace ClasseVivaWPF.Sessions
 
             if (File.Exists("Sessions/Last"))
             {
+                string? l;
                 using (var sr = new StreamReader("Sessions/Last"))
                 {
-                    var l = sr.ReadLine();
+                    l = sr.ReadLine();
                     if (l is null)
                         return false;
-
-                    var @this = new SessionHandler($"Sessions/{l}");
-                    try
-                    {
-                        @this.GetMe();
-                    }catch(InvalidDataException)
-                    {
-                        @this.Destroy();
-                        return false;
-                    }
-                    INSTANCE = @this;
-                    return true;
                 }
+
+                var @this = new SessionHandler($"Sessions/{l}");
+                try
+                {
+                    @this.GetMe();
+                }catch(InvalidDataException)
+                {
+                    @this.Destroy();
+                    return false;
+                }
+                INSTANCE = @this;
+                return true;
             }
 
             return false;

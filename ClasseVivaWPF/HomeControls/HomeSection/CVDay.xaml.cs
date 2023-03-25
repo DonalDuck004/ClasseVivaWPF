@@ -171,7 +171,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         private StackPanel FillContent()
         {
-            _content = new StackPanel();
+            this._content = new StackPanel();
 
             StackPanel sub_content;
             IEnumerable<Content> iterator;
@@ -184,7 +184,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 sub_content.Children.Add(new Label()
                 {
                     Content = "Contenuti",
-                    FontWeight = FontWeights.SemiBold
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold
                 });
 
                 sub_content.Children.Add(sub_content = new StackPanel() { Orientation = Orientation.Horizontal });
@@ -213,7 +214,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 sub_content.Children.Add(new Label()
                 {
                     Content = READY_CONTENT[this.Date].Grades[0].GetHeader(),
-                    FontWeight = FontWeights.SemiBold
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold
                 });
                 foreach (var evt in READY_CONTENT[this.Date].Grades)
                 {
@@ -229,7 +231,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 foreach (var item in headers)
                 {
                     _content.Children.Add(contents[item] = new());
-                    contents[item].Children.Add(new Label() { Content = item, FontWeight = FontWeights.SemiBold });
+                    contents[item].Children.Add(new Label() { 
+                        Content = item,
+                        FontSize = 14,
+                        FontWeight = FontWeights.Bold
+                    });
                 }
 
                 foreach (var evt in READY_CONTENT[this.Date].Events)
@@ -239,8 +245,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (READY_CONTENT[this.Date].Lessons.Count != 0)
             {
                 _content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label() { Content = READY_CONTENT[this.Date].Lessons[0].GetHeader(),
-                                                       FontWeight = FontWeights.SemiBold });
+                sub_content.Children.Add(new Label() { 
+                    Content = READY_CONTENT[this.Date].Lessons[0].GetHeader(),
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold
+                });
                 foreach (var evt in READY_CONTENT[this.Date].Lessons)
                 {
                     sub_content.Children.Add(CVHomeTextBox.FromLesson(evt));
@@ -251,8 +260,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (READY_CONTENT[this.Date].Notes.Count != 0)
             {
                 _content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label() { Content = READY_CONTENT[this.Date].Notes[0].GetHeader(),
-                                                    FontWeight = FontWeights.SemiBold });
+                sub_content.Children.Add(new Label() { 
+                    Content = READY_CONTENT[this.Date].Notes[0].GetHeader(),
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold
+                });
                 foreach (var evt in READY_CONTENT[this.Date].Notes)
                 {
                     sub_content.Children.Add(CVHomeTextBox.FromAgendaEvent(evt, EventAppCategory.Agenda));
@@ -263,8 +275,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (READY_CONTENT[this.Date].Homeworks.Count != 0)
             {
                 _content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label() { Content = READY_CONTENT[this.Date].Homeworks[0].GetHeader(),
-                    FontWeight = FontWeights.SemiBold });
+                sub_content.Children.Add(new Label() { 
+                    Content = READY_CONTENT[this.Date].Homeworks[0].GetHeader(),
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold});
                 foreach (var evt in READY_CONTENT[this.Date].Homeworks)
                 {
                     sub_content.Children.Add(CVHomeTextBox.FromAgendaEvent(evt, EventAppCategory.Homework));

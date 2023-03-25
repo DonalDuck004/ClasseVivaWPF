@@ -3,11 +3,15 @@ using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ClasseVivaWPF.Utils.Converters
 {
     class CVMemeBackgroundConverter : IValueConverter
     {
+        private static Dictionary<Uri, SolidColorBrush> cache = new Dictionary<Uri, SolidColorBrush>();
+
         public object? Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is null)
@@ -18,22 +22,35 @@ namespace ClasseVivaWPF.Utils.Converters
                 img = new((Uri)value);
             else
                 throw new Exception();
+            if (cache.ContainsKey(img.UriSource))
+                return cache[img.UriSource];
 
+            
             // 31 0 192 255
 
-            var rect = new Int32Rect(/*32, 24*/0, 0, 1, 1);
+            var rect = new Int32Rect(0, 0, img.PixelWidth, (img.PixelHeight / 6));
 
-            var stride = (rect.Width * img.Format.BitsPerPixel + 7) / 8; // here
+            var stride = (rect.Width * 32 + 7) / 8;
 
             var buffer = new byte[stride * rect.Height];
-
             img.CopyPixels(rect, buffer, stride, 0);
-            return new SolidColorBrush(new Color()
+
+            var buff = new byte[buffer.Length / 4][];
+
+            for (int i = 0, j = 0; i < buffer.Length; i += 4, j++)
             {
-                B = buffer[0],
-                G = buffer[1],
-                R = buffer[2],
-                A = buffer[3]
+                buff[j] = new byte[4];
+                Array.Copy(buffer, i, buff[j], 0, buff[j].Length);
+            }
+
+            var x = buff.GroupBy(x => x, g => 1, (k, g) => (k, g.Count())).MaxBy(x => x.Item2)!.k;
+            
+            return cache[img.UriSource] = new SolidColorBrush(new Color()
+            {
+                B = x[0],
+                G = x[1],
+                R = x[2],
+                A = x[3]
             });
         }
 

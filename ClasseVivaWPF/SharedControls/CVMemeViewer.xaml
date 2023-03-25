@@ -36,10 +36,27 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="52"></RowDefinition>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" CornerRadius="30,30,0,0" Background="{Binding ElementName=main_img, Path=Source, Converter={StaticResource CVMemeBackgroundConverter}}" x:Name="main_img_wp">
-                <StackPanel>
-                    <Image Name="main_img" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="{Binding ElementName=main_img_wp, Path=ActualHeight}"></Image>
-                </StackPanel>
+            <Border Grid.Row="0" CornerRadius="30,30,0,0" Background="{Binding Path=SelectedContent.Source, Converter={StaticResource CVMemeBackgroundConverter}}" x:Name="main_img_wp">
+                <ScrollViewer Margin="30,0,30,0" 
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Disabled" 
+                              local:CVScollerView.IsEnabled="True"
+                              local:CVScollerView.CatchHeightProperty="False"
+                              Name="Scroller"
+                              PreviewMouseDown="OnSetScrollerOffest" 
+                              PreviewMouseUp="OnSnapScroller">
+                    <StackPanel Orientation="Horizontal" x:Name="ImagesWrapper" HorizontalAlignment="Center">
+                        <StackPanel.Resources>
+                            <Style TargetType="Image">
+                                <Setter Property="Stretch" Value="Uniform"></Setter>
+                                <Setter Property="Cursor" Value="Hand"></Setter>
+                                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="GotoSubImage"></EventSetter>
+                            </Style>
+                        </StackPanel.Resources>
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
             <Border Grid.Row="1" Background="WhiteSmoke" CornerRadius="0,0,30,30">
                 <Grid>
@@ -68,6 +85,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <WrapPanel Grid.Column="0" VerticalAlignment="Center">
                         <Border Background="{Binding Liked, Converter={StaticResource ButtonsBg}}" CornerRadius="100" Width="50" Height="50"  Cursor="Hand" MouseLeftButtonDown="OnLikeBtnClick">
@@ -85,7 +103,30 @@
                             </Viewbox>
                         </Border>
                     </WrapPanel>
-                    <Label Content="{Binding Counter}" ContentStringFormat="Piace a {0} persone" Grid.Column="1" HorizontalAlignment="Right" FontSize="18" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,10,5"></Label>
+                    <DockPanel Grid.Column="1" Visibility="{Binding Path=Multi, Converter={StaticResource VisibilityConverter}}">
+                        <DockPanel.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                <Setter Property="CornerRadius" Value="100"></Setter>
+                                <Setter Property="Width" Value="12"></Setter>
+                                <Setter Property="Height" Value="12"></Setter>
+                                <Setter Property="Background" Value="Transparent"></Setter>
+                                <Setter Property="Cursor" Value="Hand"></Setter>
+                                <Setter Property="Margin" Value="5,0,5,0"></Setter>
+                                <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
+                                <Setter Property="BorderThickness" Value="2"></Setter>
+                            </Style>
+                        </DockPanel.Resources>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Name="Points">
+                            <Canvas Width="0">
+                                <Canvas x:Name="Pointer" Width="12" Height="12" Canvas.Left="80" Margin="0,-6,0,0" Canvas.Top="{Binding Path=ActualHeight, Converter={StaticResource DivisionConverter}, ConverterParameter=2, ElementName=Points}">
+                                    <Border Background="{StaticResource ResourceKey=CV_RED}" Margin="0,0,0,0"></Border>
+                                </Canvas>
+                            </Canvas>
+                        </StackPanel>
+                    </DockPanel>
+                    <Label Content="{Binding Counter}" ContentStringFormat="Piace a {0} persone" Grid.Column="2" HorizontalAlignment="Right" FontSize="18" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,10,5"></Label>
                 </Grid>
             </Border>
         </Grid>

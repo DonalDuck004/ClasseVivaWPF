@@ -182,25 +182,18 @@ namespace ClasseVivaWPF.Api
             return content!;
         }
 
-        private MD5 cacher = MD5.Create();
 
-        public async Task<Uri> Download(string url, int buffer_size = 1024 * 1024)
+        public async Task Download(string url, string path, int buffer_size = 1024 * 1024)
         {
-            var md5 = Convert.ToHexString(cacher.ComputeHash(Encoding.UTF8.GetBytes(url))) + Path.GetExtension(url);
-            var path = Path.Join(Path.GetTempPath(), md5);
-            if (!File.Exists(path))
+            var buff = new byte[buffer_size];
+            using (var r = await (await this.client.GetAsync(url)).Content.ReadAsStreamAsync())
             {
-                var buff = new byte[buffer_size];
-                using (var r = await (await this.client.GetAsync(url)).Content.ReadAsStreamAsync()){
-                    using (var w = File.OpenWrite(path))
-                    {
-                        while ((await r.ReadAsync(buff, 0, buff.Length)) != 0)
-                            await w.WriteAsync(buff, 0, buff.Length);
-                    }
+                using (var w = File.OpenWrite(path))
+                {
+                    while ((await r.ReadAsync(buff, 0, buff.Length)) != 0)
+                        await w.WriteAsync(buff, 0, buff.Length);
                 }
             }
-
-            return new Uri(path);
         }
 
         public async Task<Interaction> GetInteractions(int content_id)

@@ -5,15 +5,11 @@ using System.Windows.Data;
 
 namespace ClasseVivaWPF.Utils.Converters
 {
-    class DivisionConverter : IValueConverter
+    class ActionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var divisor = System.Convert.ToDouble(parameter);
-            if (divisor == 0)
-                return 0;
-
-            return (double)value / divisor;
+            return ((Func<object>)parameter).Invoke();
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, System.Globalization.CultureInfo culture)

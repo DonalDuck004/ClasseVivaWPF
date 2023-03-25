@@ -22,13 +22,16 @@
             <Border Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0">
                 <Image x:Name="profile_image"></Image>
             </Border>
-            <WrapPanel Background="Transparent" Grid.Column="1">
-                <WrapPanel Background="White" Grid.Column="1">
-                    <ContentControl Background="{StaticResource ResourceKey=CV_RED}" Margin="0,-1.5,0,0" Template="{StaticResource ResourceKey=ClassevivaLogo}"/>
-                </WrapPanel>
-            </WrapPanel>
+            <DockPanel Grid.Column="1" Name="logo_wp">
+                <StackPanel Margin="-20,-7,0,0" MaxHeight="{Binding ElementName=logo_wp, Path=ActualHeight, Converter={StaticResource DivisionConverter}, ConverterParameter=2}">
+                    <StackPanel.Background>
+                        <ImageBrush Stretch="Uniform" ImageSource="/Assets/Images/header_classeviva.png"></ImageBrush>
+                    </StackPanel.Background>
+                </StackPanel>
+            </DockPanel>
         </Grid>
-        <DockPanel Name="Current" Grid.Row="1"></DockPanel>
+        <DockPanel Name="Current" Grid.Row="1">
+        </DockPanel>
         <Grid Grid.Row="2" Background="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" x:Name="wp_buttons">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
