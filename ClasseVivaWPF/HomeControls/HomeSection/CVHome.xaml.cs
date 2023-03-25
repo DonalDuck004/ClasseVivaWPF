@@ -76,7 +76,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 CVDay.SelectedDay.Parent.BringIntoView();
 
             scroll_horizontal_offset = null;
-
         }
 
         private void OnSetScrollerOffest(object sender, MouseButtonEventArgs e)

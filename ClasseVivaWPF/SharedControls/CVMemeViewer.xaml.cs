@@ -1,28 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ClasseVivaWPF.Api;
+using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Converters;
+using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ClasseVivaWPF.Api.Types;
-using ClasseVivaWPF;
-using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Api;
-using ClasseVivaWPF.Utils.Converters;
-using WinRT.Interop;
-using System.Xml.Linq;
-using ClasseVivaWPF.HomeControls.HomeSection;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using Windows.UI.Composition;
+
+
 
 namespace ClasseVivaWPF.SharedControls
 {
@@ -144,21 +134,7 @@ namespace ClasseVivaWPF.SharedControls
                     return;
 
                 const double ANIMATION_DURATION = 0.01;
-                var inc = c < h;
 
-                last_animator = new DispatcherTimer()
-                {
-                    Interval = TimeSpan.FromSeconds(ANIMATION_DURATION / Math.Abs(h - c)),
-                };
-                last_animator.Tick += (s, e) => {
-                    if ((inc && c++ > h) || (!inc && h > --c))
-                    {
-                        ((DispatcherTimer)s!).IsEnabled = false;
-                        return;
-                    }
-
-                    Scroller.ScrollToHorizontalOffset(c);
-                }; // It's not animable
                 
                 if (this.Multi)
                 {
@@ -170,7 +146,7 @@ namespace ClasseVivaWPF.SharedControls
                     this.Pointer.BeginAnimation(Canvas.LeftProperty, animation);
                 }
 
-                last_animator.IsEnabled = true;
+                Scroller.AnimateScrollerH(c, h, ANIMATION_DURATION).IsEnabled = true;
             }
         }
 

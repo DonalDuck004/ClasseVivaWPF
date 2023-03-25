@@ -174,5 +174,32 @@ namespace ClasseVivaWPF.Utils
                     );
             }
         }
+
+        public static DispatcherTimer AnimateScrollerH(this ScrollViewer sc, double from, double to, double duration)
+        {
+            
+            if (sc.Tag is DispatcherTimer old_dp)
+                old_dp.IsEnabled = false;
+
+            DispatcherTimer dp;
+            var inc = from < to;
+
+            sc.Tag = dp = new()
+            {
+                Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to))
+            };
+
+            dp.Tick += (s, e) => {
+                if ((inc && from++ > to) || (!inc && to > --from))
+                {
+                    ((DispatcherTimer)s!).IsEnabled = false;
+                    return;
+                }
+
+                sc.ScrollToHorizontalOffset(from);
+            }; // It's not animable
+
+            return dp;
+        }
     }
 }
