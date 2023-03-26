@@ -14,8 +14,8 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Background="{StaticResource ResourceKey=CV_RED}">
-            <WrapPanel Grid.Column="0" HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
+        <DockPanel Background="{StaticResource ResourceKey=CV_RED}" Grid.Row="0">
+            <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
                 <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </DockPanel>

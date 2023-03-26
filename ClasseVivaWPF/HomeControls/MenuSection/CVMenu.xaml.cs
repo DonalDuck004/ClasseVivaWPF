@@ -67,11 +67,16 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             var t = new CVRestBridgeViewer() { Uri = await Client.INSTANCE.GetUriFromTicket("https://web.spaggiari.eu/") };
             t.WebView.ContentLoading += (s, e) =>
             {
-                t.Uri = new Uri("https://web.spaggiari.eu/home/app/default/xasapi.php?a=lap&bu=https://web21.spaggiari.eu&ru=/home/&fu=xasapi-ERROR.php");
+                t.Uri = new("https://web.spaggiari.eu/home/app/default/xasapi.php?a=lap&bu=https://web21.spaggiari.eu&ru=/home/&fu=xasapi-ERROR.php");
             };
             t.Inject();
 
             PreventOverlap.Release();
+        }
+
+        private void OpenExtra(object sender, MouseButtonEventArgs e)
+        {
+            new CVExtra().Inject();
         }
     }
 }

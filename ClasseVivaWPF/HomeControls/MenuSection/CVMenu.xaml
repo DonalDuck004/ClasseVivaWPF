@@ -102,7 +102,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <ContentControl Template="{StaticResource ResourceKey=ClassevivaExtraIcon}" Grid.Row="0"></ContentControl>
-            <Label Content="Classeviva Extra" Grid.Row="0" Style="{StaticResource ResourceKey=MenuVoice}" Grid.Column="1" ></Label>
+            <Label Content="Classeviva Extra" Grid.Row="0" Style="{StaticResource ResourceKey=MenuVoice}" Grid.Column="1" MouseLeftButtonDown="OpenExtra"></Label>
         </Grid>
     </StackPanel>
 </UserControl>
