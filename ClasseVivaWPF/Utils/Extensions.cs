@@ -55,12 +55,12 @@ namespace ClasseVivaWPF.Utils
             }
         }
 
-        public static bool IsUserVisible(this UIElement element)
+        public static bool IsUserVisible(this FrameworkElement element, FrameworkElement? container = null)
         {
             if (!element.IsVisible)
                 return false;
 
-            var container = VisualTreeHelper.GetParent(element) as FrameworkElement;
+            container ??= VisualTreeHelper.GetParent(element) as FrameworkElement;
             if (container is null) throw new ArgumentNullException("container");
 
             Rect bounds = element.TransformToAncestor(container).TransformBounds(new Rect(0.0, 0.0, element.RenderSize.Width, element.RenderSize.Height));
@@ -186,7 +186,7 @@ namespace ClasseVivaWPF.Utils
 
             sc.Tag = dp = new()
             {
-                Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to))
+                Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to)) * 2
             };
 
             dp.Tick += (s, e) => {
@@ -196,6 +196,11 @@ namespace ClasseVivaWPF.Utils
                     return;
                 }
 
+                if (inc)
+                    from++;
+                else 
+                    from--;
+                
                 sc.ScrollToHorizontalOffset(from);
             }; // It's not animable
 

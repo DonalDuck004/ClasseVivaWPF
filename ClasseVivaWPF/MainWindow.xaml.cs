@@ -76,7 +76,7 @@ namespace ClasseVivaWPF
 
             this.wrapper.Children.Remove(element);
 
-            if (Focus)
+            if (Focus && this.wrapper.Children.Count != 0)
             {
                 this.wrapper.Children[this.wrapper.Children.Count - 1].Focus();
             }

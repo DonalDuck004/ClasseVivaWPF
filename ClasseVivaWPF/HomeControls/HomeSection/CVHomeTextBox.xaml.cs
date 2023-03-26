@@ -151,7 +151,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 // 0xC5, 0xA5, 0x35
                 @this.Title = "Uscita anticipata";
             }
-            else if (e.IsLate)
+            else if (e.IsLate || e.IsShortLate)
             {
                 @this.Title = "Ritardi";
                 @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xEB, 0x98, 50);

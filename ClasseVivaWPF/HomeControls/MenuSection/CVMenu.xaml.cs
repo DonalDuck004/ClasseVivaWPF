@@ -26,8 +26,6 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// </summary>
     public partial class CVMenu : UserControl
     {
-        private const string BRIDGE = "https://web.spaggiari.eu/repx/app/default/restbridge.php";
-
         private SemaphoreSlim PreventOverlap { get; } = new SemaphoreSlim(1, 1);
         private bool CanPress => PreventOverlap.CurrentCount == 1;
 
@@ -37,20 +35,13 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             InitializeComponent();
         }
 
-        private async Task<Uri> GetUri(string u)
-        {
-            var ticket = await Client.INSTANCE.Ticket();
-            var query = "t=" + ticket.TicketString + "&u=" + u;
-            return new UriBuilder(BRIDGE) { Query = query.ToString() }.Uri;
-        }
-
         private async void OpenWebviewer(object sender, MouseButtonEventArgs e)
         {
             if (!this.CanPress)
                 return;
 
             await PreventOverlap.WaitAsync();
-            var t = new CVRestBridgeViewer() { Uri = await this.GetUri((string)((FrameworkElement)sender).Tag) };
+            var t = new CVRestBridgeViewer() { Uri = await Client.INSTANCE.GetUriFromTicket((string)((FrameworkElement)sender).Tag) };
             t.Inject();
             
             PreventOverlap.Release();
@@ -62,11 +53,10 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
                 return;
 
             await PreventOverlap.WaitAsync();
-            (await this.GetUri((string)((FrameworkElement)sender).Tag)).SystemOpening();
+            (await Client.INSTANCE.GetUriFromTicket((string)((FrameworkElement)sender).Tag)).SystemOpening();
             PreventOverlap.Release();
 
         }
-
 
         private async void BeforeYear(object sender, MouseButtonEventArgs e)
         {
@@ -74,7 +64,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
                 return;
 
             await PreventOverlap.WaitAsync();
-            var t = new CVRestBridgeViewer() { Uri = await this.GetUri("https://web.spaggiari.eu/") };
+            var t = new CVRestBridgeViewer() { Uri = await Client.INSTANCE.GetUriFromTicket("https://web.spaggiari.eu/") };
             t.WebView.ContentLoading += (s, e) =>
             {
                 t.Uri = new Uri("https://web.spaggiari.eu/home/app/default/xasapi.php?a=lap&bu=https://web21.spaggiari.eu&ru=/home/&fu=xasapi-ERROR.php");

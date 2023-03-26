@@ -173,7 +173,6 @@ namespace ClasseVivaWPF.Api
         public async Task<Content[]> Contents()
         {
             var response = await this.Send(HttpMethod.Get, "auc/api/v2/contents", null, allow_cache: true).ConfigureAwait(false);
-
             var content = response.GetObjectList<Content>();
 
             if (content is null)
@@ -250,6 +249,26 @@ namespace ClasseVivaWPF.Api
         {
             var response = await this.Send(HttpMethod.Get, "rest/v1/auth/ticket", null, allow_cache: false).ConfigureAwait(false);
             var content = response.GetObject<Ticket>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Uri> GetUriFromTicket(string u)
+        {
+            var ticket = await this.Ticket();
+            var query = "t=" + ticket.TicketString + "&u=" + u;
+            return new UriBuilder("https://web.spaggiari.eu/repx/app/default/restbridge.php") { Query = query.ToString() }.Uri;
+        }
+
+        // https://web.spaggiari.eu/rest/v1/auth/minigame
+        
+        public async Task<MinigameCredentials> GetMinigameCredentials()
+        {
+            var response = await this.Send(HttpMethod.Get, "rest/v1/auth/minigame", null, allow_cache: false).ConfigureAwait(false);
+            var content = response.GetObject<MinigameCredentials>();
 
             if (content is null)
                 response.GetError();

@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -48,9 +49,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         public void Init()
         {
-            var item = new CVWeek(from: DateTime.Now.Date);
+            var now = DateTime.Now.Date;
+            var item = CVWeek.NewUnsafe(from: now);
+
             var idx = this.days_wp.Children.Count - 1;
             this.days_wp.Children.Insert(idx == -1 ? 0 : idx, item);
+            item.SelectChild(now.DayOfWeek);
         }
 
         private double? scroll_horizontal_offset = null;
@@ -65,15 +69,15 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (this.days_scroller.HorizontalOffset - scroll_horizontal_offset > required) // Next
             {
                 var r = this.days_scroller.HorizontalOffset / this.head_wp.ActualWidth;
-                ((CVWeek)this.days_wp.Children[(int)r + 1]).SelectChild(0);
+                ((CVWeek)this.days_wp.Children[(int)r + 1]).Scroll();
             }
             else if (scroll_horizontal_offset - this.days_scroller.HorizontalOffset > required)// Undo
             {
                 var r = this.days_scroller.HorizontalOffset / this.head_wp.ActualWidth;
-                ((CVWeek)this.days_wp.Children[(int)r]).SelectChild(6);
+                ((CVWeek)this.days_wp.Children[(int)r]).Scroll();
             }
-            else if (CVDay.SelectedDay is not null)
-                CVDay.SelectedDay.Parent.BringIntoView();
+            else
+                this.days_scroller.ScrollToHorizontalOffset(scroll_horizontal_offset.Value);
 
             scroll_horizontal_offset = null;
         }
@@ -83,31 +87,58 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             scroll_horizontal_offset = this.days_scroller.HorizontalOffset;
         }
 
+        public int IndexOfWeek(CVWeek week)
+        {
+            var i = 0;
+            try
+            {
+                for (; !ReferenceEquals(this.days_wp.Children[i], week); i++) ;
+            }catch(ArgumentOutOfRangeException)
+            {
+                return -1;
+            }
+            return i;
+        }
+
         public void AddWeek(CVWeek week, int? idx = null)
         {
             if (idx is null)
-                this.days_wp.Children.Add(week);
-            else
-                this.days_wp.Children.Insert(idx.Value, week);
-
-            CVWeek? to_delete;
-            while (this.days_wp.Children.Count > 5)
             {
-                if (idx is null)
+                idx = 0;
+                foreach (CVWeek item in this.days_wp.Children)
                 {
-                    to_delete = (CVWeek)this.days_wp.Children[0];
-                    this.days_wp.Children.RemoveAt(0);
+                    if (item.From < week.From)
+                        idx++;
+                    else
+                        break;
                 }
-                else
-                {
-                    to_delete = (CVWeek)this.days_wp.Children[this.days_wp.Children.Count - 1];
-                    this.days_wp.Children.RemoveAt(this.days_wp.Children.Count - 1);
-                }
-                to_delete.BeginDestroy();
             }
 
-            to_delete = null;
-            GC.Collect();
+            this.days_wp.Children.Insert(idx.Value, week);
+
+            if (this.days_wp.Children.Count > 5)
+            {
+                CVWeek? to_delete = null;
+                for (var i = this.days_wp.Children.Count - 1; i >= 0; i--)
+                {
+                    to_delete = (CVWeek)this.days_wp.Children[i];
+
+                    if (ReferenceEquals(to_delete, CVDay.SelectedDay!.Parent) ||
+                        to_delete.To.AddDays(1) == week.From ||
+                        to_delete.From.AddDays(-7) == week.From ||
+                        to_delete.IsUserVisible(this.days_scroller))
+                        continue;
+
+                    this.days_wp.Children.RemoveAt(i);
+                    to_delete.BeginDestroy();
+                }
+
+                if (to_delete is not null)
+                {
+                    to_delete = null;
+                    GC.Collect();
+                }
+            }
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -126,28 +157,22 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 return;
             }
 
-            int idx;
             if (e.KeyboardDevice.Modifiers is ModifierKeys.Control)
             {
-                idx = this.days_wp.Children.IndexOf(CVDay.SelectedDay.Parent);
-                int d_idx;
+                var idx = this.days_scroller.HorizontalOffset / CVDay.SelectedDay.Parent.ActualWidth;
 
                 if (e.Key is Key.Left)
-                {
                     idx--;
-                    d_idx = 6;
-                }
                 else
-                {
                     idx++;
-                    d_idx = 0;
-                }
 
-                ((CVWeek)this.days_wp.Children[idx]).SelectChild(d_idx);
+                if ((idx %= this.days_wp.Children.Count) == -1)
+                    idx = 0;
+                ((CVWeek)this.days_wp.Children[(int)idx]).Scroll();
             }
             else
             {
-                idx = CVDay.SelectedDay.ParentIdx + (e.Key is Key.Left ? -1 : 1);
+                var idx = CVDay.SelectedDay.ParentIdx + (e.Key is Key.Left ? -1 : 1);
 
                 if (idx == 7)
                     idx = 0;

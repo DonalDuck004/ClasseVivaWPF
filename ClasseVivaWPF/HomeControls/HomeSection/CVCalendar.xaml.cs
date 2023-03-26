@@ -44,12 +44,16 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 Grid.SetRow(childs[i], i);
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            ((Button)sender).IsEnabled = false;
             var date = this.calendar.SelectedDate!.Value;
-            
 
-            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
+            var week = await CVWeek.New(date);
+            if (week.Parent is null)
+                CVHome.INSTANCE.AddWeek(week);
+
+            week.SelectChild(date.DayOfWeek);
             this.Close();
         }
 

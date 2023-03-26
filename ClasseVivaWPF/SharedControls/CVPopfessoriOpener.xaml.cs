@@ -4,6 +4,7 @@ using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,24 +23,24 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVWebView.xaml
     /// </summary>
-    public partial class CVWebView : CVExtraBase, ICloseRequested
+    public partial class CVPopfessoriOpener : CVExtraBase, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 
-        static CVWebView()
+        static CVPopfessoriOpener()
         {
-            UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVWebView));
+            UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVPopfessoriOpener));
         }
 
 #if DEBUG
-        private CVWebView() : base() // For vs editor
+        private CVPopfessoriOpener() : base() // For vs editor
         {
             InitializeComponent();
             this.DataContext = this;
         }
 #endif
 
-        public CVWebView(int ID) : base(ID)
+        public CVPopfessoriOpener(int ID) : base(ID)
         {
             InitializeComponent();
             var Options = new CoreWebView2EnvironmentOptions();
@@ -47,6 +48,9 @@ namespace ClasseVivaWPF.SharedControls
                 Options.AdditionalBrowserArguments = $"--proxy-server={Config.PROXY_HOST}:{Config.PROXY_PORT}";
 
             var env = CoreWebView2Environment.CreateAsync(null, null, Options).Result;
+#if !DEBUG
+            this.WebView.Initialized += (s, e) => this.WebView.CoreWebView2.Settings.AreDevToolsEnabled = false;
+#endif
             this.WebView.EnsureCoreWebView2Async(env);
 
             this.DataContext = this;
@@ -61,6 +65,7 @@ namespace ClasseVivaWPF.SharedControls
         public void OnCloseRequested()
         {
             this.WebView.Dispose();
+            GC.Collect();
         }
 
     }

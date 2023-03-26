@@ -11,6 +11,7 @@ namespace ClasseVivaWPF.Api.Types
         public const string EARLY_EXIT = "ABU0";
         public const string ABSANCE = "ABA0";
         public const string LATE = "ABR0";
+        public const string SHORT_LATE = "ABR1";
         public const string PRESENCE = "LSF0";
         public const string CO_PRESENCE = "LSC0";
         public const string SUPPORT = "LSS0";
@@ -26,13 +27,16 @@ namespace ClasseVivaWPF.Api.Types
         public bool IsEarlyExit => this.EvtCode == EARLY_EXIT;
         public bool IsAbsence => this.EvtCode == ABSANCE;
         public bool IsLate => this.EvtCode == LATE;
+        public bool IsShortLate => this.EvtCode == SHORT_LATE;
         public bool IsPresence => this.EvtCode == PRESENCE;
         public bool IsCoPresence => this.EvtCode == CO_PRESENCE;
         public bool IsSupport => this.EvtCode == SUPPORT;
-        public bool IsInAbsenceSection => IsAbsence || IsEarlyExit || IsLate;
+        public bool IsGrade => this.EvtCode == GRADE;
+
+
+        public bool IsInAbsenceSection => IsAbsence || IsEarlyExit || IsLate || IsShortLate;
         public bool IsLesson => IsPresence || IsCoPresence || IsSupport;
         public bool IsGenericCoPresence => IsCoPresence || IsSupport;
-        public bool IsGrade => this.EvtCode == GRADE;
 
         public int EffectiveID => this.GetHashCode();
 

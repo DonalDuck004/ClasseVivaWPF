@@ -9,6 +9,8 @@ using System.Windows.Media;
 using ClasseVivaWPF.Api;
 using System.Windows.Input;
 using ClasseVivaWPF.SharedControls;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ClasseVivaWPF.HomeControls.HomeSection
 {
@@ -32,7 +34,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         private CVDay? Tomorrow => this.ParentIdx == 6 ? null : this.Parent.GetChild(this.ParentIdx + 1);
         private CVDay? Yesterday => this.ParentIdx == 0 ? null : this.Parent.GetChild(this.ParentIdx - 1);
+        private CVDay? CrossWeekTomorrow => this.ParentIdx == 6 ? this.Parent.Next?.GetChild(0) : this.Parent.GetChild(this.ParentIdx + 1);
+        private CVDay? CrossWeekYesterday => this.ParentIdx == 0 ? this.Parent.Previus?.GetChild(6) : this.Parent.GetChild(this.ParentIdx - 1);
+        private CVDay? NextMonday => this.Parent.Next?.GetChild(0);
+        private CVDay? PreviusSunday => this.Parent.Previus?.GetChild(6);
 
+        private SemaphoreSlim loader = new SemaphoreSlim(1, 1);
         private bool _destroyed = false;
 
         static CVDay()
@@ -67,7 +74,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             {
                 if (value)
                 {
-                    var content = this.PrepareContent();
+                    var content = this.PrepareContent().ConfigureAwait(false).GetAwaiter().GetResult();
                     if (content is null)
                         return;
 
@@ -77,8 +84,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     SelectedDay = this;
                     if (this.Tomorrow is not null)
                         this.Tomorrow.Dispatcher.BeginInvoke(this.Tomorrow._PrepareContent);
-                    else if(this.Yesterday is not null)
+                    if(this.Yesterday is not null)
                         this.Yesterday.Dispatcher.BeginInvoke(this.Yesterday._PrepareContent);
+
+
                     CVHome.INSTANCE!.last_update_date.Content = READY_CONTENT[this.Date].XCreationDate;
 
                     this.Parent.View(content);
@@ -108,53 +117,60 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             RaiseEvent(newEventArgs);
         }
 
-        private void _PrepareContent()
+        internal async void _PrepareContent()
         {
-            PrepareContent();
+            await PrepareContent();
         }
 
-        private StackPanel? PrepareContent()
+        private async Task<StackPanel?> PrepareContent()
         {
-            if (Retries.Contains(this.Date))
+            await loader.WaitAsync();
+            try
             {
-                this._content = null;
-                Retries.Remove(this.Date);
-            }
-
-            if (this._content is null)
-            {
-                if (this._destroyed)
-                    return null;
-
-                if (!READY_CONTENT.ContainsKey(this.Date))
+                if (Retries.Contains(this.Date))
                 {
-                    try
+                    this._content = null;
+                    Retries.Remove(this.Date);
+                }
+
+                if (this._content is null)
+                {
+                    if (this._destroyed)
+                        return null;
+
+                    if (!READY_CONTENT.ContainsKey(this.Date))
                     {
                         try
                         {
-                            UpdateCachedData(Client.INSTANCE.Overview(this.Date).Result);
+                            try
+                            {
+                                UpdateCachedData(Client.INSTANCE.Overview(this.Date).Result);
+                            }
+                            catch (AggregateException e)
+                            {
+                                throw e.InnerExceptions[0];
+                            }
+
+                            if (!READY_CONTENT.ContainsKey(this.Date))
+                                READY_CONTENT[this.Date] = new();
+
                         }
-                        catch (AggregateException e)
+                        catch (ApiError e)
                         {
-                            throw e.InnerExceptions[0];
+                            e.ApplyStdProcedure();
+                            Retries.Add(this.Date);
+                            return null;
                         }
-
-                        if (!READY_CONTENT.ContainsKey(this.Date))
-                            READY_CONTENT[this.Date] = new();
-
                     }
-                    catch (ApiError e)
-                    {
-                        e.ApplyStdProcedure();
-                        Retries.Add(this.Date);
-                        return null;
-                    }
+
+                    this._content = FillContent();
                 }
 
-                this._content = FillContent();
+                return this._content;
+            }finally
+            {
+                loader.Release();
             }
-
-            return this._content;
         }
 
 
@@ -162,10 +178,15 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             foreach (var item in overview.GetDayOverviews())
             {
+
+                if (item.Value is null)
+                    INSTANCES[item.Key].Update(require_new_call: false);
+                
                 if (INSTANCES.ContainsKey(item.Key) && READY_CONTENT.ContainsKey(item.Key) && READY_CONTENT[item.Key].XCreationDate - item.Value.XCreationDate > TimeSpan.FromMinutes(5))
                     INSTANCES[item.Key].Update(require_new_call: false);
 
-                READY_CONTENT[item.Key] = item.Value;
+                if (item.Value is not null)
+                    READY_CONTENT[item.Key] = item.Value;
             }
         }
 
@@ -180,7 +201,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 (iterator = ext_contents.Where(x =>
                     (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicImg is not null && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
             {
-                _content.Children.Add(sub_content = new StackPanel());
+                this._content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label()
                 {
                     Content = "Contenuti",
@@ -208,9 +229,28 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 }
             }
 
+
+            if (READY_CONTENT[this.Date].Events.Count != 0)
+            {
+                var contents = new Dictionary<string, StackPanel>();
+                var headers = READY_CONTENT[this.Date].Events.Select(x => x.GetHeader()).Distinct();
+                foreach (var item in headers)
+                {
+                    this._content.Children.Add(contents[item] = new());
+                    contents[item].Children.Add(new Label() { 
+                        Content = item,
+                        FontSize = 14,
+                        FontWeight = FontWeights.Bold
+                    });
+                }
+
+                foreach (var evt in READY_CONTENT[this.Date].Events)
+                    contents[evt.GetHeader()].Children.Add(CVHomeTextBox.FromEvent(evt));
+            }
+
             if (READY_CONTENT[this.Date].Grades.Count != 0)
             {
-                _content.Children.Add(sub_content = new StackPanel());
+                this._content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label()
                 {
                     Content = READY_CONTENT[this.Date].Grades[0].GetHeader(),
@@ -223,28 +263,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 }
             }
 
-
-            if (READY_CONTENT[this.Date].Events.Count != 0)
-            {
-                var contents = new Dictionary<string, StackPanel>();
-                var headers = READY_CONTENT[this.Date].Events.Select(x => x.GetHeader()).Distinct();
-                foreach (var item in headers)
-                {
-                    _content.Children.Add(contents[item] = new());
-                    contents[item].Children.Add(new Label() { 
-                        Content = item,
-                        FontSize = 14,
-                        FontWeight = FontWeights.Bold
-                    });
-                }
-
-                foreach (var evt in READY_CONTENT[this.Date].Events)
-                    contents[evt.GetHeader()].Children.Add(CVHomeTextBox.FromEvent(evt));
-            }
-
             if (READY_CONTENT[this.Date].Lessons.Count != 0)
             {
-                _content.Children.Add(sub_content = new StackPanel());
+                this._content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label() { 
                     Content = READY_CONTENT[this.Date].Lessons[0].GetHeader(),
                     FontSize = 14,
@@ -259,7 +280,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             if (READY_CONTENT[this.Date].Notes.Count != 0)
             {
-                _content.Children.Add(sub_content = new StackPanel());
+                this._content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label() { 
                     Content = READY_CONTENT[this.Date].Notes[0].GetHeader(),
                     FontSize = 14,
@@ -274,7 +295,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             if (READY_CONTENT[this.Date].Homeworks.Count != 0)
             {
-                _content.Children.Add(sub_content = new StackPanel());
+                this._content.Children.Add(sub_content = new StackPanel());
                 sub_content.Children.Add(new Label() { 
                     Content = READY_CONTENT[this.Date].Homeworks[0].GetHeader(),
                     FontSize = 14,
@@ -285,7 +306,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 }
             }
 
-            return _content;
+            return this._content;
         }
 
         private void OpenPage(object sender, MouseButtonEventArgs e)
@@ -296,18 +317,20 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 new Uri(content.Link!).SystemOpening();
             else if (content.Type == Api.Types.Content.TYPE_POPFESSORI)
             {
-                new CVWebView(content.ContentID)
+                new CVPopfessoriOpener(content.ContentID)
                 {
                     Uri = new Uri(content.Link!)
                 }.Inject();
             }
             else if (content.Type == Api.Types.Content.TYPE_PILLOLE)
             {
-                new CVMemeViewer(content).Inject(); /* (uri_info.ContentID)
-                {
-                    Uri = uri_info.Uri
-                });*/
+                new CVPilloleOpener(content).Inject();
             }
+            else if (content.Type == Api.Types.Content.TYPE_MINIGAMES)
+            {
+                new CVMinigamesOpener(content).Inject();
+            }else
+                throw new Exception();
 
         }
 

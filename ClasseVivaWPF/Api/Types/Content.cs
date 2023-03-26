@@ -20,7 +20,7 @@ namespace ClasseVivaWPF.Api.Types
         public required object[]? Tags {get; init;}
 
         [JsonProperty("inizio", Required = Required.Always)]
-        public required DateTime BeginDate {get; init;}
+        public required DateTime BeginDate {get; init; }
 
         [JsonProperty("fine", Required = Required.Always)]
         public required DateTime EndDate {get; init;}

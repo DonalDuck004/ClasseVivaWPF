@@ -1,10 +1,6 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
-using ClasseVivaWPF.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -44,8 +40,10 @@ namespace ClasseVivaWPF.SharedControls
         public CVExtraBase(int ID)
         {
             this.ID = ID;
+            new Task(async () => await Client.INSTANCE.SetInteraction(ID, Interaction.REACTION_CLICK)).Start();
 
             this.Loaded += OnLoad;
+
         }
 
         public bool Saved

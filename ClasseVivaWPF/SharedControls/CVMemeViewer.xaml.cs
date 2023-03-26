@@ -19,10 +19,10 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVMemeViewer.xaml
     /// </summary>
-    public partial class CVMemeViewer : CVExtraBase
+    public partial class CVPilloleOpener : CVExtraBase, ICloseRequested
     {
 #if DEBUG
-        private CVMemeViewer()
+        private CVPilloleOpener()
         {
             InitializeComponent();
         }
@@ -30,10 +30,10 @@ namespace ClasseVivaWPF.SharedControls
         public static readonly DependencyProperty SelectedContentProperty;
         public static readonly DependencyProperty MultiProperty;
 
-        static CVMemeViewer()
+        static CVPilloleOpener()
         {
-            SelectedContentProperty = DependencyProperty.Register("SelectedContent", typeof(Image), typeof(CVMemeViewer));
-            MultiProperty = DependencyProperty.Register("Multi", typeof(bool), typeof(CVMemeViewer));
+            SelectedContentProperty = DependencyProperty.Register("SelectedContent", typeof(Image), typeof(CVPilloleOpener));
+            MultiProperty = DependencyProperty.Register("Multi", typeof(bool), typeof(CVPilloleOpener));
         }
         
         private (Image, string)[] Images;
@@ -82,10 +82,8 @@ namespace ClasseVivaWPF.SharedControls
             }
         }
 
-        public CVMemeViewer(Content content) : base(content.ContentID)
+        public CVPilloleOpener(Content content) : base(content.ContentID)
         {
-            new Task(async () => await Client.INSTANCE.SetInteraction(content.ContentID, Interaction.REACTION_CLICK));
-           
             InitializeComponent();
 
             foreach (var x in content.Related)
@@ -192,6 +190,14 @@ namespace ClasseVivaWPF.SharedControls
         private void OnSetScrollerOffest(object sender, MouseButtonEventArgs e)
         {
             scroll_horizontal_offset = this.Scroller.HorizontalOffset;
+        }
+        public void OnCloseRequested()
+        {
+            // this.GridWP.Children.Clear();
+            this.Content = null;
+            foreach (var item in this.Images)
+                item.Item1.Source = null;
+            Application.Current.Dispatcher.BeginInvoke(GC.Collect);
         }
     }
 }

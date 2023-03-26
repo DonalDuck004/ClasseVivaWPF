@@ -5,6 +5,14 @@ using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
+    public class MinigameCredentials : ApiObject
+    {
+        [JsonProperty(Required = Required.Always)]
+        public required string MinigameToken;
+        [JsonProperty(Required = Required.Always)]
+        public required string @For;
+    }
+
     public class Event : BaseEvent
     {
         [JsonProperty(Required = Required.Always)]
@@ -20,7 +28,7 @@ namespace ClasseVivaWPF.Api.Types
         public required bool IsJustified { get; init; }
 
         [JsonProperty(Required = Required.AllowNull)]
-        public required char? JustifReasonCode { get; init; }
+        public required string? JustifReasonCode { get; init; }
 
         [JsonProperty(Required = Required.AllowNull)]
         public required string? JustifReasonDesc { get; init; }

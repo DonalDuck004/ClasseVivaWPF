@@ -73,7 +73,7 @@ namespace ClasseVivaWPF.SharedControls
             }
             Debug.Assert(target_content is not null);
 
-            new CVMemeViewer(target_content).Inject();
+            new CVPilloleOpener(target_content).Inject();
 
             sem.Release();
         }
@@ -89,5 +89,6 @@ namespace ClasseVivaWPF.SharedControls
             add => AddHandler(ClickEvent, value);
             remove => RemoveHandler(ClickEvent, value);
         }
+
     }
 }
