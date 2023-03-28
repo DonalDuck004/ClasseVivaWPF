@@ -70,7 +70,7 @@ namespace ClasseVivaWPF.SharedControls
         }
     }
 
-    public partial class CVMinigamesOpener : CVExtraBase, ICloseRequested
+    public partial class CVMinigamesOpener : UserControl, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 
@@ -129,6 +129,7 @@ namespace ClasseVivaWPF.SharedControls
             this.WebView.Dispose();
             GC.Collect();
         }
+
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
 
         public virtual void Close()

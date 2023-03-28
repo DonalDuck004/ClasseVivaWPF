@@ -42,7 +42,7 @@ namespace ClasseVivaWPF
         public void AddFieldOverlap(FrameworkElement element)
         {
             if (this.wrapper.Children.Count - 1 >= Config.MAX_OVERLAPPED_WIN)
-                this.RemoveField(this.wrapper.Children[1]);
+                this.RemoveField((FrameworkElement)this.wrapper.Children[1]);
 
             this.wrapper.Children.Add(element);
         }
@@ -50,7 +50,7 @@ namespace ClasseVivaWPF
         public void ReplaceMainContent(FrameworkElement element, bool animate = true)
         {
             if (this.wrapper.Children.Count != 0)
-                this.RemoveField(this.wrapper.Children[0]);
+                this.RemoveField((FrameworkElement)this.wrapper.Children[0]);
 
             if (animate)
             {
@@ -66,9 +66,6 @@ namespace ClasseVivaWPF
 
             this.wrapper.Children.Insert(0, element);
         }
-
-        public void RemoveField(UIElement element, bool Focus = true) => RemoveField((FrameworkElement)element, Focus);
-
 
         public void RemoveField(FrameworkElement element)
         {
@@ -133,7 +130,7 @@ namespace ClasseVivaWPF
                 {
                     var child = this.wrapper.Children[this.wrapper.Children.Count - 1];
 
-                    this.RemoveField(child);
+                    this.RemoveField((FrameworkElement)child);
                 }
 
             }
@@ -153,7 +150,7 @@ namespace ClasseVivaWPF
         private void RemoveFields(bool FocusOnMain = true)
         {
             while (this.wrapper.Children.Count > 1)
-                this.RemoveField(this.wrapper.Children[1], Focus: false);
+                this.RemoveField((FrameworkElement)this.wrapper.Children[1]);
 
             if (FocusOnMain)
                 this.wrapper.Children[0].Focus();

@@ -1,7 +1,7 @@
 ﻿namespace ClasseVivaWPF.Utils
 {
-    public interface IOnSwitch
+    public interface ICloseRequested
     {
-        void OnSwitch();
+        void OnCloseRequested();
     }
 }
