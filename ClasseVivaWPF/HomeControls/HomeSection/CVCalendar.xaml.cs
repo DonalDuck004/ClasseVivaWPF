@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,12 +48,13 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
             ((Button)sender).IsEnabled = false;
-            var date = this.calendar.SelectedDate!.Value;
+            var date = this.calendar.SelectedDate!.Value.Date;
 
             var week = await CVWeek.New(date);
             if (week.Parent is null)
                 CVHome.INSTANCE.AddWeek(week);
 
+            Debug.Assert(!week.Destroyed);
             week.SelectChild(date.DayOfWeek);
             this.Close();
         }

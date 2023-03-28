@@ -182,7 +182,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 if (item.Value is null)
                     INSTANCES[item.Key].Update(require_new_call: false);
                 
-                if (INSTANCES.ContainsKey(item.Key) && READY_CONTENT.ContainsKey(item.Key) && READY_CONTENT[item.Key].XCreationDate - item.Value.XCreationDate > TimeSpan.FromMinutes(5))
+                if (INSTANCES.ContainsKey(item.Key) && 
+                    READY_CONTENT.ContainsKey(item.Key) &&
+                    item.Value is not null &&
+                    READY_CONTENT[item.Key].XCreationDate - item.Value.XCreationDate > TimeSpan.FromMinutes(5))
                     INSTANCES[item.Key].Update(require_new_call: false);
 
                 if (item.Value is not null)

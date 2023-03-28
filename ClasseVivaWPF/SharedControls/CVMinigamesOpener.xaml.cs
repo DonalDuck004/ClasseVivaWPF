@@ -70,7 +70,7 @@ namespace ClasseVivaWPF.SharedControls
         }
     }
 
-    public partial class CVMinigamesOpener : UserControl, ICloseRequested
+    public partial class CVMinigamesOpener : CVExtraBase, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 

@@ -123,6 +123,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     to_delete = (CVWeek)this.days_wp.Children[i];
 
                     if (ReferenceEquals(to_delete, CVDay.SelectedDay!.Parent) ||
+                        ReferenceEquals(to_delete, week) ||
                         to_delete.To.AddDays(1) == week.From ||
                         to_delete.From.AddDays(-7) == week.From ||
                         to_delete.IsUserVisible(this.days_scroller))

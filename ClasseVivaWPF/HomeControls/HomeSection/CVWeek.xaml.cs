@@ -41,6 +41,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         private static Dictionary<DateTime, CVWeek> cached_objects = new();
         private static SemaphoreSlim create_lock = new(1, 1);
+        public bool Destroyed { get; private set; } = false;
 
         private CVWeek()
         {
@@ -65,8 +66,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 create_lock.Release();
             }
         }
+
         public static CVWeek? CacheGetUnsafe(DateTime from)
         {
+            Debug.Assert(from.Date == from);
             var monday = from.AddDays(-from.DayOfWeek.AsInt32());
             if (cached_objects.ContainsKey(monday))
                 return cached_objects[monday];
@@ -74,9 +77,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             return null;
         }
 
-
         public static async Task<CVWeek> New(DateTime from, bool GenChain = true)
         {
+            Debug.Assert(from.Date == from);
             await create_lock.WaitAsync();
 
             CVWeek? @this = null;
@@ -96,7 +99,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         public static CVWeek NewUnsafe(DateTime from, bool GenChain = true)
         {
-            var monday = from.AddDays(-from.DayOfWeek.AsInt32());
+            Debug.Assert(from.Date == from);
+            var monday = from.Date.AddDays(-from.DayOfWeek.AsInt32());
             // var debug = monday.AddDays(6).Date;
             // Debug.Assert(debug != DateTime.Now.Date);
             if (cached_objects.ContainsKey(monday))
@@ -162,6 +166,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             if (ReferenceEquals(CVDay.SelectedDay!.Parent, this))
                 throw new Exception();
+            cached_objects.Remove(this.From);
 
             CVWeek? tmp;
             if ((tmp = CVWeek.CacheGetUnsafe(this.To.AddDays(1))) is not null) // TODO Check if instance at date exists
@@ -172,8 +177,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             foreach (CVDay item in this.grid.Children)
                 item.BeginDestroy();
 
-            cached_objects.Remove(this.From);
             this.grid.Children.Clear();
+            this.Destroyed = true;
         }
 
         internal static CVWeek GetWeekContaining(DateTime date)
