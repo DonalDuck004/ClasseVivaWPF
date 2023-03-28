@@ -72,7 +72,7 @@ namespace ClasseVivaWPF.LoginControls
             var raw_content = Client.INSTANCE.Contents().ConfigureAwait(false).GetAwaiter().GetResult();
             CVHome.INSTANCE.Contents = new();
 
-            foreach (var item in raw_content.OrderBy(x => x.Order))
+            foreach (var item in raw_content.OrderByDescending(x => x.BeginDate))
             {
                 if (item.BeginDate < item.ExpireDate)
                     continue;

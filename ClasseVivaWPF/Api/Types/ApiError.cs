@@ -5,9 +5,9 @@ namespace ClasseVivaWPF.Api.Types
 {
     public class ApiError : Exception
     {
-        public ApiErrorObject Error { get; init; }
+        public ApiErrorObject? Error { get; init; }
 
-        public ApiError(ApiErrorObject Error) : base(Error.Message)
+        public ApiError(ApiErrorObject? Error) : base(Error?.Message)
         {
             this.Error = Error;
         }

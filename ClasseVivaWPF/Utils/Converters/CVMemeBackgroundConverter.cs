@@ -10,7 +10,7 @@ namespace ClasseVivaWPF.Utils.Converters
 {
     class CVMemeBackgroundConverter : IValueConverter
     {
-        private static Dictionary<Uri, SolidColorBrush> cache = new Dictionary<Uri, SolidColorBrush>();
+        private static Dictionary<string, SolidColorBrush> cache = new Dictionary<string, SolidColorBrush>();
 
         public object? Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -22,18 +22,19 @@ namespace ClasseVivaWPF.Utils.Converters
                 img = new((Uri)value);
             else
                 throw new Exception();
-            if (cache.ContainsKey(img.UriSource))
-                return cache[img.UriSource];
 
-            
+
             // 31 0 192 255
-
-            var rect = new Int32Rect(0, 0, img.PixelWidth, (img.PixelHeight / 6));
-
+            var rect = new Int32Rect(0, 0, img.PixelWidth, img.PixelHeight / 6);
             var stride = (rect.Width * 32 + 7) / 8;
 
             var buffer = new byte[stride * rect.Height];
             img.CopyPixels(rect, buffer, stride, 0);
+
+            var md5 = buffer.GetMD5();
+            if (cache.ContainsKey(md5))
+                return cache[md5];
+
 
             var buff = new byte[buffer.Length / 4][];
 
@@ -44,8 +45,8 @@ namespace ClasseVivaWPF.Utils.Converters
             }
 
             var x = buff.GroupBy(x => x, g => 1, (k, g) => (k, g.Count())).MaxBy(x => x.Item2)!.k;
-            
-            return cache[img.UriSource] = new SolidColorBrush(new Color()
+
+            return cache[md5] = new SolidColorBrush(new Color()
             {
                 B = x[0],
                 G = x[1],

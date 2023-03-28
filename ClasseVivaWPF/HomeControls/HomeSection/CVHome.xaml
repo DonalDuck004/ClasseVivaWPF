@@ -38,7 +38,6 @@
                     <local:CVCalenderSrollerViewer HorizontalScrollBarVisibility="Hidden"
                                                    VerticalScrollBarVisibility="Disabled"
                                                    PanningMode="Both" x:Name="days_scroller"
-                                                   KeyDown="DaysOnKeyDown"
                                                    PreviewMouseDown="OnSetScrollerOffest" 
                                                    PreviewMouseUp="OnSnapScroller">
                         <StackPanel x:Name="days_wp" Orientation="Horizontal">
@@ -115,6 +114,7 @@
                                  Grid.Row="1" 
                                  PreviewMouseDown="OnSetScrollerOffestFromContent" 
                                  PreviewMouseUp="OnSnapScrollerFromContent"
+                                 Focusable="False"
                                  x:Name="homework_scroller">
             <StackPanel></StackPanel>
         </local:CVHomeworksViewer>

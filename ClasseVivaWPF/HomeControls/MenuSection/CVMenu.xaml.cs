@@ -24,7 +24,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVMenu.xaml
     /// </summary>
-    public partial class CVMenu : UserControl
+    public partial class CVMenu : UserControl, IOnSwitch
     {
         private SemaphoreSlim PreventOverlap { get; } = new SemaphoreSlim(1, 1);
         private bool CanPress => PreventOverlap.CurrentCount == 1;
@@ -77,6 +77,11 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         private void OpenExtra(object sender, MouseButtonEventArgs e)
         {
             new CVExtra().Inject();
+        }
+
+        public void OnSwitch()
+        {
+
         }
     }
 }

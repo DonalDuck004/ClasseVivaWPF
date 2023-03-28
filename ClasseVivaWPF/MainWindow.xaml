@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
-        KeyDown="window_KeyDown"
+        Keyboard.KeyDown="window_KeyDown" Focusable="True"
+        Keyboard.LostKeyboardFocus="window_LostKeyboardFocus"
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">

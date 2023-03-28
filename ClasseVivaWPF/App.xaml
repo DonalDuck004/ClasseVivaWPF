@@ -24,7 +24,7 @@
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>
-
+        
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource FT}"></Style>

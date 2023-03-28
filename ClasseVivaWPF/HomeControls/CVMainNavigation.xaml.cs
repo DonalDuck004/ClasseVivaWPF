@@ -14,7 +14,7 @@ namespace ClasseVivaWPF.HomeControls
     /// <summary>
     /// Logica di interazione per CVMainNavigation.xaml
     /// </summary>
-    public partial class CVMainNavigation : UserControl
+    public partial class CVMainNavigation : UserControl, IOnKeyDown
     {
         public static CVMainNavigation? INSTANCE = null;
 
@@ -33,7 +33,13 @@ namespace ClasseVivaWPF.HomeControls
 
         internal void SelectVoice(CVMainMenuIconValues idx)
         {
-            Current.Children.Clear();
+            if (Current.Children.Count != 0)
+            {
+                ((IOnSwitch)Current.Children[0]).OnSwitch();
+                Current.Children.Clear();
+            }
+
+            // IOnSwitch
             if (idx is CVMainMenuIconValues.Home)
             {
                 Current.Children.Add(CVHome.INSTANCE);
@@ -42,6 +48,14 @@ namespace ClasseVivaWPF.HomeControls
             }
             else if (idx is CVMainMenuIconValues.Menu){
                 Current.Children.Add(new CVMenu());
+            }
+        }
+
+        public void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Current.Children.Count != 0 && Current.Children[0] is IOnKeyDown kd)
+            {
+                kd.OnKeyDown(sender, e);
             }
         }
     }

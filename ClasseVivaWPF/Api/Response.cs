@@ -46,6 +46,9 @@ namespace ClasseVivaWPF.Api
             if (this.Text.Contains("error"))
                 return new T[0];
 
+            if (this.Text == "") // Bug in backend
+                return new T[0];
+
             return JsonConvert.DeserializeObject<T[]>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
         }
 

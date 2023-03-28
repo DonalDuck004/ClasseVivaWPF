@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,10 +19,13 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVExtra.xaml
     /// </summary>
-    public partial class CVExtra : UserControl
+    public partial class CVExtra : UserControl, IOnKeyDown, ICloseRequested, IOnChildClosed
     {
+        public static CVExtra? INSTANCE = null;
+
         public CVExtra()
         {
+            CVExtra.INSTANCE = this;
             InitializeComponent();
         }
 
@@ -47,9 +51,29 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             MainWindow.INSTANCE.AddFieldOverlap(this);
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void SetContent(Grid grid)
         {
+            this.content_wp.Content = grid;
+        }
 
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            this.SetContent(((CVExtraHeader)h_grid.Children[0]).GContent);
+
+            this.Loaded -= OnLoad;
+        }
+
+        public void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            content_wp.RaiseEvent(e);
+        }
+
+        public void OnChildClosed()
+        {
+            if (CVExtraHeader.SavedUpdated && CVExtraHeader.SelectedH!.HeaderText == CVExtraHeader.NAMES[CVExtraHeader.NAMES.Length - 1])
+            {
+                CVExtraHeader.SelectedH!.IsSelected = true;
+            }
         }
     }
 }

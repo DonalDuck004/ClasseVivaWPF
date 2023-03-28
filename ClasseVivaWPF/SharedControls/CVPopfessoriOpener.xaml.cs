@@ -67,6 +67,5 @@ namespace ClasseVivaWPF.SharedControls
             this.WebView.Dispose();
             GC.Collect();
         }
-
     }
 }

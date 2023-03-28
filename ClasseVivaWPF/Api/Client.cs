@@ -263,12 +263,21 @@ namespace ClasseVivaWPF.Api
             return new UriBuilder("https://web.spaggiari.eu/repx/app/default/restbridge.php") { Query = query.ToString() }.Uri;
         }
 
-        // https://web.spaggiari.eu/rest/v1/auth/minigame
-        
         public async Task<MinigameCredentials> GetMinigameCredentials()
         {
             var response = await this.Send(HttpMethod.Get, "rest/v1/auth/minigame", null, allow_cache: false).ConfigureAwait(false);
             var content = response.GetObject<MinigameCredentials>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Bookmark[]> GetBookmarks()
+        {
+            var response = await this.Send(HttpMethod.Get, "auc/api/v2/getBookmarks", null, allow_cache: false).ConfigureAwait(false);
+            var content = response.GetObjectList<Bookmark>();
 
             if (content is null)
                 response.GetError();

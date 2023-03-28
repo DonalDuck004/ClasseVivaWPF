@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.HomeControls.MenuSection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,14 +70,20 @@ namespace ClasseVivaWPF.SharedControls
             set => base.SetValue(CounterProperty, value);
         }
 
+        private bool? SavedOriginalFlag = null;
+
         private async void OnLoad(object sender, RoutedEventArgs e)
         {
             try
             {
                 var result = await Client.INSTANCE.GetInteractions(this.ID);
-                
+
                 this.Liked = result.IsLiked;
                 this.Saved = result.IsSaved;
+
+                if (CVExtraHeader.SavedUpdated is false)
+                    this.SavedOriginalFlag = this.Saved;
+
                 this.Counter = result.LikesTo;
                 this.DataFetched = true;
             }
@@ -132,7 +139,11 @@ namespace ClasseVivaWPF.SharedControls
                     await Client.INSTANCE.DeleteInteraction(this.ID, Interaction.REACTION_BOOKMARK);
                 else
                     await Client.INSTANCE.SetInteraction(this.ID, Interaction.REACTION_BOOKMARK);
-            this.Saved = !this.Saved;
+
+                this.Saved = !this.Saved;
+
+                if (this.SavedOriginalFlag is not null)
+                    CVExtraHeader.SavedUpdated = this.SavedOriginalFlag != this.Saved;
             }
             catch (ApiError exc)
             {

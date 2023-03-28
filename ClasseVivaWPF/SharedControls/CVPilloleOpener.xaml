@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:root="clr-namespace:ClasseVivaWPF" Focusable="False"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
@@ -44,7 +44,8 @@
                               local:CVScollerView.CatchHeightProperty="False"
                               Name="Scroller"
                               PreviewMouseDown="OnSetScrollerOffest" 
-                              PreviewMouseUp="OnSnapScroller">
+                              PreviewMouseUp="OnSnapScroller"
+                              Focusable="False">
                     <StackPanel Orientation="Horizontal" x:Name="ImagesWrapper" HorizontalAlignment="Center">
                         <StackPanel.Resources>
                             <Style TargetType="Image">
@@ -130,7 +131,16 @@
                 </Grid>
             </Border>
         </Grid>
-        <ScrollViewer local:CVScollerView.IsEnabled="True" local:CVScollerView.CatchWidthProperty="False" Grid.Column="1" Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" Margin="0,0,10,0">
+        <ScrollViewer
+            local:CVScollerView.IsEnabled="True" 
+            local:CVScollerView.CatchWidthProperty="False"
+            Grid.Column="1" 
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled" 
+            VerticalScrollBarVisibility="Hidden" 
+            Name="ExtraScroller"
+            Margin="0,0,10,0"
+            Focusable="False">
             <StackPanel Orientation="Vertical" x:Name="ExtraWp">
             </StackPanel>
         </ScrollViewer>

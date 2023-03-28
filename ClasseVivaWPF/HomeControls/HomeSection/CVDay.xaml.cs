@@ -216,13 +216,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     Image tmp;
 
                     sub_content.Children.Add(tmp = new() { SnapsToDevicePixels = true });
-                    RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.HighQuality);
                     
                     tmp.AsyncLoading(content.PanoramicImg!, () => {
                         tmp.Height = 200;
                         tmp.Cursor = Cursors.Hand;
                         tmp.Tag = content;
-                        tmp.MouseLeftButtonDown += OpenPage;
+                        tmp.SetOpener();
                     });
                     
                     // Todo Tag ti open Extr
@@ -307,31 +306,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
 
             return this._content;
-        }
-
-        private void OpenPage(object sender, MouseButtonEventArgs e)
-        {
-            var content = (Content)((FrameworkElement)sender).Tag;
-            // new OpenUriInfo(content.OpensExternally, content.Link is null ? null : new Uri(content.Link), content.ContentID, content.Type)
-            if (content.OpensExternally)
-                new Uri(content.Link!).SystemOpening();
-            else if (content.Type == Api.Types.Content.TYPE_POPFESSORI)
-            {
-                new CVPopfessoriOpener(content.ContentID)
-                {
-                    Uri = new Uri(content.Link!)
-                }.Inject();
-            }
-            else if (content.Type == Api.Types.Content.TYPE_PILLOLE)
-            {
-                new CVPilloleOpener(content).Inject();
-            }
-            else if (content.Type == Api.Types.Content.TYPE_MINIGAMES)
-            {
-                new CVMinigamesOpener(content).Inject();
-            }else
-                throw new Exception();
-
         }
 
         internal void BeginDestroy()

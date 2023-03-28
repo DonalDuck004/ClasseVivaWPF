@@ -13,7 +13,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// <summary>
     /// Logica di interazione per CVHome.xaml
     /// </summary>
-    public partial class CVHome : UserControl
+    public partial class CVHome : UserControl, IOnSwitch, IOnKeyDown
     {
         public static CVHome INSTANCE { get; private set; } = new();
         public Dictionary<DateTime, List<Content>>? Contents { get; set; } = null;
@@ -33,7 +33,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             this.Init();
 
-            Application.Current.MainWindow.KeyDown += OnKeyDown;
             this.days_scroller.SizeChanged += (s, e) => {
                 if (CVDay.SelectedDay is not null)
                     CVDay.SelectedDay.Parent.BringIntoView();
@@ -141,10 +140,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        public void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key is Key.Left || e.Key is Key.Right)
-                this.days_scroller.RaiseEvent(e);
+                DaysOnKeyDown(sender, e);
             else if(e.Key is Key.Down || e.Key is Key.Up)
                 this.homework_scroller.RaiseEvent(e);
         }
@@ -152,10 +151,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private void DaysOnKeyDown(object sender, KeyEventArgs e)
         {
             if (CVDay.SelectedDay is null || (e.Key is not Key.Left && e.Key is not Key.Right))
-            {
-                e.Handled = false;
                 return;
-            }
 
             if (e.KeyboardDevice.Modifiers is ModifierKeys.Control)
             {
@@ -181,8 +177,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
                 CVDay.SelectedDay.Parent.SelectChild(idx);
             }
-
-            e.Handled = true;
         }
 
         private void OnOpenCalendar(object sender, MouseButtonEventArgs e)
@@ -241,6 +235,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private void Storyboard_Completed(object sender, EventArgs e)
         {
             this.Loader.Visibility = Visibility.Hidden;
+        }
+
+        public void OnSwitch()
+        {
         }
     }
 }

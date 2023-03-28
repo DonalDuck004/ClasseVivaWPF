@@ -3,6 +3,7 @@ using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Converters;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,7 +20,7 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVMemeViewer.xaml
     /// </summary>
-    public partial class CVPilloleOpener : CVExtraBase, ICloseRequested
+    public partial class CVPilloleOpener : CVExtraBase, ICloseRequested, IOnKeyDown
     {
 #if DEBUG
         private CVPilloleOpener()
@@ -37,50 +38,8 @@ namespace ClasseVivaWPF.SharedControls
         }
         
         private (Image, string)[] Images;
-
-        private void StartRendering()
-        {
-            foreach ((var wp, var url) in Images)
-            {
-                Points.Children.Add(new Border());
-                wp.AsyncLoading(url);
-
-                this.ImagesWrapper.Children.Add(wp);
-            }
-
-            if (Images.Length != 1)
-            {
-                var bf = new Binding()
-                {
-                    Path = new("ActualWidth"),
-                    ElementName = "Scroller",
-                    Converter = new ActionConverter(),
-                    ConverterParameter = () =>
-                    {
-                        var l = (Scroller.ActualWidth - Images[0].Item1.ActualWidth) / 2;
-                        return (object)new Thickness(l, 0, 0, 0);
-                    },
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-
-                BindingOperations.SetBinding(Images[0].Item1, Image.MarginProperty, bf);
-
-                var br = new Binding()
-                {
-                    Path = new("ActualWidth"),
-                    ElementName = "Scroller",
-                    Converter = new ActionConverter(),
-                    ConverterParameter = () =>
-                    {
-                        var r = (Scroller.ActualWidth - Images[Images.Length - 1].Item1.ActualWidth) / 2;
-                        return (object)new Thickness(0, 0, r, 0);
-                    },
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-
-                BindingOperations.SetBinding(Images[Images.Length - 1].Item1, Image.MarginProperty, br);
-            }
-        }
+        private double? scroll_horizontal_offset = null;
+        private DispatcherTimer? last_animator = null;
 
         public CVPilloleOpener(Content content) : base(content.ContentID)
         {
@@ -94,12 +53,18 @@ namespace ClasseVivaWPF.SharedControls
             else
                 Images = new[] { (new Image(), content.Gallery!) };
 
-            // Todo Gestire .Detail 13 feb.
             StartRendering();
 
             this.DataContext = this;
             this.SelectedContent = Images[0].Item1;
-            this.Loaded += (s, e) => Canvas.SetLeft(this.Pointer, GetPointLeft());
+            this.Loaded += OnLoad;
+        }
+
+        private void OnLoad(object sender, EventArgs e)
+        {
+            Canvas.SetLeft(this.Pointer, GetPointLeft());
+
+            this.Loaded -= OnLoad;
         }
 
         public bool Multi
@@ -114,8 +79,6 @@ namespace ClasseVivaWPF.SharedControls
             var pos = Points.Children.OfType<Border>().ElementAt(idx.Value).TransformToAncestor(Points).Transform(new(0, 0));
             return pos.X;
         }
-
-        private DispatcherTimer? last_animator = null;
 
         public Image SelectedContent
         {
@@ -164,15 +127,13 @@ namespace ClasseVivaWPF.SharedControls
             return i;
         }
 
-        private double? scroll_horizontal_offset = null;
-
         private void OnSnapScroller(object sender, MouseButtonEventArgs e)
         {
             if (scroll_horizontal_offset is null)
                 return;
 
             var required = this.Scroller.ActualWidth / 20;
-            int idx = GetImageIndex();
+            var idx = this.ImagesWrapper.Children.OfType<Image>().ReferenceIndexOf(this.SelectedContent);
 
             if (this.Scroller.HorizontalOffset - scroll_horizontal_offset > required) // Next
                 idx++;
@@ -187,13 +148,93 @@ namespace ClasseVivaWPF.SharedControls
             this.SelectedContent = (Image)this.ImagesWrapper.Children[idx];
             scroll_horizontal_offset = null;
         }
+
+        private void GotoPoint(object sender, EventArgs e)
+        {
+            var x = this.Points.Children.OfType<Border>().ToArray();
+            var i = x.ReferenceIndexOf(sender);
+            this.SelectedContent = Images[i].Item1;
+        }
+
+        private void StartRendering()
+        {
+            Border tmp;
+
+            foreach ((var wp, var url) in Images)
+            {
+                Points.Children.Add(tmp = new Border());
+                tmp.MouseLeftButtonDown += GotoPoint;
+                wp.AsyncLoading(url);
+
+                this.ImagesWrapper.Children.Add(wp);
+            }
+
+            if (Images.Length != 1)
+            {
+                var bf = new Binding()
+                {
+                    Path = new("ActualWidth"),
+                    ElementName = "Scroller",
+                    Converter = new ActionConverter(),
+                    ConverterParameter = () =>
+                    {
+                        var l = (Scroller.ActualWidth - Images[0].Item1.ActualWidth) / 2;
+                        return (object)new Thickness(l, 0, 0, 0);
+                    },
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
+
+                BindingOperations.SetBinding(Images[0].Item1, Image.MarginProperty, bf);
+
+                var br = new Binding()
+                {
+                    Path = new("ActualWidth"),
+                    ElementName = "Scroller",
+                    Converter = new ActionConverter(),
+                    ConverterParameter = () =>
+                    {
+                        var r = (Scroller.ActualWidth - Images[Images.Length - 1].Item1.ActualWidth) / 2;
+                        return (object)new Thickness(0, 0, r, 0);
+                    },
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
+
+                BindingOperations.SetBinding(Images[Images.Length - 1].Item1, Image.MarginProperty, br);
+            }
+        }
+
         private void OnSetScrollerOffest(object sender, MouseButtonEventArgs e)
         {
             scroll_horizontal_offset = this.Scroller.HorizontalOffset;
         }
+
+        public void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            var idx = this.ImagesWrapper.Children.OfType<Image>().ReferenceIndexOf(this.SelectedContent);
+
+            if (e.Key is Key.Left)
+                idx--;
+            else if (e.Key is Key.Right)
+                idx++;
+            else if (e.Key is Key.Up || e.Key is Key.Down)
+            {
+                this.ExtraScroller.RaiseEvent(e);
+                return;
+            }
+            else
+                return;
+
+            if (idx < 0)
+                idx = this.Images.Length - 1;
+            else if (idx == this.Images.Length)
+                idx = 0;
+
+            this.SelectedContent = this.Images[idx].Item1;
+            e.Handled = true;
+        }
+
         public void OnCloseRequested()
         {
-            // this.GridWP.Children.Clear();
             this.Content = null;
             foreach (var item in this.Images)
                 item.Item1.Source = null;

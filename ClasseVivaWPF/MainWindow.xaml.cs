@@ -37,6 +37,8 @@ namespace ClasseVivaWPF
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
         }
 
+        public bool HasOnlyMainField => this.wrapper.Children.Count == 1;
+
         public void AddFieldOverlap(FrameworkElement element)
         {
             if (this.wrapper.Children.Count - 1 >= Config.MAX_OVERLAPPED_WIN)
@@ -63,23 +65,20 @@ namespace ClasseVivaWPF
             }
 
             this.wrapper.Children.Insert(0, element);
-            element.Focus();
         }
 
         public void RemoveField(UIElement element, bool Focus = true) => RemoveField((FrameworkElement)element, Focus);
 
 
-        public void RemoveField(FrameworkElement element, bool Focus = true)
+        public void RemoveField(FrameworkElement element)
         {
             if (element is ICloseRequested sub_win)
                 sub_win.OnCloseRequested();
 
             this.wrapper.Children.Remove(element);
 
-            if (Focus && this.wrapper.Children.Count != 0)
-            {
-                this.wrapper.Children[this.wrapper.Children.Count - 1].Focus();
-            }
+            if (this.wrapper.Children.Count != 0 && this.wrapper.Children[this.wrapper.Children.Count - 1] is IOnChildClosed occ)
+                occ.OnChildClosed();
         }
 
         public new void Show()
@@ -128,11 +127,19 @@ namespace ClasseVivaWPF
 
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key is Key.Escape && this.wrapper.Children.Count > 1)
+            if (e.Key is Key.Escape)
             {
-                var child = this.wrapper.Children[this.wrapper.Children.Count - 1];
+                if (this.wrapper.Children.Count > 1)
+                {
+                    var child = this.wrapper.Children[this.wrapper.Children.Count - 1];
 
-                this.RemoveField(child);
+                    this.RemoveField(child);
+                }
+
+            }
+            else if (this.wrapper.Children.Count != 0 && this.wrapper.Children[this.wrapper.Children.Count - 1] is IOnKeyDown kw)
+            {
+                kw.OnKeyDown(sender, e);
             }
         }
 
@@ -209,6 +216,11 @@ namespace ClasseVivaWPF
                 return;
             }
             return;
+        }
+
+        private void window_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

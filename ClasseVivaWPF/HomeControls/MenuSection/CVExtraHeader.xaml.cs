@@ -1,4 +1,9 @@
-﻿using System;
+﻿using ClasseVivaWPF.Api;
+using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.HomeControls.HomeSection;
+using ClasseVivaWPF.Utils;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using CVContent = ClasseVivaWPF.Api.Types.Content;
+
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {
     /// <summary>
@@ -20,54 +27,149 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// </summary>
     public partial class CVExtraHeader : UserControl
     {
+        public static bool SavedUpdated = false;
+
+
         public static string[] NAMES = { "In 1 Minuto", "Popfessori", "Minigame", "Salvati" };
-
-        private Dictionary<string, StackPanel> CachedContents = new Dictionary<string, StackPanel>();
-
+        public static string[] CATEGORIES = { CVContent.TYPE_PILLOLE,
+                                              CVContent.TYPE_POPFESSORI,
+                                              CVContent.TYPE_MINIGAMES };
+        private static Dictionary<string, Grid> cache = new Dictionary<string, Grid>();
         public static CVExtraHeader? SelectedH { get; private set; } = null;
-        
-        public static DependencyProperty SelectedProperty;
+        public static DependencyProperty IsSelectedProperty;
         public static DependencyProperty HeaderTextProperty;
 
 
         static CVExtraHeader()
         {
-            SelectedProperty = DependencyProperty.Register("Selected", typeof(bool), typeof(CVExtraHeader), new PropertyMetadata(false));
+            IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVExtraHeader), new PropertyMetadata(false));
             HeaderTextProperty = DependencyProperty.Register("HeaderText", typeof(string), typeof(CVExtraHeader));
         }
 
-        public StackPanel ContentPanel
+        public List<Border> GetGrid()
         {
-            get
-            {
-                if (CachedContents.ContainsKey(this.HeaderText))
-                    return CachedContents[this.HeaderText];
+            var category = CATEGORIES[Array.IndexOf(NAMES, this.HeaderText)];
+            var images = new List<Border>();
 
-                return CachedContents[this.HeaderText] = GetContent();
+            foreach (var contents in CVHome.INSTANCE.Contents!.Values)
+            {
+                foreach (var content in contents)
+                {
+                    if (content.Type == category)
+                    {
+                        var tmp = new Image();
+                        RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.HighQuality);
+
+                        tmp.AsyncLoading(content.Gallery!, () =>
+                        {
+                            tmp.Tag = content;
+                            tmp.SetOpener(on_release: true);
+                        }, DecodePixelHeight: 256);
+
+                        images.Add(new Border() { Child = tmp });
+                    }
+                }
+            }
+
+            return images;
+        }
+
+        private Content GetContentById(int id)
+        {
+            foreach (var contents in CVHome.INSTANCE.Contents!.Values)
+                foreach (var content in contents)
+                    if (content.ContentID == id)
+                        return content;
+
+            throw new ValueUnavailableException();
+        }
+
+        public List<Border> GetGridFromBookmarks()
+        {
+            var images = new List<Border>();
+            var contents = Client.INSTANCE.GetBookmarks().Result;
+            foreach (var content in contents)
+            {
+                var tmp = new Image();
+                RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.HighQuality);
+
+                tmp.AsyncLoading(content.Img, () =>
+                {
+                    tmp.Tag = this.GetContentById(content.Id);
+                    tmp.SetOpener(on_release: true);
+                }, DecodePixelHeight: 256);
+
+                images.Add(new Border() { Child = tmp });
+            }
+
+            return images;
+        }
+
+        public void SortGrid(List<Border> images)
+        {
+            const int MAX_FOR_ROW = 5;
+            for (int _ = 0; _ < MAX_FOR_ROW; _++)
+                cache[this.HeaderText].ColumnDefinitions.Add(new());
+
+            int r = 0;
+            foreach (var chunk in images.Chunk(MAX_FOR_ROW))
+            {
+                cache[this.HeaderText].RowDefinitions.Add(new());
+                for (int i = 0; i < chunk.Length; i++)
+                {
+                    cache[this.HeaderText].Children.Add(chunk[i]);
+                    Grid.SetColumn(chunk[i], i);
+                    Grid.SetRow(chunk[i], r);
+                }
+
+                r++;
             }
         }
 
-        private StackPanel GetContent()
+        public Grid GContent
         {
-            // TODO
-            return new();
+            get
+            {
+                List<Border>? images = null;
+
+                if (this.HeaderText == NAMES[3])
+                {
+                    if (CVExtraHeader.SavedUpdated && CVExtraHeader.cache.ContainsKey(this.HeaderText))
+                        cache.Remove(this.HeaderText);
+
+                    images = this.GetGridFromBookmarks();
+                    CVExtraHeader.SavedUpdated = false;
+                }
+
+                if (cache.ContainsKey(this.HeaderText))
+                    return cache[this.HeaderText];
+
+                if (images is null)
+                    images = this.GetGrid();
+
+                // TODO
+                CVExtraHeader.cache[this.HeaderText] = new();
+                this.SortGrid(images);
+
+                return CVExtraHeader.cache[this.HeaderText];
+            }
         }
 
-        public bool Selected
+        public bool IsSelected
         {
-            get => (bool)GetValue(CVExtraHeader.SelectedProperty);
+            get => (bool)GetValue(CVExtraHeader.IsSelectedProperty);
             set {
                 
                 if (value)
                 {
                     if (CVExtraHeader.SelectedH is not null)
-                        CVExtraHeader.SelectedH.Selected = false;
+                        CVExtraHeader.SelectedH.IsSelected = false;
 
                     CVExtraHeader.SelectedH = this;
+                    CVExtra.INSTANCE!.SetContent(this.GContent);
                 }
 
-
-                SetValue(CVExtraHeader.SelectedProperty, value);
+                SetValue(CVExtraHeader.IsSelectedProperty, value);
             }
         }
 
@@ -79,7 +181,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
 
         private void OnLoad(object sender, EventArgs e)
         {
-            if (this.Selected)
+            if (this.IsSelected)
                 CVExtraHeader.SelectedH = this;
 
             this.Loaded -= OnLoad;
@@ -95,11 +197,13 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         public static void DestroyAll()
         {
             CVExtraHeader.SelectedH = null;
+            CVExtraHeader.cache.Clear();
         }
 
         private void OnSelected(object sender, MouseButtonEventArgs e)
         {
-            this.Selected = true;
+            this.IsSelected = true;
         }
+
     }
 }

@@ -11,9 +11,9 @@
         <converters:ColorIfConverter x:Key="SelectedConverter" FalseColor="{StaticResource ResourceKey=CV_RED_COLOR}" TrueColor="White"></converters:ColorIfConverter>
     </UserControl.Resources>
 
-    <Border CornerRadius="25" BorderThickness="2" BorderBrush="White" Background="{Binding Selected, Converter={StaticResource SelectedConverter}}">
+    <Border CornerRadius="25" BorderThickness="2" BorderBrush="White" Background="{Binding Path=IsSelected, Converter={StaticResource SelectedConverter}}">
         <DockPanel Background="Transparent">
-            <Label Content="{Binding HeaderText}" Foreground="{Binding Selected, Converter={StaticResource SelectedConverter}, ConverterParameter=swap}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"></Label>
+            <Label Content="{Binding HeaderText}" Foreground="{Binding Path=IsSelected, Converter={StaticResource SelectedConverter}, ConverterParameter=swap}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"></Label>
         </DockPanel>
     </Border>
 </UserControl>
