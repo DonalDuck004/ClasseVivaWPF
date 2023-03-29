@@ -34,13 +34,14 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Name="head_wp">
+                <StackPanel Grid.Row="0" Name="head_wp" Focusable="False">
                     <local:CVCalenderSrollerViewer HorizontalScrollBarVisibility="Hidden"
                                                    VerticalScrollBarVisibility="Disabled"
                                                    PanningMode="Both" x:Name="days_scroller"
                                                    PreviewMouseDown="OnSetScrollerOffest" 
+                                                   Focusable="False"
                                                    PreviewMouseUp="OnSnapScroller">
-                        <StackPanel x:Name="days_wp" Orientation="Horizontal">
+                        <StackPanel x:Name="days_wp" Orientation="Horizontal" Focusable="False">
                             <StackPanel.Resources>
                                 <Style TargetType="local:CVWeek">
                                     <Setter Property="Width" Value="{Binding ElementName=head_wp, Path=ActualWidth}"></Setter>
@@ -49,9 +50,11 @@
                         </StackPanel>
                     </local:CVCalenderSrollerViewer>
                 </StackPanel>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar" Margin="0,0,0,2">
-                    <ContentControl Background="#6a96ae" Template="{StaticResource ResourceKey=CalendarIcon}"/>
-                    <TextBlock Name="day_lbl" Foreground="#6a96ae" VerticalAlignment="Center" Margin="3,1,0,0"></TextBlock>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar" Margin="0,0,0,2" Cursor="Hand" Focusable="False">
+                    <WrapPanel Background="Transparent">
+                        <ContentControl Background="#6a96ae" Template="{StaticResource ResourceKey=CalendarIcon}" Width="16" Height="16"/>
+                        <TextBlock Name="day_lbl" Foreground="#6a96ae" VerticalAlignment="Center" Margin="3,1,0,0"></TextBlock>
+                    </WrapPanel>
                 </StackPanel>
             </Grid>
         </StackPanel>

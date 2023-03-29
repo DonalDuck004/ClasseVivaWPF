@@ -25,6 +25,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private static DependencyProperty FillerColorProperty;
         private static DependencyProperty BackgroundColorProperty;
         private static DependencyProperty FontColorProperty;
+        private static DependencyProperty IconTemplateProperty;
 
         static CVHomeTextBox()
         {
@@ -35,6 +36,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Config.OPAQUE_WHITE));
             BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Config.OPAQUE_WHITE));
             FontColorProperty = DependencyProperty.Register("FontColor", typeof(SolidColorBrush), typeof(CVHomeTextBox), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+            IconTemplateProperty = DependencyProperty.Register("IconTemplate", typeof(ControlTemplate), typeof(CVHomeTextBox));
         }
 
         internal CVHomeTextBox()
@@ -74,11 +76,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 target.Add(new Run() { Text = init_value, Foreground = this.FontColor });
         }
 
-        private static void OpenUrl(object sender, RequestNavigateEventArgs e)
-        {
-            e.Uri.SystemOpening();
-        }
-
         public static CVHomeTextBox FromLesson(Lesson lesson)
         {
             CVHomeTextBox @this = new();
@@ -97,6 +94,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 @this.last_wp.Height = 0;
 
                 @this.Row2Control.VerticalAlignment = VerticalAlignment.Bottom;
+                @this.main_wp.RowDefinitions.RemoveAt(2);
+                @this.main_wp.RowDefinitions.RemoveAt(2);
             }
             else
             {
@@ -107,7 +106,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 });
                 @this.ParseText(lesson.LessonArg, @this.lesson_txt.Inlines, ": ");
             }
+
+            @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("LessonIcon");
             @this.LowerImgWP.Height = 0;
+
             return @this;
         }
 
@@ -123,6 +125,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
             }
 
+            @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("CalendarIcon");
+
             @this.FillerColor = Colors.WhiteSmoke;
 
             @this.ParseText(e.Notes, @this.lesson_txt.Inlines);
@@ -136,12 +140,13 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (e.IsAbsence)
             {
                 @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xD0, 0x5A, 0x50);
+                @this.line.Visibility = Visibility.Hidden;
+                @this.line.Height = 0;
                 @this.Title = "Assenze";
             }
             else if (e.IsEarlyExit)
             {
                 @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xDB, 0xB6, 0x3B);
-                // 0xC5, 0xA5, 0x35
                 @this.Title = "Uscita anticipata";
             }
             else if (e.IsLate || e.IsShortLate)
@@ -159,10 +164,22 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (e.EvtHPos.HasValue)
                 @this.Row2 = $"A {e.EvtHPos}° ora";
             else
+            {
                 Grid.SetRowSpan(@this.TitleControl, 2);
+                @this.Row2Control.Height = 0;
+            }
 
-            @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
+            @this.TitleControl.VerticalAlignment = VerticalAlignment.Bottom;
             @this.LowerImgWP.Height = 0;
+
+            @this.UpperImgWP.Background = new SolidColorBrush(Colors.White);
+            @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("AbsenceIcon");
+            Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
+            Grid.SetZIndex(@this.UpperImgWPContainer, 1);
+            @this.UpperImgWPContainer.Background = new SolidColorBrush(@this.FillerColor);
+            @this.UpperImgWP.Margin = new Thickness(0, 10, 0, 10);
+
+            @this.last_wp.VerticalAlignment = VerticalAlignment.Top;
 
             return @this;
         }
@@ -189,6 +206,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             @this.lesson_txt.Inlines.Add(new Run() { FontSize = 24, Foreground = @this.TitleControl.Foreground, Text = evt.DisplayValue, FontWeight = FontWeights.SemiBold });
             @this.lesson_txt.Inlines.Add(new Run() { Foreground = @this.TitleControl.Foreground, Text = $"\t{evt.ComponentDesc}", BaselineAlignment = BaselineAlignment.Center, FontSize = 16 });
             @this.UpperImgWP.Visibility = Visibility.Hidden;
+            @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("GradeIcon");
 
             return @this;
         }
@@ -232,6 +250,17 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             get => (SolidColorBrush)base.GetValue(FontColorProperty);
             set => base.SetValue(FontColorProperty, value);
+        }
+
+        public ControlTemplate IconTemplate
+        {
+            get => (ControlTemplate)base.GetValue(IconTemplateProperty);
+            set => base.SetValue(IconTemplateProperty, value);
+        }
+
+        private static void OpenUrl(object sender, RequestNavigateEventArgs e)
+        {
+            e.Uri.SystemOpening();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

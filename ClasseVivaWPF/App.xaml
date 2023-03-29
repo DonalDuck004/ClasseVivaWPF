@@ -225,25 +225,19 @@
                             <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
                             <Setter Property="StrokeLineJoin" Value="Round"></Setter>
                             <Setter Property="StrokeThickness" Value="14"></Setter>
+                            <Setter Property="Stroke" Value="{Binding IsSelected, 
+                                                                      Converter={StaticResource BGConverter},
+                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
                         </Style>
                     </Canvas.Resources>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{Binding IsSelected, 
+                    <Path Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
-                            Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}"
-                            Data="M351.94,240.61l-56.36,-56.36l-56.35,56.36l0,-206.65l112.71,0l0,206.65z"></Path>
+                          Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
+                    <Path Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
+                          Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
+                    <Path Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}"
+                          Data="M351.94,240.61l-56.36,-56.36l-56.35,56.36l0,-206.65l112.71,0l0,206.65z"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -256,20 +250,20 @@
                         <converters:ColorIfConverter x:Key="FGConverter" FalseColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
                         <Style TargetType="Path">
                             <Setter Property="StrokeThickness" Value="14"></Setter>
+                            <Setter Property="Stroke" Value="{Binding IsSelected, 
+                                            Converter={StaticResource BGConverter},
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
                         </Style>
                     </Canvas.Resources>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{Binding IsSelected, 
+                    <Path Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M371.27,139l-13,-64.9A19.13,19.13 0,0 0,339.53 58.7H160.47a19.13,19.13 0,0 0,-18.76 15.37l-13,64.9A19.14,19.14 0,0 1,110 154.35H68.26A38.26,38.26 0,0 0,30 192.61V403A38.26,38.26 0,0 0,68.26 441.3H431.74A38.26,38.26 0,0 0,470 403V192.61a38.26,38.26 0,0 0,-38.26 -38.26H390A19.14,19.14 0,0 1,371.27 139Z"></Path>
+                          Data="M371.27,139l-13,-64.9A19.13,19.13 0,0 0,339.53 58.7H160.47a19.13,19.13 0,0 0,-18.76 15.37l-13,64.9A19.14,19.14 0,0 1,110 154.35H68.26A38.26,38.26 0,0 0,30 192.61V403A38.26,38.26 0,0 0,68.26 441.3H431.74A38.26,38.26 0,0 0,470 403V192.61a38.26,38.26 0,0 0,-38.26 -38.26H390A19.14,19.14 0,0 1,371.27 139Z"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource BGConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
-                            Data="M250,290.33m-93.59,0a93.59,93.59 0,1 1,187.18 0a93.59,93.59 0,1 1,-187.18 0"></Path>
+                          Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
+                          Data="M250,290.33m-93.59,0a93.59,93.59 0,1 1,187.18 0a93.59,93.59 0,1 1,-187.18 0"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -312,18 +306,18 @@
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{Binding IsSelected, 
+                          Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}" 
-                            Data="M81,305.58c8.8,-17.68 29,-30.06 52.45,-30.06s43.65,12.38 52.45,30.06"></Path>
+                          Data="M81,305.58c8.8,-17.68 29,-30.06 52.45,-30.06s43.65,12.38 52.45,30.06"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M274.74,220.71L433.76,220.71"></Path>
+                          Data="M274.74,220.71L433.76,220.71"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
                                             RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M274.74,279.29L433.76,279.29"></Path>
+                          Data="M274.74,279.29L433.76,279.29"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -339,48 +333,102 @@
                             <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
                             <Setter Property="StrokeLineJoin" Value="Round"></Setter>
                             <Setter Property="StrokeThickness" Value="14"></Setter>
+                            <Setter Property="Stroke" Value="{Binding IsSelected, 
+                                                                      Converter={StaticResource BGConverter},
+                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
+                            <Setter Property="Fill" Value="{Binding IsSelected, 
+                                                                    Converter={StaticResource FGConverter},
+                                                                    RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
+                        
                         </Style>
                     </Canvas.Resources>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M37.19,101.96L462.81,101.96"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M37.19,398.04L462.81,398.04"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
-                            Data="M37.19,250L462.81,250"></Path>
+                    <Path Data="M37.19,101.96L462.81,101.96"></Path>
+                    <Path Data="M37.19,398.04L462.81,398.04"></Path>
+                    <Path Data="M37.19,250L462.81,250"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
 
         <ControlTemplate x:Key="CalendarIcon">
-            <Canvas Width="16" Height="16">
-                <Path Stroke="{TemplateBinding Background}" StrokeThickness="1" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
-                    <Path.Data>
-                        <GeometryGroup>
-                            <RectangleGeometry Rect="2,2.6,12,12" RadiusX="1.3" RadiusY="1.3"></RectangleGeometry>
-                            <LineGeometry StartPoint="10.6,1.3" EndPoint="10.6,4"></LineGeometry>
-                            <LineGeometry StartPoint="5.3,1.3" EndPoint="5.3,4"></LineGeometry>
-                            <LineGeometry StartPoint="2,6.6" EndPoint="14,6.6"></LineGeometry>
-                        </GeometryGroup>
-                    </Path.Data>
-                </Path>
-            </Canvas>
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="500" Height="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Background}" Data="M385.33,87.61H457.5V430.43a18,18 0,0 1,-18 18.05H60.54a18,18 0,0 1,-18 -18.05V87.61h72.17"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M162.04,87.61L342.47,87.61"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M132.72,51.52h0a18,18 0,0 1,18 18v36.08a18,18 0,0 1,-18 18h0a18,18 0,0 1,-18 -18V69.57A18,18 0,0 1,132.72 51.52Z"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M367.28,51.52h0a18,18 0,0 1,18.05 18v36.08a18,18 0,0 1,-18.05 18h0a18,18 0,0 1,-18 -18V69.57A18,18 0,0 1,367.28 51.52Z"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M53.78,195.87L450.73,195.87"></Path>
+                </Canvas>
+            </Viewbox>
         </ControlTemplate>
 
+        <ControlTemplate x:Key="GradeIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="500" Height="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Background}" Data="M210.14,223.09a3.55,3.55 0,0 1,0.52 -1.39L284.54,92.07q2.47,-4.39 9,-2.95t7.09,6.56l11.64,149a2.63,2.63 0,0 0,0 0.61,2.55 2.55,0 0,1 0,0.61c-0.35,1.56 -1.54,2.7 -3.56,3.4a10.45,10.45 0,0 1,-5.9 0.43,5 5,0 0,1 -4.35,-4.63L296,211.46l-56.62,-12.62 -16.54,29.48c-1.07,2.18 -3.11,2.93 -6.14,2.26a9.78,9.78 0,0 1,-5 -2.84A4.91,4.91 0,0 1,210.14 223.09ZM245.51,187.94L295.12,199l-6.27,-88.29Z"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M332.46,121.75a4.48,4.48 0,0 1,1.61 -2.69,3 3,0 0,1 2.59,-0.63l18.16,4 4,-18a3.45,3.45 0,0 1,1.72 -2.23,4.24 4.24,0 0,1 5.64,1.26 3.44,3.44 0,0 1,0.61 2.75l-4,18 17.88,4a3.37,3.37 0,0 1,2.21 1.76,4.24 4.24,0 0,1 0.47,3.09 3.72,3.72 0,0 1,-1.71 2.46,3.53 3.53,0 0,1 -2.71,0.53l-17.89,-4L357,150.37a3,3 0,0 1,-1.64 2.18,4.54 4.54,0 0,1 -3.09,0.26 4.38,4.38 0,0 1,-2.6 -1.6,3 3,0 0,1 -0.65,-2.62l4.08,-18.27 -18.16,-4C332.71,125.78 331.9,124.27 332.46,121.75Z"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M167.83,149.57H76.52L186.09,40v91.3A18.27,18.27 0,0 1,167.83 149.57Z"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M76.52,187.24v254.5A18.27,18.27 0,0 0,94.78 460H405.22a18.27,18.27 0,0 0,18.26 -18.26V58.26A18.27,18.27 0,0 0,405.22 40H186.09L76.52,149.57Z"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M172.75,314.57L340.81,314.57"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M172.75,389.26L340.81,389.26"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="LessonIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="500" Height="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Background}" Data="M370.84,229.61 L256.69,134a11.35,11.35 0,0 0,-14 0L128.53,229.61L18.21,229.61L18.21,435.8a23.32,23.32 0,0 0,23.25 23.25L208,459.05v-49a42.71,42.71 0,0 1,85.41 0v49L459.92,459.05a23.32,23.32 0,0 0,23.25 -23.25L483.17,229.61ZM250.69,307.61a44.74,44.74 0,1 1,44.73 -44.73A44.73,44.73 0,0 1,250.69 307.62Z"></Path>
+                    <Path Fill="{TemplateBinding Background}" Data="M325.93,141V82.72h66.33V41h-68.6c-4.11,0 -7.44,4.36 -7.44,8.47v84.25"></Path>
+                    <Path Stroke="{TemplateBinding Background}" Data="M10,198.71l103.08,0l137.61,-115.45l133.83,115.45l105.48,0"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="AbsenceIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="500" Height="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Background}" Data="M250,250m-225,0a225,225 0,1 1,450 0a225,225 0,1 1,-450 0"></Path>
+                    <Path Fill="{TemplateBinding Background}" Data="M270.19,138.66l-3.8,140.72a17.5,17.5 0,0 1,-16.89 18.08h-0.35a17.51,17.51 0,0 1,-17.25 -17.74c0,-0.12 0,-0.24 0,-0.35l-3.8,-140.72a21.07,21.07 0,0 1,20.6 -21.51h0.43a21.07,21.07 0,0 1,21.06 21c0,0.18 0,0.35 0,0.53Z"></Path>
+                    <Path Fill="{TemplateBinding Background}" Data="M249.17,378.77a20,20 0,1 1,0.48 0.08h-0.48Z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
 
         <ControlTemplate x:Key="BackIcon">
             <Canvas>

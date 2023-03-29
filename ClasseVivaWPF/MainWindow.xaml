@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
         Keyboard.KeyDown="window_KeyDown" Focusable="True"
+        MouseDown="window_MouseDown"
         Keyboard.LostKeyboardFocus="window_LostKeyboardFocus"
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">

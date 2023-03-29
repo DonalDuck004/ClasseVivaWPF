@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Forms = System.Windows.Forms;
@@ -74,6 +75,14 @@ namespace ClasseVivaWPF
 
             if (this.wrapper.Children.Count != 0 && this.wrapper.Children[this.wrapper.Children.Count - 1] is IOnChildClosed occ)
                 occ.OnChildClosed();
+        }
+
+        public void RemoveLastField(bool @unsafe = false)
+        {
+            if (!@unsafe && this.wrapper.Children.Count == 1)
+                return;
+
+            this.RemoveField((FrameworkElement)this.wrapper.Children[this.wrapper.Children.Count - 1]);
         }
 
         public new void Show()
@@ -216,7 +225,22 @@ namespace ClasseVivaWPF
 
         private void window_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            e.Handled = true;
+            if (e.NewFocus is null)
+                return;
+
+            if (e.NewFocus is not MainWindow)
+            {
+                FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), this);
+            }
+        }
+
+        private void window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton is MouseButton.XButton1)
+            {
+                this.RemoveLastField(@unsafe: false);
+                e.Handled = true;
+            }
         }
     }
 }
