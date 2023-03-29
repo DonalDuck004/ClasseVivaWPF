@@ -1,5 +1,5 @@
-﻿using System;
-using ClasseVivaWPF.SharedControls;
+﻿using ClasseVivaWPF.SharedControls;
+using System;
 
 namespace ClasseVivaWPF.Api.Types
 {

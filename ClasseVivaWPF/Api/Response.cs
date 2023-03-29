@@ -1,7 +1,7 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System;
+using System.Net.Http;
 
 namespace ClasseVivaWPF.Api
 {

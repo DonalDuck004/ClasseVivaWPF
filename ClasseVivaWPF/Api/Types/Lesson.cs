@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ClasseVivaWPF.Api.Types
 {
@@ -11,27 +10,29 @@ namespace ClasseVivaWPF.Api.Types
         private static List<int> ColorsIDS = new List<int>();
         private int? _color_id = null;
 
-        [JsonProperty(Required = Required.Always)] 
-        public required DateTime EvtDate {get; init;}
+        [JsonProperty(Required = Required.Always)]
+        public required DateTime EvtDate { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required int EvtHPos {get; init;}
+        public required int EvtHPos { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required int EvtDuration {get; set;}
+        public required int EvtDuration { get; set; }
 
         [JsonProperty(Required = Required.Always)]
-        public required string ClassDesc {get; init;}
+        public required string ClassDesc { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required string AuthorName {get; init;}
+        public required string AuthorName { get; init; }
 
         private int _SubjectId;
 
         [JsonProperty(Required = Required.Always)]
-        public required int SubjectId {
-            get => _SubjectId; 
-            init {
+        public required int SubjectId
+        {
+            get => _SubjectId;
+            init
+            {
                 if (!ColorsIDS.Contains(value))
                     ColorsIDS.Add(value);
                 _SubjectId = value;
@@ -39,13 +40,13 @@ namespace ClasseVivaWPF.Api.Types
         }
 
         [JsonProperty(Required = Required.AllowNull)]
-        public required string? SubjectCode {get; init;}
+        public required string? SubjectCode { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required string SubjectDesc {get; init;}
+        public required string SubjectDesc { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required string LessonType {get; init;}
+        public required string LessonType { get; init; }
 
         [JsonProperty(Required = Required.Always)]
         public required string LessonArg { get; init; }

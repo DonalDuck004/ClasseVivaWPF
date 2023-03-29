@@ -1,19 +1,17 @@
-﻿using System.ComponentModel;
+﻿using ClasseVivaWPF.HomeControls;
+using ClasseVivaWPF.HomeControls.HomeSection;
+using ClasseVivaWPF.LoginControls;
+using ClasseVivaWPF.Sessions;
+using ClasseVivaWPF.Utils;
+using Microsoft.Toolkit.Uwp.Notifications;
+using System;
+using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
-using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Sessions;
-using System.IO;
-using System;
-using System.Reflection;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Forms = System.Windows.Forms;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
-using Windows.UI.Notifications;
-using ClasseVivaWPF.LoginControls;
-using ClasseVivaWPF.HomeControls;
-using ClasseVivaWPF.HomeControls.HomeSection;
+using Forms = System.Windows.Forms;
 
 namespace ClasseVivaWPF
 {
@@ -109,7 +107,8 @@ namespace ClasseVivaWPF
                     Checked = true,
                     CheckOnClick = true,
                 };
-                notify_btn.CheckedChanged += (s, e) => {
+                notify_btn.CheckedChanged += (s, e) =>
+                {
                     if (notify_btn.Checked)
                         NotificationSystem.INSTANCE.SpawnTask();
                     else
@@ -176,7 +175,7 @@ namespace ClasseVivaWPF
                     this.PostLogin += fn = () =>
                     {
                         RemoveFields();
-                        
+
                         if (CVMainMenuIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
                             CVMainMenuIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
 

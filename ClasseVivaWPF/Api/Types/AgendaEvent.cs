@@ -2,10 +2,6 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ClasseVivaWPF.Api.Types
 {
@@ -13,28 +9,28 @@ namespace ClasseVivaWPF.Api.Types
     {
         [JsonProperty(Required = Required.Always)]
         public required DateTime EvtDatetimeBegin { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         public required DateTime EvtDatetimeEnd { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         public required bool IsFullDay { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string Notes { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string AuthorName { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string ClassDesc { get; init; }
-        
+
         [JsonProperty(Required = Required.AllowNull)]
         public required int? SubjectId { get; init; }
 
         [JsonProperty(Required = Required.AllowNull)]
         public required string? SubjectDesc { get; init; }
-        
+
         [JsonProperty(Required = Required.AllowNull)]
         public required object? HomeworkId { get; init; }
 

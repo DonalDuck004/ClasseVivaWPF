@@ -1,13 +1,8 @@
 ﻿using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.HomeControls.MenuSection;
 using ClasseVivaWPF.Utils;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace ClasseVivaWPF.HomeControls
 {
@@ -46,7 +41,8 @@ namespace ClasseVivaWPF.HomeControls
                 if (Config.UNLOAD_TABS_ON_SWITCH)
                     CVHome.GlobDispose();
             }
-            else if (idx is CVMainMenuIconValues.Menu){
+            else if (idx is CVMainMenuIconValues.Menu)
+            {
                 Current.Children.Add(new CVMenu());
             }
         }

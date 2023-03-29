@@ -1,14 +1,10 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
 using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using Windows.ApplicationModel.Activation;
 
 namespace ClasseVivaWPF
 {
@@ -21,15 +17,17 @@ namespace ClasseVivaWPF
         {
             var cult = new CultureInfo("it-IT");
 
-            ToastNotificationManagerCompat.OnActivated += toastArgs => {
+            ToastNotificationManagerCompat.OnActivated += toastArgs =>
+            {
 
                 // if (ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
                 //    MessageBox.Show("Chiusa ed avviato da notifica");
-                
+
                 var args = ToastArguments.Parse(toastArgs.Argument);
 
 
-                Application.Current.Dispatcher.Invoke(delegate {
+                Application.Current.Dispatcher.Invoke(delegate
+                {
 
                     ClasseVivaWPF.MainWindow.INSTANCE.Goto(args);
                 });

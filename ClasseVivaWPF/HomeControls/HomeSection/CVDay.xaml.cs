@@ -1,16 +1,14 @@
-﻿using ClasseVivaWPF.Api.Types;
+﻿using ClasseVivaWPF.Api;
+using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using ClasseVivaWPF.Api;
-using System.Windows.Input;
-using ClasseVivaWPF.SharedControls;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ClasseVivaWPF.HomeControls.HomeSection
 {
@@ -84,7 +82,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     SelectedDay = this;
                     if (this.Tomorrow is not null)
                         this.Tomorrow.Dispatcher.BeginInvoke(this.Tomorrow._PrepareContent);
-                    if(this.Yesterday is not null)
+                    if (this.Yesterday is not null)
                         this.Yesterday.Dispatcher.BeginInvoke(this.Yesterday._PrepareContent);
 
 
@@ -167,7 +165,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 }
 
                 return this._content;
-            }finally
+            }
+            finally
             {
                 loader.Release();
             }
@@ -181,8 +180,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
                 if (item.Value is null)
                     INSTANCES[item.Key].Update(require_new_call: false);
-                
-                if (INSTANCES.ContainsKey(item.Key) && 
+
+                if (INSTANCES.ContainsKey(item.Key) &&
                     READY_CONTENT.ContainsKey(item.Key) &&
                     item.Value is not null &&
                     READY_CONTENT[item.Key].XCreationDate - item.Value.XCreationDate > TimeSpan.FromMinutes(5))
@@ -219,14 +218,15 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     Image tmp;
 
                     sub_content.Children.Add(tmp = new() { SnapsToDevicePixels = true });
-                    
-                    tmp.AsyncLoading(content.PanoramicImg!, () => {
+
+                    tmp.AsyncLoading(content.PanoramicImg!, () =>
+                    {
                         tmp.Height = 200;
                         tmp.Cursor = Cursors.Hand;
                         tmp.Tag = content;
                         tmp.SetOpener();
                     });
-                    
+
                     // Todo Tag ti open Extr
                 }
             }
@@ -239,7 +239,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 foreach (var item in headers)
                 {
                     this._content.Children.Add(contents[item] = new());
-                    contents[item].Children.Add(new Label() { 
+                    contents[item].Children.Add(new Label()
+                    {
                         Content = item,
                         FontSize = 14,
                         FontWeight = FontWeights.Bold
@@ -268,7 +269,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (READY_CONTENT[this.Date].Lessons.Count != 0)
             {
                 this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label() { 
+                sub_content.Children.Add(new Label()
+                {
                     Content = READY_CONTENT[this.Date].Lessons[0].GetHeader(),
                     FontSize = 14,
                     FontWeight = FontWeights.Bold
@@ -283,7 +285,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (READY_CONTENT[this.Date].Notes.Count != 0)
             {
                 this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label() { 
+                sub_content.Children.Add(new Label()
+                {
                     Content = READY_CONTENT[this.Date].Notes[0].GetHeader(),
                     FontSize = 14,
                     FontWeight = FontWeights.Bold
@@ -298,10 +301,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (READY_CONTENT[this.Date].Homeworks.Count != 0)
             {
                 this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label() { 
+                sub_content.Children.Add(new Label()
+                {
                     Content = READY_CONTENT[this.Date].Homeworks[0].GetHeader(),
                     FontSize = 14,
-                    FontWeight = FontWeights.Bold});
+                    FontWeight = FontWeights.Bold
+                });
                 foreach (var evt in READY_CONTENT[this.Date].Homeworks)
                 {
                     sub_content.Children.Add(CVHomeTextBox.FromAgendaEvent(evt, EventAppCategory.Homework));
@@ -324,8 +329,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             this._content = null;
 
             if (require_new_call)
-                READY_CONTENT.Remove(this.Date); 
-            
+                READY_CONTENT.Remove(this.Date);
+
             if (this.IsSelected)
                 this.IsSelected = true;
         }

@@ -1,6 +1,6 @@
-﻿using ClasseVivaWPF.Sessions;
+﻿using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Api.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,7 +18,7 @@ namespace ClasseVivaWPF.Api
     {
         public static Client INSTANCE { get; private set; } = new Client();
         private const string ENDPOINT = "https://web.spaggiari.eu/";
-        
+
         private int UserID => SessionHandler.Me!.Id;
         private HttpClient client;
 
@@ -92,13 +91,13 @@ namespace ClasseVivaWPF.Api
             {
                 Debug.Assert(SessionHandler.INSTANCE is not null);
                 SessionHandler.INSTANCE.RenewToken();
-                message = BuildMessage(method, path, data, cached_etag, cached_date); 
+                message = BuildMessage(method, path, data, cached_etag, cached_date);
                 raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
             }
 
             if (raw_response.StatusCode is HttpStatusCode.NotModified && cached_json_response is not null)
                 response = new(cached_json_response);
-            else 
+            else
             {
                 response = new(raw_response);
                 if (allow_cache)

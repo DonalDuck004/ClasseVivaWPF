@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    
+
     public class DayOverview
     {
         public List<Lesson> Lessons = new();

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Controls;
-using System.Runtime.InteropServices;
 using System.Windows.Data;
 
 namespace ClasseVivaWPF.Utils.Converters

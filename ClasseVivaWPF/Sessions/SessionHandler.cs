@@ -1,15 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
-using Newtonsoft.Json.Linq;
-using System.Windows;
-using System.Runtime.ConstrainedExecution;
-using ClasseVivaWPF.Api;
+using Microsoft.Data.Sqlite;
+using System;
+using System.IO;
 
 namespace ClasseVivaWPF.Sessions
 {
@@ -18,19 +11,23 @@ namespace ClasseVivaWPF.Sessions
         public static SessionHandler? INSTANCE { get; private set; }
 
         private static Me? _me = null;
-        public static Me? Me { get => _me;
-            private set {
+        public static Me? Me
+        {
+            get => _me;
+            private set
+            {
                 _me = value;
                 if (value is not null)
                     Api.Client.INSTANCE!.SetLoginToken(value.Token);
-            } 
+            }
         }
 
         public static bool Logged => Me is not null;
 
         private SqliteConnection conn;
 
-        private SessionHandler(string session_name) {
+        private SessionHandler(string session_name)
+        {
             session_name += ".db";
 
             var exists = File.Exists(session_name);
@@ -59,7 +56,8 @@ namespace ClasseVivaWPF.Sessions
                 try
                 {
                     @this.GetMe();
-                }catch(InvalidDataException)
+                }
+                catch (InvalidDataException)
                 {
                     @this.Destroy();
                     return false;
@@ -136,13 +134,16 @@ namespace ClasseVivaWPF.Sessions
             if (!result.Read())
                 throw new InvalidDataException("No Session Is Active");
 
-            SessionHandler.Me = new(){ Ident = result.GetString(0),
-                                       FirstName = result.GetString(1),
-                                       LastName = result.GetString(2),
-                                       ShowPwdChangeReminder = result.GetBoolean(3),
-                                       Token = result.GetString(4),
-                                       Release = result.GetDateTime(5),
-                                       Expire = result.GetDateTime(6) };
+            SessionHandler.Me = new()
+            {
+                Ident = result.GetString(0),
+                FirstName = result.GetString(1),
+                LastName = result.GetString(2),
+                ShowPwdChangeReminder = result.GetBoolean(3),
+                Token = result.GetString(4),
+                Release = result.GetDateTime(5),
+                Expire = result.GetDateTime(6)
+            };
 
             this.RenewToken(SessionHandler.Me.Expire);
 
@@ -166,7 +167,7 @@ namespace ClasseVivaWPF.Sessions
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
-          
+
             sql = "INSERT INTO Session(ident, firstName, lastName, showPwdChangeReminder, token, release, expire, uid, pass) VALUES($ident, $firstName, $lastName, $showPwdChangeReminder, $token, $release, $expire, $uid, $pass)";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;

@@ -15,8 +15,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     {
         private CVWeek? _previus = null;
         private CVWeek? _next = null;
-        public CVWeek Previus {
-            get {
+        public CVWeek Previus
+        {
+            get
+            {
                 if (_previus is not null)
                     return _previus;
 
@@ -128,7 +130,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 @this._previus._next = @this;
                 @this._next._previus = @this;
             }
-            
+
             return cached_objects[monday] = @this;
         }
 

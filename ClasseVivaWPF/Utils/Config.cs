@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace ClasseVivaWPF.Utils
@@ -32,7 +27,7 @@ namespace ClasseVivaWPF.Utils
         public static readonly byte CV_RED_R = 0xC6;
         public static readonly byte CV_RED_G = 0x28;
         public static readonly byte CV_RED_B = 0x28;
-        
+
         public static readonly Color CV_RED = Color.FromArgb(CV_RED_A, CV_RED_R, CV_RED_G, CV_RED_B);
         public static readonly SolidColorBrush CV_RED_BRUSH = new SolidColorBrush(CV_RED);
 

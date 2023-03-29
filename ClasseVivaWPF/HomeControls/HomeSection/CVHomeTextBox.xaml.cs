@@ -1,16 +1,9 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -131,7 +124,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
 
             @this.FillerColor = Colors.WhiteSmoke;
-            
+
             @this.ParseText(e.Notes, @this.lesson_txt.Inlines);
             @this.LowerImgWP.Height = 0;
             return @this;
@@ -160,9 +153,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 throw new Exception();
 
             @this.FontColor = new SolidColorBrush(Colors.White);
-           
+
             @this.lesson_txt.Inlines.Add(new Run() { Text = e.IsJustified ? e.JustifReasonDesc : "Da giustificare", Foreground = @this.FontColor });
-            
+
             if (e.EvtHPos.HasValue)
                 @this.Row2 = $"A {e.EvtHPos}° ora";
             else

@@ -1,11 +1,8 @@
-﻿using ClasseVivaWPF.Api;
-using ClasseVivaWPF.Api.Types;
+﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Converters;
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,7 +33,7 @@ namespace ClasseVivaWPF.SharedControls
             SelectedContentProperty = DependencyProperty.Register("SelectedContent", typeof(Image), typeof(CVPilloleOpener));
             MultiProperty = DependencyProperty.Register("Multi", typeof(bool), typeof(CVPilloleOpener));
         }
-        
+
         private (Image, string)[] Images;
         private double? scroll_horizontal_offset = null;
         private DispatcherTimer? last_animator = null;
@@ -83,9 +80,10 @@ namespace ClasseVivaWPF.SharedControls
         public Image SelectedContent
         {
             get => (Image)base.GetValue(SelectedContentProperty);
-            set {
+            set
+            {
                 base.SetValue(SelectedContentProperty, value);
-                
+
                 if (last_animator is not null)
                     last_animator.IsEnabled = false;
 
@@ -96,7 +94,7 @@ namespace ClasseVivaWPF.SharedControls
 
                 const double ANIMATION_DURATION = 0.01;
 
-                
+
                 if (this.Multi)
                 {
                     var animation = new DoubleAnimation()
@@ -113,10 +111,10 @@ namespace ClasseVivaWPF.SharedControls
 
         private void GotoSubImage(object sender, MouseButtonEventArgs e)
         {
-            if (e.Handled) 
+            if (e.Handled)
                 return;
 
-            this.SelectedContent = (Image)sender;   
+            this.SelectedContent = (Image)sender;
         }
 
         private int GetImageIndex()

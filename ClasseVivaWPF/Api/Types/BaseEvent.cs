@@ -44,7 +44,7 @@ namespace ClasseVivaWPF.Api.Types
         {
             if (IsHomework)
                 return "Compiti";
-            
+
             if (IsNote)
                 return "Agenda";
 

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Diagnostics;
 using System.Linq;
 
 namespace ClasseVivaWPF.Api.Types

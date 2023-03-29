@@ -2,7 +2,6 @@
 using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -33,7 +32,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             this.Init();
 
-            this.days_scroller.SizeChanged += (s, e) => {
+            this.days_scroller.SizeChanged += (s, e) =>
+            {
                 if (CVDay.SelectedDay is not null)
                     CVDay.SelectedDay.Parent.BringIntoView();
             };
@@ -92,7 +92,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             try
             {
                 for (; !ReferenceEquals(this.days_wp.Children[i], week); i++) ;
-            }catch(ArgumentOutOfRangeException)
+            }
+            catch (ArgumentOutOfRangeException)
             {
                 return -1;
             }
@@ -145,7 +146,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             if (e.Key is Key.Left || e.Key is Key.Right)
                 DaysOnKeyDown(sender, e);
-            else if(e.Key is Key.Down || e.Key is Key.Up)
+            else if (e.Key is Key.Down || e.Key is Key.Up)
                 this.homework_scroller.RaiseEvent(e);
         }
 
@@ -173,7 +174,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
                 if (idx == 7)
                     idx = 0;
-                else if(idx == -1)
+                else if (idx == -1)
                     idx = 6;
 
                 CVDay.SelectedDay.Parent.SelectChild(idx);

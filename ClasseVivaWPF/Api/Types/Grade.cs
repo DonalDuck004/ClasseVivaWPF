@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
-using Microsoft.Toolkit.Uwp.Notifications;
-using ClasseVivaWPF.Utils;
-using System.Windows.Media;
-using System.Reflection;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Windows.Media;
 
 namespace ClasseVivaWPF.Api.Types
 {
@@ -27,40 +26,40 @@ namespace ClasseVivaWPF.Api.Types
 
         [JsonProperty(Required = Required.Always)]
         public required string DisplayValue;
-       
+
         [JsonProperty(Required = Required.Always)]
         public required int DisplaPos;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string NotesForFamily;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string Color;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required bool Canceled;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required bool Underlined;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required int PeriodPos;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string PeriodDesc;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required int ComponentPos;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string ComponentDesc;
 
         [JsonProperty(Required = Required.Always)]
         public required int WeightFactor;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required int SkillId;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required int GradeMasterId;
 
@@ -69,10 +68,10 @@ namespace ClasseVivaWPF.Api.Types
 
         [JsonProperty(Required = Required.AllowNull)]
         public required string? SkillCode;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required int SkillMasterId;
-        
+
         [JsonProperty(Required = Required.Always)]
         public required string SkillValueDesc;
 

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Threading;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Media;
 using System.Diagnostics;
-using Newtonsoft.Json;
-using Windows.Data.Xml.Dom;
+using System.Linq;
+using System.Threading;
 
 namespace ClasseVivaWPF.Api.Types
 {
 
-    public class Overview : ApiObject {
+    public class Overview : ApiObject
+    {
 
         [JsonProperty(Required = Required.Always)]
         public required object[] VirtualClassesAgenda { get; init; }

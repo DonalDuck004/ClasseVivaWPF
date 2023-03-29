@@ -117,7 +117,8 @@ namespace ClasseVivaWPF.SharedControls
                     this.Counter++;
                 }
                 this.Liked = !this.Liked;
-            }catch (ApiError exc)
+            }
+            catch (ApiError exc)
             {
                 exc.ApplyStdProcedure();
             }
@@ -130,7 +131,7 @@ namespace ClasseVivaWPF.SharedControls
         {
             if (!this.CanPress)
                 return;
-            
+
             await PreventOverlap.WaitAsync();
 
             try
@@ -149,7 +150,7 @@ namespace ClasseVivaWPF.SharedControls
             {
                 exc.ApplyStdProcedure();
             }
-          
+
             PreventOverlap.Release();
         }
 

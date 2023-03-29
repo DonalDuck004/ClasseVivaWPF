@@ -6,10 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -87,10 +84,11 @@ namespace ClasseVivaWPF.Utils
 
         public static void SystemOpening(this Uri uri)
         {
-            Process.Start(new ProcessStartInfo{
-                    FileName = uri.ToString(),
-                    UseShellExecute = true,
-                    WorkingDirectory = Directory.GetCurrentDirectory()
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = uri.ToString(),
+                UseShellExecute = true,
+                WorkingDirectory = Directory.GetCurrentDirectory()
             });
         }
 
@@ -100,7 +98,7 @@ namespace ClasseVivaWPF.Utils
         }
 
         private static MD5 cacher = MD5.Create();
-         
+
         public static string GetMD5(this byte[] buff)
         {
             return Convert.ToHexString(cacher.ComputeHash(buff));
@@ -142,13 +140,14 @@ namespace ClasseVivaWPF.Utils
                             tmp.BeginInit();
                             if (DecodePixelWidth is not null)
                                 tmp.DecodePixelWidth = DecodePixelWidth.Value;
-                            if (DecodePixelHeight is not null)  
+                            if (DecodePixelHeight is not null)
                                 tmp.DecodePixelHeight = DecodePixelHeight.Value;
 
                             tmp.StreamSource = new FileStream(img_path.AbsolutePath, FileMode.Open, FileAccess.Read);
                             tmp.EndInit();
                             img.Source = tmp;
-                        }else
+                        }
+                        else
                             img.Source = new BitmapImage(img_path);
 
 
@@ -215,7 +214,7 @@ namespace ClasseVivaWPF.Utils
 
         public static DispatcherTimer AnimateScrollerH(this ScrollViewer sc, double from, double to, double duration)
         {
-            
+
             if (sc.Tag is DispatcherTimer old_dp)
                 old_dp.IsEnabled = false;
 
@@ -227,7 +226,8 @@ namespace ClasseVivaWPF.Utils
                 Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to)) * 2
             };
 
-            dp.Tick += (s, e) => {
+            dp.Tick += (s, e) =>
+            {
                 if ((inc && from++ > to) || (!inc && to > --from))
                 {
                     ((DispatcherTimer)s!).IsEnabled = false;
@@ -236,9 +236,9 @@ namespace ClasseVivaWPF.Utils
 
                 if (inc)
                     from++;
-                else 
+                else
                     from--;
-                
+
                 sc.ScrollToHorizontalOffset(from);
             }; // It's not animable
 

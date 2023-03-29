@@ -1,17 +1,13 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
-using ClasseVivaWPF.Sessions;
-using System.Collections.Generic;
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Windows.Threading;
-using System.Diagnostics;
-using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.HomeControls;
 using ClasseVivaWPF.HomeControls.HomeSection;
+using ClasseVivaWPF.Sessions;
+using ClasseVivaWPF.Utils;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 
 namespace ClasseVivaWPF.LoginControls

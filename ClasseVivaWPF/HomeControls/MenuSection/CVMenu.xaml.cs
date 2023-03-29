@@ -1,23 +1,11 @@
 ﻿using ClasseVivaWPF.Api;
-using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {
@@ -43,7 +31,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             await PreventOverlap.WaitAsync();
             var t = new CVRestBridgeViewer() { Uri = await Client.INSTANCE.GetUriFromTicket((string)((FrameworkElement)sender).Tag) };
             t.Inject();
-            
+
             PreventOverlap.Release();
         }
 

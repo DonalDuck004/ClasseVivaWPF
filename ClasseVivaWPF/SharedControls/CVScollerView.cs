@@ -181,7 +181,7 @@ namespace ClasseVivaWPF.SharedControls
 
             if (dy == 0 && dx == 0)
                 return;
-            
+
             e.Handled = true;
 
 
