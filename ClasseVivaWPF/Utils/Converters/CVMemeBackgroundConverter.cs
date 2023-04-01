@@ -23,7 +23,6 @@ namespace ClasseVivaWPF.Utils.Converters
             else
                 throw new Exception();
 
-
             // 31 0 192 255
             var rect = new Int32Rect(0, 0, img.PixelWidth, img.PixelHeight / 6);
             var stride = (rect.Width * 32 + 7) / 8;

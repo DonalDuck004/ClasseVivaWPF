@@ -4,15 +4,13 @@ using System.Windows.Data;
 
 namespace ClasseVivaWPF.Utils.Converters
 {
-    class DivisionConverter : IValueConverter
+    class AddConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var divisor = double.Parse(parameter.ToString()!, CultureInfo.InvariantCulture);
-            if (divisor == 0)
-                return 0;
+            var n2 = double.Parse(parameter.ToString()!, CultureInfo.InvariantCulture);
 
-            return (double)value / divisor;
+            return (double)value + n2;
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, System.Globalization.CultureInfo culture)
