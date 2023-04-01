@@ -31,7 +31,6 @@
             <EventSetter Event="MouseLeftButtonDown" Handler="OpenWebviewerBw"></EventSetter>
         </Style>
         
-        
         <Style TargetType="Rectangle" x:Key="HR">
             <Setter Property="Fill" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
             <Setter Property="Height" Value="0.2"></Setter>
@@ -54,6 +53,8 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="48"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -80,15 +81,17 @@
             <Label Content="Anno Precedente" Grid.Row="4" Style="{StaticResource OpenBridgeSP}" MouseLeftButtonDown="BeforeYear"></Label>
             <Rectangle Style="{StaticResource HR}" Grid.Row="5"></Rectangle>
 
-            <ContentControl Template="{StaticResource ResourceKey=SupportIcon}" Grid.Row="6"></ContentControl>
-            <Label Content="Aiuto e Feedback" Grid.Row="6" Tag="ToDo" Style="{StaticResource OpenBridge}"></Label>
-
+            <ContentControl Grid.Row="6" Template="{StaticResource ResourceKey=SupportIcon}"></ContentControl>
+            <Label Grid.Row="6" Content="Aiuto e Feedback" Style="{StaticResource OpenBridgeSP}" Cursor="Arrow"></Label>
             <Rectangle Style="{StaticResource HR}" Grid.Row="7"></Rectangle>
 
-            <ContentControl Template="{StaticResource ResourceKey=SettingsIcon}" Grid.Row="8"></ContentControl>
-            <Label Content="Impostazioni" Grid.Row="8" Grid.Column="1" Style="{StaticResource ResourceKey=MenuVoice}"></Label>
-            
+            <Label Margin="10,0,0,0" Grid.Row="8" Content="Centro e servizi" Tag="https://web.spaggiari.eu/acc/app/default/documentazione.php?prodotto=cvv" Style="{StaticResource OpenBridge}"></Label>
             <Rectangle Style="{StaticResource HR}" Grid.Row="9"></Rectangle>
+
+            <ContentControl Template="{StaticResource ResourceKey=SettingsIcon}" Grid.Row="10"></ContentControl>
+            <Label Content="Impostazioni" Grid.Row="10" Grid.Column="1" Style="{StaticResource ResourceKey=MenuVoice}" MouseLeftButtonDown="OpenSettings"></Label>
+
+            <Rectangle Style="{StaticResource HR}" Grid.Row="11"></Rectangle>
         </Grid>
 
         <Label Content="Altri Contenuti" Foreground="{StaticResource ResourceKey=CV_RED}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>

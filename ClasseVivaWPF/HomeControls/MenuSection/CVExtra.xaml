@@ -49,15 +49,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="HorizontalAlignment" Value="Center"></Setter>
                 </Style>
-                <Style TargetType="Border">
-                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-                    <Setter Property="Cursor" Value="Hand"></Setter>
-                    <Setter Property="CornerRadius" Value="12"></Setter>
-                    <Setter Property="BorderThickness" Value="12"></Setter>
-                    <Setter Property="Margin" Value="20"></Setter>
-                    <Setter Property="BorderBrush" Value="{Binding Path=Child.Source, RelativeSource={RelativeSource Self}, Converter={StaticResource CVMemeBackgroundConverter}}"></Setter>
-                </Style>
+                <Style TargetType="Border" BasedOn="{StaticResource ResourceKey=BDImg}"></Style>
             </ScrollViewer.Resources>
         </ScrollViewer>
     </Grid>

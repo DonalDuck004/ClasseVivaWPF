@@ -2,6 +2,8 @@
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -67,9 +69,19 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             new CVExtra().Inject();
         }
 
+        private void OnSendMail(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
         public void OnSwitch()
         {
 
+        }
+
+        private void OpenSettings(object sender, MouseButtonEventArgs e)
+        {
+            new CVSettings().Inject();
         }
     }
 }
