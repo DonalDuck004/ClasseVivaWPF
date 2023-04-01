@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
+        xmlns:local="clr-namespace:ClasseVivaWPF"
         Keyboard.KeyDown="window_KeyDown" Focusable="True"
         MouseDown="window_MouseDown"
         Keyboard.LostKeyboardFocus="window_LostKeyboardFocus"
@@ -18,17 +19,8 @@
                 </StackPanel.Background>
             </StackPanel>
         </DockPanel>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="20"></RowDefinition>
-            </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0">
-                <Grid Name="wrapper"></Grid>
-            </DockPanel>
-            <StackPanel Grid.Row="1" Name="Footer" Background="Black" VerticalAlignment="Center">
-                <Label Content="Unofficial Project Version 0.9a" Foreground="White" VerticalContentAlignment="Center"></Label>
-            </StackPanel>
-        </Grid>
+        <DockPanel Grid.Row="0">
+            <Grid Name="wrapper"></Grid>
+        </DockPanel>
     </Grid>
 </Window>

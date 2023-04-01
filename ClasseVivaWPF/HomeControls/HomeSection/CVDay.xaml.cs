@@ -213,11 +213,17 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
                 sub_content.Children.Add(sub_content = new StackPanel() { Orientation = Orientation.Horizontal });
                 sub_content.HorizontalAlignment = HorizontalAlignment.Center;
+                var style = (Style)Application.Current.FindResource("BDImg");
+
                 foreach (var content in iterator)
                 {
-                    Image tmp;
+                    Image tmp = new() { SnapsToDevicePixels = true };
 
-                    sub_content.Children.Add(tmp = new() { SnapsToDevicePixels = true });
+                    sub_content.Children.Add(new Border()
+                    {
+                        Child = tmp,
+                        Style = style
+                    });
 
                     tmp.AsyncLoading(content.PanoramicImg!, () =>
                     {
@@ -225,7 +231,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                         tmp.Cursor = Cursors.Hand;
                         tmp.Tag = content;
                         tmp.SetOpener();
-                    });
+                    }, DecodePixelHeight: 200);
 
                     // Todo Tag ti open Extr
                 }
