@@ -210,7 +210,8 @@ namespace ClasseVivaWPF.Sessions
             cur.CommandText = sql;
             var row = cur.ExecuteReader();
             row.Read();
-            return row.GetInt32(0);
+            
+            return row.IsDBNull(0) ? 0 : row.GetInt32(0);
         }
     }
 }

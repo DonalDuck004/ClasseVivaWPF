@@ -100,7 +100,7 @@
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3">
                             <Run Text="{x:Static local:CVSettings.DBSize}"></Run> utilizzati per il database
                             <LineBreak></LineBreak>
-                            <Run Text="{x:Static local:CVSettings.SessionCacheSize}"></Run> utilizzati per i file di sessione
+                            <Run Text="{x:Static local:CVSettings.SessionCacheSize}"></Run> utilizzati per la cache
                         </TextBlock>
                         <Button Content="Apri Cartella" Grid.Column="1" Grid.RowSpan="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></Button>
                     </Grid>
@@ -128,8 +128,8 @@
                         </TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Repostory" Grid.Row="2"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3" Text="Il codice sorgente è completamente disponibile nella repo di GitHub"></TextBlock>
-                        <WrapPanel Background="Transparent" Cursor="Hand" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left">
-                            <ContentControl Template="{StaticResource ResourceKey=GitHubIcon}" Width="32" Height="32" MouseLeftButtonDown="OpenRepo"></ContentControl>
+                        <WrapPanel Background="Transparent" Cursor="Hand" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" MouseLeftButtonDown="OpenRepo">
+                            <ContentControl Template="{StaticResource ResourceKey=GitHubIcon}" Width="32" Height="32"></ContentControl>
                         </WrapPanel>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Versione" Grid.Row="4"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="5" Text="{x:Static utils:Config.VERSION_LONGEST_STRING}"></TextBlock>
