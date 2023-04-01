@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Media;
 
 namespace ClasseVivaWPF.Utils
@@ -42,5 +45,28 @@ namespace ClasseVivaWPF.Utils
                                                                    CV_OPAQUE_WHITE_G,
                                                                    CV_OPAQUE_WHITE_B);
         public static readonly SolidColorBrush CV_OPAQUE_WHITE_BRUSH = new SolidColorBrush(OPAQUE_WHITE);
+
+        public const string REPO_URL = "https://github.com/DonalDuck004/ClasseVivaWPF";
+
+        public static readonly string INSTALL_PATH = Directory.GetParent(Assembly.GetExecutingAssembly().Location)!.FullName;
+
+        public static readonly string MEDIA_DIR_PATH = Path.Join(INSTALL_PATH, "media");
+        public static readonly string SESSIONS_DIR_PATH = Path.Join(INSTALL_PATH, "Sessions");
+
+        public static readonly (int, int, string, string) VERSION = (1, 9, "development version", "dev");
+        public static string VERSION_SHORTEST_STRING => $"{VERSION.Item1}.{VERSION.Item2}";
+        public static string VERSION_SHORT_STRING => $"{VERSION_SHORTEST_STRING} {VERSION.Item4}";
+        public static string VERSION_LONG_STRING => $"{VERSION_SHORTEST_STRING} {VERSION.Item3}";
+        public static string VERSION_LONGEST_STRING => $"{VERSION_LONG_STRING} ({VERSION.Item4})";
+
+        static Config()
+        {
+            if (!Directory.Exists(MEDIA_DIR_PATH))
+                Directory.CreateDirectory(MEDIA_DIR_PATH);
+
+            if (!Directory.Exists(SESSIONS_DIR_PATH))
+                Directory.CreateDirectory(SESSIONS_DIR_PATH);
+        }
+
     }
 }
