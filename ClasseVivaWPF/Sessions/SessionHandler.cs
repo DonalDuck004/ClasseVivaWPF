@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Utils;
 using Microsoft.Data.Sqlite;
 using System;
 using System.IO;
@@ -18,20 +19,21 @@ namespace ClasseVivaWPF.Sessions
             {
                 _me = value;
                 if (value is not null)
-                    Api.Client.INSTANCE!.SetLoginToken(value.Token);
+                    Client.INSTANCE!.SetLoginToken(value.Token);
             }
         }
 
         public static bool Logged => Me is not null;
 
-        private SqliteConnection conn;
-
+        public string FileName { get; private init; }
+        private SqliteConnection conn { get; init; }
+        
         private SessionHandler(string session_name)
         {
-            session_name += ".db";
+            this.FileName = session_name + ".db";
 
-            var exists = File.Exists(session_name);
-            this.conn = new SqliteConnection($"Data Source={session_name}");
+            var exists = File.Exists(this.FileName);
+            this.conn = new SqliteConnection($"Data Source={this.FileName}");
             this.conn.Open();
             if (!exists)
                 this.LoadSchema();
@@ -39,20 +41,19 @@ namespace ClasseVivaWPF.Sessions
 
         public static bool TryInit()
         {
-            if (!Directory.Exists("Sessions"))
-                Directory.CreateDirectory("Sessions");
+            var last = Path.Join(Config.SESSIONS_DIR_PATH, "Last");
 
-            if (File.Exists("Sessions/Last"))
+            if (File.Exists(last))
             {
                 string? l;
-                using (var sr = new StreamReader("Sessions/Last"))
+                using (var sr = new StreamReader(last))
                 {
                     l = sr.ReadLine();
                     if (l is null)
                         return false;
                 }
 
-                var @this = new SessionHandler($"Sessions/{l}");
+                var @this = new SessionHandler(Path.Join(Config.SESSIONS_DIR_PATH, l));
                 try
                 {
                     @this.GetMe();
@@ -71,7 +72,7 @@ namespace ClasseVivaWPF.Sessions
 
         public static SessionHandler InitConn(int user_id)
         {
-            return INSTANCE = new($"Sessions/{user_id}");
+            return INSTANCE = new(Path.Join(Config.SESSIONS_DIR_PATH, user_id.ToString()));
         }
 
         public void LoadSchema()
@@ -82,7 +83,7 @@ namespace ClasseVivaWPF.Sessions
             cur.ExecuteNonQuery();
 
 
-            sql = "CREATE TABLE RequestCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))";
+            sql = "CREATE TABLE RequestsCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
@@ -90,7 +91,7 @@ namespace ClasseVivaWPF.Sessions
 
         public DateTime? CheckCache(string url_path, out string? response, out string? etag)
         {
-            var sql = "SELECT response, etag, update_date FROM RequestCache WHERE url_path = $url_path";
+            var sql = "SELECT response, etag, update_date FROM RequestsCache WHERE url_path = $url_path";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.Parameters.AddWithValue("$url_path", url_path);
@@ -108,7 +109,7 @@ namespace ClasseVivaWPF.Sessions
 
         public void SetCache(string url_path, string response, string? etag)
         {
-            var sql = "INSERT OR REPLACE INTO RequestCache(url_path, response, update_date, etag) VALUES ($url_path, $response, DATE('now'), $etag)";
+            var sql = "INSERT OR REPLACE INTO RequestsCache(url_path, response, update_date, etag) VALUES ($url_path, $response, DATE('now'), $etag)";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.Parameters.AddWithValue("$url_path", url_path);
@@ -184,7 +185,7 @@ namespace ClasseVivaWPF.Sessions
 
             SessionHandler.Me = me;
 
-            var sw = new StreamWriter("Sessions/Last", false);
+            var sw = new StreamWriter(Path.Join(Config.SESSIONS_DIR_PATH, "Last"), false);
             sw.WriteLine(me.Id.ToString());
             sw.Close();
         }
@@ -199,6 +200,17 @@ namespace ClasseVivaWPF.Sessions
                 var me = Client.INSTANCE.Login(ident: ident, pass: pass, uid: uid).ConfigureAwait(false).GetAwaiter().GetResult();
                 this.SetMe(me, uid, pass);
             }
+        }
+
+
+        public int GetCacheSize()
+        {
+            var sql = "SELECT SUM((SELECT (length(url_path) + length(response) + length(update_date) + length(etag)) FROM RequestsCache))";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            var row = cur.ExecuteReader();
+            row.Read();
+            return row.GetInt32(0);
         }
     }
 }

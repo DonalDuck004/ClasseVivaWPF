@@ -107,7 +107,7 @@ namespace ClasseVivaWPF.Utils
         private static bool Downloaded(string url, out string save_path)
         {
             var md5 = Encoding.UTF8.GetBytes(url).GetMD5() + Path.GetExtension(url);
-            save_path = Path.Join(Path.GetTempPath(), md5);
+            save_path = Path.Join(Config.MEDIA_DIR_PATH, md5);
 
             return File.Exists(save_path);
         }
@@ -134,7 +134,7 @@ namespace ClasseVivaWPF.Utils
                 img.Dispatcher.BeginInvoke(
                     () =>
                     {
-                        if (DecodePixelHeight is not null || DecodePixelWidth is not null)
+                        if (done && (DecodePixelHeight is not null || DecodePixelWidth is not null))
                         {
                             var tmp = new BitmapImage();
                             tmp.BeginInit();
@@ -182,7 +182,7 @@ namespace ClasseVivaWPF.Utils
                     () =>
                     {
                         BitmapImage bg;
-                        if (DecodePixelHeight is not null || DecodePixelWidth is not null)
+                        if (done && (DecodePixelHeight is not null || DecodePixelWidth is not null))
                         {
                             bg = new();
                             bg.BeginInit();
@@ -275,16 +275,11 @@ namespace ClasseVivaWPF.Utils
                 }.Inject();
             }
             else if (content.Type == Content.TYPE_PILLOLE)
-            {
                 new CVPilloleOpener(content).Inject();
-            }
             else if (content.Type == Content.TYPE_MINIGAMES)
-            {
                 new CVMinigamesOpener(content).Inject();
-            }
             else
                 throw new Exception();
-            // {{"id_contenuto":2014,"App":"CntExt","ordine":1,"Tags":null,"inizio":"2022-10-07T00:00:00","fine":"2022-10-07T23:59:00","scadenza":null,"tipo":"Home top","titolo":"Gioca e Impara","Link":"https://web.spaggiari.eu/gek/vimeoPlayer/683335479/5f8d999481","media_type":"video","PanoramicaImg":"https://web.spaggiari.eu/gek/storage/contenuti/contenuto-1665069889.jpg","PanoramicaPos":"top","Gallery":null,"content_detail":null,"Related":[],"opens_externally":false,"accessibility_label":null,"XCreationDate":"2023-03-27T18:42:39.8080766+02:00"}}
         }
 
         public static int ReferenceIndexOf<T>(this IEnumerable<T> container, T needle)
@@ -300,6 +295,38 @@ namespace ClasseVivaWPF.Utils
             }
 
             return -1;
+        }
+
+        private static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+
+        public static string SizeSuffix(this int value, int decimalPlaces = 2) => ((long)value).SizeSuffix(decimalPlaces);
+        public static string SizeSuffix(this long value, int decimalPlaces = 2)
+        {
+            if (decimalPlaces < 0) 
+                throw new ArgumentOutOfRangeException("decimalPlaces");
+            if (value < 0) 
+                return "-" + SizeSuffix(-value, decimalPlaces);
+            if (value == 0) 
+                return string.Format("{0:n" + decimalPlaces + "} bytes", 0);
+
+            // mag is 0 for bytes, 1 for KB, 2, for MB, etc.
+            int mag = (int)Math.Log(value, 1024);
+
+            // 1L << (mag * 10) == 2 ^ (10 * mag) 
+            // [i.e. the number of bytes in the unit corresponding to mag]
+            decimal adjustedSize = (decimal)value / (1L << (mag * 10));
+
+            // make adjustment when the value is large enough that
+            // it would round up to 1000 or more
+            if (Math.Round(adjustedSize, decimalPlaces) >= 1000)
+            {
+                mag += 1;
+                adjustedSize /= 1024;
+            }
+
+            return string.Format("{0:n" + decimalPlaces + "} {1}",
+                                 adjustedSize,
+                                 SizeSuffixes[mag]);
         }
     }
 }
