@@ -201,7 +201,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (this.days_wp.Children.Count == 0 || this.mouse_fist_snap is null)
                 return;
 
-            Point pos = e.GetPosition(this.homework_scroller);
+            var pos = e.GetPosition(this.homework_scroller);
             if (this.mouse_fist_snap.Value.Y <= this.homework_scroller.ActualHeight / 30 && pos.Y - this.mouse_fist_snap.Value.Y >= this.homework_scroller.ActualHeight / 2)
             {
                 this.Loader.Visibility = Visibility.Visible;

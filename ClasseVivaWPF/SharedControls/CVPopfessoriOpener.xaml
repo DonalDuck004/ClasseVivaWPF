@@ -41,9 +41,7 @@
                 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition Width="96"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="48"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
@@ -51,16 +49,15 @@
                     <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
                 </WrapPanel>
 
-                <WrapPanel Style="{StaticResource ResourceKey=ToLoad}" Grid.Column="2" Cursor="Hand" MouseLeftButtonDown="OnLikeBtnClick">
-                    <ContentControl Background="White" Template="{StaticResource ResourceKey=EmptyHeartIcon}"/>
-                    <ContentControl Background="{Binding Liked, Converter={StaticResource ColorIfConverter}}" Template="{StaticResource ResourceKey=FilledHeartIcon}"/>
+                <WrapPanel Grid.Column="1" Style="{StaticResource ResourceKey=ToLoad}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding Counter}" FontSize="48" Foreground="White" Margin="0,-3,5,0"></TextBlock>
+                    <WrapPanel Cursor="Hand" MouseLeftButtonDown="OnLikeBtnClick" Width="48" Height="48">
+                        <ContentControl Background="White" Template="{StaticResource ResourceKey=EmptyHeartIcon}"/>
+                        <ContentControl Background="{Binding Liked, Converter={StaticResource ColorIfConverter}}" Template="{StaticResource ResourceKey=FilledHeartIcon}"/>
+                    </WrapPanel>
                 </WrapPanel>
-
-                <WrapPanel Style="{StaticResource ResourceKey=ToLoad}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left">
-                    <TextBlock Text="{Binding Counter}" FontSize="48" Foreground="White" Margin="5,-3,0,0"></TextBlock>
-                </WrapPanel>
-
-                <WrapPanel Style="{StaticResource ResourceKey=ToLoad}" Grid.Column="4" Cursor="Hand" MouseLeftButtonDown="OnSaveBtnClick" Background="Transparent">
+                
+                <WrapPanel Style="{StaticResource ResourceKey=ToLoad}" Grid.Column="2" Cursor="Hand" MouseLeftButtonDown="OnSaveBtnClick" Background="Transparent">
                     <ContentControl Background="White" Template="{StaticResource ResourceKey=EmptySaveIcon}" Margin="0,-3,0,0"/>
                     <ContentControl Background="{Binding Saved, Converter={StaticResource ColorIfConverter}}" Template="{StaticResource ResourceKey=FilledSaveIcon}" Margin="0,-3,0,0"/>
                 </WrapPanel>
