@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Sessions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Linq;
@@ -14,11 +15,20 @@ namespace ClasseVivaWPF.Utils
 
         private Task? task;
 
-        private bool run = true;
-        public bool IsRunning => task is null ? false : !task.IsFaulted;
+        private bool quiteNext = false;
+        private bool run = false;
+        public bool IsRunning => this.task is null ? false : !this.task.IsFaulted;
+        public bool IsActive => this.run;
+        private int Range;
 
         private NotificationSystem()
         {
+            MainWindow.INSTANCE.PostLogin += () =>
+            {
+                this.Range = SessionHandler.INSTANCE!.GetNotificationsRange();
+                SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
+                SessionHandler.INSTANCE!.NotificationsRangeChanged += OnNotificationsRangeChanged;
+            };
         }
 
         public void SpawnTask()
@@ -26,6 +36,8 @@ namespace ClasseVivaWPF.Utils
             if (this.task is not null && this.IsRunning)
                 return;
 
+            this.run = true;
+           
             this.task = Task.Run(Listener);
             this.task.ContinueWith(t =>
             {
@@ -35,38 +47,57 @@ namespace ClasseVivaWPF.Utils
                     SpawnTask();
                 }
             });
-
-            this.run = true;
         }
 
         private async Task Listener()
         {
-            var displayed_ids = (await Client.INSTANCE.Overview(DateTime.Now)).GetBaseEvents().Select(x => x.EffectiveID).ToList();
+            var displayed_ids = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents().Select(x => x.EffectiveID).ToList();
 
             BaseEvent[] overview;
             ToastContentBuilder builder;
 
             while (this.run)
             {
-                overview = (await Client.INSTANCE.Overview(DateTime.Now)).GetBaseEvents();
+                overview = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents();
 
                 foreach (var item in overview.Where(x => !displayed_ids.Contains(x.EffectiveID)))
                 {
                     displayed_ids.Add(item.EffectiveID);
-
-                    builder = new ToastContentBuilder();
-                    builder.AddArgument("goto_home_date", item.GetGotoDate().ToString());
-                    item.BuildNotifyText(builder);
-                    builder.Show();
+                    if (!quiteNext)
+                    {
+                        builder = new ToastContentBuilder();
+                        builder.AddArgument("goto_home_date", item.GetGotoDate().ToString());
+                        item.BuildNotifyText(builder);
+                        builder.Show();
+                    }
                 }
+                quiteNext = false;
 
                 await Task.Delay(Config.NOTIFY_UPDATE_DELAY);
             }
         }
 
-        internal void Stop()
+        public void Stop()
         {
             this.run = false;
+            this.task = null;
+        }
+
+        private void OnNotificationsFlagChanged(SessionHandler sender, bool Flag)
+        {
+            if (Flag == this.IsActive)
+                return;
+
+            if (Flag)
+                this.SpawnTask();
+            else
+                this.Stop();
+        }
+
+        private void OnNotificationsRangeChanged(SessionHandler sender, int Range)
+        {
+            this.Range = Range;
+            this.quiteNext = true;
         }
     }
 }

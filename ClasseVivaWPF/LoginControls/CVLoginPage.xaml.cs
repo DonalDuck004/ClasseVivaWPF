@@ -79,7 +79,8 @@ namespace ClasseVivaWPF.LoginControls
                     CVHome.INSTANCE.Contents[item.BeginDate].Add(item);
             }
 
-            NotificationSystem.INSTANCE.SpawnTask();
+            if (SessionHandler.INSTANCE!.GetNotificationsFlag())
+                NotificationSystem.INSTANCE.SpawnTask();
 
             Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
 

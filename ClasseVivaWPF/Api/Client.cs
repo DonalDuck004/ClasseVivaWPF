@@ -157,6 +157,7 @@ namespace ClasseVivaWPF.Api
         }
 
         public Task<Overview> Overview(DateTime from) => this.Overview(from.AddDays(-6), from.AddDays(6));
+        public Task<Overview> Overview(DateTime from, int Range) => this.Overview(from.AddDays(-Range), from.AddDays(Range));
         public Task<Overview> Overview(DateTime from, DateTime to) => this.Overview(from.ToString("yyyyMMdd"), to.ToString("yyyyMMdd"));
 
         public async Task<Overview> Overview(string from, string to)

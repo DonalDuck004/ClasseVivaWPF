@@ -69,12 +69,18 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Abilita notifiche" Grid.Row="0"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Text="Ricevi le notifiche di ClasseViva direttamente sul dispositivo" Grid.Row="1"></TextBlock>
-                        <CheckBox Content="Todo" Style="{StaticResource ResourceKey=SettingSetter}"></CheckBox>
+                        <shared:CVCheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Width="64" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="NotificationsCB" Cursor="Hand" ></shared:CVCheckBox>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Range notifiche" Grid.Row="2"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Text="Scegli il range temporale per le notifiche" Grid.Row="3"></TextBlock>
                         <DockPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" MaxWidth="200" HorizontalAlignment="Left">
-                            <Slider MinWidth="120" VerticalAlignment="Center" x:Name="NotifyRange" Ticks="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21" Minimum="1" Maximum="21" IsSnapToTickEnabled="True"></Slider>
-                            <Label Foreground="{StaticResource ResourceKey=CV_RED}" Content="{Binding Path=Value, ElementName=NotifyRange}"></Label>
+                            <Slider MinWidth="120"
+                                    VerticalAlignment="Center"
+                                    x:Name="NotificationsRangeSlider"
+                                    Ticks="2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21" 
+                                    Minimum="2" 
+                                    Maximum="21" 
+                                    IsSnapToTickEnabled="True"></Slider>
+                            <Label Foreground="{StaticResource ResourceKey=CV_RED}" Content="{Binding Path=Value, ElementName=NotificationsRangeSlider}" ContentStringFormat="{}{0} Giorni"></Label>
                          </DockPanel>
                     </Grid>
                 </StackPanel>
@@ -93,16 +99,17 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Spazio Utilizzato Dai Media" Grid.Row="0"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="1">
-                            <Run Text="{x:Static local:CVSettings.MediaDirSize}"></Run> utilizzati per i media
+                            <Run Name="ShowMediaDirSize"></Run> utilizzati per i media
                         </TextBlock>
                         <Button Content="Apri Cartella" Grid.Column="1" Grid.RowSpan="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenMediaDir"></Button>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Spazio Utilizzato Dai File Di Sessione" Grid.Row="2"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3">
-                            <Run Text="{x:Static local:CVSettings.DBSize}"></Run> utilizzati per il database
+                            <Run Name="ShowDBSize"></Run> utilizzati per il database
                             <LineBreak></LineBreak>
-                            <Run Text="{x:Static local:CVSettings.SessionCacheSize}"></Run> utilizzati per la cache
+                            <Run Name="ShowCache"></Run> utilizzati per la cache
                         </TextBlock>
-                        <Button Content="Apri Cartella" Grid.Column="1" Grid.RowSpan="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></Button>
+                        <Button Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></Button>
+                        <Button Content="Svuota Cache" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DropSessionCache"></Button>
                     </Grid>
                 </StackPanel>
                 <StackPanel>

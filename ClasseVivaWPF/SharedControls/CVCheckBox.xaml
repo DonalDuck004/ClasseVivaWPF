@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="ClasseVivaWPF.SharedControls.CVCheckBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
+             mc:Ignorable="d" MouseLeftButtonDown="OnClick" Cursor="Hand"
+             Loaded="OnFirstLoad"
+             d:DesignHeight="48" d:DesignWidth="112" Name="Control">
+    <UserControl.Resources>
+        <Storyboard x:Key="PointCheckAnimation">
+            <DoubleAnimation Duration="0:0:0.25" To="0" Storyboard.TargetProperty="(Canvas.Left)"></DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="PointUnCheckAnimation">
+            <DoubleAnimation Duration="0:0:0.25" To="64" Storyboard.TargetProperty="(Canvas.Left)"></DoubleAnimation>
+        </Storyboard>
+        
+        <Storyboard x:Key="BGCheckAnimation">
+            <ColorAnimation Duration="0:0:0.5" To="{StaticResource ResourceKey=CV_RED_COLOR}" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"></ColorAnimation>
+        </Storyboard>
+        <Storyboard x:Key="BGUnCheckAnimation">
+            <ColorAnimation Duration="0:0:0.5" To="#7C7C7C" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"></ColorAnimation>
+        </Storyboard>
+
+        <converters:ColorIfConverter x:Key="CanvasConverter" FalseColor="White" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
+        
+        <Style TargetType="Canvas" x:Key="Point">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChecked}" Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource ResourceKey=PointCheckAnimation}"></BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource ResourceKey=PointUnCheckAnimation}"></BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Viewbox MinHeight="16" MinWidth="40">
+        <Grid Width="112" Height="48">
+            <Canvas Panel.ZIndex="1">
+                <Canvas Width="48" Height="48" Style="{StaticResource ResourceKey=Point}" Canvas.Left="0" Name="Point">
+                    <Ellipse StrokeThickness="0.2" Stroke="Gray" Width="48" Height="48" Fill="{Binding Path=IsChecked, Converter={StaticResource CanvasConverter}}"></Ellipse>
+                </Canvas>
+            </Canvas>
+            <Border CornerRadius="18" Margin="8,4,8,4" Opacity="0.2" Background="#7C7C7C">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsChecked}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ResourceKey=BGCheckAnimation}"></BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ResourceKey=BGUnCheckAnimation}"></BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+        </Grid>
+    </Viewbox>
+</UserControl>

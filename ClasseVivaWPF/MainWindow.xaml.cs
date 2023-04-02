@@ -24,16 +24,17 @@ namespace ClasseVivaWPF
     {
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
+        Forms.ToolStripMenuItem? NotifyIcon = null;
 
         public delegate void PostLoginEventHandler();
-        public event PostLoginEventHandler PostLogin;
+        public event PostLoginEventHandler? PostLogin = null;
 
         public MainWindow()
         {
+            Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
             InitializeComponent();
 
-            PostLogin = () => { };
-            Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
+            this.PostLogin += () => SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
         }
 
         public bool HasOnlyMainField => this.wrapper.Children.Count == 1;
@@ -44,6 +45,12 @@ namespace ClasseVivaWPF
                 this.RemoveField((FrameworkElement)this.wrapper.Children[1]);
 
             this.wrapper.Children.Add(element);
+        }
+
+        private void OnNotificationsFlagChanged(SessionHandler sender, bool Flag)
+        {
+            if (this.NotifyIcon is not null)
+                this.NotifyIcon.Checked = Flag;
         }
 
         public void ReplaceMainContent(FrameworkElement element, bool animate = true)
@@ -110,20 +117,17 @@ namespace ClasseVivaWPF
                 icon.ContextMenuStrip = new();
                 icon.ContextMenuStrip.Items.Add("Apri", null, (s, e) => this.Show());
 
-                var notify_btn = new Forms.ToolStripMenuItem()
+                NotifyIcon = new Forms.ToolStripMenuItem()
                 {
                     Text = "Notifiche",
                     Checked = true,
                     CheckOnClick = true,
                 };
-                notify_btn.CheckedChanged += (s, e) =>
+                NotifyIcon.CheckedChanged += (s, e) =>
                 {
-                    if (notify_btn.Checked)
-                        NotificationSystem.INSTANCE.SpawnTask();
-                    else
-                        NotificationSystem.INSTANCE.Stop();
+                    SessionHandler.INSTANCE!.SetNotificationsFlag(NotifyIcon.Checked);
                 };
-                icon.ContextMenuStrip.Items.Add(notify_btn);
+                icon.ContextMenuStrip.Items.Add(NotifyIcon);
 
                 icon.ContextMenuStrip.Items.Add("Chiudi", null, (s, e) => Application.Current.Shutdown());
                 icon.Visible = true;
@@ -166,7 +170,8 @@ namespace ClasseVivaWPF
 
         public void OnPostLogin()
         {
-            MainWindow.INSTANCE.PostLogin();
+            if (MainWindow.INSTANCE.PostLogin is not null)
+                MainWindow.INSTANCE.PostLogin();
         }
 
         internal void Goto(ToastArguments args)

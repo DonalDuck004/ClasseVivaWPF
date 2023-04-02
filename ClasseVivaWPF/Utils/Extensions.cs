@@ -146,6 +146,7 @@ namespace ClasseVivaWPF.Utils
                             tmp.StreamSource = new FileStream(img_path.AbsolutePath, FileMode.Open, FileAccess.Read);
                             tmp.EndInit();
                             img.Source = tmp;
+                            tmp.StreamSource.Close();
                         }
                         else
                             img.Source = new BitmapImage(img_path);
@@ -193,6 +194,7 @@ namespace ClasseVivaWPF.Utils
 
                             bg.StreamSource = new FileStream(img_path.AbsolutePath, FileMode.Open, FileAccess.Read);
                             bg.EndInit();
+                            bg.StreamSource.Close();
                         }
                         else
                             bg = new(img_path);

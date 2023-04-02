@@ -9,6 +9,11 @@ namespace ClasseVivaWPF.Sessions
 {
     public class SessionHandler
     {
+        public delegate void NotificationsFlagHandler(SessionHandler sender, bool Flag);
+        public delegate void NotificationsRangeHandler(SessionHandler sender, int Range);
+        public NotificationsFlagHandler? NotificationsFlagChanged = null;
+        public NotificationsRangeHandler? NotificationsRangeChanged = null;
+        
         public static SessionHandler? INSTANCE { get; private set; }
 
         private static Me? _me = null;
@@ -84,6 +89,16 @@ namespace ClasseVivaWPF.Sessions
 
 
             sql = "CREATE TABLE RequestsCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))";
+            cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            cur.ExecuteNonQuery();
+
+            sql = "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6)";
+            cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            cur.ExecuteNonQuery();
+
+            sql = "INSERT INTO Settings DEFAULT VALUES";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
@@ -212,6 +227,59 @@ namespace ClasseVivaWPF.Sessions
             row.Read();
             
             return row.IsDBNull(0) ? 0 : row.GetInt32(0);
+        }
+
+        public void DropCache()
+        {
+            var sql = "DELETE FROM RequestsCache";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            cur.ExecuteNonQuery();
+        }
+
+        public void SetNotificationsFlag(bool isChecked)
+        {
+            var sql = "UPDATE Settings SET NotificationsEnabled = $NE";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            cur.Parameters.AddWithValue("$NE", isChecked);
+            cur.ExecuteNonQuery();
+
+            if (NotificationsFlagChanged is not null)
+                NotificationsFlagChanged(this, isChecked);
+        }
+
+        public bool GetNotificationsFlag()
+        {
+            var sql = "SELECT NotificationsEnabled FROM Settings";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            var result = cur.ExecuteReader();
+            result.Read();
+            return result.GetBoolean(0);
+        }
+
+        public void SetNotificationsRange(int range)
+        {
+            var sql = "UPDATE Settings SET NotificationsRange = $R";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            cur.Parameters.AddWithValue("$R", range);
+            cur.ExecuteNonQuery();
+
+            if (NotificationsRangeChanged is not null)
+                NotificationsRangeChanged(this, range);
+        }
+
+        public int GetNotificationsRange()
+        {
+            var sql = "SELECT NotificationsRange FROM Settings";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            var result = cur.ExecuteReader();
+            result.Read();
+            var x = result.GetInt32(0);
+            return x;
         }
     }
 }
