@@ -35,8 +35,6 @@ namespace ClasseVivaWPF.SharedControls
         }
 
         private (Image, string)[] Images;
-        private double? scroll_horizontal_offset = null;
-        private DispatcherTimer? last_animator = null;
 
         public CVPilloleOpener(Content content) : base(content.ContentID)
         {
@@ -45,10 +43,8 @@ namespace ClasseVivaWPF.SharedControls
             foreach (var x in content.Related)
                 this.ExtraWp.Children.Add(new CVImage(x));
 
-            if (this.Multi = (content.ContentDetail!.Length != 1))
-                Images = content.ContentDetail!.Select(x => (new Image(), x.Img)).ToArray();
-            else
-                Images = new[] { (new Image(), content.Gallery!) };
+            this.Multi = content.ContentDetail!.Length != 1;
+            this.Images = content.ContentDetail!.Select(x => (new Image(), x.Img)).ToArray();
 
             StartRendering();
 
@@ -83,10 +79,6 @@ namespace ClasseVivaWPF.SharedControls
             set
             {
                 base.SetValue(SelectedContentProperty, value);
-
-                if (last_animator is not null)
-                    last_animator.IsEnabled = false;
-
                 var h = Images.TakeWhile(x => !ReferenceEquals(x.Item1, value)).Sum(x => x.Item1.ActualWidth);
                 var c = Scroller.HorizontalOffset;
                 if (h == c)
@@ -94,7 +86,7 @@ namespace ClasseVivaWPF.SharedControls
 
                 const double ANIMATION_DURATION = 0.01;
 
-
+                Scroller.ScrollToHorizontalOffset(h);
                 if (this.Multi)
                 {
                     var animation = new DoubleAnimation()
@@ -103,9 +95,8 @@ namespace ClasseVivaWPF.SharedControls
                         To = GetPointLeft(),
                     };
                     this.Pointer.BeginAnimation(Canvas.LeftProperty, animation);
+                    // Scroller.AnimateScrollerH(c, h, ANIMATION_DURATION).IsEnabled = true;
                 }
-
-                Scroller.AnimateScrollerH(c, h, ANIMATION_DURATION).IsEnabled = true;
             }
         }
 
@@ -125,32 +116,9 @@ namespace ClasseVivaWPF.SharedControls
             return i;
         }
 
-        private void OnSnapScroller(object sender, MouseButtonEventArgs e)
-        {
-            if (scroll_horizontal_offset is null)
-                return;
-
-            var required = this.Scroller.ActualWidth / 20;
-            var idx = this.ImagesWrapper.Children.OfType<Image>().ReferenceIndexOf(this.SelectedContent);
-
-            if (this.Scroller.HorizontalOffset - scroll_horizontal_offset > required) // Next
-                idx++;
-            else if (scroll_horizontal_offset - this.Scroller.HorizontalOffset > required)// Undo
-                idx--;
-
-            if (idx == this.ImagesWrapper.Children.Count)
-                idx = this.ImagesWrapper.Children.Count - 1;
-            else if (idx == -1)
-                idx = 0;
-
-            this.SelectedContent = (Image)this.ImagesWrapper.Children[idx];
-            scroll_horizontal_offset = null;
-        }
-
         private void GotoPoint(object sender, EventArgs e)
         {
-            var x = this.Points.Children.OfType<Border>().ToArray();
-            var i = x.ReferenceIndexOf(sender);
+            var i = this.Points.Children.OfType<Border>().ToArray().ReferenceIndexOf(sender);
             this.SelectedContent = Images[i].Item1;
         }
 
@@ -167,7 +135,7 @@ namespace ClasseVivaWPF.SharedControls
                 this.ImagesWrapper.Children.Add(wp);
             }
 
-            if (Images.Length != 1)
+            if (this.Multi)
             {
                 var bf = new Binding()
                 {
@@ -201,11 +169,6 @@ namespace ClasseVivaWPF.SharedControls
             }
         }
 
-        private void OnSetScrollerOffest(object sender, MouseButtonEventArgs e)
-        {
-            scroll_horizontal_offset = this.Scroller.HorizontalOffset;
-        }
-
         public void OnKeyDown(object sender, KeyEventArgs e)
         {
             var idx = this.ImagesWrapper.Children.OfType<Image>().ReferenceIndexOf(this.SelectedContent);
@@ -237,6 +200,11 @@ namespace ClasseVivaWPF.SharedControls
             foreach (var item in this.Images)
                 item.Item1.Source = null;
             Application.Current.Dispatcher.BeginInvoke(GC.Collect);
+        }
+
+        private void Scroller_OnSnap(object sender, SnapEventArgs e)
+        {
+            this.SelectedContent = (Image)e.SnappendElement;
         }
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.HomeSection"
-             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Loaded="OnLoad"
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <UserControl.Resources>
@@ -35,12 +35,15 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Name="head_wp" Focusable="False">
-                    <local:CVCalenderSrollerViewer HorizontalScrollBarVisibility="Hidden"
-                                                   VerticalScrollBarVisibility="Disabled"
-                                                   PanningMode="Both" x:Name="days_scroller"
-                                                   PreviewMouseDown="OnSetScrollerOffest" 
-                                                   Focusable="False"
-                                                   PreviewMouseUp="OnSnapScroller">
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  PanningMode="Both" x:Name="days_scroller"
+                                  shared:CVScollerView.OnSnap="OnSnapScroller"
+                                  shared:CVScollerView.IsEnabled="True"
+                                  shared:CVScollerView.CatchHeightProperty="False"
+                                  shared:CVScollerView.Snap="True"
+                                  shared:CVScollerView.SnapSensibility="3"
+                                  Focusable="False">
                         <StackPanel x:Name="days_wp" Orientation="Horizontal" Focusable="False">
                             <StackPanel.Resources>
                                 <Style TargetType="local:CVWeek">
@@ -48,7 +51,7 @@
                                 </Style>
                             </StackPanel.Resources>
                         </StackPanel>
-                    </local:CVCalenderSrollerViewer>
+                    </ScrollViewer>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Name="current_day" MouseLeftButtonDown="OnOpenCalendar" Margin="0,0,0,2" Cursor="Hand" Focusable="False">
                     <WrapPanel Background="Transparent">

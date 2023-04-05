@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
@@ -56,36 +57,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             item.SelectChild(now.DayOfWeek);
         }
 
-        private double? scroll_horizontal_offset = null;
-
-        private void OnSnapScroller(object sender, MouseButtonEventArgs e)
-        {
-            if (this.days_wp.Children.Count == 0 || scroll_horizontal_offset is null)
-                return;
-
-            var required = this.head_wp.ActualWidth / 20;
-
-            if (this.days_scroller.HorizontalOffset - scroll_horizontal_offset > required) // Next
-            {
-                var r = this.days_scroller.HorizontalOffset / this.head_wp.ActualWidth;
-                ((CVWeek)this.days_wp.Children[(int)r + 1]).Scroll();
-            }
-            else if (scroll_horizontal_offset - this.days_scroller.HorizontalOffset > required)// Undo
-            {
-                var r = this.days_scroller.HorizontalOffset / this.head_wp.ActualWidth;
-                ((CVWeek)this.days_wp.Children[(int)r]).Scroll();
-            }
-            else
-                this.days_scroller.ScrollToHorizontalOffset(scroll_horizontal_offset.Value);
-
-            scroll_horizontal_offset = null;
-        }
-
-        private void OnSetScrollerOffest(object sender, MouseButtonEventArgs e)
-        {
-            scroll_horizontal_offset = this.days_scroller.HorizontalOffset;
-        }
-
         public int IndexOfWeek(CVWeek week)
         {
             var i = 0;
@@ -115,7 +86,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
 
             this.days_wp.Children.Insert(idx.Value, week);
-
             if (this.days_wp.Children.Count > 5)
             {
                 CVWeek? to_delete = null;
@@ -148,6 +118,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 DaysOnKeyDown(sender, e);
             else if (e.Key is Key.Down || e.Key is Key.Up)
                 this.homework_scroller.RaiseEvent(e);
+            else if (e.Key is Key.F5)
+                this.UpdateSelected();
         }
 
         private void DaysOnKeyDown(object sender, KeyEventArgs e)
@@ -196,6 +168,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             this.mouse_fist_snap = e.GetPosition(this.homework_scroller);
         }
 
+        private void UpdateSelected()
+        {
+            this.Loader.Visibility = Visibility.Visible;
+            CVDay.SelectedDay!.Update(require_new_call: true);
+        }
+
         private void OnSnapScrollerFromContent(object sender, MouseButtonEventArgs e)
         {
             if (this.days_wp.Children.Count == 0 || this.mouse_fist_snap is null)
@@ -204,8 +182,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             var pos = e.GetPosition(this.homework_scroller);
             if (this.mouse_fist_snap.Value.Y <= this.homework_scroller.ActualHeight / 30 && pos.Y - this.mouse_fist_snap.Value.Y >= this.homework_scroller.ActualHeight / 2)
             {
-                this.Loader.Visibility = Visibility.Visible;
-                CVDay.SelectedDay!.Update(require_new_call: true);
+                this.UpdateSelected();
                 return;
             }
 
@@ -241,6 +218,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         public void OnSwitch()
         {
+        }
+
+        private void OnSnapScroller(object sender, SnapEventArgs e)
+        {
+            ((CVWeek)e.SnappendElement).Scroll();
         }
     }
 }

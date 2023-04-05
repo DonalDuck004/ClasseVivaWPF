@@ -225,6 +225,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
 
             Debug.Assert(idx == CVHome.INSTANCE.IndexOfWeek(this));
+            var w = this.From;
             if (this.Previus.Parent is null)
                 CVHome.INSTANCE.AddWeek(this.Previus, idx);
         }

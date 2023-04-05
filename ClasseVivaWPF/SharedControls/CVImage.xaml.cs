@@ -27,7 +27,6 @@ namespace ClasseVivaWPF.SharedControls
             ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CVImage));
         }
 
-
         private RelatedContentDetail content;
         private SemaphoreSlim sem = new SemaphoreSlim(1, 1);
 
@@ -35,12 +34,10 @@ namespace ClasseVivaWPF.SharedControls
         {
             InitializeComponent();
 
-            PreviewMouseLeftButtonUp += (sender, args) => RaiseClickEvent();
+            this.PreviewMouseLeftButtonUp += ShowMeme;
 
             this.content = content;
             this.wp.AsyncImageLoading(content.Img);
-
-            this.Click += ShowMeme;
         }
 
         private async void ShowMeme(object sender, RoutedEventArgs e)
@@ -66,18 +63,5 @@ namespace ClasseVivaWPF.SharedControls
 
             sem.Release();
         }
-
-        private void RaiseClickEvent()
-        {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(CVImage.ClickEvent);
-            RaiseEvent(newEventArgs);
-        }
-
-        public event RoutedEventHandler Click
-        {
-            add => AddHandler(ClickEvent, value);
-            remove => RemoveHandler(ClickEvent, value);
-        }
-
     }
 }

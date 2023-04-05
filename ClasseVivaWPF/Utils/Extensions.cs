@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -216,16 +218,16 @@ namespace ClasseVivaWPF.Utils
 
         public static DispatcherTimer AnimateScrollerH(this ScrollViewer sc, double from, double to, double duration)
         {
-
             if (sc.Tag is DispatcherTimer old_dp)
                 old_dp.IsEnabled = false;
 
             DispatcherTimer dp;
             var inc = from < to;
+            const int INC_FOR_TICK = 2;
 
             sc.Tag = dp = new()
             {
-                Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to)) * 2
+                Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to)) * INC_FOR_TICK
             };
 
             dp.Tick += (s, e) =>
@@ -233,13 +235,14 @@ namespace ClasseVivaWPF.Utils
                 if ((inc && from++ > to) || (!inc && to > --from))
                 {
                     ((DispatcherTimer)s!).IsEnabled = false;
+                    sc.ScrollToHorizontalOffset(to);
                     return;
                 }
 
                 if (inc)
-                    from++;
+                    from += INC_FOR_TICK - 1;
                 else
-                    from--;
+                    from -= INC_FOR_TICK - 1;
 
                 sc.ScrollToHorizontalOffset(from);
             }; // It's not animable
