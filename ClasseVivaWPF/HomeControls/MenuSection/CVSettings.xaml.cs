@@ -13,8 +13,10 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVSettings.xaml
     /// </summary>
-    public partial class CVSettings : UserControl, ICloseRequested
+    public partial class CVSettings : UserControl, ICloseRequested, ICVMeta
     {
+        public bool CountsInStack { get; } = false;
+
         public static string MediaDirSize => new DirectoryInfo(Config.MEDIA_DIR_PATH).GetFiles().Sum(x => x.Length).SizeSuffix();
         public static string? SessionCacheSize => SessionHandler.INSTANCE?.GetCacheSize().SizeSuffix();
         public static string? DBSize => SessionHandler.INSTANCE is null ? null : new FileInfo(SessionHandler.INSTANCE?.FileName!).Length.SizeSuffix();
@@ -36,6 +38,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
             this.NotificationsCB.CheckStateChanged += OnCheckStateChanged!;
             this.NotificationsRangeSlider.ValueChanged += OnNotifyRangeChanged!;
+            this.PagesStackSlider.ValueChanged += OnPagesStackSizeChanged!;
         }
 
         private void OnNotificationsFlagChanged(SessionHandler sender, bool Flag)
@@ -55,6 +58,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             this.ShowMediaDirSize.Text = CVSettings.MediaDirSize;
             this.NotificationsCB.IsChecked = NotificationSystem.INSTANCE.IsActive;
             this.NotificationsRangeSlider.Value = SessionHandler.INSTANCE!.GetNotificationsRange();
+            this.PagesStackSlider.Value = SessionHandler.INSTANCE!.GetPagesStackSize();
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
@@ -106,6 +110,11 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         private void OnNotifyRangeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SessionHandler.INSTANCE!.SetNotificationsRange((int)e.NewValue);
+        }
+
+        private void OnPagesStackSizeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SessionHandler.INSTANCE!.SetPagesStackSize((int)e.NewValue);
         }
     }
 }

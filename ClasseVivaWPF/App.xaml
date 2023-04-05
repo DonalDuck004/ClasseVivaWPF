@@ -15,7 +15,8 @@
         <converters:ColorIfConverter x:Key="ColorIfConverter"></converters:ColorIfConverter>
         <converters:CVMemeBackgroundConverter x:Key="CVMemeBackgroundConverter"></converters:CVMemeBackgroundConverter>
         <converters:AddConverter x:Key="AddConverter"></converters:AddConverter>
-        
+        <converters:ThicknessConverter x:Key="ThicknessConverter"></converters:ThicknessConverter>
+
         <Color x:Key="CV_RED_COLOR" A="{x:Static utils:Config.CV_RED_A}" R="{x:Static utils:Config.CV_RED_R}" G="{x:Static utils:Config.CV_RED_G}" B="{x:Static utils:Config.CV_RED_B}"></Color>
         <SolidColorBrush x:Key="CV_RED" Color="{StaticResource CV_RED_COLOR}"></SolidColorBrush>
 
@@ -23,19 +24,19 @@
         <SolidColorBrush x:Key="CV_OPAQUE_WHITE" Color="{StaticResource CV_OPAQUE_WHITE_COLOR}"></SolidColorBrush>
 
         <Style TargetType="Control" x:Key="FT">
-            <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+            <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>
         
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+            <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>
         <Style TargetType="{x:Type Run}">
-            <Setter Property="FontFamily" Value="Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+            <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>
-
+        
         <Style TargetType="Border" x:Key="BDImg">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>

@@ -11,8 +11,10 @@ namespace ClasseVivaWPF.Sessions
     {
         public delegate void NotificationsFlagHandler(SessionHandler sender, bool Flag);
         public delegate void NotificationsRangeHandler(SessionHandler sender, int Range);
+        public delegate void PagesStackSizeHandler(SessionHandler sender, int Size);
         public NotificationsFlagHandler? NotificationsFlagChanged = null;
         public NotificationsRangeHandler? NotificationsRangeChanged = null;
+        public PagesStackSizeHandler? PagesStackSizeChanged = null;
         
         public static SessionHandler? INSTANCE { get; private set; }
 
@@ -93,7 +95,7 @@ namespace ClasseVivaWPF.Sessions
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
 
-            sql = "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6)";
+            sql = "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6, PagesStackSize INT DEFAULT 5)";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
@@ -280,6 +282,28 @@ namespace ClasseVivaWPF.Sessions
             result.Read();
             var x = result.GetInt32(0);
             return x;
+        }
+
+        public int GetPagesStackSize()
+        {
+            var sql = "SELECT PagesStackSize FROM Settings";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            var result = cur.ExecuteReader();
+            result.Read();
+            return result.GetInt32(0);
+        }
+
+        public void SetPagesStackSize(int newValue)
+        {
+            var sql = "UPDATE Settings SET PagesStackSize = $PSZ";
+            var cur = this.conn.CreateCommand();
+            cur.CommandText = sql;
+            cur.Parameters.AddWithValue("$PSZ", newValue);
+            cur.ExecuteNonQuery();
+
+            if (PagesStackSizeChanged is not null)
+                PagesStackSizeChanged(this, newValue);
         }
     }
 }

@@ -179,7 +179,7 @@ namespace ClasseVivaWPF.SharedControls
 
             _captures.Remove(sender);
 
-            target.Loaded -= target_Loaded;
+            // target.Loaded -= target_Loaded;
             target.Unloaded -= target_Unloaded;
             target.PreviewMouseLeftButtonDown -= target_PreviewMouseLeftButtonDown;
             target.PreviewMouseMove -= target_PreviewMouseMove;
@@ -228,6 +228,9 @@ namespace ClasseVivaWPF.SharedControls
                 var c = ((Panel)target.Content).Children;
                 var h = 0D;
                 var d = GetSnapDirection(target);
+                double check;
+                double o_check;
+
                 double p_s;
                 double req;
                 double[] sizes;
@@ -235,45 +238,57 @@ namespace ClasseVivaWPF.SharedControls
                 if (d is SnapDirections.Horizontal)
                 {
                     p_s = target.ActualWidth;
+                    check = target.HorizontalOffset;
+                    o_check = _captures[target].HorizontalOffset;
                     sizes = c.OfType<FrameworkElement>().Select(x => x.ActualWidth).ToArray();
                     req = ((FrameworkElement)target.Parent).ActualWidth / GetSnapSensibility(target);
+                    
                     for (; i < c.Count; i++)
                     {
                         h += ((FrameworkElement)c[i]).ActualWidth;
-                        if (target.HorizontalOffset <= h)
+                        if (target.HorizontalOffset < h)
+                        {
+                            i++;
                             break;
+                        }
                     }
-
-                    if (target.HorizontalOffset - _captures[sender].HorizontalOffset > req && i != c.Count - 1)
-                        ++i;
-                    else if (_captures[sender].HorizontalOffset - target.HorizontalOffset > req && i != 0)
-                        --i;
                 }
                 else if (d is SnapDirections.Vertical)
                 {
                     p_s = target.ActualHeight;
+                    check = target.VerticalOffset;
+                    o_check = _captures[target].VerticalOffset;
                     sizes = c.OfType<FrameworkElement>().Select(x => x.ActualHeight).ToArray();
                     req = ((FrameworkElement)target.Parent).ActualHeight / GetSnapSensibility(target);
+                    
                     for (; i < c.Count; i++)
                     {
                         h += ((FrameworkElement)c[i]).ActualHeight;
-                        if (target.VerticalOffset <= h)
+                        if (target.VerticalOffset < h)
+                        {
+                            i++;
                             break;
+                        }
                     }
-
-                    if (target.VerticalOffset - _captures[sender].VerticalOffset > req && i != c.Count - 1)
-                        ++i;
-                    else if (_captures[sender].VerticalOffset - target.VerticalOffset > req && i != 0)
-                        --i;
                 }
                 else
                     throw new Exception();
+
+                if (check - o_check > req) // ->
+                {}
+                else if (o_check - check > req) // <-
+                    i -= 2;
+                else
+                    i--;
+
+                i = i < 0 ? 0 : i % c.Count;
                 var to = sizes.Take(i).Sum();
                 //    to -= ((p_s - sizes[i]) / 2);
 
                 target.ScrollToHorizontalOffset(to);
                 _indexes[target] = i;
-                target.RaiseEvent(new SnapEventArgs() { Index = i, SnappendElement = (FrameworkElement)c[i] });
+                var t = (FrameworkElement)c[i];
+                target.RaiseEvent(new SnapEventArgs() { Index = i, SnappendElement = t });
 
                 // OnSnap?.Invoke(target, new(i, (FrameworkElement)c[i], (Panel)target.Content));
             }

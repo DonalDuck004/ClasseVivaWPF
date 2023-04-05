@@ -22,7 +22,6 @@ namespace ClasseVivaWPF.Api
         private int UserID => SessionHandler.Me!.Id;
         private HttpClient client;
 
-
         public Client()
         {
             if (Config.USE_PROXY)

@@ -302,6 +302,22 @@ namespace ClasseVivaWPF.Utils
             return -1;
         }
 
+        public static int ReferenceIndexOf<T>(this UIElementCollection container, T needle)
+        {
+            int i = 0;
+
+            foreach (var item in container)
+            {
+                if (object.ReferenceEquals(item, needle))
+                    return i;
+
+                i++;
+            }
+
+            return -1;
+        }
+
+
         private static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
         public static string SizeSuffix(this int value, int decimalPlaces = 2) => ((long)value).SizeSuffix(decimalPlaces);

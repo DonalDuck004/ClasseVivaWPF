@@ -10,6 +10,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<None Remove="Assets\Fonts\ConnectCode128_S3.otf" />
+		<None Remove="Assets\Fonts\fre3of9x.ttf" />
 		<None Remove="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf" />
 		<None Remove="Assets\Fonts\password.ttf" />
 		<None Remove="Assets\Images\header_classeviva.png" />
@@ -24,14 +26,22 @@
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1587.40" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="QRCoder" Version="1.4.3" />
+		<PackageReference Include="QRCoder.Xaml" Version="1.4.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf">
+		<Resource Include="Assets\Fonts\ConnectCode128_S3.otf">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Assets\Fonts\fre3of9x.ttf">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Assets\Fonts\password.ttf">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Assets\Images\header_classeviva.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>

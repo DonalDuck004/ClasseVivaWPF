@@ -13,8 +13,6 @@ namespace ClasseVivaWPF.Utils
 
         public const int NOTIFY_UPDATE_DELAY = 60000;
 
-        public const int MAX_OVERLAPPED_WIN = 5;
-
 #if DEBUG
         public const bool USE_PROXY = true;
 #else

@@ -10,8 +10,10 @@ namespace ClasseVivaWPF.HomeControls
     /// <summary>
     /// Logica di interazione per CVMainNavigation.xaml
     /// </summary>
-    public partial class CVMainNavigation : UserControl, IOnKeyDown
+    public partial class CVMainNavigation : UserControl, IOnKeyDown, ICVMeta
     {
+        public bool CountsInStack { get; } = false;
+     
         public static CVMainNavigation? INSTANCE = null;
 
         private CVMainNavigation()

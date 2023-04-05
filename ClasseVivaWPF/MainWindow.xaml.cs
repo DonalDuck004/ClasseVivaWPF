@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,7 @@ namespace ClasseVivaWPF
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
         Forms.ToolStripMenuItem? NotifyIcon = null;
+        private int PagesStackSize;
 
         public delegate void PostLoginEventHandler();
         public event PostLoginEventHandler? PostLogin = null;
@@ -34,15 +36,33 @@ namespace ClasseVivaWPF
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
             InitializeComponent();
 
-            this.PostLogin += () => SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
+            this.PostLogin += () =>
+            {
+                if (NotifyIcon is not null)
+                    this.NotifyIcon!.Checked = SessionHandler.INSTANCE!.GetNotificationsFlag();
+                
+                PagesStackSize = SessionHandler.INSTANCE!.GetPagesStackSize();
+                SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
+                SessionHandler.INSTANCE!.PagesStackSizeChanged += OnPagesStackSizeChanged;
+            };
+        }
+
+        private void OnPagesStackSizeChanged(SessionHandler sender, int Size)
+        {
+            this.PagesStackSize = Size;
         }
 
         public bool HasOnlyMainField => this.wrapper.Children.Count == 1;
 
         public void AddFieldOverlap(FrameworkElement element)
         {
-            if (this.wrapper.Children.Count - 1 >= Config.MAX_OVERLAPPED_WIN)
-                this.RemoveField((FrameworkElement)this.wrapper.Children[1]);
+            var f = this.wrapper.Children.OfType<FrameworkElement>().Where(x => x is not ICVMeta y || y.CountsInStack is true);
+
+            if (f.Count() > this.PagesStackSize)
+            {
+                var t = f.First();
+                this.RemoveField((FrameworkElement)f.First());
+            }
 
             this.wrapper.Children.Add(element);
         }

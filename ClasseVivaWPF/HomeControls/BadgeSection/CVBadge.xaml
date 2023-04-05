@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="ClasseVivaWPF.HomeControls.BadgeSection.CVBadge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.BadgeSection"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="wp">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Panel.ZIndex="2" Grid.RowSpan="2" Grid.Row="0">
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="LayoutTransform">
+                        <Setter.Value>
+                            <RotateTransform Angle="-45"></RotateTransform>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="Yellow"></Setter>
+                    <Setter Property="FontSize" Value="64"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                    <Setter Property="Content" Value="WIP"></Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"></Label>
+            <Label Grid.Column="1"></Label>
+            <Label Grid.Column="2"></Label>
+            <Label Grid.Column="3"></Label>
+            <TextBlock FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Foreground="Black" Text="Attualemente non funzionante nell'app ufficiale (?)"></TextBlock>
+        </Grid>
+        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{StaticResource ResourceKey=CV_RED}">
+            <Grid x:Name="labels">
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                        <EventSetter Event="MouseLeftButtonDown" Handler="OnSectionClick"></EventSetter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="QR Code" Grid.Column="0" Foreground="#AFFFFFFF"></Label>
+                <Label Content="Bar Code" Grid.Column="1" Foreground="#AF171717"></Label>
+            </Grid>
+        </DockPanel>
+        <Grid Grid.Row="0" Grid.RowSpan="2">
+            <Canvas VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Name="wp_canvas"
+                    Width="{Binding Path=ActualWidth, ElementName=wp, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=2}"
+                    Height="{Binding Path=ActualHeight, ElementName=r1, Converter={StaticResource ResourceKey=AddConverter}, ConverterParameter=4}"
+                    Panel.ZIndex="1">
+                <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp}"
+                           Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
+                           Fill="{StaticResource ResourceKey=CV_RED}"></Rectangle>
+                <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp_canvas}"
+                               Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
+                               Fill="White" Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=2}"></Rectangle>
+            </Canvas>
+            <DockPanel x:Name="scroller_wp" Panel.ZIndex="0">
+                <ScrollViewer x:Name="Scroller"
+                              shared:CVScollerView.CatchHeightProperty="False"
+                              shared:CVScollerView.IsEnabled="True"
+                              Height="{Binding ElementName=scroller_wp, Path=ActualHeight}"
+                              shared:CVScollerView.Snap="True"
+                              shared:CVScollerView.OnSnap="Scroller_OnSnap"
+                              VerticalScrollBarVisibility="Disabled"
+                              HorizontalScrollBarVisibility="Hidden">
+                    <StackPanel Orientation="Horizontal">
+                        <DockPanel Width="{Binding ElementName=wp, Path=ActualWidth}" VerticalAlignment="Center">
+                            <DockPanel Margin="{Binding ElementName=r1, Path=ActualHeight, Converter={StaticResource ThicknessConverter}, ConverterParameter=Top}" 
+                                       x:Name="QR" 
+                                       VerticalAlignment="Center" 
+                                       Height="{Binding ElementName=wp, Path=ActualHeight, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=1.25}">
+                                <DockPanel.Background>
+                                    <ImageBrush ImageSource="/Assets/Images/placeholder.jpg" Stretch="Uniform"></ImageBrush>
+                                </DockPanel.Background>
+                            </DockPanel>
+                        </DockPanel>
+                        <DockPanel Width="{Binding ElementName=wp, Path=ActualWidth}">
+                            <TextBlock FontSize="72" FontFamily="/Assets/Fonts/#CCode128_S3" Name="BR" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                            </TextBlock>
+                            <!--Viewbox HorizontalAlignment="Center"
+                                     Margin="{Binding Path=Margin, ElementName=QR}"
+                                     Width="{Binding Path=ActualWidth, ElementName=QR, Converter={StaticResource DivisionConverter}, ConverterParameter=1.5}">
+                                <TextBlock FontSize="72" FontWeight="Thin" FontFamily="/Assets/Fonts/#CCode128_S3" Name="BR" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                                </TextBlock>
+                            </Viewbox-->
+                        </DockPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Grid>
+        
+    </Grid>
+</UserControl>

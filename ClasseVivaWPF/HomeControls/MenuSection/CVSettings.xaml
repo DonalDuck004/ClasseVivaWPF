@@ -9,7 +9,7 @@
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Name="Control"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1000" d:DesignWidth="800">
     <Grid Background="{StaticResource ResourceKey=CV_RED}">
         <Grid.RowDefinitions>
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
@@ -110,6 +110,31 @@
                         </TextBlock>
                         <Button Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></Button>
                         <Button Content="Svuota Cache" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DropSessionCache"></Button>
+                    </Grid>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Gestione File"></TextBlock>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Style="{StaticResource ResourceKey=LastCol}"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Limite Stack Pagine" Grid.Row="0"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="1">Imposta la quantità massima di pagine sovrapponibili</TextBlock>
+                        <DockPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" MaxWidth="200" HorizontalAlignment="Left">
+                            <Slider MinWidth="120"
+                                VerticalAlignment="Center"
+                                x:Name="PagesStackSlider"
+                                Ticks="2,3,4,5,6,7,8,9,10,10" 
+                                Minimum="2" 
+                                Maximum="10" 
+                                IsSnapToTickEnabled="True"></Slider>
+                            <Label Foreground="{StaticResource ResourceKey=CV_RED}" Content="{Binding Path=Value, ElementName=PagesStackSlider}" ContentStringFormat="{}{0} Pagine"></Label>
+                        </DockPanel>
                     </Grid>
                 </StackPanel>
                 <StackPanel>

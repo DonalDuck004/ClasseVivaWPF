@@ -8,8 +8,9 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVExtra.xaml
     /// </summary>
-    public partial class CVExtra : UserControl, IOnKeyDown, ICloseRequested, IOnChildClosed
+    public partial class CVExtra : UserControl, IOnKeyDown, ICloseRequested, IOnChildClosed, ICVMeta
     {
+        public bool CountsInStack { get; } = false;
         public static CVExtra? INSTANCE = null;
 
         public CVExtra()

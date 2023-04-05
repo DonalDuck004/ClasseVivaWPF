@@ -88,17 +88,12 @@ namespace ClasseVivaWPF.SharedControls
 
         private double GetPointLeft(int? idx = null)
         {
-            idx ??= GetImageIndex();
+            idx ??= this.ImagesWrapper.Children.ReferenceIndexOf(this.SelectedContent);
+            if (idx == -1)
+                idx = 0;
+
             var pos = Points.Children.OfType<Border>().ElementAt(idx.Value).TransformToAncestor(Points).Transform(new(0, 0));
             return pos.X;
-        }
-
-        private int GetImageIndex()
-        {
-            int i = 0;
-            for (; !ReferenceEquals(this.ImagesWrapper.Children[i], this.SelectedContent); i++) ;
-
-            return i;
         }
 
         private void StartRendering()
@@ -150,7 +145,7 @@ namespace ClasseVivaWPF.SharedControls
 
         public void OnKeyDown(object sender, KeyEventArgs e)
         {
-            var idx = this.ImagesWrapper.Children.OfType<Image>().ReferenceIndexOf(this.SelectedContent);
+            var idx = this.ImagesWrapper.Children.ReferenceIndexOf(this.SelectedContent);
 
             if (e.Key is Key.Left)
                 idx--;
@@ -179,7 +174,7 @@ namespace ClasseVivaWPF.SharedControls
         }
         private void GotoPoint(object sender, EventArgs e)
         {
-            var i = this.Points.Children.OfType<Border>().ToArray().ReferenceIndexOf(sender);
+            var i = this.Points.Children.ReferenceIndexOf(sender);
             this.SelectedContent = Images[i].Item1;
         }
         private void OnLoad(object sender, EventArgs e)

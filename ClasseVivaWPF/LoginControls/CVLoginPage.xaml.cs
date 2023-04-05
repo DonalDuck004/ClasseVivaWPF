@@ -15,8 +15,10 @@ namespace ClasseVivaWPF.LoginControls
     /// <summary>
     /// Logica di interazione per CVLoginPage.xaml
     /// </summary>
-    public partial class CVLoginPage : UserControl
+    public partial class CVLoginPage : UserControl, ICVMeta
     {
+        public bool CountsInStack { get; } = false;
+     
         public CVLoginPage()
         {
             InitializeComponent();
