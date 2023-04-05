@@ -19,60 +19,16 @@ namespace ClasseVivaWPF.SharedControls
     /// </summary>
     public partial class CVPilloleOpener : CVExtraBase, ICloseRequested, IOnKeyDown
     {
-#if DEBUG
-        private CVPilloleOpener()
-        {
-            InitializeComponent();
-        }
-#endif
         public static readonly DependencyProperty SelectedContentProperty;
         public static readonly DependencyProperty MultiProperty;
 
-        static CVPilloleOpener()
-        {
-            SelectedContentProperty = DependencyProperty.Register("SelectedContent", typeof(Image), typeof(CVPilloleOpener));
-            MultiProperty = DependencyProperty.Register("Multi", typeof(bool), typeof(CVPilloleOpener));
-        }
-
         private (Image, string)[] Images;
-
-        public CVPilloleOpener(Content content) : base(content.ContentID)
-        {
-            InitializeComponent();
-
-            foreach (var x in content.Related)
-                this.ExtraWp.Children.Add(new CVImage(x));
-
-            this.Multi = content.ContentDetail!.Length != 1;
-            this.Images = content.ContentDetail!.Select(x => (new Image(), x.Img)).ToArray();
-
-            StartRendering();
-
-            this.DataContext = this;
-            this.SelectedContent = Images[0].Item1;
-            this.Loaded += OnLoad;
-        }
-
-        private void OnLoad(object sender, EventArgs e)
-        {
-            Canvas.SetLeft(this.Pointer, GetPointLeft());
-
-            this.Loaded -= OnLoad;
-        }
-
+      
         public bool Multi
         {
             get => (bool)base.GetValue(MultiProperty);
             set => base.SetValue(MultiProperty, value);
         }
-
-        private double GetPointLeft(int? idx = null)
-        {
-            idx ??= GetImageIndex();
-            var pos = Points.Children.OfType<Border>().ElementAt(idx.Value).TransformToAncestor(Points).Transform(new(0, 0));
-            return pos.X;
-        }
-
         public Image SelectedContent
         {
             get => (Image)base.GetValue(SelectedContentProperty);
@@ -100,12 +56,41 @@ namespace ClasseVivaWPF.SharedControls
             }
         }
 
-        private void GotoSubImage(object sender, MouseButtonEventArgs e)
+        static CVPilloleOpener()
         {
-            if (e.Handled)
-                return;
+            SelectedContentProperty = DependencyProperty.Register("SelectedContent", typeof(Image), typeof(CVPilloleOpener));
+            MultiProperty = DependencyProperty.Register("Multi", typeof(bool), typeof(CVPilloleOpener));
+        }
 
-            this.SelectedContent = (Image)sender;
+#if DEBUG
+        private CVPilloleOpener()
+        {
+            InitializeComponent();
+        }
+#endif
+
+        public CVPilloleOpener(Content content) : base(content.ContentID)
+        {
+            InitializeComponent();
+
+            foreach (var x in content.Related)
+                this.ExtraWp.Children.Add(new CVImage(x));
+
+            this.Multi = content.ContentDetail!.Length != 1;
+            this.Images = content.ContentDetail!.Select(x => (new Image(), x.Img)).ToArray();
+
+            StartRendering();
+
+            this.DataContext = this;
+            this.SelectedContent = Images[0].Item1;
+            this.Loaded += OnLoad;
+        }
+
+        private double GetPointLeft(int? idx = null)
+        {
+            idx ??= GetImageIndex();
+            var pos = Points.Children.OfType<Border>().ElementAt(idx.Value).TransformToAncestor(Points).Transform(new(0, 0));
+            return pos.X;
         }
 
         private int GetImageIndex()
@@ -114,12 +99,6 @@ namespace ClasseVivaWPF.SharedControls
             for (; !ReferenceEquals(this.ImagesWrapper.Children[i], this.SelectedContent); i++) ;
 
             return i;
-        }
-
-        private void GotoPoint(object sender, EventArgs e)
-        {
-            var i = this.Points.Children.OfType<Border>().ToArray().ReferenceIndexOf(sender);
-            this.SelectedContent = Images[i].Item1;
         }
 
         private void StartRendering()
@@ -194,17 +173,28 @@ namespace ClasseVivaWPF.SharedControls
             e.Handled = true;
         }
 
+        private void Scroller_OnSnap(object sender, SnapEventArgs e)
+        {
+            this.SelectedContent = (Image)e.SnappendElement;
+        }
+        private void GotoPoint(object sender, EventArgs e)
+        {
+            var i = this.Points.Children.OfType<Border>().ToArray().ReferenceIndexOf(sender);
+            this.SelectedContent = Images[i].Item1;
+        }
+        private void OnLoad(object sender, EventArgs e)
+        {
+            Canvas.SetLeft(this.Pointer, GetPointLeft());
+
+            this.Loaded -= OnLoad;
+        }
+
         public void OnCloseRequested()
         {
             this.Content = null;
             foreach (var item in this.Images)
                 item.Item1.Source = null;
             Application.Current.Dispatcher.BeginInvoke(GC.Collect);
-        }
-
-        private void Scroller_OnSnap(object sender, SnapEventArgs e)
-        {
-            this.SelectedContent = (Image)e.SnappendElement;
         }
     }
 }

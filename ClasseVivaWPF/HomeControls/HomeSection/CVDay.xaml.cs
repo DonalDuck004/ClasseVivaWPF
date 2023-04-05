@@ -28,7 +28,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private static List<DateTime> Retries = new List<DateTime>();
 
         private StackPanel? _content = null;
-        public static readonly RoutedEvent ClickEvent;
 
         private CVDay? Tomorrow => this.ParentIdx == 6 ? null : this.Parent.GetChild(this.ParentIdx + 1);
         private CVDay? Yesterday => this.ParentIdx == 0 ? null : this.Parent.GetChild(this.ParentIdx - 1);
@@ -43,7 +42,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         static CVDay()
         {
             IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVDay), new PropertyMetadata(false));
-            ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CVDay));
         }
 
 #if DEBUG
@@ -55,12 +53,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         public CVDay(DateTime date, CVWeek parent)
         {
             InitializeComponent();
-            PreviewMouseLeftButtonUp += (sender, args) => RaiseClickEvent();
 
             this.DataContext = this;
             this.Date = date;
             this.Parent = parent;
-            this.Click += OnSelected;
+            this.PreviewMouseLeftButtonUp += OnSelected;
 
             INSTANCES.Add(this.Date, this);
         }
@@ -101,18 +98,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private void OnSelected(object sender, RoutedEventArgs e)
         {
             this.IsSelected = true;
-        }
-
-        public event RoutedEventHandler Click
-        {
-            add => AddHandler(ClickEvent, value);
-            remove => RemoveHandler(ClickEvent, value);
-        }
-
-        private void RaiseClickEvent()
-        {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(CVDay.ClickEvent);
-            RaiseEvent(newEventArgs);
         }
 
         internal async void _PrepareContent()
