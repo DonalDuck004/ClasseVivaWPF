@@ -22,13 +22,14 @@ namespace ClasseVivaWPF.SharedControls
         public static readonly DependencyProperty SelectedContentProperty;
         public static readonly DependencyProperty MultiProperty;
 
-        private (Image, string)[] Images;
-      
         public bool Multi
         {
             get => (bool)base.GetValue(MultiProperty);
             set => base.SetValue(MultiProperty, value);
         }
+
+        private (Image, string)[] Images;
+
         public Image SelectedContent
         {
             get => (Image)base.GetValue(SelectedContentProperty);

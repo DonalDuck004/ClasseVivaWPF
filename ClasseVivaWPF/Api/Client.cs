@@ -283,5 +283,27 @@ namespace ClasseVivaWPF.Api
 
             return content!;
         }
+
+        public async Task<Subjects> GetSubjects()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/subjects", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Subjects>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Grades> GetGrades()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/grades2", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Grades>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
     }
 }

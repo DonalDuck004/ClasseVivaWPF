@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.BadgeSection"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
-             mc:Ignorable="d" Background="White"
+             mc:Ignorable="d" Background="#FAFAFA"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="wp">
         <Grid.RowDefinitions>
@@ -93,16 +93,17 @@
                             </DockPanel>
                         </DockPanel>
                         <DockPanel Width="{Binding ElementName=wp, Path=ActualWidth}">
-                            <TextBlock FontSize="72" FontFamily="/Assets/Fonts/#CCode128_S3" Name="BR" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <DockPanel Margin="{Binding Path=Margin, ElementName=QR}">
+                                <Viewbox HorizontalAlignment="Center"
+                                        Width="{Binding Path=ActualWidth, ElementName=QR, Converter={StaticResource DivisionConverter}, ConverterParameter=1.5}">
+                                    <Border Background="White" BorderThickness="32" BorderBrush="White">
+                                        <TextBlock FontSize="72" FontWeight="Thin" FontFamily="/Assets/Fonts/#CCode128_S3" Name="BR" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                            </TextBlock>
-                            <!--Viewbox HorizontalAlignment="Center"
-                                     Margin="{Binding Path=Margin, ElementName=QR}"
-                                     Width="{Binding Path=ActualWidth, ElementName=QR, Converter={StaticResource DivisionConverter}, ConverterParameter=1.5}">
-                                <TextBlock FontSize="72" FontWeight="Thin" FontFamily="/Assets/Fonts/#CCode128_S3" Name="BR" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        </TextBlock>
+                                    </Border>
+                                </Viewbox>
 
-                                </TextBlock>
-                            </Viewbox-->
+                            </DockPanel>
                         </DockPanel>
                     </StackPanel>
                 </ScrollViewer>

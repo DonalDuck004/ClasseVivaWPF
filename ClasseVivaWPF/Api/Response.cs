@@ -44,10 +44,10 @@ namespace ClasseVivaWPF.Api
         public T[]? GetObjectList<T>() where T : ApiObject
         {
             if (this.Text.Contains("error"))
-                return new T[0];
+                return null;
 
             if (this.Text == "") // Bug in backend
-                return new T[0];
+                return null;
 
             return JsonConvert.DeserializeObject<T[]>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
         }

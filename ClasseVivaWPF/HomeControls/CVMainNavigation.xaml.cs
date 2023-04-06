@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.HomeControls.BadgeSection;
 using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.HomeControls.MenuSection;
+using ClasseVivaWPF.HomeControls.RegistrySection;
 using ClasseVivaWPF.Utils;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -51,6 +52,10 @@ namespace ClasseVivaWPF.HomeControls
             else if (idx is CVMainMenuIconValues.Badge)
             {
                 Current.Children.Add(new CVBadge());
+            }
+            else if (idx is CVMainMenuIconValues.Registro)
+            {
+                Current.Children.Add(new CVRegistry());
             }
         }
 

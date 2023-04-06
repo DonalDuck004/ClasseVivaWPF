@@ -84,6 +84,9 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.Always)]
         public required string OldskillDesc;
 
+        public string ShortSubjectName => this.SubjectDesc.Substring(0, 3).ToUpper();
+
+
         private static Dictionary<string, Color> DYNAMIC_OBTAINED_COLOR = new Dictionary<string, Color>()
         {
             {"green", System.Windows.Media.Color.FromRgb(0x83, 0xb4, 0x88) },
