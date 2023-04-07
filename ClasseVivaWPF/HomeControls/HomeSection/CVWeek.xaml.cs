@@ -185,30 +185,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         internal static CVWeek GetWeekContaining(DateTime date)
         {
-            var week = CVDay.SelectedDay!.Parent;
-            var idx = CVHome.INSTANCE.IndexOfWeek(week);
-
-            if (date < week.From)
-            {
-                while (date < week.From)
-                {
-                    if (week.Parent is null)
-                        CVHome.INSTANCE.AddWeek(week, --idx);
-
-                    week = week.Previus;
-                }
-            }
-            else if (date > week.To)
-            {
-                while (date > week.To)
-                {
-                    if (week.Parent is null)
-                        CVHome.INSTANCE.AddWeek(week, ++idx);
-
-                    week = week.Next;
-                }
-            }
-
+            var week = CVWeek.NewUnsafe(date);
+            if (week.Parent is null)
+                CVHome.INSTANCE.AddWeek(week);
             return week;
         }
 

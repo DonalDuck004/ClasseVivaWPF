@@ -2,6 +2,7 @@
 using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.LoginControls;
 using ClasseVivaWPF.Sessions;
+using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
@@ -126,10 +127,12 @@ namespace ClasseVivaWPF
 
         private void window_Loaded(object sender, EventArgs e)
         {
-            if (SessionHandler.TryInit())
+            if (SessionHandler.TryInit(out string? api_error_message))
                 CVLoginPage.EndLogin();
             else
                 this.ReplaceMainContent(new CVLoginPage());
+            if (api_error_message is not null)
+                new CVMessageBox("Errore di Login", api_error_message).Inject();
 
             if (icon.Visible is false)
             {
@@ -234,9 +237,7 @@ namespace ClasseVivaWPF
 
 
                     if (CVHome.INSTANCE.IsLoaded)
-                    {
                         CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
-                    }
                     else
                         CVHome.INSTANCE.Loaded += (s, e) =>
                         {

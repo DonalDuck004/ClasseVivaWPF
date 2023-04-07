@@ -16,7 +16,7 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard x:Name="loading">
                             <Storyboard>
-                                <DoubleAnimation AutoReverse="True" Storyboard.TargetProperty="Opacity" From="0" To="1" RepeatBehavior="Forever" Duration="0:0:1"></DoubleAnimation>
+                                <DoubleAnimation AutoReverse="True" Storyboard.TargetProperty="Opacity" From="1" To="0" RepeatBehavior="Forever" Duration="0:0:1"></DoubleAnimation>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -27,110 +27,172 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <ScrollViewer
-        shared:CVScollerView.IsEnabled="True"
-        shared:CVScollerView.CatchWidthProperty="False"
-        VerticalScrollBarVisibility="Hidden"
-        HorizontalScrollBarVisibility="Disabled">
-        <StackPanel x:Name="wp" Background="#C62828">
-            <Rectangle Fill="Black" Opacity="0.2" Height="1"></Rectangle>
-            <Border Margin="10,10,10,5" Background="White" CornerRadius="25">
-                <StackPanel Style="{StaticResource ResourceKey=WaitForDataFetching}" Height="{Binding Path=ActualHeight, ElementName=wp, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=1.6}">
-                    <Grid Name="upper_grid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="{Binding Path=ActualHeight, ElementName=upper_grid, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=1.5}"></RowDefinition>
-                            <RowDefinition Height="96"></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                      HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="wp" Background="#C62828">
+                <Grid>
+                    <Viewbox MouseLeftButtonDown="OnReload" Height="30" Width="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="22" Panel.ZIndex="1">
+                        <Canvas Cursor="Hand" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
+                            <Canvas.Resources>
+                                <Storyboard x:Key="Animation">
+                                    <DoubleAnimation Storyboard.TargetProperty="(Canvas.RenderTransform).(RotateTransform.Angle)" To="-360" Duration="0:0:1" RepeatBehavior="Forever" />
+                                </Storyboard>
+                            </Canvas.Resources>
+                            <Canvas.Style>
+                                <Style TargetType="Canvas">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=DataFetched}" Value="False">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard x:Name="ca" Storyboard="{StaticResource ResourceKey=Animation}"></BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <RemoveStoryboard BeginStoryboardName="ca"></RemoveStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Canvas.Style>
+                            <Canvas.RenderTransform>
+                                <RotateTransform Angle="0" />
+                            </Canvas.RenderTransform>
+                            <Ellipse Height="40" Width="40" Fill="White" Stroke="Black"></Ellipse>
+                            <Path Fill="Gray" Canvas.Top="4" Canvas.Left="4" Data="M 16 2.460938 C 13.339844 2.460938 10.859375 3.238281 8.761719 4.570312 L 5.933594 1.738281 L 5.933594 9.667969 L 13.863281 9.667969 L 10.714844 6.519531 C 12.28125 5.640625 14.078125 5.132812 16 5.132812 C 21.992188 5.132812 26.867188 10.007812 26.867188 16 C 26.867188 17.425781 26.582031 18.789062 26.078125 20.039062 L 28.410156 21.398438 C 29.136719 19.742188 29.539062 17.917969 29.539062 16 C 29.539062 8.535156 23.464844 2.460938 16 2.460938 Z M 16 2.460938 "></Path>
+                            <Path Fill="Gray" Canvas.Top="4" Canvas.Left="4" Data="M 21.28125 25.476562 C 19.714844 26.355469 17.921875 26.867188 16 26.867188 C 10.007812 26.867188 5.132812 21.992188 5.132812 16 C 5.132812 14.652344 5.390625 13.367188 5.84375 12.175781 L 3.511719 10.769531 C 2.835938 12.382812 2.460938 14.148438 2.460938 16 C 2.460938 23.464844 8.535156 29.539062 16 29.539062 C 18.660156 29.539062 21.136719 28.757812 23.234375 27.425781 L 26.066406 30.261719 L 26.066406 22.332031 L 18.136719 22.332031 Z M 21.28125 25.476562 "></Path>
+                        </Canvas>
+                    </Viewbox>
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBlock" x:Key="Header">
+                                <Setter Property="Margin" Value="5,0,0,0"></Setter>
+                                <Setter Property="FontSize" Value="20"></Setter>
+                                <Setter Property="FontWeight" Value="Bold"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Border Margin="10,10,10,5" Background="White" CornerRadius="25">
+                            <StackPanel Style="{StaticResource ResourceKey=WaitForDataFetching}">
+                                <Grid Name="upper_grid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="96"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" VerticalAlignment="Center" Name="uc1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <shared:CVProgressEllipse Grid.Column="0" 
+                                                          Margin="16"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Left"
+                                                          Desc="Media Totale"
+                                                          Min="0" Max="10" 
+                                                          Value="NaN"
+                                                          x:Name="AvgArc">
+                                            </shared:CVProgressEllipse>
+
+                                            <DockPanel Grid.Column="1" Name="c2">
+                                                <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Orientation="Vertical">
+                                                    <StackPanel.Resources>
+                                                        <Style TargetType="shared:CVPeriodPercentage">
+                                                            <Setter Property="DockPanel.Dock" Value="Top"></Setter>
+                                                            <Setter Property="Height" Value="64"></Setter>
+                                                            <Setter Property="Min" Value="0"></Setter>
+                                                            <Setter Property="Max" Value="10"></Setter>
+                                                            <Setter Property="Value" Value="NaN"></Setter>
+                                                            <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=c2}"></Setter>
+                                                        </Style>
+                                                    </StackPanel.Resources>
+                                                    <DockPanel x:Name="pps">
+                                                        <shared:CVPeriodPercentage Desc="Caricamento..."/>
+                                                        <shared:CVPeriodPercentage Desc="Caricamento..."/>
+                                                    </DockPanel>
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="20,0,20,0" Height="{Binding ElementName=uc1, Path=ActualHeight}">
+                                            <Label Panel.ZIndex="1" Name="graph_loading" Visibility="{Binding Path=DataFetched,Converter={StaticResource ResourceKey=VisibilityConverter},ConverterParameter=swap}" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="#6E6E6E" HorizontalAlignment="Center"></Label>
+                                            <local:CVColumnsGraph x:Name="Graph" Margin="0,20,0,0"></local:CVColumnsGraph>
+                                        </Grid>
+                                    </Grid>
+                                    <StackPanel Grid.Row="1">
+                                        <Grid Cursor="Hand">
+                                            <TextBlock Text="Ultimi voti" Style="{StaticResource ResourceKey=Header}"></TextBlock>
+                                            <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0.6" Template="{StaticResource ResourceKey=RightArrowIcon}" Height="32" Width="32" Margin="0,0,5,0" Background="Black" Grid.Column="2"></ContentControl>
+                                        </Grid>
+                                        <ScrollViewer shared:CVScollerView.IsEnabled="True"
+                                                      shared:CVScollerView.CatchHeightProperty="False"
+                                                      Height="64" 
+                                                      HorizontalScrollBarVisibility="Hidden" 
+                                                      VerticalScrollBarVisibility="Disabled">
+                                            <StackPanel Orientation="Horizontal" Name="GradesWrapper">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="local:CVGradeEllipse">
+                                                        <Setter Property="Margin" Value="5,0,5,0"></Setter>
+                                                        <Setter Property="MaxHeight" Value="{Binding ElementName=uc1, Path=ActualHeight, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=5}"></Setter>
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2">
+                                        <Grid VerticalAlignment="Top" Cursor="Hand">
+                                            <TextBlock Text="Assenze/Ritardi" Style="{StaticResource ResourceKey=Header}"></TextBlock>
+                                            <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0.6" Template="{StaticResource ResourceKey=RightArrowIcon}" Height="32" Width="32" Margin="0,0,5,0" Background="Black" Grid.Column="2"></ContentControl>
+                                        </Grid>
+                                        <Grid Margin="5,0,0,15" VerticalAlignment="Top">
+                                            <Grid.Resources>
+                                                <Style TargetType="local:CVRegistryAbsence">
+                                                    <Setter Property="Height" Value="{Binding ElementName=uc1, Path=ActualHeight, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=5}"></Setter>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="#D05A50" Desc="Assenze"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="1" RectColor="#EB9850" Desc="Ritardi"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence Count="-1" Grid.Column="2" RectColor="#0080B8" Desc="Assenze Parziali"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="#DBB73B" Desc="Uscite"></local:CVRegistryAbsence>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        <Grid Margin="0,0,0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="52"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Column="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <shared:CVProgressEllipse
-                                    Grid.Column="0" 
-                                    Margin="16"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Desc="Media Totale"
-                                    Min="0" Max="10" 
-                                    x:Name="AvgArc">
-                                </shared:CVProgressEllipse>
-
-                                <DockPanel Grid.Column="1" Name="c2">
-                                    <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Orientation="Vertical">
-                                        <StackPanel.Resources>
-                                            <Style TargetType="shared:CVPeriodPercentage">
-                                                <Setter Property="DockPanel.Dock" Value="Top"></Setter>
-                                                <Setter Property="Height" Value="64"></Setter>
-                                                <Setter Property="Min" Value="0"></Setter>
-                                                <Setter Property="Max" Value="10"></Setter>
-                                                <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=c2}"></Setter>
-                                            </Style>
-                                        </StackPanel.Resources>
-                                        <DockPanel x:Name="pps">
-                                            <shared:CVPeriodPercentage Desc="Caricamento..."/>
-                                            <shared:CVPeriodPercentage Desc="Caricamento..."/>
-                                        </DockPanel>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Grid>
-
-                            <DockPanel Grid.Column="1" Margin="0,20,0,0">
-                                <local:CVColumnsGraph x:Name="Graph"></local:CVColumnsGraph>
-                            </DockPanel>
+                            <local:CVRegistryOption Grid.Column="0" Grid.Row="0" Margin="10,5,5,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="1" Grid.Row="0" Margin="5,5,10,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="0" Grid.Row="1" Margin="10,5,5,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="1" Grid.Row="1" Margin="5,5,10,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="0" Grid.Row="2" Margin="10,5,5,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="1" Grid.Row="2" Margin="5,5,10,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="0" Grid.Row="3" Margin="10,5,5,5"></local:CVRegistryOption>
+                            <local:CVRegistryOption Grid.Column="1" Grid.Row="3" Margin="5,5,10,5"></local:CVRegistryOption>
                         </Grid>
-                        <StackPanel Grid.Row="1">
-                            <Label Content="Ultimi voti" FontSize="16"></Label>
-                            <ScrollViewer Height="64" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                                <StackPanel Orientation="Horizontal">
-
-                                </StackPanel>
-                            </ScrollViewer>
-                        </StackPanel>
-                        <StackPanel Grid.Row="2">
-                            <Label Content="Assenze/Ritardi" FontSize="16"></Label>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </Border>
-            <Grid Margin="0,0,0,5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="52"></RowDefinition>
-                    <RowDefinition Height="52"></RowDefinition>
-                    <RowDefinition Height="52"></RowDefinition>
-                    <RowDefinition Height="52"></RowDefinition>
-                    <RowDefinition Height="52"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <local:CVRegistryOption Grid.Column="0" Grid.Row="0" Margin="10,5,5,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="1" Grid.Row="0" Margin="5,5,10,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="0" Grid.Row="1" Margin="10,5,5,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="1" Grid.Row="1" Margin="5,5,10,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="0" Grid.Row="2" Margin="10,5,5,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="1" Grid.Row="2" Margin="5,5,10,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="0" Grid.Row="3" Margin="10,5,5,5"></local:CVRegistryOption>
-                <local:CVRegistryOption Grid.Column="1" Grid.Row="3" Margin="5,5,10,5"></local:CVRegistryOption>
-            </Grid>
-        </StackPanel>
-    </ScrollViewer>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

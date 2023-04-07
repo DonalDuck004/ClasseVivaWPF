@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF.HomeControls.RegistrySection
+namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 {
     /// <summary>
-    /// Logica di interazione per CVRegistryOption.xaml
+    /// Logica di interazione per GradesViewer.xaml
     /// </summary>
-    public partial class CVRegistryAbsence : UserControl
+    public partial class GradesViewer : UserControl
     {
-        public CVRegistryAbsence()
+        public GradesViewer()
         {
             InitializeComponent();
         }

@@ -305,5 +305,16 @@ namespace ClasseVivaWPF.Api
 
             return content!;
         }
+
+        public async Task<Events> GetAbsences()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/absences/details", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Events>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
     }
 }

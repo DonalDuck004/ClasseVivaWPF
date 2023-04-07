@@ -46,8 +46,9 @@ namespace ClasseVivaWPF.Sessions
                 this.LoadSchema();
         }
 
-        public static bool TryInit()
+        public static bool TryInit(out string? api_error_message)
         {
+            api_error_message = null;
             var last = Path.Join(Config.SESSIONS_DIR_PATH, "Last");
 
             if (File.Exists(last))
@@ -65,8 +66,11 @@ namespace ClasseVivaWPF.Sessions
                 {
                     @this.GetMe();
                 }
-                catch (InvalidDataException)
+                catch (InvalidDataException e)
                 {
+                    if (e.InnerException is ApiError ae)
+                        api_error_message = ae.Message;
+
                     @this.Destroy();
                     return false;
                 }
@@ -163,8 +167,13 @@ namespace ClasseVivaWPF.Sessions
                 Expire = result.GetDateTime(6)
             };
 
-            this.RenewToken(SessionHandler.Me.Expire);
-
+            try
+            {
+                this.RenewToken(SessionHandler.Me.Expire);
+            }catch (ApiError e)
+            {
+                throw new InvalidDataException("Api call failed", innerException: e);
+            }
             return SessionHandler.Me;
         }
 

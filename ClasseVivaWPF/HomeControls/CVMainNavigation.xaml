@@ -18,6 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="159"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Border Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0">
                 <Image x:Name="profile_image"></Image>
@@ -29,6 +30,7 @@
                     </StackPanel.Background>
                 </StackPanel>
             </DockPanel>
+            <Rectangle Fill="Black" Opacity="0.2" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Rectangle>
         </Grid>
         <DockPanel Name="Current" Grid.Row="1">
         </DockPanel>

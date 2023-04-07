@@ -7,6 +7,17 @@ namespace ClasseVivaWPF.Api
 {
     public class Response
     {
+        private static JsonSerializerSettings settings;
+
+        static Response()
+        {
+            settings = new JsonSerializerSettings() {
+#if DEBUG
+                MissingMemberHandling = MissingMemberHandling.Error
+#endif
+            };
+        }
+
         public HttpResponseMessage? RawResponse { get; private init; }
         private string? _text = null;
         public string Text
@@ -38,7 +49,7 @@ namespace ClasseVivaWPF.Api
             if (this.Text.Contains("error"))
                 return null;
 
-            return JsonConvert.DeserializeObject<T>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
+            return JsonConvert.DeserializeObject<T>(this.Text, settings);
         }
 
         public T[]? GetObjectList<T>() where T : ApiObject
@@ -49,7 +60,7 @@ namespace ClasseVivaWPF.Api
             if (this.Text == "") // Bug in backend
                 return null;
 
-            return JsonConvert.DeserializeObject<T[]>(this.Text, new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error });
+            return JsonConvert.DeserializeObject<T[]>(this.Text, settings);
         }
 
         public void GetError()

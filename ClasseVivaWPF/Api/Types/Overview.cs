@@ -30,13 +30,26 @@ namespace ClasseVivaWPF.Api.Types
         public required Note Notes { get; init; }
 
 
-        public BaseEvent[] GetBaseEvents()
+        public List<BaseEvent> GetBaseEvents(bool Lessons = true, 
+                                         bool Agenda = true,
+                                         bool Events = true, 
+                                         bool Grades = true)
         {
-            var result = new BaseEvent[Lessons.Length + Agenda.Length + Events.Length + Grades.Length];
-            Lessons.CopyTo(result, 0);
-            Agenda.CopyTo(result, Lessons.Length);
-            Events.CopyTo(result, Lessons.Length + Agenda.Length);
-            Grades.CopyTo(result, Lessons.Length + Agenda.Length + Events.Length);
+            List<BaseEvent> result = new();
+
+            if (Lessons)
+                result.AddRange(this.Lessons);
+
+            if (Agenda)
+                result.AddRange(this.Agenda);
+
+            if (Events)
+                result.AddRange(this.Events);
+
+            if (Grades)
+                result.AddRange(this.Grades);
+
+            result.Capacity = result.Count;
 
             return result;
         }

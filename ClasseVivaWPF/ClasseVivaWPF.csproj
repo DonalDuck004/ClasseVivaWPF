@@ -62,7 +62,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="HomeControls\RegistrySection\CVRegistryAbsence..xaml.cs">
+	  <Compile Update="HomeControls\RegistrySection\CVRegistryAbsence.xaml.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
 	  <Compile Update="SharedControls\CVMinigamesOpener.xaml.cs">

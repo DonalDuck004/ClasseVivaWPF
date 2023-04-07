@@ -57,19 +57,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             item.SelectChild(now.DayOfWeek);
         }
 
-        public int IndexOfWeek(CVWeek week)
-        {
-            var i = 0;
-            try
-            {
-                for (; !ReferenceEquals(this.days_wp.Children[i], week); i++) ;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return -1;
-            }
-            return i;
-        }
+        public int IndexOfWeek(CVWeek week) => this.days_wp.Children.ReferenceIndexOf(week);
 
         public void AddWeek(CVWeek week, int? idx = null)
         {
@@ -84,6 +72,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                         break;
                 }
             }
+            if (idx < 0)
+                idx = 0;
 
             this.days_wp.Children.Insert(idx.Value, week);
             if (this.days_wp.Children.Count > 5)

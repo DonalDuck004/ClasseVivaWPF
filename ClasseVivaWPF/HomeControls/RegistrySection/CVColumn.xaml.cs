@@ -21,6 +21,21 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
     /// </summary>
     public partial class CVColumn : BaseCVPercentage
     {
+        public static readonly DependencyProperty LongDescProperty;
+
+        public string? LongDesc
+        {
+            get => (string)GetValue(LongDescProperty);
+            set => SetValue(LongDescProperty, value);
+        }
+
+        static CVColumn()
+        {
+            LongDescProperty = DependencyProperty.Register("LongDesc", typeof(string), typeof(CVColumn));
+        }
+
+        public object? ContentID { get; init; } = null;
+
         public CVColumn()
         {
             InitializeComponent();

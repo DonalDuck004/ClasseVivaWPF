@@ -10,11 +10,13 @@ namespace ClasseVivaWPF.SharedControls
     {
         private static DependencyProperty TitleProperty;
         private static DependencyProperty DescriptionProperty;
+
         static CVMessageBox()
         {
             TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(CVMessageBox));
             DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(CVMessageBox));
         }
+
         public CVMessageBox(string title, string description)
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace ClasseVivaWPF.SharedControls
             this.Title = title;
             this.Description = description;
         }
+
         public string Title
         {
             get => (string)base.GetValue(TitleProperty);

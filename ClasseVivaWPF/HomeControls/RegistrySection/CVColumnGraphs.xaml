@@ -10,6 +10,7 @@
         <Grid.Resources>
             <Style TargetType="local:CVColumn">
                 <Setter Property="Margin" Value="4,0,4,4"></Setter>
+                <Setter Property="Max" Value="10"></Setter>
             </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center"></Setter>

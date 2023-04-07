@@ -22,5 +22,24 @@ namespace ClasseVivaWPF.Api.Types
         public required SubjectTeacher[] Teachers { get; init; }
 
         public string ShortName => this.Description.Substring(0, 3).ToUpper();
+
+        public static bool operator == (Subject s1, Subject s2){
+            return s1.Id == s2.Id;
+        }
+
+        public static bool operator !=(Subject s1, Subject s2)
+        {
+            return !(s1.Id == s2.Id);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return ReferenceEquals(this, obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id;
+        }
     }
 }

@@ -3,6 +3,7 @@ using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Sessions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,19 +49,22 @@ namespace ClasseVivaWPF.Utils
                 }
             });
         }
+        private int deb = 40;
+        private async Task<IEnumerable<BaseEvent>> Fetch()
+        {
+            var events = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents(Grades: false);
+            return events.Concat((await Client.INSTANCE.GetGrades()).ContentGrades.Take(++deb));
+        }
 
         private async Task Listener()
         {
-            var displayed_ids = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents().Select(x => x.EffectiveID).ToList();
+            var displayed_ids = (await this.Fetch()).Select(x => x.EffectiveID).ToList();
 
-            BaseEvent[] overview;
             ToastContentBuilder builder;
 
             while (this.run)
             {
-                overview = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents();
-
-                foreach (var item in overview.Where(x => !displayed_ids.Contains(x.EffectiveID)))
+                foreach (var item in (await this.Fetch()).Where(x => !displayed_ids.Contains(x.EffectiveID)))
                 {
                     displayed_ids.Add(item.EffectiveID);
                     if (!quiteNext)
@@ -71,6 +75,7 @@ namespace ClasseVivaWPF.Utils
                         builder.Show();
                     }
                 }
+
                 quiteNext = false;
 
                 await Task.Delay(Config.NOTIFY_UPDATE_DELAY);

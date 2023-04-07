@@ -5,14 +5,6 @@ using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class MinigameCredentials : ApiObject
-    {
-        [JsonProperty(Required = Required.Always)]
-        public required string MinigameToken;
-        [JsonProperty(Required = Required.Always)]
-        public required string @For;
-    }
-
     public class Event : BaseEvent
     {
         [JsonProperty(Required = Required.Always)]
@@ -38,7 +30,7 @@ namespace ClasseVivaWPF.Api.Types
 
         public override void BuildNotifyText(ToastContentBuilder toast)
         {
-            toast.AddText(GetHeader() + "evt");  // TODO
+            toast.AddText(GetHeader() + "_TODO_evt");  // TODO
         }
 
         public override DateTime GetGotoDate() => this.EvtDate;

@@ -9,6 +9,9 @@ namespace ClasseVivaWPF.Utils.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter?.ToString() == "swap")
+                return (bool)value ? Visibility.Hidden : Visibility.Visible;
+
             return (bool)value ? Visibility.Visible : Visibility.Hidden;
         }
 

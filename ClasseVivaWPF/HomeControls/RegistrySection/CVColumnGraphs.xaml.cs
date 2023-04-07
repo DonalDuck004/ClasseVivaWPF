@@ -31,14 +31,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
         public void Update(IEnumerable<CVColumn> columns)
         {
+            this.Grid.ColumnDefinitions.Clear();
+            this.Grid.Children.Clear();
             TextBlock header;
-
             var c = 0;
-            foreach (var column_group in from column in columns group column by column.Desc)
+
+            foreach (var column_group in from column in columns group column by column.ContentID)
             {
                 this.Grid.ColumnDefinitions.Add(new());
                 
-                foreach (var column in column_group.OrderBy(x => x.Value))
+                foreach (var column in column_group.OrderByDescending(x => x.Value))
                 {
                     var d = column.Value;
                     this.Grid.Children.Add(column);
@@ -46,7 +48,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                     Grid.SetRow(column, 0);
                 }
 
-                header = new() { Text = column_group.Key };
+                header = new() { Text = column_group.First().Desc };
                 this.Grid.Children.Add(header);
                 Grid.SetRow(header, 1);
                 Grid.SetColumn(header, c++);

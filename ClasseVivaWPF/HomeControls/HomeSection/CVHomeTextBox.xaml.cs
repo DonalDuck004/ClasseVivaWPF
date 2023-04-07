@@ -189,7 +189,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             CVHomeTextBox @this = new();
             @this.TitleControl.Foreground = new SolidColorBrush(Colors.White);
 
-            @this.FillerColor = @this.BackgroundColor = evt.GetColor();
+            @this.FillerColor = @this.BackgroundColor = evt.InternalColor;
             @this.Title = evt.SubjectDesc.ToTitle();
 
             if (evt.NotesForFamily == "")

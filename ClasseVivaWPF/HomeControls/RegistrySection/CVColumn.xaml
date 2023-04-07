@@ -18,20 +18,22 @@
             VerticalAlignment="Bottom"
             HorizontalAlignment="Center"
             FontWeight="DemiBold"
-            Text="{Binding Path=Value, StringFormat=\{0:0.\}}"
+            Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=NaNToEmpty}}"
             Foreground="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}"></TextBlock>
         <Rectangle Grid.Row="1" Fill="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}">
+            <Rectangle.ToolTip>
+                <ToolTip>
+                    <TextBlock Text="{Binding Path=LongDesc}"></TextBlock>
+                </ToolTip>
+            </Rectangle.ToolTip>
             <Rectangle.Height>
                 <MultiBinding Converter="{StaticResource ProgressConverter}">
                     <Binding Path="Value"/>
-                    <Binding 
-                        Path="ActualHeight" 
-                        RelativeSource="{RelativeSource AncestorType=local:CVColumnsGraph}"
-                        Converter="{StaticResource ResourceKey=SubConverter}"
-                        ConverterParameter="32"/>
+                    <Binding Path="ActualHeight" 
+                             RelativeSource="{RelativeSource AncestorType=local:CVColumnsGraph}"
+                             Converter="{StaticResource ResourceKey=SubConverter}"
+                             ConverterParameter="32"/>
                     <Binding Path="."/>
-                    <Binding Path="BadIdea" FallbackValue="0"/>
-                    <Binding Path="BadIdea" FallbackValue="10"/>
                 </MultiBinding>
             </Rectangle.Height>
         </Rectangle>
