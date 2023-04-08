@@ -131,6 +131,7 @@ namespace ClasseVivaWPF
                 CVLoginPage.EndLogin();
             else
                 this.ReplaceMainContent(new CVLoginPage());
+
             if (api_error_message is not null)
                 new CVMessageBox("Errore di Login", api_error_message).Inject();
 
@@ -187,7 +188,7 @@ namespace ClasseVivaWPF
             while (this.wrapper.Children.Count > 1)
                 this.RemoveField((FrameworkElement)this.wrapper.Children[1]);
 
-            if (FocusOnMain)
+            if (FocusOnMain && this.wrapper.Children.Count > 0)
                 this.wrapper.Children[0].Focus();
         }
 
@@ -205,7 +206,6 @@ namespace ClasseVivaWPF
 
                 var date = DateTime.Parse(v);
 
-
                 if (!SessionHandler.Logged)
                 {
                     PostLoginEventHandler? fn = null;
@@ -213,7 +213,7 @@ namespace ClasseVivaWPF
                     {
                         RemoveFields();
 
-                        if (CVMainMenuIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
+                        if (CVMainMenuIcon.Selected is not null && CVMainMenuIcon.Selected.IconValue is not CVMainMenuIconValues.Home)
                             CVMainMenuIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
 
 
@@ -224,6 +224,7 @@ namespace ClasseVivaWPF
                             {
                                 CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
                             };
+ 
 
                         this.PostLogin -= fn!;
                     };

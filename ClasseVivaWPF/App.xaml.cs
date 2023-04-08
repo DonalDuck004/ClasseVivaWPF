@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -13,6 +14,10 @@ namespace ClasseVivaWPF
     /// </summary>
     public partial class App : Application
     {
+        public App() : base() {
+            this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var cult = new CultureInfo("it-IT");
@@ -58,7 +63,11 @@ namespace ClasseVivaWPF
             );
 
             base.OnStartup(e);
+        }
 
+        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Unhandled exception occurred: \n" + e.Exception.Message + "\n---Stack Trace---\n" + e.Exception.StackTrace, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
