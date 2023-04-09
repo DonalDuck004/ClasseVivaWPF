@@ -29,17 +29,28 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             set => SetValue(LongDescProperty, value);
         }
 
+        public string? SubGroupName { get; init; } = null;
+
         static CVColumn()
         {
             LongDescProperty = DependencyProperty.Register("LongDesc", typeof(string), typeof(CVColumn));
         }
 
+        public IEnumerable<double>? Values = null;
         public object? ContentID { get; init; } = null;
 
         public CVColumn()
         {
-            InitializeComponent();
+            this.Loaded += OnLoad;
             this.DataContext = this;
         }
+
+        private void OnLoad(object sender, EventArgs e)
+        {
+            InitializeComponent();
+
+            this.Loaded -= OnLoad;
+        }
+
     }
 }

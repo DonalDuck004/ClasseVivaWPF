@@ -21,5 +21,6 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="16"></RowDefinition>
         </Grid.RowDefinitions>
+        <TextBlock Text="Debug" Grid.Row="1"></TextBlock>
     </Grid>
 </UserControl>

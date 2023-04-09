@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection
 {
@@ -20,41 +24,148 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
     /// Logica di interazione per CVColumnGraph.xaml
     /// </summary>
     /// 
+    public enum CVColumnsGraphFilterOperation
+    {
+        None,
+        GroupSum,
+        GroupAVG
+    }
 
 
     public partial class CVColumnsGraph : UserControl
     {
+        private Dictionary<object, CVColumn[]> CurrentValues = new();
+
+        public delegate void ColumnAddedHandler(CVColumn column);
+        public event ColumnAddedHandler? ColumnAdded;
+
         public CVColumnsGraph()
         {
             InitializeComponent();
         }
 
-        public void Update(IEnumerable<CVColumn> columns)
+        public void Update(IEnumerable<CVColumn> columns,
+                           bool persist_empty_fields = true,
+                           CVColumnsGraphFilterOperation op = CVColumnsGraphFilterOperation.None)
         {
-            this.Grid.ColumnDefinitions.Clear();
-            this.Grid.Children.Clear();
+            this.CurrentValues = (from column in columns 
+                                  group column by column.ContentID).ToDictionary(
+                                    x => x.Key,
+                                    x => x.OrderBy(y => y.Value).ToArray()
+                                  );
+
+            this.Filter(op: op, persist_empty_fields: persist_empty_fields);
+        }
+
+        private bool AddColumn(CVColumn column, int idx, bool persist_empty_fields)
+        {
+            if (!persist_empty_fields && column.Value is double.NaN)
+                return false;
+
+            this.Grid.Children.Add(column);
+            Grid.SetColumn(column, idx);
+
+            if (this.ColumnAdded is not null)
+                this.ColumnAdded(column);
+
+            return true;
+        }
+
+        public void Filter(CVColumnsGraphFilterOperation op = CVColumnsGraphFilterOperation.None,
+                           bool persist_empty_fields = true,
+                           params string[] group_names)
+        {
             TextBlock header;
             var c = 0;
+            CVColumn? column = null;
+            bool any_added = false;
+            this.Clear();
 
-            foreach (var column_group in from column in columns group column by column.ContentID)
+            foreach (var column_group in CurrentValues)
             {
-                this.Grid.ColumnDefinitions.Add(new());
-                
-                foreach (var column in column_group.OrderByDescending(x => x.Value))
+                if (op is CVColumnsGraphFilterOperation.None)
                 {
-                    var d = column.Value;
-                    this.Grid.Children.Add(column);
-                    Grid.SetColumn(column, c);
-                    Grid.SetRow(column, 0);
+                    for (int i = 0; i < column_group.Value.Length; i++)
+                    {
+                        column = column_group.Value[i];
+
+                        if (group_names.Contains(column.SubGroupName))
+                            continue;
+
+                        any_added |= this.AddColumn(column, c, persist_empty_fields);
+                    }
+                }else if (op is CVColumnsGraphFilterOperation.GroupSum)
+                {
+                    column = column_group.Value.First();
+                    column = new() { 
+                        Desc = column.Desc,
+                        LongDesc = column.LongDesc,
+                        Value = column_group.Value.Where(x => !group_names.Contains(x.SubGroupName)).Sum(x => x.Value)
+                    };
+
+                    any_added |= this.AddColumn(column, c, persist_empty_fields);
+                }
+                else
+                {
+                    column = column_group.Value.First();
+                    column = new()
+                    {
+                        Desc = column.Desc,
+                        LongDesc = column.LongDesc,
+                        Value = double.NaN,
+                    };
+
+                    try
+                    {
+                        var x = column_group.Value.Where(x => !group_names.Contains(x.SubGroupName) && x.Value is not double.NaN).Select(x => x.Values)!.Merge().ToArray();
+
+                        column.Value = column_group.Value.Where(x => !group_names.Contains(x.SubGroupName) && x.Value is not double.NaN).Select(x => x.Values)!.Merge().Average();
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    any_added |= this.AddColumn(column, c, persist_empty_fields);
                 }
 
-                header = new() { Text = column_group.First().Desc };
+                if (!any_added)
+                {
+                    any_added = false;
+                    continue;
+                }
+
+                this.Grid.ColumnDefinitions.Add(new());
+                any_added = false;
+
+                header = new() { Text = column!.Desc };
                 this.Grid.Children.Add(header);
                 Grid.SetRow(header, 1);
                 Grid.SetColumn(header, c++);
             }
         }
 
+        public void Update(IEnumerable<string> column_names)
+        {
+            TextBlock header;
+            var c = 0;
+            this.Clear();
 
+            foreach (var column in column_names)
+            {
+                this.Grid.ColumnDefinitions.Add(new());
+
+                header = new() { Text = column };
+                this.Grid.Children.Add(header);
+                Grid.SetRow(header, 1);
+                Grid.SetColumn(header, c++);
+            }
+        }
+
+        public void Clear()
+        {
+            this.Grid.ColumnDefinitions.Clear();
+            this.Grid.Children.Clear();
+            this.Grid.Children.Capacity = 0;
+        }
     }
 }

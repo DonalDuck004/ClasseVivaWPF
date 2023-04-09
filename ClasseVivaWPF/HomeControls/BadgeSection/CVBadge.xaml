@@ -47,7 +47,6 @@
                         <Setter Property="Cursor" Value="Hand"></Setter>
                         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
                         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-                        <EventSetter Event="MouseLeftButtonDown" Handler="OnSectionClick"></EventSetter>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -109,6 +108,5 @@
                 </ScrollViewer>
             </DockPanel>
         </Grid>
-        
     </Grid>
 </UserControl>

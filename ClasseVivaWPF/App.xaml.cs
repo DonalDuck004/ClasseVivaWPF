@@ -15,7 +15,9 @@ namespace ClasseVivaWPF
     public partial class App : Application
     {
         public App() : base() {
+#if !DEBUG
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+#endif
         }
 
         protected override void OnStartup(StartupEventArgs e)

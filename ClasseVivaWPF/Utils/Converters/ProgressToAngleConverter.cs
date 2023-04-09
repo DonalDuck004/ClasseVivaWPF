@@ -11,6 +11,9 @@ namespace ClasseVivaWPF.Utils.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values[0] is double.NaN)
+                return 0D;
+
             var progress = (double)values[0];
             var bar = (CVProgressEllipse)values[1];
 

@@ -135,7 +135,7 @@
         </ControlTemplate>
 
         <ControlTemplate x:Key="SettingsIcon">
-            <Viewbox Height="48" Width="48">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Canvas Height="500" Width="500">
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>

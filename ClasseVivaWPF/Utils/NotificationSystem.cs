@@ -49,11 +49,11 @@ namespace ClasseVivaWPF.Utils
                 }
             });
         }
-        private int deb = 40;
+
         private async Task<IEnumerable<BaseEvent>> Fetch()
         {
             var events = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents(Grades: false);
-            return events.Concat((await Client.INSTANCE.GetGrades()).ContentGrades.Take(++deb));
+            return events.Concat((await Client.INSTANCE.GetGrades()).ContentGrades);
         }
 
         private async Task Listener()

@@ -88,7 +88,7 @@
             <Label Margin="10,0,0,0" Grid.Row="8" Content="Centro e servizi" Tag="https://web.spaggiari.eu/acc/app/default/documentazione.php?prodotto=cvv" Style="{StaticResource OpenBridge}"></Label>
             <Rectangle Style="{StaticResource HR}" Grid.Row="9"></Rectangle>
 
-            <ContentControl Template="{StaticResource ResourceKey=SettingsIcon}" Grid.Row="10"></ContentControl>
+            <ContentControl Template="{StaticResource ResourceKey=SettingsIcon}" Height="48" Width="48"  Grid.Row="10"></ContentControl>
             <Label Content="Impostazioni" Grid.Row="10" Grid.Column="1" Style="{StaticResource ResourceKey=MenuVoice}" MouseLeftButtonDown="OpenSettings"></Label>
 
             <Rectangle Style="{StaticResource HR}" Grid.Row="11"></Rectangle>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              mc:Ignorable="d" MouseLeftButtonDown="OnClick" Cursor="Hand"
-             Loaded="OnFirstLoad"
+             Loaded="OnFirstLoad" MinHeight="16" MinWidth="40"
              d:DesignHeight="48" d:DesignWidth="112" Name="Control">
     <UserControl.Resources>
         <Storyboard x:Key="PointCheckAnimation">
@@ -38,7 +38,8 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Viewbox MinHeight="16" MinWidth="40">
+
+    <Viewbox>
         <Grid Width="112" Height="48">
             <Canvas Panel.ZIndex="1">
                 <Canvas Width="48" Height="48" Style="{StaticResource ResourceKey=Point}" Canvas.Left="0" Name="Point">
