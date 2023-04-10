@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Media;
 
@@ -86,6 +87,10 @@ namespace ClasseVivaWPF.Api.Types
         public required string OldskillDesc { get; init; }
 
         public string ShortSubjectName => this.SubjectDesc.Substring(0, 3).ToUpper();
+
+        private string? acronym = null;
+
+        public string SubjectAcronym => acronym ??= string.Join("", this.SubjectDesc.ToTitle(false).Split().Where(x => x.Length > 2).Select(x => x[0]));
 
 
         private static Dictionary<string, Color> CColor = new Dictionary<string, Color>()

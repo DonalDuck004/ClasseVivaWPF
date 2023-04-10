@@ -173,11 +173,13 @@ namespace ClasseVivaWPF.SharedControls
         {
             this.SelectedContent = (Image)e.SnappendElement;
         }
+
         private void GotoPoint(object sender, EventArgs e)
         {
             var i = this.Points.Children.ReferenceIndexOf(sender);
             this.SelectedContent = Images[i].Item1;
         }
+
         private void OnLoad(object sender, EventArgs e)
         {
             Canvas.SetLeft(this.Pointer, GetPointLeft());

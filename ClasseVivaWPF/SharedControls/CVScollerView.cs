@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,23 +11,6 @@ using System.Windows.Input;
 
 namespace ClasseVivaWPF.SharedControls
 {
-    public class SnapEventArgs : RoutedEventArgs
-    {
-        public SnapEventArgs() : base(CVScollerView.OnSnapEvent)
-        {
-
-        }
-
-        public required int Index { get; init; }
-        public required FrameworkElement SnappendElement { get; init; }
-    }
-
-    public enum SnapDirections
-    {
-        Horizontal,
-        Vertical
-    }
-
     public class CVScollerView : DependencyObject
     {
         public static double GetSnapSensibility(DependencyObject obj)
@@ -98,6 +83,16 @@ namespace ClasseVivaWPF.SharedControls
             obj.SetValue(SpeedProperty, value);
         }
 
+        public static ScrollDirections GetScrollDirection(DependencyObject obj)
+        {
+            return (ScrollDirections)obj.GetValue(ScrollDirectionProperty);
+        }
+
+        public static void SetScrollDirection(DependencyObject obj, ScrollDirections value)
+        {
+            obj.SetValue(ScrollDirectionProperty, value);
+        }
+
         public bool IsEnabled
         {
             get => (bool)GetValue(IsEnabledProperty);
@@ -116,13 +111,18 @@ namespace ClasseVivaWPF.SharedControls
             set => SetValue(CatchWidthProperty, value);
         }
 
-
         public bool CatchHeight
         {
             get => (bool)GetValue(CatchHeightProperty);
             set => SetValue(CatchHeightProperty, value);
         }
-        
+
+        public ScrollDirections ScrollDirection
+        {
+            get => (ScrollDirections)GetValue(ScrollDirectionProperty);
+            set => SetValue(ScrollDirectionProperty, value);
+        }
+
         public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false, IsEnabledChanged));
         public static readonly DependencyProperty SpeedProperty = DependencyProperty.RegisterAttached("Speed", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(1D));
         public static readonly DependencyProperty CatchWidthProperty = DependencyProperty.RegisterAttached("CatchWidth", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(true));
@@ -130,11 +130,12 @@ namespace ClasseVivaWPF.SharedControls
         public static readonly DependencyProperty SnapDirectionProperty = DependencyProperty.RegisterAttached("SnapDirection", typeof(SnapDirections), typeof(CVScollerView), new UIPropertyMetadata(SnapDirections.Horizontal));
         public static readonly DependencyProperty SnapProperty = DependencyProperty.RegisterAttached("Snap", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
         public static readonly DependencyProperty SnapSensibilityProperty = DependencyProperty.RegisterAttached("SnapSensibility", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(4D));
+        public static readonly DependencyProperty ScrollDirectionProperty = DependencyProperty.RegisterAttached("ScrollDirection", typeof(ScrollDirections), typeof(CVScollerView), new UIPropertyMetadata(ScrollDirections.Vertical));
+
         public static readonly RoutedEvent OnSnapEvent = EventManager.RegisterRoutedEvent("OnSnap", RoutingStrategy.Bubble, typeof(OnSnapHandler), typeof(CVScollerView));
         public delegate void OnSnapHandler(object sender, SnapEventArgs e);
 
         static Dictionary<object, MouseCapture> _captures = new Dictionary<object, MouseCapture>();
-        static Dictionary<ScrollViewer, int> _indexes = new Dictionary<ScrollViewer, int>();
 
         public static void AddOnSnapHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
         {
@@ -152,13 +153,6 @@ namespace ClasseVivaWPF.SharedControls
             uiElement.RemoveHandler(OnSnapEvent, handler);
         }
 
-        public static int GetCurrentSnapIndex(ScrollViewer scroller)
-        {
-            if (!_indexes.ContainsKey(scroller))
-                return 0;
-            return _indexes[scroller];
-        }
-
         static void IsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = d as ScrollViewer;
@@ -169,6 +163,15 @@ namespace ClasseVivaWPF.SharedControls
                 target.Loaded += target_Loaded;
             else
                 target_Unloaded(target, new RoutedEventArgs());
+        }
+
+        static void target_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var target = sender as ScrollViewer;
+            if (target is null || GetScrollDirection(target) is ScrollDirections.Vertical)
+                return;
+
+            target.ScrollToHorizontalOffset(target.HorizontalOffset + e.Delta);
         }
 
         static void target_Unloaded(object sender, RoutedEventArgs e)
@@ -183,6 +186,7 @@ namespace ClasseVivaWPF.SharedControls
             target.Unloaded -= target_Unloaded;
             target.PreviewMouseLeftButtonDown -= target_PreviewMouseLeftButtonDown;
             target.PreviewMouseMove -= target_PreviewMouseMove;
+            target.PreviewMouseWheel -= target_MouseWheel;
 
             target.PreviewMouseLeftButtonUp -= target_PreviewMouseLeftButtonUp;
         }
@@ -193,6 +197,8 @@ namespace ClasseVivaWPF.SharedControls
             if (target is null)
                 return;
             if (e.OriginalSource is Run)
+                return;
+            if (e.Source is GridSplitter)
                 return;
 
             _captures[sender] = new MouseCapture()
@@ -212,6 +218,7 @@ namespace ClasseVivaWPF.SharedControls
             target.Unloaded += target_Unloaded;
             target.PreviewMouseLeftButtonDown += target_PreviewMouseLeftButtonDown;
             target.PreviewMouseMove += target_PreviewMouseMove;
+            target.PreviewMouseWheel += target_MouseWheel;
 
             target.PreviewMouseLeftButtonUp += target_PreviewMouseLeftButtonUp;
         }
@@ -222,78 +229,105 @@ namespace ClasseVivaWPF.SharedControls
             if (target is null)
                 return;
 
-            if (GetSnap(target) && _captures.ContainsKey(sender))
+            try
             {
-                var i = 0;
-                var c = ((Panel)target.Content).Children;
-                var h = 0D;
-                var d = GetSnapDirection(target);
-                double check;
-                double o_check;
-
-                double p_s;
-                double req;
-                double[] sizes;
-
-                if (d is SnapDirections.Horizontal)
+                if (GetSnap(target) && _captures.ContainsKey(sender))
                 {
-                    p_s = target.ActualWidth;
-                    check = target.HorizontalOffset;
-                    o_check = _captures[target].HorizontalOffset;
-                    sizes = c.OfType<FrameworkElement>().Select(x => x.ActualWidth).ToArray();
-                    req = ((FrameworkElement)target.Parent).ActualWidth / GetSnapSensibility(target);
-                    
-                    for (; i < c.Count; i++)
+                    var c = ((Panel)target.Content).Children;
+                    var d = GetSnapDirection(target);
+                    if (c.Count == 0)
                     {
-                        h += ((FrameworkElement)c[i]).ActualWidth;
-                        if (target.HorizontalOffset < h)
+                        if (d is SnapDirections.Horizontal)
+                            target.ScrollToHorizontalOffset(0);
+                        else if (d is SnapDirections.Vertical)
+                            target.ScrollToVerticalOffset(0);
+                        else
+                            throw new Exception();
+                        return;
+                    }
+
+                    var i = 0;
+                    var h = 0D;
+                    double check;
+                    double o_check;
+
+                    double p_s;
+                    double req;
+                    double[] sizes;
+
+                    if (d is SnapDirections.Horizontal)
+                    {
+                        p_s = target.ActualWidth;
+                        check = target.HorizontalOffset;
+                        o_check = _captures[target].HorizontalOffset;
+                        sizes = c.OfType<FrameworkElement>().Select(x => x.ActualWidth).ToArray();
+                        req = ((FrameworkElement)target.Parent).ActualWidth / GetSnapSensibility(target);
+
+
+                        for (; i < c.Count; i++)
                         {
-                            i++;
-                            break;
+                            h += ((FrameworkElement)c[i]).ActualWidth;
+                            if (target.HorizontalOffset < h)
+                            {
+                                i++;
+                                break;
+                            }
                         }
                     }
-                }
-                else if (d is SnapDirections.Vertical)
-                {
-                    p_s = target.ActualHeight;
-                    check = target.VerticalOffset;
-                    o_check = _captures[target].VerticalOffset;
-                    sizes = c.OfType<FrameworkElement>().Select(x => x.ActualHeight).ToArray();
-                    req = ((FrameworkElement)target.Parent).ActualHeight / GetSnapSensibility(target);
-                    
-                    for (; i < c.Count; i++)
+                    else if (d is SnapDirections.Vertical)
                     {
-                        h += ((FrameworkElement)c[i]).ActualHeight;
-                        if (target.VerticalOffset < h)
+                        p_s = target.ActualHeight;
+                        check = target.VerticalOffset;
+                        o_check = _captures[target].VerticalOffset;
+                        sizes = c.OfType<FrameworkElement>().Select(x => x.ActualHeight).ToArray();
+                        req = ((FrameworkElement)target.Parent).ActualHeight / GetSnapSensibility(target);
+
+
+                        for (; i < c.Count; i++)
                         {
-                            i++;
-                            break;
+                            h += ((FrameworkElement)c[i]).ActualHeight;
+                            if (target.VerticalOffset < h)
+                            {
+                                i++;
+                                break;
+                            }
                         }
                     }
+                    else
+                        throw new Exception();
+
+                    var suff = Math.Abs(check - o_check) > req;
+                    var old_idx = i;
+
+                    if (check > o_check && suff) // ->
+                        old_idx--;
+                    else if (check < o_check && suff) // <-
+                        i--; // i--; // |  -|--- |
+                    else if (check < o_check)
+                    { }
+                    else
+                        old_idx = --i;
+
+                    i = i < 0 ? 0 : i % c.Count;
+                    var to = sizes.Take(i).Sum();
+                    //    to -= ((p_s - sizes[i]) / 2);
+
+                    if (d is SnapDirections.Horizontal)
+                        target.ScrollToHorizontalOffset(to);
+                    else
+                        target.ScrollToVerticalOffset(to);
+
+                    var t = (FrameworkElement)c[i];
+                    target.RaiseEvent(new SnapEventArgs() { Index = i, SnappendElement = t, OldIndex = old_idx });
+
+                    // OnSnap?.Invoke(target, new(i, (FrameworkElement)c[i], (Panel)target.Content));
                 }
-                else
-                    throw new Exception();
-
-                if (check - o_check > req) // ->
-                {}
-                else if (o_check - check > req) // <-
-                    i -= 2;
-                else
-                    i--;
-
-                i = i < 0 ? 0 : i % c.Count;
-                var to = sizes.Take(i).Sum();
-                //    to -= ((p_s - sizes[i]) / 2);
-
-                target.ScrollToHorizontalOffset(to);
-                _indexes[target] = i;
-                var t = (FrameworkElement)c[i];
-                target.RaiseEvent(new SnapEventArgs() { Index = i, SnappendElement = t });
-
-                // OnSnap?.Invoke(target, new(i, (FrameworkElement)c[i], (Panel)target.Content));
+            }
+            finally
+            {
+                target.ReleaseMouseCapture();
             }
 
-            target.ReleaseMouseCapture();
         }
 
         static void target_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -317,6 +351,9 @@ namespace ClasseVivaWPF.SharedControls
 
             var dy = point.Y - capture.Point.Y;
             var dx = point.X - capture.Point.X;
+            var ady = Math.Abs(dy);
+            var adx = Math.Abs(dx);
+
             var catch_height = GetCatchHeightProperty(target);
             var catch_width = GetCatchWidthProperty(target);
 
@@ -324,13 +361,17 @@ namespace ClasseVivaWPF.SharedControls
             if (dy == 0 && dx == 0)
                 return;
 
+            if (ady > adx)
+                adx = dx = 0;
+            else
+                ady = dy = 0;
+
             e.Handled = true;
 
-
-            if ((Math.Abs(dy) > 5 && catch_height) || (Math.Abs(dx) > 5 && catch_width))
+            if ((ady > 5 && catch_height) || (adx > 5 && catch_width))
                 target.CaptureMouse();
+            
             var speed = GetSpeed(target);
-
 
             if (catch_height && capture.VerticalOffset != dy)
                 target.ScrollToVerticalOffset((capture.VerticalOffset - dy) * speed);

@@ -40,7 +40,7 @@
             <Label Grid.Column="3"></Label>
             <TextBlock FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Foreground="Black" Text="Attualemente non funzionante nell'app ufficiale (?)"></TextBlock>
         </Grid>
-        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{StaticResource ResourceKey=CV_RED}">
+        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1">
             <Grid x:Name="labels">
                 <Grid.Resources>
                     <Style TargetType="Label">
@@ -53,7 +53,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Content="QR Code" Grid.Column="0" Foreground="#AFFFFFFF"></Label>
+                <Label Content="QR Code" Grid.Column="0" Background="{StaticResource ResourceKey=CV_RED}" Foreground="#AFFFFFFF"></Label>
                 <Label Content="Bar Code" Grid.Column="1" Foreground="#AF171717"></Label>
             </Grid>
         </DockPanel>

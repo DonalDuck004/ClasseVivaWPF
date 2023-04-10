@@ -12,17 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClasseVivaWPF.Api.Types;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 {
     /// <summary>
-    /// Logica di interazione per GradesViewer.xaml
+    /// Logica di interazione per CVGrade.xaml
     /// </summary>
-    public partial class GradesViewer : UserControl
+    public partial class CVGrade : UserControl
     {
-        public GradesViewer()
+        public Grade Grade { get; init; }
+
+#if DEBUG
+        public CVGrade()
         {
             InitializeComponent();
+        }
+#endif
+
+        public CVGrade(Grade grade)
+        {
+            InitializeComponent();
+            this.DataContext = this.Grade = grade;
         }
     }
 }

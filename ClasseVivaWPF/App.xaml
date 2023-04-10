@@ -8,7 +8,8 @@
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <converters:NaNToEmpty x:Key="NaNToEmpty"></converters:NaNToEmpty>
+        <converters:StrIfConverter x:Key="StrIfConverter"></converters:StrIfConverter>
+        <converters:StrCoalesceConverter x:Key="StrCoalesceConverter"></converters:StrCoalesceConverter>
         <converters:DateTimeConverter x:Key="DateTimeConverter"></converters:DateTimeConverter>
         <converters:ToBrushConverter x:Key="ToBrushConverter"></converters:ToBrushConverter>
         <converters:VisibilityConverter x:Key="VisibilityConverter"></converters:VisibilityConverter>

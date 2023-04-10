@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF.HomeControls.RegistrySection
+namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
 {
     /// <summary>
     /// Logica di interazione per CVColum.xaml

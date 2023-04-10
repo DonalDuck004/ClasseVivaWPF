@@ -1,4 +1,4 @@
-﻿<local:BaseCVPercentage x:Class="ClasseVivaWPF.SharedControls.CVPeriodPercentage"
+﻿<local:BaseCVPercentage x:Class="ClasseVivaWPF.SharedControls.CVProgressBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -34,7 +34,7 @@
                     </Rectangle.Width>
                 </Rectangle>
             </Canvas>
-            <TextBlock Foreground="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}" Text="{Binding Path=Value, StringFormat=\{0:0.0\}}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Foreground="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
 
     </Grid>

@@ -45,7 +45,7 @@
                         <Setter Property="Foreground" Value="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}"></Setter>
                     </Style>
                 </TextBlock.Resources>
-                <Run Name="PrimatyText" FontSize="72" Text="{Binding Path=Value, StringFormat=\{0:0.0\}}" FontWeight="Bold"></Run>
+                <Run Name="PrimatyText" FontSize="72" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" FontWeight="Bold"></Run>
             </TextBlock>
         </Grid>
     </Viewbox>

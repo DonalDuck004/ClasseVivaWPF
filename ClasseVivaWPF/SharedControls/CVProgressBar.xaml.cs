@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,11 @@ using System.Windows.Shapes;
 namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
-    /// Logica di interazione per CVPeriodPercentage.xaml
+    /// Logica di interazione per CVProgressBar.xaml
     /// </summary>
-    public partial class CVPeriodPercentage : BaseCVPercentage
+    public partial class CVProgressBar : BaseCVPercentage
     {
-        public CVPeriodPercentage() : base()
+        public CVProgressBar() : base()
         {
             InitializeComponent();
             this.DataContext = this;

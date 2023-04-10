@@ -94,9 +94,12 @@ namespace ClasseVivaWPF.Utils
             });
         }
 
-        public static string ToTitle(this string str)
+        public static string ToTitle(this string str, bool restore = true)
         {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower());
+            var tmp = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str.ToLower().Replace("'", "' "));
+            if (restore)
+                return tmp.Replace("' ", "'");
+            return tmp;
         }
 
         private static MD5 cacher = MD5.Create();

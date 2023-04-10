@@ -5,33 +5,16 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace ClasseVivaWPF.HomeControls.RegistrySection
+
+namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
 {
+
     /// <summary>
-    /// Logica di interazione per CVColumnGraph.xaml
+    /// Logica di interazione per CVColumnsGraph.xaml
     /// </summary>
     /// 
-    public enum CVColumnsGraphFilterOperation
-    {
-        None,
-        GroupSum,
-        GroupAVG
-    }
-
-
     public partial class CVColumnsGraph : UserControl
     {
         private Dictionary<object, CVColumn[]> CurrentValues = new();

@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
+             xmlns:graphs="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Graphs"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
-             mc:Ignorable="d" 
-             Loaded="OnLoad"
-             Name="control"
+             mc:Ignorable="d" Loaded="OnLoad" Name="control"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <Style TargetType="StackPanel" x:Key="WaitForDataFetching">
@@ -101,7 +100,7 @@
                                             <DockPanel Grid.Column="1" Name="c2">
                                                 <StackPanel DockPanel.Dock="Left" Margin="0,20,0,0" Orientation="Vertical">
                                                     <StackPanel.Resources>
-                                                        <Style TargetType="shared:CVPeriodPercentage">
+                                                        <Style TargetType="shared:CVProgressBar">
                                                             <Setter Property="DockPanel.Dock" Value="Top"></Setter>
                                                             <Setter Property="Height" Value="64"></Setter>
                                                             <Setter Property="Min" Value="0"></Setter>
@@ -111,8 +110,8 @@
                                                         </Style>
                                                     </StackPanel.Resources>
                                                     <DockPanel x:Name="pps">
-                                                        <shared:CVPeriodPercentage x:Name="sb_avg_1" Desc="Caricamento..."/>
-                                                        <shared:CVPeriodPercentage x:Name="sb_avg_2" Desc="Caricamento..."/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_1" Desc="Caricamento..."/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_2" Desc="Caricamento..."/>
                                                     </DockPanel>
                                                 </StackPanel>
                                             </DockPanel>
@@ -120,30 +119,31 @@
 
                                         <Grid Grid.Column="1" Margin="20,0,20,0" Height="{Binding ElementName=uc1, Path=ActualHeight}">
                                             <Label Panel.ZIndex="1" Name="graph_loading" Visibility="{Binding Path=DataFetched,Converter={StaticResource ResourceKey=VisibilityConverter}, ConverterParameter=swap}" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="#6E6E6E" HorizontalAlignment="Center"></Label>
-                                            <local:CVColumnsGraph x:Name="Graph" Margin="0,20,0,0"></local:CVColumnsGraph>
+                                            <graphs:CVColumnsGraph x:Name="Graph" Margin="0,20,0,0"></graphs:CVColumnsGraph>
 
-                                            <Border Panel.ZIndex="2"
+                                            <WrapPanel Margin="4,4,0,0" Panel.ZIndex="2" Cursor="">
+                                                <Border
                                                     Cursor="Hand"
                                                     Background="White"
                                                     MouseLeftButtonDown="GraphSettingsClick"
                                                     Margin="{Binding Path=Margin, ElementName=Graph}"
-                                                    VerticalAlignment="Top" HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top" HorizontalAlignment="Left"
                                                     CornerRadius="100" BorderBrush="Black" BorderThickness="0.4">
-                                                <ContentControl Background="Gray"
-                                                                Margin="1"
-                                                                Height="20" Width="20"
-                                                                Template="{StaticResource ResourceKey=SettingsIcon}">
-                                                </ContentControl>
-                                            </Border>
-                                            <Canvas HorizontalAlignment="Right" Panel.ZIndex="1" Name="cv">
+                                                    <ContentControl Background="Gray" Margin="1"
+                                                                    Height="20" Width="20"
+                                                                    Template="{StaticResource ResourceKey=SettingsIcon}">
+                                                    </ContentControl>
+                                                </Border>
+                                            </WrapPanel>
+                                            <Canvas HorizontalAlignment="Left" Panel.ZIndex="1" Name="cv">
                                                 <Canvas.Resources>
                                                     <Storyboard x:Key="ShowSettingsStoryboard">
-                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"></DoubleAnimation>
-                                                        <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" To="-142" Duration="0:0:0.5"></DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.8" Duration="0:0:0.2"></DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" To="20" Duration="0:0:0.4"></DoubleAnimation>
                                                     </Storyboard>
                                                     <Storyboard x:Key="HideSettingsStoryboard">
                                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2" BeginTime="0:0:0.1"></DoubleAnimation>
-                                                        <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" To="30" Duration="0:0:0.5"></DoubleAnimation>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" To="-68" Duration="0:0:0.4"></DoubleAnimation>
                                                     </Storyboard>
                                                     <Style TargetType="Border" x:Key="SettingsContent">
                                                         <Style.Triggers>
@@ -168,10 +168,11 @@
                                                 </Canvas.Resources>
                                                 <Border CornerRadius="16" Background="White"
                                                         BorderThickness="0.3" BorderBrush="Black"
-                                                        Canvas.Top="16" Panel.ZIndex="1" Canvas.Left="30"
+                                                        Canvas.Top="-68" Panel.ZIndex="1"
+                                                        x:Name="GraphWrapper"
                                                         Style="{StaticResource ResourceKey=SettingsContent}">
-                                                    <StackPanel Width="144">
-                                                        <Grid Margin="2" MaxWidth="130" MaxHeight="72" HorizontalAlignment="Left">
+                                                    <StackPanel Width="{Binding Path=ActualWidth, ElementName=GrapOptWP, ConverterParameter=20, Converter={StaticResource ResourceKey=AddConverter}}">
+                                                        <Grid x:Name="GrapOptWP" Margin="1" MaxHeight="72" HorizontalAlignment="Right">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition></ColumnDefinition>
                                                                 <ColumnDefinition Width="auto" MaxWidth="112"></ColumnDefinition>
@@ -185,11 +186,19 @@
                                                                 <Style TargetType="FrameworkElement" x:Key="BASE_Style">
                                                                     <Setter Property="VerticalAlignment" Value="Center"></Setter>
                                                                 </Style>
-                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=BASE_Style}">
+                                                                <Style TargetType="TextBlock" x:Key="Generic" BasedOn="{StaticResource ResourceKey=BASE_Style}">
                                                                     <Setter Property="Grid.Column" Value="0"></Setter>
                                                                     <Setter Property="Margin" Value="10,2.5,0,0"></Setter>
                                                                     <Setter Property="FontSize" Value="12"></Setter>
                                                                 </Style>
+                                                                <Style TargetType="TextBlock" x:Key="Period" BasedOn="{StaticResource ResourceKey=Generic}">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=DataFetched}" Value="False">
+                                                                            <Setter Property="Text" Value="Caricamento..."></Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                                
                                                                 <Style TargetType="shared:CVCheckBox" BasedOn="{StaticResource ResourceKey=BASE_Style}">
                                                                     <Setter Property="Grid.Column" Value="1"></Setter>
                                                                     <Setter Property="Margin" Value="0,2.5,10,0"></Setter>
@@ -197,12 +206,24 @@
                                                                     <Setter Property="MaxHeight" Value="16"></Setter>
                                                                 </Style>
                                                             </Grid.Resources>
-                                                            <TextBlock Text="Trimestre" Grid.Row="0"></TextBlock>
-                                                            <shared:CVCheckBox Grid.Row="0" CheckStateChanged="GraphFilterUpdated" x:Name="FirstPeriodCB"></shared:CVCheckBox>
-                                                            <TextBlock Text="Pentamestre" Grid.Row="1"></TextBlock>
-                                                            <shared:CVCheckBox Grid.Row="1" CheckStateChanged="GraphFilterUpdated" x:Name="LastPeriodCB"></shared:CVCheckBox>
-                                                            <TextBlock Text="Mostra NaN" Grid.Row="2"></TextBlock>
-                                                            <shared:CVCheckBox Grid.Row="2" CheckStateChanged="GraphFilterUpdated" x:Name="ShowNaNCB"></shared:CVCheckBox>
+                                                            <TextBlock Grid.Row="0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=Period}">
+                                                                        <Setter Property="Text" Value="{Binding Path=FirstPeriodName, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=???}"></Setter>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <shared:CVCheckBox Grid.Row="0" TriedChangeState="OnTriedChangeStateCB" CheckStateChanged="GraphFilterUpdated" x:Name="FirstPeriodCB"></shared:CVCheckBox>
+                                                            <TextBlock Grid.Row="1">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey=Period}">
+                                                                        <Setter Property="Text" Value="{Binding Path=LastPeriodName, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=???}"></Setter>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <shared:CVCheckBox Grid.Row="1" TriedChangeState="OnTriedChangeStateCB" CheckStateChanged="GraphFilterUpdated" x:Name="LastPeriodCB"></shared:CVCheckBox>
+                                                            <TextBlock Text="Mostra medie nulle" Grid.Row="2" Style="{StaticResource ResourceKey=Generic}"></TextBlock>
+                                                            <shared:CVCheckBox Grid.Row="2" TriedChangeState="OnTriedChangeStateCB" CheckStateChanged="GraphFilterUpdated" x:Name="ShowNaNCB"></shared:CVCheckBox>
                                                         </Grid>
                                                     </StackPanel>
                                                 </Border>
@@ -210,16 +231,17 @@
                                         </Grid>
                                     </Grid>
                                     <StackPanel Grid.Row="1">
-                                        <Grid Cursor="Hand">
+                                        <Grid Cursor="Hand" MouseLeftButtonDown="OpenGradesViewer">
                                             <TextBlock Text="Ultimi voti" Style="{StaticResource ResourceKey=Header}"></TextBlock>
                                             <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0.6" Template="{StaticResource ResourceKey=RightArrowIcon}" Height="32" Width="32" Margin="0,0,5,0" Background="Black" Grid.Column="2"></ContentControl>
                                         </Grid>
                                         <Grid>
                                             <ScrollViewer shared:CVScollerView.IsEnabled="True"
-                                                      shared:CVScollerView.CatchHeightProperty="False"
-                                                      Height="64"
-                                                      HorizontalScrollBarVisibility="Hidden" 
-                                                      VerticalScrollBarVisibility="Disabled">
+                                                          shared:CVScollerView.CatchHeightProperty="False"
+                                                          shared:CVScollerView.ScrollDirection="Horizontal"
+                                                          Height="64"
+                                                          HorizontalScrollBarVisibility="Hidden" 
+                                                          VerticalScrollBarVisibility="Disabled">
                                                 <StackPanel Orientation="Horizontal" Name="GradesWrapper">
                                                     <StackPanel.Resources>
                                                         <Style TargetType="local:CVGradeEllipse">
@@ -251,7 +273,7 @@
                                             </Grid.ColumnDefinitions>
                                             <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="#D05A50" Desc="Assenze"></local:CVRegistryAbsence>
                                             <local:CVRegistryAbsence x:Name="pabs" Grid.Column="1" RectColor="#EB9850" Desc="Ritardi"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence Count="-1" Grid.Column="2" RectColor="#0080B8" Desc="Assenze Parziali"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence Grid.Column="2" RectColor="#0080B8" Desc="Assenze Parziali"></local:CVRegistryAbsence>
                                             <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="#DBB73B" Desc="Uscite"></local:CVRegistryAbsence>
                                         </Grid>
                                     </StackPanel>
