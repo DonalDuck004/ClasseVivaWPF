@@ -1,17 +1,21 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils.Converters;
 using Newtonsoft.Json.Linq;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -358,6 +362,70 @@ namespace ClasseVivaWPF.Utils
             foreach (var e in src)
                 foreach (var i in e)
                     yield return i;
+        }
+
+        public static IEnumerable<Grade> WhereCountsInAVG(this IEnumerable<Grade> src)
+        {
+            return src.Where(x => x.DecimalValue is not null && !x.IsNote);
+        }
+
+        public static IEnumerable<Grade> OnlyDisplayable(this IEnumerable<Grade> src) // Android app seems handle GRV1 in this way(?)
+        {
+            var r = src.Where(x => x.EvtCode == Grade.GRADE_GRADE_UNKNOW1);
+            if (r.Any())
+                return r;
+            return src;
+        }
+
+        public static void SetThemeBinding<T>(this T element,
+                                              DependencyProperty property,
+                                              string VAR_PATH) where T : DependencyObject, IAnimatable
+        {
+            bool initialized = false;
+            var binding = new Binding()
+            {
+                Path = new("CurrentTheme." + VAR_PATH),
+                Converter = new ActionConverter(),
+                ConverterParameter = (object v) =>
+                {
+                    var rt = property.PropertyType == typeof(Color) ? v : new SolidColorBrush((Color)v);
+
+                    if (initialized is true)
+                    {
+                        var st = new Storyboard();
+                        var path = property.PropertyType == typeof(Color) ?
+                                        new PropertyPath(property.Name) :
+                                        new PropertyPath($"({property.Name}).(SolidColorBrush.Color)");
+                        var current = element.GetValue(property);
+
+                        var animation = new ColorAnimation()
+                        {
+                            Duration = new(TimeSpan.FromSeconds(0.5)),
+                            From = (Color)(current is Color ? current : ((SolidColorBrush)current).Color),
+                            To = (Color)v,
+                            FillBehavior = FillBehavior.Stop
+                        };
+
+                        Storyboard.SetTargetProperty(animation, path);
+                        st.Children.Add(animation);
+
+                        element.Dispatcher.BeginInvoke(() =>
+                        {
+                            if (element is FrameworkElement x)
+                                st.Begin(x);
+                            else if (element is FrameworkContentElement y)
+                                st.Begin(y);
+                        });
+
+                    }
+                    else
+                        initialized = true;
+
+                    return rt; 
+                },
+                Source = MainWindow.INSTANCE
+            };
+            BindingOperations.SetBinding(element, property, binding);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             InitializeComponent();
             this.DataContext = this;
+            this.MenuHeader.SetThemeBinding(Grid.BackgroundProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
         }
 
         public static void GlobDispose()
@@ -31,6 +33,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         private void OnLoad(object sender, EventArgs e)
         {
+            return;
             this.Init();
 
             this.days_scroller.SizeChanged += (s, e) =>

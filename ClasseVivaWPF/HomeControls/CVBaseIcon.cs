@@ -5,29 +5,24 @@ using System.Windows.Controls;
 
 namespace ClasseVivaWPF.HomeControls
 {
-    public class CVMainMenuIcon : ContentControl
+    public class CVBaseIcon : UserControl
     {
-        public static readonly DependencyProperty IconProperty;
         public static readonly DependencyProperty IconValueProperty;
         public static readonly DependencyProperty IsSelectedProperty;
 
-        public static Dictionary<CVMainMenuIconValues, CVMainMenuIcon> INSTANCES = new();
-        public static CVMainMenuIcon? Selected = null;
+        public static Dictionary<CVMainMenuIconValues, CVBaseIcon> INSTANCES = new();
+        public static CVBaseIcon? Selected = null;
 
-        static CVMainMenuIcon()
+        static CVBaseIcon()
         {
-            IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVMainMenuIcon), new PropertyMetadata(false));
-            IconProperty = DependencyProperty.Register("Icon", typeof(ControlTemplate), typeof(CVMainMenuIcon));
-            IconValueProperty = DependencyProperty.Register("IconValue", typeof(CVMainMenuIconValues), typeof(CVMainMenuIcon));
+            IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVBaseIcon), new PropertyMetadata(false));
+            IconValueProperty = DependencyProperty.Register("IconValue", typeof(CVMainMenuIconValues), typeof(CVBaseIcon));
         }
 
-        public CVMainMenuIcon()
+        private CVBaseIcon()
         {
-            MouseLeftButtonDown += (s, e) =>
-            {
-                if (!IsSelected)
-                    IsSelected = !IsSelected;
-            };
+
+            /*
             Loaded += (s, e) =>
             {
                 if (INSTANCES.ContainsKey(IconValue))
@@ -37,14 +32,24 @@ namespace ClasseVivaWPF.HomeControls
 
                 if (IconValue is CVMainMenuIconValues.Home)
                     IsSelected = true;
-
-            };
+            };*/
         }
 
-        public ControlTemplate Icon
+        internal CVBaseIcon(CVMainMenuIconValues Icon)
         {
-            get => (ControlTemplate)GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
+            this.IconValue = Icon;
+            this.MouseLeftButtonDown += (s, e) =>
+            {
+                if (!this.IsSelected)
+                    this.IsSelected = !this.IsSelected;
+            };
+            this.Loaded += OnLoad;
+        }
+
+        private void OnLoad(object sender, EventArgs e)
+        {
+            this.IsSelected = this.IsSelected;
+            this.Loaded -= OnLoad;
         }
 
         public CVMainMenuIconValues IconValue
@@ -56,7 +61,7 @@ namespace ClasseVivaWPF.HomeControls
             }
         }
 
-        public bool IsSelected
+        public virtual bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
             set

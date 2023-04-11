@@ -17,6 +17,7 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVMemeViewer.xaml
     /// </summary>
+    ///
     public partial class CVPilloleOpener : CVExtraBase, ICloseRequested, IOnKeyDown
     {
         public static readonly DependencyProperty SelectedContentProperty;
@@ -38,12 +39,11 @@ namespace ClasseVivaWPF.SharedControls
                 base.SetValue(SelectedContentProperty, value);
                 var h = Images.TakeWhile(x => !ReferenceEquals(x.Item1, value)).Sum(x => x.Item1.ActualWidth);
                 var c = Scroller.HorizontalOffset;
-                if (h == c)
-                    return;
+                if (h != c)
+                    Scroller.ScrollToHorizontalOffset(h);
 
                 const double ANIMATION_DURATION = 0.01;
 
-                Scroller.ScrollToHorizontalOffset(h);
                 if (this.Multi)
                 {
                     var animation = new DoubleAnimation()
@@ -85,6 +85,11 @@ namespace ClasseVivaWPF.SharedControls
             this.DataContext = this;
             this.SelectedContent = Images[0].Item1;
             this.Loaded += OnLoad;
+            if (this.Multi)
+                this.Scroller.SizeChanged += (s, e) =>
+                {
+                    this.SelectedContent = this.SelectedContent;
+                };
         }
 
         private double GetPointLeft(int? idx = null)
@@ -93,7 +98,7 @@ namespace ClasseVivaWPF.SharedControls
             if (idx == -1)
                 idx = 0;
 
-            var pos = Points.Children.OfType<Border>().ElementAt(idx.Value).TransformToAncestor(Points).Transform(new(0, 0));
+            var pos = Points.Children[idx.Value + 1].TransformToAncestor(Points).Transform(new(0, 0));
             return pos.X;
         }
 
@@ -117,7 +122,7 @@ namespace ClasseVivaWPF.SharedControls
                     Path = new("ActualWidth"),
                     ElementName = "Scroller",
                     Converter = new ActionConverter(),
-                    ConverterParameter = () =>
+                    ConverterParameter = (object _) =>
                     {
                         var l = (Scroller.ActualWidth - Images[0].Item1.ActualWidth) / 2;
                         return (object)new Thickness(l, 0, 0, 0);
@@ -132,7 +137,7 @@ namespace ClasseVivaWPF.SharedControls
                     Path = new("ActualWidth"),
                     ElementName = "Scroller",
                     Converter = new ActionConverter(),
-                    ConverterParameter = () =>
+                    ConverterParameter = (object _) =>
                     {
                         var r = (Scroller.ActualWidth - Images[Images.Length - 1].Item1.ActualWidth) / 2;
                         return (object)new Thickness(0, 0, r, 0);
@@ -176,7 +181,7 @@ namespace ClasseVivaWPF.SharedControls
 
         private void GotoPoint(object sender, EventArgs e)
         {
-            var i = this.Points.Children.ReferenceIndexOf(sender);
+            var i = this.Points.Children.ReferenceIndexOf(sender) - 1;
             this.SelectedContent = Images[i].Item1;
         }
 

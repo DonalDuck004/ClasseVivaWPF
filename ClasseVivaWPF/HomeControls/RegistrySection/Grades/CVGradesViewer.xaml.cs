@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,6 +36,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     public partial class CVGradesViewer : UserControl
     {
         public static readonly DependencyProperty SelectedSubjectProperty;
+        public static readonly DependencyProperty SelectedSectionProperty;
 
         public CVGrade? SelectedGrade
         {
@@ -52,9 +54,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             }
         }
 
+        public FrameworkElement SelectedSection
+        {
+            get => (FrameworkElement)base.GetValue(SelectedSectionProperty);
+            set => base.SetValue(SelectedSectionProperty, value);
+        }
+
         static CVGradesViewer()
         {
             SelectedSubjectProperty = DependencyProperty.Register("SelectedSubject", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
+            SelectedSectionProperty = DependencyProperty.Register("SelectedSection", typeof(FrameworkElement), typeof(CVGradesViewer), new PropertyMetadata(null));
         }
 
         public CVGradesViewer()
@@ -63,6 +72,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
             this.Update();
             this.DataContext = this;
+            this.SelectedSection = (FrameworkElement)this.SectionsWP.Children[0];
 
             this.Scroller.SizeChanged += (s, e) => {
                 if (this.Scroller.HorizontalOffset != 0)
@@ -76,6 +86,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
         private void Update()
         {
             UpdateBlock1();
+            UpdateBlock2();
         }
 
         private void UpdateBlock1()
@@ -108,6 +119,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             this.s_p2.Content = this.p2.Content = CVRegistry.INSTANCE!.LastPeriodName;
         }
 
+        private void UpdateBlock2()
+        {
+            this.FirstPeriodStack.Children.Add(CVSubjectGrades.New(CVRegistry.INSTANCE!.CachedGrades));
+            this.FirstPeriodStack.Children.Add(CVSubjectGrades.New(CVRegistry.INSTANCE!.CachedGrades));
+        }
 
         public void OnClose(object sender, RoutedEventArgs e) => this.Close();
 
@@ -131,6 +147,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             if (e.OldIndex == e.Index)
                 return;
 
+            this.Dispatcher.BeginInvoke(() => this.Scroller.ScrollToVerticalOffset(0));
+            this.SelectedSection = (FrameworkElement)((StackPanel)e.SnappendElement).Children[0];
             var labels = this.labels.Children.OfType<Label>().ToArray();
             labels[e.OldIndex].Foreground = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xFF, 0xFF));
             labels[e.Index].Foreground = new SolidColorBrush(Colors.White);
@@ -147,7 +165,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             labels.Where(x => ((SolidColorBrush)x.Foreground).Color == Colors.White).First().Foreground = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xFF, 0xFF));
             ((Label)sender).Foreground = new SolidColorBrush(Colors.White);
             var idx = labels.ReferenceIndexOf(sender);
+            this.SelectedSection = (FrameworkElement)((StackPanel)this.SectionsWP.Children[idx]).Children[0];
 
+            this.Scroller.ScrollToVerticalOffset(0);
             this.Scroller.ScrollToHorizontalOffset(this.Scroller.ActualWidth * idx);
         }
     }

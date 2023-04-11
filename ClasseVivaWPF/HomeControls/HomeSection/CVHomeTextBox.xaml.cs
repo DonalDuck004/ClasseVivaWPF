@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -33,8 +34,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             HourProperty = DependencyProperty.Register("Hour", typeof(int?), typeof(CVHomeTextBox));
             HoursProperty = DependencyProperty.Register("Hours", typeof(int?), typeof(CVHomeTextBox));
             Row2Property = DependencyProperty.Register("Row2", typeof(string), typeof(CVHomeTextBox), new PropertyMetadata(""));
-            FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Config.OPAQUE_WHITE));
-            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(CVHomeTextBox), new PropertyMetadata(Config.OPAQUE_WHITE));
+            FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(Color), typeof(CVHomeTextBox));
+            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(CVHomeTextBox));
             FontColorProperty = DependencyProperty.Register("FontColor", typeof(SolidColorBrush), typeof(CVHomeTextBox), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
             IconTemplateProperty = DependencyProperty.Register("IconTemplate", typeof(ControlTemplate), typeof(CVHomeTextBox));
         }
@@ -62,9 +63,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     uri = new Hyperlink(new Run() { Text = block })
                     {
                         NavigateUri = new Uri(block),
-                        TextDecorations = null,
-                        Foreground = Config.CV_RED_BRUSH,
+                        TextDecorations = null
                     };
+
+                    uri.SetThemeBinding(Hyperlink.ForegroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
                     uri.RequestNavigate += OpenUrl;
                     target.Add(uri);
                 }
@@ -84,6 +86,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             @this.Hours = lesson.EvtDuration;
             @this.Row2 = lesson.AuthorName.ToTitle();
             @this.FillerColor = DayOverview.COLORS[lesson.ColorID];
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
 
             if (lesson.LessonArg == "")
             {
@@ -116,6 +119,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         public static CVHomeTextBox FromAgendaEvent(AgendaEvent e, EventAppCategory category)
         {
             CVHomeTextBox @this = new();
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
             @this.Title = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc!;
             if (category is EventAppCategory.Homework && !e.IsFullDay)
                 @this.Row2 = $"{e.EvtDatetimeBegin:HH:mm} - {e.EvtDatetimeEnd:HH:mm}";
@@ -156,6 +160,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
             else
                 throw new Exception();
+            // TODO
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
+            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
 
             @this.FontColor = new SolidColorBrush(Colors.White);
 
@@ -189,7 +196,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             CVHomeTextBox @this = new();
             @this.TitleControl.Foreground = new SolidColorBrush(Colors.White);
 
-            @this.FillerColor = @this.BackgroundColor = evt.InternalColor;
+            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, evt.InternalColorPath);
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, evt.InternalColorPath);
+
+
             @this.Title = evt.SubjectDesc.ToTitle();
 
             if (evt.NotesForFamily == "")

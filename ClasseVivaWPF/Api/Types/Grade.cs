@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
@@ -95,9 +96,6 @@ namespace ClasseVivaWPF.Api.Types
 
         private static Dictionary<string, Color> CColor = new Dictionary<string, Color>()
         {
-            {"green", System.Windows.Media.Color.FromRgb(0x83, 0xB5, 0x88) },
-            {"red", Config.CV_RED },
-            {"blue", System.Windows.Media.Color.FromRgb(0x5D, 0x97, 0xB1) }
         };
 
         public Color ApiGivenColor
@@ -114,11 +112,11 @@ namespace ClasseVivaWPF.Api.Types
             }
         }
 
-        public Color InternalColor => 
-            this.DecimalValue is null ? System.Windows.Media.Color.FromRgb(0x5D, 0x97, 0xB1) :
-            this.DecimalValue < 5 ? System.Windows.Media.Color.FromRgb(0xD0, 0x5A, 0x50) : 
-            this.DecimalValue < 6 ? System.Windows.Media.Color.FromRgb(0xEB, 0x98, 0x60) :
-            System.Windows.Media.Color.FromRgb(0x83, 0xB5, 0x88);
+        public string InternalColorPath => 
+            this.DecimalValue is null ? BaseTheme.CV_GRADE_NOTE_PATH :
+            this.DecimalValue < 5 ? BaseTheme.CV_GRADE_INSUFFICIENT_PATH : 
+            this.DecimalValue < 6 ? BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH :
+            BaseTheme.CV_GRADE_SUFFICIENT_PATH;
 
         public override void BuildNotifyText(ToastContentBuilder toast)
         {

@@ -60,12 +60,13 @@
                 <ScrollViewer x:Name="Scroller"
                               shared:CVScollerView.OnSnap="Scroller_OnSnap"
                               shared:CVScollerView.IsEnabled="True"
+                              shared:CVScollerView.MaxVerticalOffset="{Binding Path=SelectedSection.ActualHeight}"
                               Height="{Binding ElementName=scroller_wp, Path=ActualHeight}"
                               shared:CVScollerView.Snap="True"
                               shared:CVScollerView.SnapSensibility="5"
                               VerticalScrollBarVisibility="Hidden"
                               HorizontalScrollBarVisibility="Hidden">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Name="SectionsWP">
                         <StackPanel.Resources>
                             <Style TargetType="StackPanel" x:Key="wp">
                                 <Setter Property="MinHeight" Value="{Binding ElementName=Scroller, Path=ActualHeight}"></Setter>
@@ -89,18 +90,21 @@
                                 <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
                                               Grid.Column="1" Width="4"
                                               VerticalAlignment="Stretch"></GridSplitter>
-                                <StackPanel Grid.Column="2">
-                                    <Label Content="{Binding Path=SelectedSubject.DataContext.SubjectDesc, FallbackValue='Nessun voto selezionato'}" Background="#FFF0F0F0"></Label>
-                                    <Label Name="s_p1" Background="#FFF0F0F0"></Label>
-                                    <StackPanel x:Name="s_fp_wp">
+                                <Canvas Grid.Column="2" >
+                                    <StackPanel Canvas.Top="{Binding ElementName=Scroller, Path=VerticalOffset}" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}">
+                                        <Label Content="{Binding Path=SelectedSubject.DataContext.SubjectDesc, FallbackValue='Nessun voto selezionato'}" Background="#FFF0F0F0"></Label>
+                                        <Label Name="s_p1" Background="#FFF0F0F0"></Label>
+                                        <StackPanel x:Name="s_fp_wp">
+                                        </StackPanel>
+                                        <Label Name="s_p2" Background="#FFF0F0F0"></Label>
+                                        <StackPanel x:Name="s_lp_wp">
+                                        </StackPanel>
                                     </StackPanel>
-                                    <Label Name="s_p2" Background="#FFF0F0F0"></Label>
-                                    <StackPanel x:Name="s_lp_wp">
-                                    </StackPanel>
-                                </StackPanel>
+
+                                </Canvas>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Style="{StaticResource ResourceKey=wp}" Background="Green"></StackPanel>
+                        <StackPanel Style="{StaticResource ResourceKey=wp}" Background="White" Name="FirstPeriodStack"></StackPanel>
                         <StackPanel Style="{StaticResource ResourceKey=wp}" Background="Blue"></StackPanel>
                     </StackPanel>
                 </ScrollViewer>

@@ -7,7 +7,7 @@ namespace ClasseVivaWPF.Utils.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return ((Func<object>)parameter).Invoke();
+            return ((Func<object, object>)parameter).Invoke(value);
         }
 
         public object ConvertBack(object value, Type targetTypes, object parameter, System.Globalization.CultureInfo culture)

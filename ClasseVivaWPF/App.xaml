@@ -6,6 +6,7 @@
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:homecontrols="clr-namespace:ClasseVivaWPF.HomeControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <converters:StrIfConverter x:Key="StrIfConverter"></converters:StrIfConverter>
@@ -20,12 +21,6 @@
         <converters:SubConverter x:Key="SubConverter"></converters:SubConverter>
         <converters:ThicknessConverter x:Key="ThicknessConverter"></converters:ThicknessConverter>
         <converters:ProgressConverter x:Key="ProgressConverter"></converters:ProgressConverter>
-
-        <Color x:Key="CV_RED_COLOR" A="{x:Static utils:Config.CV_RED_A}" R="{x:Static utils:Config.CV_RED_R}" G="{x:Static utils:Config.CV_RED_G}" B="{x:Static utils:Config.CV_RED_B}"></Color>
-        <SolidColorBrush x:Key="CV_RED" Color="{StaticResource CV_RED_COLOR}"></SolidColorBrush>
-
-        <Color x:Key="CV_OPAQUE_WHITE_COLOR" A="{x:Static utils:Config.CV_OPAQUE_WHITE_A}" R="{x:Static utils:Config.CV_OPAQUE_WHITE_R}" G="{x:Static utils:Config.CV_OPAQUE_WHITE_G}" B="{x:Static utils:Config.CV_OPAQUE_WHITE_B}"></Color>
-        <SolidColorBrush x:Key="CV_OPAQUE_WHITE" Color="{StaticResource CV_OPAQUE_WHITE_COLOR}"></SolidColorBrush>
 
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
@@ -220,10 +215,10 @@
                     </Canvas.Resources>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                             Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                             StrokeThickness="14"
                             Data="M295.48,333.64l0,142.21l127.43,0l0,-238.92l47.78,0l-220.69,-210.48l-220.7,210.48l47.79,0l0,238.92l127.43,0l0,-142.21l90.96,0z"></Path>
                 </Canvas>
@@ -243,12 +238,12 @@
                             <Setter Property="StrokeThickness" Value="14"></Setter>
                             <Setter Property="Stroke" Value="{Binding IsSelected, 
                                                                       Converter={StaticResource BGConverter},
-                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
+                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
                         </Style>
                     </Canvas.Resources>
                     <Path Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
                     <Path Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
                           Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
@@ -268,16 +263,16 @@
                             <Setter Property="StrokeThickness" Value="14"></Setter>
                             <Setter Property="Stroke" Value="{Binding IsSelected, 
                                             Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
                         </Style>
                     </Canvas.Resources>
                     <Path Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Data="M371.27,139l-13,-64.9A19.13,19.13 0,0 0,339.53 58.7H160.47a19.13,19.13 0,0 0,-18.76 15.37l-13,64.9A19.14,19.14 0,0 1,110 154.35H68.26A38.26,38.26 0,0 0,30 192.61V403A38.26,38.26 0,0 0,68.26 441.3H431.74A38.26,38.26 0,0 0,470 403V192.61a38.26,38.26 0,0 0,-38.26 -38.26H390A19.14,19.14 0,0 1,371.27 139Z"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
                           Data="M250,290.33m-93.59,0a93.59,93.59 0,1 1,187.18 0a93.59,93.59 0,1 1,-187.18 0"></Path>
                 </Canvas>
@@ -300,39 +295,39 @@
                     </Canvas.Resources>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                             Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                             Data="M30.87,93.48L469.13,93.48A20.87,20.87 0,0 1,490 114.35L490,385.65A20.87,20.87 0,0 1,469.13 406.52L30.87,406.52A20.87,20.87 0,0 1,10 385.65L10,114.35A20.87,20.87 0,0 1,30.87 93.48z"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                             Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}" 
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}" 
                             Data="M133.45,246.9m-78.71,0a78.71,78.71 0,1 1,157.42 0a78.71,78.71 0,1 1,-157.42 0"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Data="M154.92,231.8c0,12.29 -9.61,22.26 -21.47,22.26S112,244.09 112,231.8V219.07c0,-12.29 9.61,-22.26 21.47,-22.26s21.47,10 21.47,22.26Z"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Fill="{Binding IsSelected, 
                                             Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}" 
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}" 
                           Data="M81,305.58c8.8,-17.68 29,-30.06 52.45,-30.06s43.65,12.38 52.45,30.06"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Data="M274.74,220.71L433.76,220.71"></Path>
                     <Path Stroke="{Binding IsSelected, 
                                             Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"
+                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
                           Data="M274.74,279.29L433.76,279.29"></Path>
                 </Canvas>
             </Viewbox>
@@ -351,10 +346,10 @@
                             <Setter Property="StrokeThickness" Value="14"></Setter>
                             <Setter Property="Stroke" Value="{Binding IsSelected, 
                                                                       Converter={StaticResource BGConverter},
-                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
+                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
                             <Setter Property="Fill" Value="{Binding IsSelected, 
                                                                     Converter={StaticResource FGConverter},
-                                                                    RelativeSource={RelativeSource AncestorType=homecontrols:CVMainMenuIcon}}"></Setter>
+                                                                    RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
                         
                         </Style>
                     </Canvas.Resources>

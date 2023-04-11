@@ -14,7 +14,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid DockPanel.Dock="Top" Background="{StaticResource ResourceKey=CV_RED}" Grid.Row="0">
+        <Grid DockPanel.Dock="Top" Name="Header" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="159"></ColumnDefinition>
@@ -34,7 +34,7 @@
         </Grid>
         <DockPanel Name="Current" Grid.Row="1">
         </DockPanel>
-        <Grid Grid.Row="2" Background="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" x:Name="wp_buttons">
+        <Grid Grid.Row="2" x:Name="wp_buttons">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -42,41 +42,41 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-
-            <local:CVMainMenuIcon 
+            <local:CVMainMenuIcon></local:CVMainMenuIcon>
+            <!--local:CVBaseIcon 
                 Grid.Column="0" 
                 IconValue="Home"
                 Icon="{StaticResource ResourceKey=HomeIcon}"
                 Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVMainMenuIcon>
+            </local:CVBaseIcon>
 
-            <local:CVMainMenuIcon 
+            <local:CVBaseIcon 
                 Grid.Column="1" 
                 IconValue="Registro"
                 Icon="{StaticResource ResourceKey=RegistryIcon}" 
                 Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVMainMenuIcon>
+            </local:CVBaseIcon>
 
-            <local:CVMainMenuIcon 
+            <local:CVBaseIcon 
                 Grid.Column="2" 
                 IconValue="Camera"
                 Icon="{StaticResource ResourceKey=CameraIcon}" 
                 Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVMainMenuIcon>
+            </local:CVBaseIcon>
 
-            <local:CVMainMenuIcon 
+            <local:CVBaseIcon 
                 Grid.Column="3" 
                 IconValue="Badge"
                 Icon="{StaticResource ResourceKey=BadgeIcon}" 
                 Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVMainMenuIcon>
+            </local:CVBaseIcon>
 
-            <local:CVMainMenuIcon 
+            <local:CVBaseIcon 
                 Grid.Column="4" 
                 IconValue="Menu"
                 Icon="{StaticResource ResourceKey=MenuIcon}" 
                 Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVMainMenuIcon>
+            </local:CVBaseIcon-->
         </Grid>
     </Grid>
 </UserControl>

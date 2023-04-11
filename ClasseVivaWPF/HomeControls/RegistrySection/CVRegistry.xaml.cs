@@ -4,6 +4,7 @@ using ClasseVivaWPF.HomeControls.RegistrySection.Grades;
 using ClasseVivaWPF.HomeControls.RegistrySection.Graphs;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,22 +105,23 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             {
                 From = 0,
                 To = target.Value = avg,
-                Duration = new Duration(TimeSpan.FromSeconds(1)),
+                Duration = new(TimeSpan.FromSeconds(1)),
                 FillBehavior = FillBehavior.Stop
             };
             Storyboard.SetTargetProperty(animation, new PropertyPath(CVProgressEllipse.ValueProperty));
             st.Children.Add(animation);
 
 
-            target.PercentageColor = Color.FromRgb(0xD0, 0x5A, 0x50);
+            var dest = BaseTheme.CV_GRADE_INSUFFICIENT_PATH;
 
             if (avg >= 5)
             {
+                dest = BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH;
                 animation = new ColorAnimation()
                 {
-                    To = target.PercentageColor = Color.FromRgb(0xEB, 0x98, 0x60),
+                    To = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT,
                     AccelerationRatio = 0.1,
-                    Duration = new Duration(TimeSpan.FromSeconds(avg >= 6 ? 0.5 : 1)),
+                    Duration = new(TimeSpan.FromSeconds(avg >= 6 ? 0.5 : 1)),
                     FillBehavior = FillBehavior.Stop
                 };
 
@@ -129,10 +131,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
             if (avg >= 6)
             {
+                dest = BaseTheme.CV_GRADE_SUFFICIENT_PATH;
                 animation = new ColorAnimation()
                 {
-                    To = target.PercentageColor = Color.FromRgb(0x83, 0xB5, 0x88),
-                    Duration = new Duration(TimeSpan.FromSeconds(0.35)),
+                    To = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SUFFICIENT,
+                    Duration = new(TimeSpan.FromSeconds(0.35)),
                     BeginTime = TimeSpan.FromSeconds(0.65),
                     FillBehavior = FillBehavior.Stop
                 };
@@ -140,6 +143,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 Storyboard.SetTargetProperty(animation, new PropertyPath(CVProgressEllipse.PercentageColorProperty));
                 st.Children.Add(animation);
             }
+
+            target.SetThemeBinding(BaseCVPercentage.PercentageColorProperty, dest);
 
             st.Completed += (s, e) =>
             {
@@ -160,7 +165,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
             if (CachedGrades.Length != 0)
             {
-                this.SetAVG(SafeAVG(CachedGrades.Where(x => x.DecimalValue is not null && !x.IsNote).Select(x => x.DecimalValue!.Value)), this.AvgArc);
+                this.SetAVG(SafeAVG(CachedGrades.WhereCountsInAVG().Select(x => x.DecimalValue!.Value)), this.AvgArc);
 
                 var g = (from grade in CachedGrades
                          where grade.DecimalValue is not null && !grade.IsNote
@@ -172,7 +177,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 {
                     (i == 0 ? sb_avg_1 : sb_avg_2).Desc = g[i].Key;
                     this.SetAVG(target: i == 0 ? sb_avg_1 : sb_avg_2,
-                                avg: SafeAVG(g[i].Where(x => x.DecimalValue is not null && !x.IsNote).Select(x => x.DecimalValue!.Value)));
+                                avg: SafeAVG(g[i].WhereCountsInAVG().Select(x => x.DecimalValue!.Value)));
                 }
 
                 this.FirstPeriodCB.Check();
@@ -212,9 +217,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
                 if (subjects is not null)
                 {
-                    var filtered_cols = g.Merge().Where(x => x.EvtCode == BaseEvent.GRADE_GRADE_UNKNOW1);
-                    if (!filtered_cols.Any()) // Android app seems handle GRV1 in this way(?)
-                        filtered_cols = g.Merge();
+                    var filtered_cols = g.Merge().OnlyDisplayable();
 
                     var columns = (from subject in subjects
                                    join grade in filtered_cols

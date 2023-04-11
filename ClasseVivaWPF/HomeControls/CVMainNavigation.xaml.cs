@@ -3,6 +3,8 @@ using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.HomeControls.MenuSection;
 using ClasseVivaWPF.HomeControls.RegistrySection;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -20,7 +22,10 @@ namespace ClasseVivaWPF.HomeControls
         private CVMainNavigation()
         {
             InitializeComponent();
+            this.Header.SetThemeBinding(DockPanel.BackgroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
+            this.wp_buttons.SetThemeBinding(Grid.BackgroundProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
         }
+        
 
         public static CVMainNavigation New()
         {

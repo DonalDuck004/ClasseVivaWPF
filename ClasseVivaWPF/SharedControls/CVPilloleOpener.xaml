@@ -45,7 +45,8 @@
                               local:CVScollerView.IsEnabled="True"
                               local:CVScollerView.CatchHeightProperty="False"
                               local:CVScollerView.Snap="True"
-                              local:CVScollerView.SnapSensibility="4"
+                              local:CVScollerView.SnapSensibility="8"
+                              local:CVScollerView.SnapIncludeMargins="True"
                               local:CVScollerView.OnSnap="Scroller_OnSnap"
                               Name="Scroller"
                               Focusable="False">

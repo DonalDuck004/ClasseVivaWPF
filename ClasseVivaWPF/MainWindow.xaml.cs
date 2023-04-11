@@ -4,6 +4,7 @@ using ClasseVivaWPF.LoginControls;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.ComponentModel;
@@ -24,6 +25,8 @@ namespace ClasseVivaWPF
     /// 
     public partial class MainWindow : Window
     {
+        public static readonly DependencyProperty CurrentThemeProperty;
+        
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
         Forms.ToolStripMenuItem? NotifyIcon = null;
@@ -32,10 +35,23 @@ namespace ClasseVivaWPF
         public delegate void PostLoginEventHandler();
         public event PostLoginEventHandler? PostLogin = null;
 
+        public BaseTheme CurrentTheme
+        {
+            get => (BaseTheme)GetValue(CurrentThemeProperty);
+            set => SetValue(CurrentThemeProperty, value);
+        }
+
+        static MainWindow()
+        {
+            CurrentThemeProperty = DependencyProperty.Register("CurrentTheme", typeof(BaseTheme), typeof(MainWindow), new PropertyMetadata(new WhiteTheme()));
+        }
+
         public MainWindow()
         {
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
+            this.DataContext = this;
             InitializeComponent();
+            MainBackground.SetThemeBinding(DockPanel.BackgroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
 
             this.PostLogin += () =>
             {
@@ -160,6 +176,11 @@ namespace ClasseVivaWPF
 
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.K)
+            {
+                this.CurrentTheme = this.CurrentTheme is not EasterEggTheme ? new EasterEggTheme() : new WhiteTheme();
+            }
+
             if (e.Key is Key.Escape)
             {
                 if (this.wrapper.Children.Count > 1)
@@ -213,8 +234,8 @@ namespace ClasseVivaWPF
                     {
                         RemoveFields();
 
-                        if (CVMainMenuIcon.Selected is not null && CVMainMenuIcon.Selected.IconValue is not CVMainMenuIconValues.Home)
-                            CVMainMenuIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
+                        if (CVBaseIcon.Selected is not null && CVBaseIcon.Selected.IconValue is not CVMainMenuIconValues.Home)
+                            CVBaseIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
 
 
                         if (CVHome.INSTANCE.IsLoaded)
@@ -233,8 +254,8 @@ namespace ClasseVivaWPF
                 {
                     RemoveFields();
 
-                    if (CVMainMenuIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
-                        CVMainMenuIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
+                    if (CVBaseIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
+                        CVBaseIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
 
 
                     if (CVHome.INSTANCE.IsLoaded)

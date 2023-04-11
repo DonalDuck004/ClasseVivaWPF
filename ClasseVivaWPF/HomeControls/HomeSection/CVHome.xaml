@@ -29,7 +29,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Background="Gray">
-            <Grid Background="{StaticResource ResourceKey=CV_OPAQUE_WHITE}">
+            <Grid x:Name="MenuHeader">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>

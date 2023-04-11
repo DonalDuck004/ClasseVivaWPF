@@ -23,12 +23,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     {
         public Grade Grade { get; init; }
 
-#if DEBUG
-        public CVGrade()
+        // For vs
+        private CVGrade()
         {
             InitializeComponent();
         }
-#endif
 
         public CVGrade(Grade grade)
         {

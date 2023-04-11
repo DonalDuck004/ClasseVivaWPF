@@ -23,6 +23,8 @@ namespace ClasseVivaWPF.Api.Types
 
         public string ShortName => this.Description.Substring(0, 3).ToUpper();
 
+        public string TeachersString => string.Join(", ", Teachers.Select(x => x.TeacherName));
+
         public static bool operator == (Subject s1, Subject s2){
             return s1.Id == s2.Id;
         }

@@ -11,7 +11,7 @@
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">
-        <DockPanel Background="{StaticResource ResourceKey=CV_RED}">
+        <DockPanel x:Name="MainBackground">
             <StackPanel Width="{Binding Path=ActualWidth, ElementName=window, Converter={StaticResource DivisionConverter}, ConverterParameter=2}"
                         Height="{Binding Path=ActualHeight, ElementName=window, Converter={StaticResource DivisionConverter}, ConverterParameter=2}">
                 <StackPanel.Background>
