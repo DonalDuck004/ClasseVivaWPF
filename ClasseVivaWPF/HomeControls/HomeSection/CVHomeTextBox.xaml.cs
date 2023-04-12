@@ -44,6 +44,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             InitializeComponent();
             this.DataContext = this;
+
+            this.ContentTextBox.SetThemeBinding(RichTextBox.SelectionBrushProperty, BaseTheme.CV_GENERIC_TEXT_SELECTION_PATH);
         }
 
         private void ParseText(string text, InlineCollection target, string init_value = "")

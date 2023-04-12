@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
-             xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:root="clr-namespace:ClasseVivaWPF" Name="UControl"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.HomeSection"
-             xmlns:sharedcontrols="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Background="#BF000000" MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
              d:DesignHeight="1495.339" d:DesignWidth="765.14">
     <UserControl.Resources>
@@ -42,11 +42,7 @@
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup x:Name="CommonStates">
                                                             <VisualState x:Name="Normal"/>
-                                                            <VisualState x:Name="MouseOver">
-                                                                <Storyboard>
-                                                                    <ColorAnimation Duration="0" Storyboard.TargetName="path" To="{StaticResource ResourceKey=CV_RED_COLOR}" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"/>
-                                                                </Storyboard>
-                                                            </VisualState>
+                                                            <VisualState x:Name="MouseOver"/>
                                                             <VisualState x:Name="Disabled">
                                                                 <Storyboard>
                                                                     <DoubleAnimation Duration="0" Storyboard.TargetName="path" To=".5" Storyboard.TargetProperty="(Shape.Fill).(Brush.Opacity)"/>
@@ -79,11 +75,7 @@
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup x:Name="CommonStates">
                                                             <VisualState x:Name="Normal"/>
-                                                            <VisualState x:Name="MouseOver">
-                                                                <Storyboard>
-                                                                    <ColorAnimation Duration="0" Storyboard.TargetName="path" To="{StaticResource ResourceKey=CV_RED_COLOR}" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"/>
-                                                                </Storyboard>
-                                                            </VisualState>
+                                                            <VisualState x:Name="MouseOver"/>
                                                             <VisualState x:Name="Disabled">
                                                                 <Storyboard>
                                                                     <DoubleAnimation Duration="0" Storyboard.TargetName="path" To=".5" Storyboard.TargetProperty="(Shape.Fill).(Brush.Opacity)"/>
@@ -116,11 +108,7 @@
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup x:Name="CommonStates">
                                                             <VisualState x:Name="Normal"/>
-                                                            <VisualState x:Name="MouseOver">
-                                                                <Storyboard>
-                                                                    <ColorAnimation Duration="0" Storyboard.TargetName="buttonContent" To="{StaticResource ResourceKey=CV_RED_COLOR}" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"/>
-                                                                </Storyboard>
-                                                            </VisualState>
+                                                            <VisualState x:Name="MouseOver"/>
                                                             <VisualState x:Name="Disabled">
                                                                 <Storyboard>
                                                                     <DoubleAnimation Duration="0" Storyboard.TargetName="buttonContent" To=".5" Storyboard.TargetProperty="Opacity"/>
@@ -142,7 +130,7 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <Button x:Name="PART_PreviousButton" Grid.Column="0" Focusable="False" HorizontalAlignment="Left" Height="20" Grid.Row="0" Template="{StaticResource PreviousButtonTemplate}" Width="28"/>
-                                        <Button x:Name="PART_HeaderButton" Foreground="{StaticResource ResourceKey=CV_RED}" Grid.Column="1" Focusable="False" FontWeight="Bold" FontSize="10.5" HorizontalAlignment="Center" Grid.Row="0" Template="{StaticResource HeaderButtonTemplate}" VerticalAlignment="Center"/>
+                                        <Button x:Name="PART_HeaderButton" Foreground="{Binding Path=MainColorBrush, ElementName=UControl}" Grid.Column="1" Focusable="False" FontWeight="Bold" FontSize="10.5" HorizontalAlignment="Center" Grid.Row="0" Template="{StaticResource HeaderButtonTemplate}" VerticalAlignment="Center" Cursor="Hand"/>
                                         <Button x:Name="PART_NextButton" Grid.Column="2" Focusable="False" HorizontalAlignment="Right" Height="20" Grid.Row="0" Template="{StaticResource NextButtonTemplate}" Width="28"/>
                                         <Grid x:Name="PART_MonthView" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="6,-1,6,6" Grid.Row="1" Visibility="Visible">
                                             <Grid.ColumnDefinitions>
@@ -167,9 +155,9 @@
                                         <ScrollViewer Grid.ColumnSpan="3" Grid.Row="1" VerticalScrollBarVisibility="Hidden"
                                                       HorizontalScrollBarVisibility="Disabled"
                                                       Visibility="{Binding ElementName=PART_YearView, Path=Visibility}"
-                                                      HorizontalAlignment="Center" Margin="6,-3,7,6" 
+                                                      HorizontalAlignment="Center" Margin="6,-3,7,6"
                                                       MaxHeight="{Binding Path=ActualHeight, Converter={StaticResource DivisionConverter}, ConverterParameter=4}"
-                                                      sharedcontrols:CVScollerView.IsEnabled="True">
+                                                      shared:CVScollerView.IsEnabled="True">
                                             <Grid x:Name="PART_YearView" Visibility="Hidden" IsVisibleChanged="PART_YearView_IsVisibleChanged">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -285,14 +273,14 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Rectangle x:Name="TodayBackground" Fill="{StaticResource ResourceKey=CV_RED}" Opacity="0" RadiusX="1" RadiusY="1"/>
-                            <Border x:Name="SelectedBackground" CornerRadius="100" Background="{StaticResource ResourceKey=CV_RED}" Opacity="0" Width="24" Height="24"></Border>
+                            <Rectangle x:Name="TodayBackground" Fill="{Binding Path=MainColorBrush, ElementName=UControl}" Opacity="0" RadiusX="1" RadiusY="1"/>
+                            <Border x:Name="SelectedBackground" CornerRadius="100" Background="{Binding Path=MainColorBrush, ElementName=UControl}" Opacity="0" Width="24" Height="24"></Border>
 
                             <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
-                            <Rectangle x:Name="HighlightBackground" Fill="{StaticResource ResourceKey=CV_RED}" Opacity="0" RadiusX="1" RadiusY="1"/>
+                            <Rectangle x:Name="HighlightBackground" Fill="{Binding Path=MainColorBrush, ElementName=UControl}" Opacity="0" RadiusX="1" RadiusY="1"/>
                             <ContentPresenter x:Name="NormalText" TextElement.Foreground="#FF333333" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="5,1,5,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <Path x:Name="Blackout" Data="M8.1772461,11.029181 L10.433105,11.029181 L11.700684,12.801641 L12.973633,11.029181 L15.191895,11.029181 L12.844727,13.999395 L15.21875,17.060919 L12.962891,17.060919 L11.673828,15.256231 L10.352539,17.060919 L8.1396484,17.060919 L10.519043,14.042364 z" Fill="#FF000000" HorizontalAlignment="Stretch" Margin="3" Opacity="0" RenderTransformOrigin="0.5,0.5" Stretch="Fill" VerticalAlignment="Stretch"/>
-                            <Rectangle x:Name="DayButtonFocusVisual" IsHitTestVisible="false" RadiusX="1" RadiusY="1" Stroke="{StaticResource ResourceKey=CV_RED}" Visibility="Collapsed"/>
+                            <Rectangle x:Name="DayButtonFocusVisual" IsHitTestVisible="false" RadiusX="1" RadiusY="1" Stroke="{Binding Path=MainColorBrush, ElementName=UControl}" Visibility="Collapsed"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -302,7 +290,7 @@
     <StackPanel VerticalAlignment="Center">
         <Viewbox Name="wp" Height="{Binding Path=ActualWidth, Converter={StaticResource DivisionConverter}, ConverterParameter=3}">
             <WrapPanel HorizontalAlignment="Center" Orientation="Vertical">
-                <StackPanel Width="{Binding ElementName=calendar, Path=ActualWidth}" Height="64" Background="{StaticResource ResourceKey=CV_RED}" Margin="0,0,0,-3" Orientation="Vertical">
+                <StackPanel Width="{Binding ElementName=calendar, Path=ActualWidth}" Height="64" Background="{Binding Path=MainColorBrush, ElementName=UControl}" Margin="0,0,0,-3" Orientation="Vertical">
                     <Label Content="{Binding ElementName=calendar, Path=SelectedDate}" Foreground="#DF333333"
                            ContentStringFormat="{}{0:yyyy}" VerticalAlignment="Bottom" Margin="0,0,0,-10"></Label>
                     <Label Content="{Binding ElementName=calendar, Path=SelectedDate, Converter={StaticResource DateTimeConverter}, ConverterParameter='ddd, MMM dd'}" Foreground="White" 
@@ -323,11 +311,11 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <Button Content="Oggi" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" Click="Button_Click"></Button>
+                        <shared:CVButton Content="Oggi" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" Click="Button_Click"></shared:CVButton>
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Content="Cancella" FontSize="12" HorizontalAlignment="Right" Click="Button_Click_1" Cursor="Hand"></Button>
-                        <Button Content="Ok" FontSize="12" HorizontalAlignment="Right" Grid.Column="2" Margin="15,0,5,0" Click="Button_Click_2"></Button>
+                        <shared:CVButton Content="Cancella" FontSize="12" HorizontalAlignment="Right" Click="Button_Click_1" Cursor="Hand"></shared:CVButton>
+                        <shared:CVButton Content="Ok" FontSize="12" HorizontalAlignment="Right" Grid.Column="2" Margin="15,0,5,0" Click="Button_Click_2"></shared:CVButton>
                     </StackPanel>
                 </Grid>
             </WrapPanel>

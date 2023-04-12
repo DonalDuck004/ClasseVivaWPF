@@ -1,0 +1,71 @@
+﻿<local:CVBaseIcon x:Class="ClasseVivaWPF.HomeControls.Icons.CVMainBadgeIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.Icons"
+             xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel x:Name="wp" Cursor="Hand">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="32"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0"
+                       Name="Top"></Rectangle>
+            <StackPanel Grid.Row="1" Background="Transparent" Width="64" Height="32">
+                <Viewbox Height="32" Width="32">
+                    <Canvas Height="500" Width="500">
+                        <Canvas.Resources>
+                            <Style TargetType="Path">
+                                <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                                <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                                <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                                <Setter Property="StrokeThickness" Value="14"></Setter>
+                            </Style>
+                        </Canvas.Resources>
+                        <Path Name="Path1"
+                            Data="M30.87,93.48L469.13,93.48A20.87,20.87 0,0 1,490 114.35L490,385.65A20.87,20.87 0,0 1,469.13 406.52L30.87,406.52A20.87,20.87 0,0 1,10 385.65L10,114.35A20.87,20.87 0,0 1,30.87 93.48z"></Path>
+                        <Path Name="Path2"
+                            Data="M133.45,246.9m-78.71,0a78.71,78.71 0,1 1,157.42 0a78.71,78.71 0,1 1,-157.42 0"></Path>
+                        <Path Name="Path3"
+                          Data="M154.92,231.8c0,12.29 -9.61,22.26 -21.47,22.26S112,244.09 112,231.8V219.07c0,-12.29 9.61,-22.26 21.47,-22.26s21.47,10 21.47,22.26Z"></Path>
+                        <Path Name="Path4" Data="M81,305.58c8.8,-17.68 29,-30.06 52.45,-30.06s43.65,12.38 52.45,30.06"></Path>
+                        <Path Name="Path5" Data="M274.74,220.71L433.76,220.71"></Path>
+                        <Path Name="Path6" Data="M274.74,279.29L433.76,279.29"></Path>
+                    </Canvas>
+                </Viewbox>
+            </StackPanel>
+            <Label Grid.Row="2" Name="Desc"
+                    Content="{Binding IconValue}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top" FontSize="11">
+                <Label.Resources>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" From="10" To="15" Duration="0:0:0.15"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="10" Duration="0:0:0.15"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Resources>
+            </Label>
+        </Grid>
+    </StackPanel>
+</local:CVBaseIcon>

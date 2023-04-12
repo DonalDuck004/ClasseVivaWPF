@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,24 +14,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ClasseVivaWPF.Api.Types;
 
-namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
+namespace ClasseVivaWPF.SharedControls
 {
     /// <summary>
-    /// Logica di interazione per CVGrade.xaml
+    /// Logica di interazione per CVButton.xaml
     /// </summary>
-    public partial class CVGrade : CVGradeBase
+    public partial class CVButton : Button
     {
-        // For vs
-        private CVGrade() : base()
+        public CVButton()
         {
             InitializeComponent();
-        }
-
-        public CVGrade(Grade grade) : base(grade)
-        {
-            InitializeComponent();
+            this.SetThemeBinding(CVButton.ForegroundProperty, BaseTheme.CV_BUTTON_PATH);
         }
     }
 }

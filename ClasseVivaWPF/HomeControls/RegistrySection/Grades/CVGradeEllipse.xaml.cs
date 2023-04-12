@@ -15,32 +15,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF.HomeControls.RegistrySection
+namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 {
     /// <summary>
     /// Logica di interazione per CVGradeEllipse.xaml
     /// </summary>
-    public partial class CVGradeEllipse : UserControl
+    public partial class CVGradeEllipse : CVGradeBase
     {
-        public static readonly DependencyProperty GradeProperty;
         public static readonly DependencyProperty BackgroundEllipseColorProperty;
 
-        public Grade Grade
+        public SolidColorBrush BackgroundEllipseColor
         {
-            get => (Grade)GetValue(GradeProperty);
-            init => SetValue(GradeProperty, value);
-        }
-
-        public Color BackgroundEllipseColor
-        {
-            get => (Color)GetValue(BackgroundEllipseColorProperty);
+            get => (SolidColorBrush)GetValue(BackgroundEllipseColorProperty);
             init => SetValue(BackgroundEllipseColorProperty, value);
         }
 
+
         static CVGradeEllipse()
         {
-            GradeProperty = DependencyProperty.Register("Grade", typeof(Grade), typeof(CVGradeEllipse));
-            BackgroundEllipseColorProperty = DependencyProperty.Register("BackgroundEllipseColor", typeof(Color), typeof(CVGradeEllipse), new PropertyMetadata(Colors.Transparent));
+            BackgroundEllipseColorProperty = DependencyProperty.Register("BackgroundEllipseColor", typeof(SolidColorBrush), typeof(CVGradeEllipse), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
         }
 
         public string ToolTipText
@@ -60,10 +53,14 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             }
         }
 
-        public CVGradeEllipse()
+        private CVGradeEllipse() : base()
         {
             InitializeComponent();
-            this.DataContext = this;
+        }
+
+        public CVGradeEllipse(Grade grade) : base(grade)
+        {
+            InitializeComponent();
         }
     }
 }

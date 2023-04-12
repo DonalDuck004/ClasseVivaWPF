@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ClasseVivaWPF.HomeControls.HomeSection
 {
@@ -19,6 +21,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     {
         public static CVDay? SelectedDay { get; private set; } = null;
         private static DependencyProperty IsSelectedProperty;
+        private static DependencyProperty TextColorProperty;
         public DateTime Date { get; private set; }
         public new CVWeek Parent { get; private set; }
         public int ParentIdx => this.Date.DayOfWeek.AsInt32();
@@ -31,17 +34,20 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         private CVDay? Tomorrow => this.ParentIdx == 6 ? null : this.Parent.GetChild(this.ParentIdx + 1);
         private CVDay? Yesterday => this.ParentIdx == 0 ? null : this.Parent.GetChild(this.ParentIdx - 1);
-        private CVDay? CrossWeekTomorrow => this.ParentIdx == 6 ? this.Parent.Next?.GetChild(0) : this.Parent.GetChild(this.ParentIdx + 1);
-        private CVDay? CrossWeekYesterday => this.ParentIdx == 0 ? this.Parent.Previus?.GetChild(6) : this.Parent.GetChild(this.ParentIdx - 1);
-        private CVDay? NextMonday => this.Parent.Next?.GetChild(0);
-        private CVDay? PreviusSunday => this.Parent.Previus?.GetChild(6);
 
         private SemaphoreSlim loader = new SemaphoreSlim(1, 1);
         private bool _destroyed = false;
 
+        public SolidColorBrush TextColor
+        {
+            get => (SolidColorBrush)GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
+        }
+
         static CVDay()
         {
             IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVDay), new PropertyMetadata(false));
+            TextColorProperty = DependencyProperty.Register("TextColor", typeof(SolidColorBrush), typeof(CVDay));
         }
 
 #if DEBUG
@@ -58,6 +64,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             this.Date = date;
             this.Parent = parent;
             this.PreviewMouseLeftButtonUp += OnSelected;
+            this.SetThemeBinding(CVDay.TextColorProperty, BaseTheme.CV_DAY_UNSELECTED_PATH);
 
             INSTANCES.Add(this.Date, this);
         }
@@ -69,6 +76,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             {
                 if (value)
                 {
+                    this.SetThemeBinding(CVDay.TextColorProperty, BaseTheme.CV_DAY_SELECTED_PATH);
+
                     var content = this.PrepareContent().ConfigureAwait(false).GetAwaiter().GetResult();
                     if (content is null)
                         return;
@@ -86,7 +95,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     CVHome.INSTANCE!.last_update_date.Content = READY_CONTENT[this.Date].XCreationDate;
 
                     this.Parent.View(content);
-                }
+                }else
+                    this.SetThemeBinding(CVDay.TextColorProperty, BaseTheme.CV_DAY_UNSELECTED_PATH);
 
                 base.SetValue(IsSelectedProperty, value);
             }

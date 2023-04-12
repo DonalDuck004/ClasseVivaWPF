@@ -17,11 +17,11 @@
             <Ellipse Stroke="Black" 
                      StrokeThickness="0.7"
                      Margin="4" 
-                     Fill="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}"/>
+                     Fill="{Binding Path=BackgroundColor}"/>
             <Ellipse Stroke="Black" 
                      StrokeThickness="0.7"
                      Margin="36" 
-                     Fill="{Binding Path=CenterColor, Converter={StaticResource ToBrushConverter}}"/>
+                     Fill="{Binding Path=CenterColor}"/>
             <local:CVAvgArc 
                 StrokeThickness="30"
                 Stroke="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}" 

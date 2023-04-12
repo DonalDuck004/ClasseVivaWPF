@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls"
+             xmlns:icons="clr-namespace:ClasseVivaWPF.HomeControls.Icons"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:root="clr-namespace:ClasseVivaWPF"
              mc:Ignorable="d" 
@@ -42,41 +43,12 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <local:CVMainMenuIcon></local:CVMainMenuIcon>
-            <!--local:CVBaseIcon 
-                Grid.Column="0" 
-                IconValue="Home"
-                Icon="{StaticResource ResourceKey=HomeIcon}"
-                Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVBaseIcon>
 
-            <local:CVBaseIcon 
-                Grid.Column="1" 
-                IconValue="Registro"
-                Icon="{StaticResource ResourceKey=RegistryIcon}" 
-                Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVBaseIcon>
-
-            <local:CVBaseIcon 
-                Grid.Column="2" 
-                IconValue="Camera"
-                Icon="{StaticResource ResourceKey=CameraIcon}" 
-                Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVBaseIcon>
-
-            <local:CVBaseIcon 
-                Grid.Column="3" 
-                IconValue="Badge"
-                Icon="{StaticResource ResourceKey=BadgeIcon}" 
-                Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVBaseIcon>
-
-            <local:CVBaseIcon 
-                Grid.Column="4" 
-                IconValue="Menu"
-                Icon="{StaticResource ResourceKey=MenuIcon}" 
-                Template="{StaticResource ResourceKey=CVMainMenuIcon}">
-            </local:CVBaseIcon-->
+            <icons:CVMainHomeIcon Grid.Column="0" IsSelected="True"></icons:CVMainHomeIcon>
+            <icons:CVMainRegistryIcon Grid.Column="1"></icons:CVMainRegistryIcon>
+            <icons:CVMainCameraIcon Grid.Column="2"></icons:CVMainCameraIcon>
+            <icons:CVMainBadgeIcon Grid.Column="3"></icons:CVMainBadgeIcon>
+            <icons:CVMainMenuIcon Grid.Column="4"></icons:CVMainMenuIcon>
         </Grid>
     </Grid>
 </UserControl>

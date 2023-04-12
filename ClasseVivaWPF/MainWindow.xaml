@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
         xmlns:local="clr-namespace:ClasseVivaWPF"
+        xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
         Keyboard.KeyDown="window_KeyDown" Focusable="True"
         MouseDown="window_MouseDown"
         Keyboard.LostKeyboardFocus="window_LostKeyboardFocus"

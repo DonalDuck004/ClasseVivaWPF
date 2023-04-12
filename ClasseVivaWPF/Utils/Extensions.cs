@@ -17,10 +17,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Xaml;
 
 namespace ClasseVivaWPF.Utils
 {
@@ -379,9 +381,10 @@ namespace ClasseVivaWPF.Utils
 
         public static void SetThemeBinding<T>(this T element,
                                               DependencyProperty property,
-                                              string VAR_PATH) where T : DependencyObject, IAnimatable
+                                              string VAR_PATH,
+                                              bool run_animation = false) where T : DependencyObject, IAnimatable
         {
-            bool initialized = false;
+            bool initialized = run_animation;
             var binding = new Binding()
             {
                 Path = new("CurrentTheme." + VAR_PATH),
@@ -425,6 +428,7 @@ namespace ClasseVivaWPF.Utils
                 },
                 Source = MainWindow.INSTANCE
             };
+
             BindingOperations.SetBinding(element, property, binding);
         }
     }

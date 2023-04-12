@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.HomeControls;
 using ClasseVivaWPF.HomeControls.HomeSection;
+using ClasseVivaWPF.HomeControls.Icons;
 using ClasseVivaWPF.LoginControls;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
@@ -14,6 +15,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Forms = System.Windows.Forms;
 
@@ -26,6 +28,7 @@ namespace ClasseVivaWPF
     public partial class MainWindow : Window
     {
         public static readonly DependencyProperty CurrentThemeProperty;
+        public static readonly DependencyProperty DefaultFontColorProperty;
         
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
@@ -41,9 +44,17 @@ namespace ClasseVivaWPF
             set => SetValue(CurrentThemeProperty, value);
         }
 
+        public SolidColorBrush DefaultFontColor
+        {
+            get => (SolidColorBrush)GetValue(DefaultFontColorProperty);
+            set => SetValue(DefaultFontColorProperty, value);
+        }
+
+
         static MainWindow()
         {
             CurrentThemeProperty = DependencyProperty.Register("CurrentTheme", typeof(BaseTheme), typeof(MainWindow), new PropertyMetadata(new WhiteTheme()));
+            DefaultFontColorProperty = DependencyProperty.Register("DefaultFontColor", typeof(SolidColorBrush), typeof(MainWindow));
         }
 
         public MainWindow()
@@ -52,6 +63,7 @@ namespace ClasseVivaWPF
             this.DataContext = this;
             InitializeComponent();
             MainBackground.SetThemeBinding(DockPanel.BackgroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
+            this.SetThemeBinding(MainWindow.DefaultFontColorProperty, BaseTheme.CV_GENERIC_FONT_COLOR_PATH);
 
             this.PostLogin += () =>
             {
@@ -76,10 +88,7 @@ namespace ClasseVivaWPF
             var f = this.wrapper.Children.OfType<FrameworkElement>().Where(x => x is not ICVMeta y || y.CountsInStack is true);
 
             if (f.Count() > this.PagesStackSize)
-            {
-                var t = f.First();
-                this.RemoveField((FrameworkElement)f.First());
-            }
+                this.RemoveField(f.First());
 
             this.wrapper.Children.Add(element);
         }
@@ -174,9 +183,26 @@ namespace ClasseVivaWPF
             }
         }
 
+        private readonly Key[] KonamiCode = new Key[] { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.A, Key.Enter };
+        private int KonamiCodeIndex = 0;
+
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.K)
+            if (KonamiCode[KonamiCodeIndex] == e.Key)
+            {
+                KonamiCodeIndex++;
+
+                if (KonamiCodeIndex == KonamiCode.Length)
+                {
+                    this.CurrentTheme = new EasterEggTheme();
+                    KonamiCodeIndex = 0;
+                    return;
+                }
+            }
+            else
+                KonamiCodeIndex = 0;
+
+            if (e.Key is Key.K)
             {
                 this.CurrentTheme = this.CurrentTheme is not EasterEggTheme ? new EasterEggTheme() : new WhiteTheme();
             }

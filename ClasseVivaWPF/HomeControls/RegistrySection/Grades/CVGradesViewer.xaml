@@ -8,12 +8,12 @@
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="wp" Background="White">
+    <Grid x:Name="wp" Background="{Binding Path=BackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{StaticResource ResourceKey=CV_RED}">
+        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{Binding Path=HeaderColor}">
             <Grid x:Name="labels">
                 <Grid.Resources>
                     <Style TargetType="Label">
@@ -30,11 +30,11 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel Panel.ZIndex="1" HorizontalAlignment="Left" Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Width="48" Background="Transparent">
-                    <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
+                    <ContentControl x:Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}"/>
                 </WrapPanel>
-                <Label Content="Ultime Valutazioni" Grid.Column="0" Foreground="White"></Label>
-                <Label Name="p1" Grid.Column="1" Foreground="#AFFFFFFF"></Label>
-                <Label Name="p2" Grid.Column="2" Foreground="#AFFFFFFF"></Label>
+                <Label Content="Ultime Valutazioni" Grid.Column="0"></Label>
+                <Label Name="p1" Grid.Column="1"></Label>
+                <Label Name="p2" Grid.Column="2"></Label>
             </Grid>
         </DockPanel>
         <Grid Grid.Row="0" Grid.RowSpan="2">
@@ -51,10 +51,10 @@
                     Panel.ZIndex="1">
                 <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp}"
                            Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
-                           Fill="{StaticResource ResourceKey=CV_RED}"></Rectangle>
+                           Fill="{Binding Path=HeaderColor}"></Rectangle>
                 <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp_canvas}"
-                               Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
-                               Fill="White" Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=3}"></Rectangle>
+                           Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
+                           Name="Slider" Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=3}"></Rectangle>
             </Canvas>
             <DockPanel x:Name="scroller_wp" Panel.ZIndex="0" Grid.Row="1">
                 <ScrollViewer x:Name="Scroller"
@@ -73,7 +73,7 @@
                                 <Setter Property="Width" Value="{Binding ElementName=Scroller, Path=ActualWidth}"></Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <StackPanel Style="{StaticResource ResourceKey=wp}" Background="White">
+                        <StackPanel Style="{StaticResource ResourceKey=wp}">
                             <StackPanel.Resources>
                                 <Style TargetType="local:CVGrade">
                                     <Setter Property="HorizontalAlignment" Value="Left"></Setter>
@@ -88,15 +88,15 @@
                                 <StackPanel Grid.Column="0" Name="GradeStack">
                                 </StackPanel>
                                 <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
-                                              Grid.Column="1" Width="4"
+                                              Grid.Column="1" Width="4" Background="{Binding Path=GradesFilterColor}"
                                               VerticalAlignment="Stretch"></GridSplitter>
                                 <Canvas Grid.Column="2" >
                                     <StackPanel Canvas.Top="{Binding ElementName=Scroller, Path=VerticalOffset}" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}">
-                                        <Label Content="{Binding Path=SelectedSubject.DataContext.SubjectDesc, FallbackValue='Nessun voto selezionato'}" Background="#FFF0F0F0"></Label>
-                                        <Label Name="s_p1" Background="#FFF0F0F0"></Label>
+                                        <Label Content="{Binding Path=SelectedSubject.DataContext.Grade.SubjectDesc, FallbackValue='Nessun voto selezionato'}" Background="{Binding Path=GradesFilterColor}"></Label>
+                                        <Label Name="s_p1" Background="{Binding Path=GradesFilterColor}"></Label>
                                         <StackPanel x:Name="s_fp_wp">
                                         </StackPanel>
-                                        <Label Name="s_p2" Background="#FFF0F0F0"></Label>
+                                        <Label Name="s_p2" Background="{Binding Path=GradesFilterColor}"></Label>
                                         <StackPanel x:Name="s_lp_wp">
                                         </StackPanel>
                                     </StackPanel>
@@ -104,8 +104,8 @@
                                 </Canvas>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Style="{StaticResource ResourceKey=wp}" Background="White" Name="FirstPeriodStack"></StackPanel>
-                        <StackPanel Style="{StaticResource ResourceKey=wp}" Background="Blue"></StackPanel>
+                        <StackPanel Style="{StaticResource ResourceKey=wp}" Name="FirstPeriodStack"></StackPanel>
+                        <StackPanel Style="{StaticResource ResourceKey=wp}"></StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>

@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="ClasseVivaWPF.HomeControls.RegistrySection.CVGradeEllipse"
+﻿<local:CVGradeBase x:Class="ClasseVivaWPF.HomeControls.RegistrySection.Grades.CVGradeEllipse"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              mc:Ignorable="d"
              d:DesignHeight="64" d:DesignWidth="64">
     <Border BorderThickness="{Binding Path=ActualHeight, Converter={StaticResource DivisionConverter}, ConverterParameter=7}"
-            BorderBrush="{Binding Path=Grade.InternalColor, Converter={StaticResource ToBrushConverter}}"
-            Background="{Binding Path=BackgroundEllipseColor, Converter={StaticResource ToBrushConverter}}" 
+            BorderBrush="{Binding Path=EllipseColor}"
+            Background="{Binding Path=BackgroundEllipseColor}" 
             CornerRadius="100" 
             Width="{Binding Path=ActualHeight}" 
             MaxWidth="{Binding Path=ActualHeight}" 
@@ -19,7 +19,7 @@
             </ToolTip>
         </Border.ToolTip>
         <TextBlock
-            Foreground="{Binding Path=Grade.InternalColor, Converter={StaticResource ToBrushConverter}}"
+            Foreground="{Binding Path=EllipseColor}"
             FontSize="22"
             FontWeight="DemiBold"
             TextAlignment="Center"
@@ -28,4 +28,4 @@
             HorizontalAlignment="Center">
         </TextBlock>
     </Border>
-</UserControl>
+</local:CVGradeBase>

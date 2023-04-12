@@ -1,0 +1,68 @@
+﻿<local:CVBaseIcon x:Class="ClasseVivaWPF.HomeControls.Icons.CVMainRegistryIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.Icons"
+             xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel x:Name="wp" Cursor="Hand">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="32"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0"
+                       Name="Top"></Rectangle>
+            <StackPanel Grid.Row="1" Background="Transparent" Width="64" Height="32">
+                <Viewbox Height="32" Width="32">
+                    <Canvas Height="500" Width="500">
+                        <Canvas.Resources>
+                            <Style TargetType="Path">
+                                <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                                <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                                <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                                <Setter Property="StrokeThickness" Value="14"></Setter>
+                            </Style>
+                        </Canvas.Resources>
+                        <Path x:Name="Path1"
+                              Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
+                        <Path x:Name="Path2"
+                              Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
+                        <Path x:Name="Path3"
+                              Data="M351.94,240.61l-56.36,-56.36l-56.35,56.36l0,-206.65l112.71,0l0,206.65z"></Path>
+                    </Canvas>
+                </Viewbox>
+            </StackPanel>
+            <Label Grid.Row="2" Name="Desc"
+                    Content="{Binding IconValue}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top" FontSize="11">
+                <Label.Resources>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" From="10" To="15" Duration="0:0:0.15"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="10" Duration="0:0:0.15"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Resources>
+            </Label>
+        </Grid>
+    </StackPanel>
+</local:CVBaseIcon>

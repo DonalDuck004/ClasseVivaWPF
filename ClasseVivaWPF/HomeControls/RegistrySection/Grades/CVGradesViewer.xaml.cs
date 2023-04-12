@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils.Themes;
 using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
@@ -38,10 +39,34 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
         public static readonly DependencyProperty SelectedSubjectProperty;
         public static readonly DependencyProperty SelectedSectionProperty;
 
+        public static readonly DependencyProperty HeaderColorProperty;
+        public static readonly DependencyProperty BackgroundColorProperty;
+
+        public static readonly DependencyProperty GradesFilterColorProperty;
+
+        public SolidColorBrush GradesFilterColor
+        {
+            get => (SolidColorBrush)GetValue(GradesFilterColorProperty);
+            set => SetValue(GradesFilterColorProperty, value);
+        }
+
+        public SolidColorBrush HeaderColor
+        {
+            get => (SolidColorBrush)GetValue(HeaderColorProperty);
+            set => SetValue(HeaderColorProperty, value);
+        }
+
+        public SolidColorBrush BackgroundColor
+        {
+            get => (SolidColorBrush)GetValue(BackgroundColorProperty);
+            set => SetValue(BackgroundColorProperty, value);
+        }
+
         public CVGrade? SelectedGrade
         {
             get => (CVGrade?)base.GetValue(SelectedSubjectProperty);
-            set {
+            set
+            {
                 base.SetValue(SelectedSubjectProperty, value);
                 this.s_fp_wp.Children.Clear();
                 this.s_lp_wp.Children.Clear();
@@ -62,8 +87,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         static CVGradesViewer()
         {
+            HeaderColorProperty = DependencyProperty.Register("HeaderColor", typeof(SolidColorBrush), typeof(CVGradesViewer));
+            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(SolidColorBrush), typeof(CVGradesViewer));
             SelectedSubjectProperty = DependencyProperty.Register("SelectedSubject", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
             SelectedSectionProperty = DependencyProperty.Register("SelectedSection", typeof(FrameworkElement), typeof(CVGradesViewer), new PropertyMetadata(null));
+            GradesFilterColorProperty = DependencyProperty.Register("GradesFilterColor", typeof(SolidColorBrush), typeof(CVGradesViewer));
         }
 
         public CVGradesViewer()
@@ -72,7 +100,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
             this.Update();
             this.DataContext = this;
+            this.InitLabels();
             this.SelectedSection = (FrameworkElement)this.SectionsWP.Children[0];
+            this.SetThemeBinding(CVGradesViewer.HeaderColorProperty, BaseTheme.CV_HEADER_PATH);
+            this.SetThemeBinding(CVGradesViewer.BackgroundColorProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
+            this.SetThemeBinding(CVGradesViewer.GradesFilterColorProperty, BaseTheme.CV_GRADES_FILTER_PATH);
+            this.BackIcon.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_BACK_ICON_PATH);
+            this.Slider.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_MULTI_MENU_FONT_SLIDER_PATH);
 
             this.Scroller.SizeChanged += (s, e) => {
                 if (this.Scroller.HorizontalOffset != 0)
@@ -150,8 +184,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             this.Dispatcher.BeginInvoke(() => this.Scroller.ScrollToVerticalOffset(0));
             this.SelectedSection = (FrameworkElement)((StackPanel)e.SnappendElement).Children[0];
             var labels = this.labels.Children.OfType<Label>().ToArray();
-            labels[e.OldIndex].Foreground = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xFF, 0xFF));
-            labels[e.Index].Foreground = new SolidColorBrush(Colors.White);
+            SelectLabel(labels[e.Index], labels[e.OldIndex]);
         }
 
         private Label GetSelectedLabel()
@@ -159,13 +192,29 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             return this.labels.Children.OfType<Label>().Where(x => ((SolidColorBrush)x.Foreground).Color == Colors.White).First();
         }
 
+        private void SelectLabel(Label @new, Label old)
+        {
+            @new.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
+            old.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
+        }
+
+        private void InitLabels()
+        {
+            var iterator = this.labels.Children.OfType<Label>().GetEnumerator();
+            iterator.MoveNext();
+            iterator.Current.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
+
+            while (iterator.MoveNext())
+                iterator.Current.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
+        }
+
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var labels = this.labels.Children.OfType<Label>().ToArray();
-            labels.Where(x => ((SolidColorBrush)x.Foreground).Color == Colors.White).First().Foreground = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xFF, 0xFF));
-            ((Label)sender).Foreground = new SolidColorBrush(Colors.White);
+            var old = labels.Where(x => ((SolidColorBrush)x.Foreground).Color == MainWindow.INSTANCE.CurrentTheme.CV_MULTI_MENU_FONT_SELECTED).First();
             var idx = labels.ReferenceIndexOf(sender);
             this.SelectedSection = (FrameworkElement)((StackPanel)this.SectionsWP.Children[idx]).Children[0];
+            SelectLabel((Label)sender, old);
 
             this.Scroller.ScrollToVerticalOffset(0);
             this.Scroller.ScrollToHorizontalOffset(this.Scroller.ActualWidth * idx);

@@ -16,7 +16,7 @@ namespace ClasseVivaWPF
     /// </summary>
     public partial class App : Application
     {
-        public App() : base() {
+        public App() :base() {
 #if !DEBUG
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
 #endif

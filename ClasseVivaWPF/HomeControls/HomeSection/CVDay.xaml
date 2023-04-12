@@ -18,12 +18,7 @@
         </Style>
         <Style TargetType="Label">
             <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Foreground" Value="Gray"></Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                    <Setter Property="Foreground" Value="White"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="Foreground" Value="{Binding Path=TextColor}"></Setter>
         </Style>
     </UserControl.Resources>
     <StackPanel>

@@ -20,6 +20,15 @@ namespace ClasseVivaWPF.SharedControls
     /// </summary>
     public partial class CVProgressEllipse : BaseCVPercentage
     {
+
+        public static readonly DependencyProperty CenterColorProperty;
+
+        public SolidColorBrush CenterColor
+        {
+            get => (SolidColorBrush)GetValue(CenterColorProperty);
+            set => SetValue(CenterColorProperty, value);
+        }
+
         public override string? Desc
         {
             get => (string)base.GetValue(DescProperty);
@@ -40,6 +49,11 @@ namespace ClasseVivaWPF.SharedControls
                     x.Inlines.Add(new Run(text: value) { FontSize = 24 });
                 }
             }
+        }
+
+        static CVProgressEllipse()
+        {
+            CenterColorProperty = DependencyProperty.Register("CenterColor", typeof(SolidColorBrush), typeof(CVProgressEllipse), new PropertyMetadata(new SolidColorBrush(Colors.White)));
         }
 
         public CVProgressEllipse()

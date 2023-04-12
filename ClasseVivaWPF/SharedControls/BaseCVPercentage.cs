@@ -13,7 +13,6 @@ namespace ClasseVivaWPF.SharedControls
     public class BaseCVPercentage : UserControl
     {
         public static readonly DependencyProperty DescProperty;
-        public static readonly DependencyProperty CenterColorProperty;
         public static readonly DependencyProperty BackgroundColorProperty;
         public static readonly DependencyProperty FontColorProperty;
         public static readonly DependencyProperty PercentageColorProperty;
@@ -26,16 +25,11 @@ namespace ClasseVivaWPF.SharedControls
             get => (string)GetValue(DescProperty);
             set => SetValue(DescProperty, value);
         }
+        
 
-        public virtual Color CenterColor
+        public virtual SolidColorBrush BackgroundColor
         {
-            get => (Color)GetValue(CenterColorProperty);
-            set => SetValue(CenterColorProperty, value);
-        }
-
-        public virtual Color BackgroundColor
-        {
-            get => (Color)GetValue(BackgroundColorProperty);
+            get => (SolidColorBrush)GetValue(BackgroundColorProperty);
             set => SetValue(BackgroundColorProperty, value);
         }
 
@@ -73,9 +67,7 @@ namespace ClasseVivaWPF.SharedControls
             FontColorProperty = DependencyProperty.Register("FontColor", typeof(Color), typeof(BaseCVPercentage), new PropertyMetadata(Colors.Black));
             DescProperty = DependencyProperty.Register("Desc", typeof(string), typeof(BaseCVPercentage));
 
-            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(BaseCVPercentage), new PropertyMetadata(Color.FromRgb(0xCC, 0xCC, 0xCC)));
-
-            CenterColorProperty = DependencyProperty.Register("CenterColor", typeof(Color), typeof(BaseCVPercentage), new PropertyMetadata(Colors.White));
+            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(SolidColorBrush), typeof(BaseCVPercentage), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC))));
 
             PercentageColorProperty = DependencyProperty.Register("PercentageColor", typeof(Color), typeof(BaseCVPercentage), new PropertyMetadata(Colors.Green));
 

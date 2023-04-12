@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,16 +63,25 @@ namespace ClasseVivaWPF.SharedControls
                 }
 
                 if (!this.OnCheckStateChanged(value))
-                    base.SetValue(IsCheckedProperty, value);
+                {
+                    if (value)
+                        this.Check();
+                    else
+                        this.Uncheck();
+                }
             }
         }
 
         public void Uncheck()
         {
+            this.CHBackground.SetThemeBinding(Border.BackgroundProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_UNSELECTED_PATH);
+            this.Ellipse.SetThemeBinding(Ellipse.FillProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_UNSELECTED_PATH);
             base.SetValue(IsCheckedProperty, false);
         }
         public void Check()
         {
+            this.CHBackground.SetThemeBinding(Border.BackgroundProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED_PATH);
+            this.Ellipse.SetThemeBinding(Ellipse.FillProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_SELECTED_PATH);
             base.SetValue(IsCheckedProperty, true);
         }
 
@@ -109,6 +120,7 @@ namespace ClasseVivaWPF.SharedControls
         private void OnFirstLoad(object sender, RoutedEventArgs e)
         {
             Canvas.SetLeft(this.Point, 64);
+            this.IsChecked = IsChecked;
             this.Loaded -= OnFirstLoad;
         }
     }

@@ -40,7 +40,7 @@
             </WrapPanel>
             <StackPanel Background="#1F221106" Grid.Column="1" Grid.Row="2" Margin="5,0,5,0" Opacity="0.9" Height="2" Grid.ColumnSpan="3" Name="line"></StackPanel>
             <WrapPanel Grid.Column="1" Grid.Row="4" Margin="0,3,0,8" Grid.ColumnSpan="3" Name="last_wp">
-                <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" BorderThickness="0" Background="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}" SelectionBrush="{StaticResource ResourceKey=CV_RED}">
+                <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" BorderThickness="0" Background="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}" Name="ContentTextBox">
                     <FlowDocument>
                         <Paragraph Name="lesson_txt"></Paragraph>
                     </FlowDocument>

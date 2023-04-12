@@ -23,7 +23,7 @@
                                             Converter={StaticResource ResourceKey=AddConverter}, ConverterParameter=0.8}"
                             Stroke="Black"
                             StrokeThickness="0.4"
-                            Fill="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}"></Rectangle>
+                            Fill="{Binding Path=BackgroundColor}"></Rectangle>
                 <Rectangle Canvas.Top="0.45" Height="{Binding ElementName=c, Path=ActualHeight}" Fill="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}">
                     <Rectangle.Width>
                         <MultiBinding Converter="{StaticResource ProgressConverter}">

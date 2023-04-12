@@ -24,6 +24,7 @@
 
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
+            <Setter Property="Foreground" Value="{Binding Path=DefaultFontColor, Source={x:Static root:MainWindow.INSTANCE}}"/>
         </Style>
         
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource FT}"></Style>
@@ -61,11 +62,11 @@
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>
                     </Canvas.Resources>
-                    <Path Data="M250,250m-216,0a216,216 0,1 1,432 0a216,216 0,1 1,-432 0"></Path>
-                    <Path Data="M127.91,259.39c24.46,-36.24 115.77,-31.43 131.48,0 18.78,37.57 -24.45,26.08 -37.56,75.13 -16.93,63.34 12.23,93.91 0,93.91 -56.35,0 -50.27,-52.66 -75.13,-93.91C125.58,299.49 112.08,282.86 127.91,259.39Z"></Path>
-                    <Path Data="M466,259.39c-6.82,0 -131.48,-43 -131.48,0 0,18.78 -25.61,29.83 -18.78,56.35 8.61,33.45 56.25,36.19 56.35,56.35 0.11,25.64 -42.74,51.25 0,56.34"></Path>
-                    <Path Data="M318.93,45.27c-9,37.94 12.4,60.67 34.37,82.64 26.3,26.3 16.16,63.3 37.57,56.35 34,-10.89 56,-22.91 56.35,-18.78"></Path>
-                    <Path Data="M52.78,165.48c43.55,34.1 93.92,18.78 112.7,0 22.32,-22.33 85.64,-35.34 75.13,-56.35 -18.78,-37.56 -87,-44.61 -75.13,-56.35"></Path>
+                    <Path Fill="Transparent" Data="M250,250m-216,0a216,216 0,1 1,432 0a216,216 0,1 1,-432 0"></Path>
+                    <Path Fill="Transparent" Data="M127.91,259.39c24.46,-36.24 115.77,-31.43 131.48,0 18.78,37.57 -24.45,26.08 -37.56,75.13 -16.93,63.34 12.23,93.91 0,93.91 -56.35,0 -50.27,-52.66 -75.13,-93.91C125.58,299.49 112.08,282.86 127.91,259.39Z"></Path>
+                    <Path Fill="Transparent" Data="M466,259.39c-6.82,0 -131.48,-43 -131.48,0 0,18.78 -25.61,29.83 -18.78,56.35 8.61,33.45 56.25,36.19 56.35,56.35 0.11,25.64 -42.74,51.25 0,56.34"></Path>
+                    <Path Fill="Transparent" Data="M318.93,45.27c-9,37.94 12.4,60.67 34.37,82.64 26.3,26.3 16.16,63.3 37.57,56.35 34,-10.89 56,-22.91 56.35,-18.78"></Path>
+                    <Path Fill="Transparent" Data="M52.78,165.48c43.55,34.1 93.92,18.78 112.7,0 22.32,-22.33 85.64,-35.34 75.13,-56.35 -18.78,-37.56 -87,-44.61 -75.13,-56.35"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -76,8 +77,8 @@
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>
                     </Canvas.Resources>
-                    <Path Data="M345,200A145,145 0,1 1,200 55,145 145,0 0,1 345,200Z"></Path>
-                    <Path Data="M127.5,227A96.32,96.32 0,0 0,200 266.52,96.32 96.32,0 0,0 272.5,227"></Path>
+                    <Path Fill="Transparent" Data="M345,200A145,145 0,1 1,200 55,145 145,0 0,1 345,200Z"></Path>
+                    <Path Fill="Transparent" Data="M127.5,227A96.32,96.32 0,0 0,200 266.52,96.32 96.32,0 0,0 272.5,227"></Path>
                     <Path Data="M156.49,156.5h0.19"></Path>
                     <Path Data="M243.46,156.5h0.2"></Path>
                 </Canvas>
@@ -90,11 +91,11 @@
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>
                     </Canvas.Resources>
-                    <Path Data="M109.78,352.83h18.7V203.26h-18.7A74.78,74.78 0,0 0,35 278h0A74.79,74.79 0,0 0,109.78 352.83Z"></Path>
-                    <Path Data="M390.22,352.83h-18.7V203.26h18.7A74.78,74.78 0,0 1,465 278h0A74.79,74.79 0,0 1,390.22 352.83Z"></Path>
-                    <Path Data="M109.78,203.26v-28A140.22,140.22 0,0 1,250 35h0A140.22,140.22 0,0 1,390.22 175.22v28"></Path>
-                    <Path Data="M390.22,352.83c0,37.39 -18.7,74.78 -74.79,74.78"></Path>
-                    <Path Data="M287.39,465H250a28,28 0,0 1,-28 -28h0a28,28 0,0 1,28 -28h37.39a28,28 0,0 1,28 28h0A28,28 0,0 1,287.39 465Z"></Path>
+                    <Path Fill="Transparent" Data="M109.78,352.83h18.7V203.26h-18.7A74.78,74.78 0,0 0,35 278h0A74.79,74.79 0,0 0,109.78 352.83Z"></Path>
+                    <Path Fill="Transparent" Data="M390.22,352.83h-18.7V203.26h18.7A74.78,74.78 0,0 1,465 278h0A74.79,74.79 0,0 1,390.22 352.83Z"></Path>
+                    <Path Fill="Transparent" Data="M109.78,203.26v-28A140.22,140.22 0,0 1,250 35h0A140.22,140.22 0,0 1,390.22 175.22v28"></Path>
+                    <Path Fill="Transparent" Data="M390.22,352.83c0,37.39 -18.7,74.78 -74.79,74.78"></Path>
+                    <Path Fill="Transparent" Data="M287.39,465H250a28,28 0,0 1,-28 -28h0a28,28 0,0 1,28 -28h37.39a28,28 0,0 1,28 28h0A28,28 0,0 1,287.39 465Z"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -105,11 +106,11 @@
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>
                     </Canvas.Resources>
-                    <Path Data="M438.06,319.29H61.94V81.73A19.79,19.79 0,0 1,81.73 61.94H418.27a19.79,19.79 0,0 1,19.79 19.79Z"></Path>
-                    <Path Data="M438.06,319.29H61.94L31,412a19.8,19.8 0,0 0,18.78 26.05H450.19A19.8,19.8 0,0 0,469 412Z"></Path>
+                    <Path Fill="Transparent" Data="M438.06,319.29H61.94V81.73A19.79,19.79 0,0 1,81.73 61.94H418.27a19.79,19.79 0,0 1,19.79 19.79Z"></Path>
+                    <Path Fill="Transparent" Data="M438.06,319.29H61.94L31,412a19.8,19.8 0,0 0,18.78 26.05H450.19A19.8,19.8 0,0 0,469 412Z"></Path>
                     <Path Data="M220.31,398.47L279.69,398.47"></Path>
-                    <Path Data="M353.17,133.63c-27.28,-18.19 -72.73,-18.19 -100,0V270c9.09,-18.18 81.81,-18.18 100,0Z"></Path>
-                    <Path Data="M153.17,133.63c27.27,-18.19 72.72,-18.19 100,0V270c-9.1,-18.18 -81.82,-18.18 -100,0Z"></Path>
+                    <Path Fill="Transparent" Data="M353.17,133.63c-27.28,-18.19 -72.73,-18.19 -100,0V270c9.09,-18.18 81.81,-18.18 100,0Z"></Path>
+                    <Path Fill="Transparent" Data="M153.17,133.63c27.27,-18.19 72.72,-18.19 100,0V270c-9.1,-18.18 -81.82,-18.18 -100,0Z"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -120,12 +121,12 @@
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>
                     </Canvas.Resources>
-                    <Path Data="M387,80.65h73v347a18.27,18.27 0,0 1,-18.26 18.26H58.26A18.27,18.27 0,0 1,40 427.61v-347h73"></Path>
+                    <Path Fill="Transparent" Data="M387,80.65h73v347a18.27,18.27 0,0 1,-18.26 18.26H58.26A18.27,18.27 0,0 1,40 427.61v-347h73"></Path>
                     <Path Data="M160.98,80.65L343.59,80.65"></Path>
-                    <Path Data="M131.3,44.13h0a18.27,18.27 0,0 1,18.27 18.26V98.91a18.26,18.26 0,0 1,-18.27 18.26h0A18.26,18.26 0,0 1,113 98.91V62.39A18.27,18.27 0,0 1,131.3 44.13Z"></Path>
-                    <Path Data="M368.7,44.13h0A18.27,18.27 0,0 1,387 62.39V98.91a18.26,18.26 0,0 1,-18.26 18.26h0a18.26,18.26 0,0 1,-18.27 -18.26V62.39A18.27,18.27 0,0 1,368.7 44.13Z"></Path>
+                    <Path Fill="Transparent" Data="M131.3,44.13h0a18.27,18.27 0,0 1,18.27 18.26V98.91a18.26,18.26 0,0 1,-18.27 18.26h0A18.26,18.26 0,0 1,113 98.91V62.39A18.27,18.27 0,0 1,131.3 44.13Z"></Path>
+                    <Path Fill="Transparent" Data="M368.7,44.13h0A18.27,18.27 0,0 1,387 62.39V98.91a18.26,18.26 0,0 1,-18.26 18.26h0a18.26,18.26 0,0 1,-18.27 -18.26V62.39A18.27,18.27 0,0 1,368.7 44.13Z"></Path>
                     <Path Data="M51.41,166.22L453.15,166.22"></Path>
-                    <Path Data="M116.17,307.32 L201.72,394a11.75,11.75 0,0 0,20.1 -8.25V342.54s70.43,-35.22 164.35,46.95c0,0 -23.48,-117.39 -164.35,-117.39v-41a11.74,11.74 0,0 0,-20 -8.36Z"></Path>
+                    <Path Fill="Transparent" Data="M116.17,307.32 L201.72,394a11.75,11.75 0,0 0,20.1 -8.25V342.54s70.43,-35.22 164.35,46.95c0,0 -23.48,-117.39 -164.35,-117.39v-41a11.74,11.74 0,0 0,-20 -8.36Z"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -136,226 +137,8 @@
                     <Canvas.Resources>
                         <Style TargetType="Path" BasedOn="{StaticResource MENU_SECTION_STYLE}"></Style>
                     </Canvas.Resources>
-                    <Path Data="M108,171 L74.15,114.73l40.58,-40.58L171,108v0.09A152.35,152.35 0,0 1,205.43 93.7L221.3,30h57.4l15.87,63.7A152.35,152.35 0,0 1,329 108.05V108l56.27,-33.81 40.58,40.58L392,171H392a152.35,152.35 0,0 1,14.35 34.44L470,221.3v57.4l-63.7,15.87A152.35,152.35 0,0 1,392 329H392l33.81,56.27 -40.58,40.58L329,392V392a152.35,152.35 0,0 1,-34.44 14.35L278.7,470H221.3l-15.87,-63.7A152.35,152.35 0,0 1,171 392V392l-56.27,33.81L74.15,385.27 108,329h0.09A152.35,152.35 0,0 1,93.7 294.57L30,278.7V221.3l63.7,-15.87A152.35,152.35 0,0 1,108.05 171Z"></Path>
-                    <Path Data="M250,250m-86.09,0a86.09,86.09 0,1 1,172.18 0a86.09,86.09 0,1 1,-172.18 0"></Path>
-                </Canvas>
-            </Viewbox>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="CVMainMenuIcon">
-            <ControlTemplate.Resources>
-                <converters:ColorIfConverter x:Key="SelectedConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                <converters:ColorIfConverter x:Key="T2WConverter" FalseColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-            </ControlTemplate.Resources>
-            <StackPanel x:Name="wp" Cursor="Hand">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="4"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="32"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Rectangle Grid.Row="0" 
-                               Fill="{Binding IsSelected, 
-                                              RelativeSource={RelativeSource TemplatedParent},
-                                              Converter={StaticResource ResourceKey=T2WConverter}}"
-                               Name="Top"></Rectangle>
-                    <StackPanel Grid.Row="1" Background="Transparent" Width="64" Height="32">
-                        <ContentControl x:Name="img" 
-                                        Background="{Binding IsSelected, 
-                                                             RelativeSource={RelativeSource TemplatedParent},
-                                                             Converter={StaticResource ResourceKey=SelectedConverter}}"
-                                        Foreground="{Binding IsSelected, 
-                                                             RelativeSource={RelativeSource TemplatedParent},
-                                                             Converter={StaticResource ResourceKey=SelectedConverter}}"
-                                        Template="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"
-                                        HorizontalAlignment="Center"/>
-                    </StackPanel>
-                    <Label Grid.Row="2" x:Name="desc"
-                           Content="{Binding IconValue, 
-                                             RelativeSource={RelativeSource TemplatedParent}}"
-                           Foreground="{Binding IsSelected, 
-                                                RelativeSource={RelativeSource TemplatedParent},
-                                                Converter={StaticResource ResourceKey=SelectedConverter}}" 
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Top" FontSize="11">
-                        <Label.Resources>
-                            <Style TargetType="Label">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="FontSize" From="10" To="15" Duration="0:0:0.15"></DoubleAnimation>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="FontSize" To="10" Duration="0:0:0.15"></DoubleAnimation>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Resources>
-
-                    </Label>
-                </Grid>
-            </StackPanel>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="HomeIcon">
-            <Viewbox Height="32" Width="32">
-                <Canvas Height="500" Width="500">
-                    <Canvas.Resources>
-                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                    </Canvas.Resources>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                            Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                            StrokeThickness="14"
-                            Data="M295.48,333.64l0,142.21l127.43,0l0,-238.92l47.78,0l-220.69,-210.48l-220.7,210.48l47.79,0l0,238.92l127.43,0l0,-142.21l90.96,0z"></Path>
-                </Canvas>
-            </Viewbox>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="RegistryIcon">
-            <Viewbox Height="32" Width="32">
-                <Canvas Height="500" Width="500">
-                    <Canvas.Resources>
-                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <Style TargetType="Path">
-                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
-                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
-                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
-                            <Setter Property="StrokeThickness" Value="14"></Setter>
-                            <Setter Property="Stroke" Value="{Binding IsSelected, 
-                                                                      Converter={StaticResource BGConverter},
-                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
-                        </Style>
-                    </Canvas.Resources>
-                    <Path Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Data="M88.94,428.47V71.53A37.57,37.57 0,0 1,126.51 34H370.73A37.57,37.57 0,0 1,408.3 71.53V390.9H126.51"></Path>
-                    <Path Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
-                          Data="M126.51,390.9H408.3c-37.57,18.78 -37.57,56.35 0,75.14H126.51a37.57,37.57 0,0 1,-37.57 -37.57h0A37.57,37.57 0,0 1,126.51 390.9Z"></Path>
-                    <Path Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}"
-                          Data="M351.94,240.61l-56.36,-56.36l-56.35,56.36l0,-206.65l112.71,0l0,206.65z"></Path>
-                </Canvas>
-            </Viewbox>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="CameraIcon">
-            <Viewbox Height="32" Width="32">
-                <Canvas Height="500" Width="500">
-                    <Canvas.Resources>
-                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <Style TargetType="Path">
-                            <Setter Property="StrokeThickness" Value="14"></Setter>
-                            <Setter Property="Stroke" Value="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
-                        </Style>
-                    </Canvas.Resources>
-                    <Path Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Data="M371.27,139l-13,-64.9A19.13,19.13 0,0 0,339.53 58.7H160.47a19.13,19.13 0,0 0,-18.76 15.37l-13,64.9A19.14,19.14 0,0 1,110 154.35H68.26A38.26,38.26 0,0 0,30 192.61V403A38.26,38.26 0,0 0,68.26 441.3H431.74A38.26,38.26 0,0 0,470 403V192.61a38.26,38.26 0,0 0,-38.26 -38.26H390A19.14,19.14 0,0 1,371.27 139Z"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Fill="{StaticResource ResourceKey=CV_OPAQUE_WHITE}" 
-                          Data="M250,290.33m-93.59,0a93.59,93.59 0,1 1,187.18 0a93.59,93.59 0,1 1,-187.18 0"></Path>
-                </Canvas>
-            </Viewbox>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="BadgeIcon">
-            <Viewbox Height="32" Width="32">
-                <Canvas Height="500" Width="500">
-                    <Canvas.Resources>
-                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <converters:ColorIfConverter x:Key="FLConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}"></converters:ColorIfConverter>
-                        <Style TargetType="Path">
-                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
-                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
-                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
-                            <Setter Property="StrokeThickness" Value="14"></Setter>
-                        </Style>
-                    </Canvas.Resources>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource BGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                            Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                            Data="M30.87,93.48L469.13,93.48A20.87,20.87 0,0 1,490 114.35L490,385.65A20.87,20.87 0,0 1,469.13 406.52L30.87,406.52A20.87,20.87 0,0 1,10 385.65L10,114.35A20.87,20.87 0,0 1,30.87 93.48z"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                            Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}" 
-                            Data="M133.45,246.9m-78.71,0a78.71,78.71 0,1 1,157.42 0a78.71,78.71 0,1 1,-157.42 0"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Data="M154.92,231.8c0,12.29 -9.61,22.26 -21.47,22.26S112,244.09 112,231.8V219.07c0,-12.29 9.61,-22.26 21.47,-22.26s21.47,10 21.47,22.26Z"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Fill="{Binding IsSelected, 
-                                            Converter={StaticResource FGConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}" 
-                          Data="M81,305.58c8.8,-17.68 29,-30.06 52.45,-30.06s43.65,12.38 52.45,30.06"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Data="M274.74,220.71L433.76,220.71"></Path>
-                    <Path Stroke="{Binding IsSelected, 
-                                            Converter={StaticResource FLConverter},
-                                            RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"
-                          Data="M274.74,279.29L433.76,279.29"></Path>
-                </Canvas>
-            </Viewbox>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="MenuIcon">
-            <Viewbox Height="32" Width="32">
-                <Canvas Height="500" Width="500">
-                    <Canvas.Resources>
-                        <converters:ColorIfConverter x:Key="BGConverter" FalseColor="Gray" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <converters:ColorIfConverter x:Key="FGConverter" FalseColor="{StaticResource ResourceKey=CV_OPAQUE_WHITE_COLOR}" TrueColor="{StaticResource ResourceKey=CV_RED_COLOR}"></converters:ColorIfConverter>
-                        <Style TargetType="Path">
-                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
-                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
-                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
-                            <Setter Property="StrokeThickness" Value="14"></Setter>
-                            <Setter Property="Stroke" Value="{Binding IsSelected, 
-                                                                      Converter={StaticResource BGConverter},
-                                                                      RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
-                            <Setter Property="Fill" Value="{Binding IsSelected, 
-                                                                    Converter={StaticResource FGConverter},
-                                                                    RelativeSource={RelativeSource AncestorType=homecontrols:CVBaseIcon}}"></Setter>
-                        
-                        </Style>
-                    </Canvas.Resources>
-                    <Path Data="M37.19,101.96L462.81,101.96"></Path>
-                    <Path Data="M37.19,398.04L462.81,398.04"></Path>
-                    <Path Data="M37.19,250L462.81,250"></Path>
+                    <Path Fill="Transparent" Data="M108,171 L74.15,114.73l40.58,-40.58L171,108v0.09A152.35,152.35 0,0 1,205.43 93.7L221.3,30h57.4l15.87,63.7A152.35,152.35 0,0 1,329 108.05V108l56.27,-33.81 40.58,40.58L392,171H392a152.35,152.35 0,0 1,14.35 34.44L470,221.3v57.4l-63.7,15.87A152.35,152.35 0,0 1,392 329H392l33.81,56.27 -40.58,40.58L329,392V392a152.35,152.35 0,0 1,-34.44 14.35L278.7,470H221.3l-15.87,-63.7A152.35,152.35 0,0 1,171 392V392l-56.27,33.81L74.15,385.27 108,329h0.09A152.35,152.35 0,0 1,93.7 294.57L30,278.7V221.3l63.7,-15.87A152.35,152.35 0,0 1,108.05 171Z"></Path>
+                    <Path Fill="Transparent" Data="M250,250m-86.09,0a86.09,86.09 0,1 1,172.18 0a86.09,86.09 0,1 1,-172.18 0"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
@@ -486,26 +269,5 @@
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
-
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Cursor" Value="Hand"></Setter>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"/>
-            <Setter Property="FontSize" Value="{Binding FontSize}"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
     </Application.Resources>
 </Application>

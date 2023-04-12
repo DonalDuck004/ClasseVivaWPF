@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace ClasseVivaWPF.HomeControls
+namespace ClasseVivaWPF.HomeControls.Icons
 {
     public class CVBaseIcon : UserControl
     {
@@ -37,6 +37,7 @@ namespace ClasseVivaWPF.HomeControls
 
         internal CVBaseIcon(CVMainMenuIconValues Icon)
         {
+            this.DataContext = this;
             this.IconValue = Icon;
             this.MouseLeftButtonDown += (s, e) =>
             {

@@ -33,6 +33,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
         protected static DependencyProperty LastPeriodNameProperty;
         protected static DependencyProperty DataFetchedProperty;
         protected static DependencyProperty ShowGraphSettingsProperty;
+        protected static DependencyProperty SectionsForegroundProperty;
+        protected static DependencyProperty PercentageBackgroundProperty;
 
         private bool UpdateGradesRequired = true;
         private bool UpdateAbsencesRequired = true;
@@ -73,14 +75,22 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             set => base.SetValue(LastPeriodNameProperty, value);
         }
 
+        public SolidColorBrush SectionsForeground
+        {
+            get => (SolidColorBrush)base.GetValue(LastPeriodNameProperty);
+            set => base.SetValue(LastPeriodNameProperty, value);
+        }
+
         static CVRegistry()
         {
             DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVRegistry), new PropertyMetadata(false));
             ShowGraphSettingsProperty = DependencyProperty.Register("ShowGraphSettings", typeof(bool), typeof(CVRegistry), new PropertyMetadata(false));
             FirstPeriodNameProperty = DependencyProperty.Register("FirstPeriodName", typeof(string), typeof(CVRegistry), new PropertyMetadata(null));
             LastPeriodNameProperty = DependencyProperty.Register("LastPeriodName", typeof(string), typeof(CVRegistry), new PropertyMetadata(null));
+            SectionsForegroundProperty = DependencyProperty.Register("SectionsForeground", typeof(SolidColorBrush), typeof(CVRegistry));
+            PercentageBackgroundProperty = DependencyProperty.Register("PercentageBackground", typeof(SolidColorBrush), typeof(CVRegistry));
         }
-
+        
         private SemaphoreSlim ReloadLock = new SemaphoreSlim(1, 1);
 
         public CVRegistry()
@@ -88,6 +98,15 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             InitializeComponent();
             this.DataContext = this;
             CVRegistry.INSTANCE = this;
+            this.wp.SetThemeBinding(StackPanel.BackgroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
+            this.SetThemeBinding(CVRegistry.PercentageBackgroundProperty, BaseTheme.CV_PERCENTAGE_BACKGROUND_PATH);
+            this.SetThemeBinding(CVRegistry.SectionsForegroundProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
+            
+            this.l.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_LATE_PATH);
+            this.ee.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_EARLY_EXIT_PATH);
+            this.pabs.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_PARTIALLY_ABSENT_PATH);
+            this.abs.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_ABSENT_PATH);
+
             this.Graph.ColumnAdded += (c) => this.SetAVG(c.Value, c);
         }
 
@@ -113,13 +132,14 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
 
             var dest = BaseTheme.CV_GRADE_INSUFFICIENT_PATH;
+            target.PercentageColor = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_INSUFFICIENT;
 
             if (avg >= 5)
             {
                 dest = BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH;
                 animation = new ColorAnimation()
                 {
-                    To = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT,
+                    To = target.PercentageColor = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT,
                     AccelerationRatio = 0.1,
                     Duration = new(TimeSpan.FromSeconds(avg >= 6 ? 0.5 : 1)),
                     FillBehavior = FillBehavior.Stop
@@ -134,7 +154,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 dest = BaseTheme.CV_GRADE_SUFFICIENT_PATH;
                 animation = new ColorAnimation()
                 {
-                    To = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SUFFICIENT,
+                    To = target.PercentageColor = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SUFFICIENT,
                     Duration = new(TimeSpan.FromSeconds(0.35)),
                     BeginTime = TimeSpan.FromSeconds(0.65),
                     FillBehavior = FillBehavior.Stop
@@ -144,12 +164,10 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 st.Children.Add(animation);
             }
 
-            target.SetThemeBinding(BaseCVPercentage.PercentageColorProperty, dest);
 
             st.Completed += (s, e) =>
             {
-                st.Remove(target);
-                target.Value = target.Value;
+                target.SetThemeBinding(BaseCVPercentage.PercentageColorProperty, dest);
             };
             st.Begin(target);
         }
@@ -240,10 +258,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                     this.GradesWrapper.Children.Clear();
                     foreach (var grade in CachedGrades)
                     {
-                        this.GradesWrapper.Children.Add(new CVGradeEllipse()
-                        {
-                            Grade = grade,
-                        });
+                        this.GradesWrapper.Children.Add(new CVGradeEllipse(grade));
                     }
                 }
             }
@@ -273,16 +288,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 var groups = _CachedAbsences.GroupBy(x => x.EvtCode);
 
                 this.abs.Count = groups.Where(x => x.Key == BaseEvent.ABSENCE_ABSENCE).Select(x => x.Count()).Sum();
-                this.pabs.Count = groups.Where(x => x.Key.StartsWith(BaseEvent.ABSENCE_LATE_START_STRING)).Select(x => x.Count()).Sum();
+                this.l.Count = groups.Where(x => x.Key.StartsWith(BaseEvent.ABSENCE_LATE_START_STRING)).Select(x => x.Count()).Sum();
                 var epabs = groups.Where(x => x.Key == BaseEvent.ABSENCE_SHORT_LATE).Select(x => x.Count()).Sum();
                 var lpabs = groups.Where(x => x.Key == BaseEvent.ABSENCE_LATE).Select(x => x.Count()).Sum();
-                this.pabs.ExtraDesc = $"Brevi: {epabs}; Lunghi: {lpabs}";
+                this.l.ExtraDesc = $"Brevi: {epabs}; Lunghi: {lpabs}";
                 this.ee.Count = groups.Where(x => x.Key.StartsWith(BaseEvent.ABSENCE_EARLY_EXIT_START_STRING)).Select(x => x.Count()).Sum();
             }
             else
             {
-                this.ee.Count = this.pabs.Count = this.abs.Count = 0;
-                this.pabs.ExtraDesc = "";
+                this.ee.Count = this.l.Count = this.abs.Count = 0;
+                this.l.ExtraDesc = "";
             }
             
             return;

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ClasseVivaWPF.HomeControls.HomeSection
 {
@@ -11,13 +14,27 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// </summary>
     public partial class CVCalendar : UserControl
     {
-        public CVCalendar()
+        public static DependencyProperty MainColorBrushProperty;
+
+        public SolidColorBrush MainColorBrush
         {
-            InitializeComponent();
-            this.DataContext = this;
-            SetToday();
+            get => (SolidColorBrush)this.GetValue(MainColorBrushProperty);
+            set => this.SetValue(MainColorBrushProperty, value);
         }
 
+        static CVCalendar()
+        {
+            MainColorBrushProperty = DependencyProperty.Register("MainColorBrush", typeof(SolidColorBrush), typeof(CVCalendar), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
+        }
+
+        public CVCalendar(string theme_path = BaseTheme.CV_CALENDAR_PATH)
+        {
+            this.DataContext = this;
+            this.SetThemeBinding(CVCalendar.MainColorBrushProperty, theme_path);
+            InitializeComponent();
+            SetToday();
+        }
+        
         private void SetToday()
         {
             this.calendar.SelectedDate = this.calendar.DisplayDate = DateTime.Now;
@@ -51,6 +68,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         public void Close()
         {
             MainWindow.INSTANCE.RemoveField(this);
+        }
+
+        public void Inject()
+        {
+            MainWindow.INSTANCE.AddFieldOverlap(this);
         }
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

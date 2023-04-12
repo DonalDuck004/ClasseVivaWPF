@@ -1,5 +1,5 @@
-﻿using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+﻿using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF.HomeControls
+namespace ClasseVivaWPF.HomeControls.Icons
 {
     /// <summary>
-    /// Logica di interazione per CVMainMenuIcon.xaml
+    /// Logica di interazione per CVMainBadgeIcon.xaml
     /// </summary>
-    public partial class CVMainMenuIcon : CVBaseIcon
+    public partial class CVMainHomeIcon : CVBaseIcon
     {
         public override bool IsSelected
         {
@@ -30,26 +30,26 @@ namespace ClasseVivaWPF.HomeControls
 
                 if (value)
                 {
-                    this.Top.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_GENERIC_RED_PATH);
-                    this.Desc.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
-                    this.Path1.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_GENERIC_RED_PATH);
-                    this.Path1.SetThemeBinding(Path.FillProperty, BaseTheme.CV_GENERIC_RED_PATH);
+                    this.Top.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
+                    this.Desc.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
+                    this.Path1.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
+                    this.Path1.SetThemeBinding(Path.FillProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
                 }
                 else
                 {
                     this.Top.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
-                    this.Desc.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_GENERIC_GRAY_PATH);
-                    this.Path1.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_GENERIC_GRAY_PATH);
+                    this.Desc.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH);
+                    this.Path1.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH);
                     this.Path1.SetThemeBinding(Path.FillProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
                 }
 
             }
         }
 
-        public CVMainMenuIcon() : base(CVMainMenuIconValues.Home)
+
+        public CVMainHomeIcon() : base(CVMainMenuIconValues.Home)
         {
             InitializeComponent();
-            this.DataContext = this;
         }
     }
 }

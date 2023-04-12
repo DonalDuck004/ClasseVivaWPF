@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
-             mc:Ignorable="d" Background="White"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <Style TargetType="Label" x:Key="MenuVoice">
@@ -24,7 +25,7 @@
         </Style>
 
         <Style TargetType="Label" x:Key="OpenBridgeBW" BasedOn="{StaticResource MenuVoice}">
-            <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
+            <Setter Property="Foreground" Value="{Binding Path=TitlesColor}"></Setter>
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="Margin" Value="0,0,16,0"></Setter>
             <Setter Property="Grid.Column" Value="2"></Setter>
@@ -32,7 +33,7 @@
         </Style>
         
         <Style TargetType="Rectangle" x:Key="HR">
-            <Setter Property="Fill" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
+            <Setter Property="Fill" Value="{Binding Path=HRColor}"></Setter>
             <Setter Property="Height" Value="0.2"></Setter>
             <Setter Property="Grid.ColumnSpan" Value="3"></Setter>
         </Style>
@@ -42,7 +43,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel>
-        <Label Content="Classeviva" Foreground="{StaticResource ResourceKey=CV_RED}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
+        <Label Content="Classeviva" Foreground="{Binding Path=TitlesColor}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -94,7 +95,7 @@
             <Rectangle Style="{StaticResource HR}" Grid.Row="11"></Rectangle>
         </Grid>
 
-        <Label Content="Altri Contenuti" Foreground="{StaticResource ResourceKey=CV_RED}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
+        <Label Content="Altri Contenuti" Foreground="{Binding Path=TitlesColor}" FontWeight="SemiBold" Margin="12" FontSize="18"></Label>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
