@@ -25,7 +25,6 @@ namespace ClasseVivaWPF.SharedControls
         public CVButton()
         {
             InitializeComponent();
-            this.SetThemeBinding(CVButton.ForegroundProperty, BaseTheme.CV_BUTTON_PATH);
         }
     }
 }

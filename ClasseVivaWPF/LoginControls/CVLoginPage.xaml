@@ -4,23 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:local="clr-namespace:ClasseVivaWPF.LoginControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="450" d:DesignWidth="800" Background="{themes:ThemeBinding Path=CVGenericBackground}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Background="{StaticResource ResourceKey=CV_RED}">
-            <Label Content="Login" VerticalAlignment="Center" Foreground="White" FontSize="20"></Label>
-        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Background="{themes:ThemeBinding Path=CVHeader}">
+            <Label Content="Login" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" FontSize="20"></Label>
+        </DockPanel> 
         <StackPanel Grid.Row="1">
             <local:CVTextBox PlaceHolder="Username/Email" Margin="22,30,22,0" x:Name="username"></local:CVTextBox>
             <local:CVTextBox PlaceHolder="Password" Margin="22,0,22,0" x:Name="password"></local:CVTextBox>
-            <Button Content="Login" Click="Button_Click" Margin="0,10,0,0" Foreground="{StaticResource ResourceKey=CV_RED}" Background="Transparent" FontSize="20" BorderThickness="0" Width="756" Cursor="Hand"></Button>
+            <shared:CVButton Content="Login" Click="Button_Click" Margin="0,10,0,0" Background="Transparent" FontSize="20" BorderThickness="0" Width="756" Cursor="Hand"></shared:CVButton>
         </StackPanel>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

@@ -22,11 +22,8 @@ namespace ClasseVivaWPF.HomeControls
         private CVMainNavigation()
         {
             InitializeComponent();
-            this.Header.SetThemeBinding(DockPanel.BackgroundProperty, BaseTheme.CV_HEADER_PATH);
-            this.wp_buttons.SetThemeBinding(Grid.BackgroundProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
         }
         
-
         public static CVMainNavigation New()
         {
             if (CVMainNavigation.INSTANCE is null)

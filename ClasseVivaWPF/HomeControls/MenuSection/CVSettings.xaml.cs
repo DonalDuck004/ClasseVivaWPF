@@ -19,27 +19,6 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     {
         public bool CountsInStack { get; } = false;
        
-        public static readonly DependencyProperty TitlesColorProperty;
-        public static readonly DependencyProperty ParagraphColorProperty;
-
-        public SolidColorBrush TitlesColor
-        {
-            get => (SolidColorBrush)GetValue(TitlesColorProperty);
-            set => SetValue(TitlesColorProperty, value);
-        }
-
-        public SolidColorBrush ParagraphColor
-        {
-            get => (SolidColorBrush)GetValue(ParagraphColorProperty);
-            set => SetValue(ParagraphColorProperty, value);
-        }
-
-        static CVSettings()
-        {
-            TitlesColorProperty = DependencyProperty.Register("TitlesColor", typeof(SolidColorBrush), typeof(CVSettings));
-            ParagraphColorProperty = DependencyProperty.Register("ParagraphColor", typeof(SolidColorBrush), typeof(CVSettings));
-        }
-
         public static string MediaDirSize => new DirectoryInfo(Config.MEDIA_DIR_PATH).GetFiles().Sum(x => x.Length).SizeSuffix();
         public static string? SessionCacheSize => SessionHandler.INSTANCE?.GetCacheSize().SizeSuffix();
         public static string? DBSize => SessionHandler.INSTANCE is null ? null : new FileInfo(SessionHandler.INSTANCE?.FileName!).Length.SizeSuffix();
@@ -53,12 +32,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         public CVSettings()
         {
             InitializeComponent();
-            
-            this.Header.SetThemeBinding(DockPanel.BackgroundProperty, BaseTheme.CV_HEADER_PATH);
-            this.BackIcon.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_BACK_ICON_PATH);
-            this.Scroller.SetThemeBinding(ScrollViewer.BackgroundProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
-            this.SetThemeBinding(CVSettings.TitlesColorProperty, BaseTheme.CV_SETTINGS_SECTION_HEADER_PATH);
-            this.SetThemeBinding(CVSettings.ParagraphColorProperty, BaseTheme.CV_GENERIC_GRAY_FONT_PATH);
+
             this.DataContext = this;
             MediaDirChanged.Deleted += FSUpdate;
             MediaDirChanged.Created += FSUpdate;

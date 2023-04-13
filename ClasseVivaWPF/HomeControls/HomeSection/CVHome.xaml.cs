@@ -23,13 +23,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             InitializeComponent();
             this.DataContext = this;
-            this.MenuHeader.SetThemeBinding(Grid.BackgroundProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
-            this.CalendarIcon.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_HOME_CURRENT_DAY_PATH);
-            this.CurrentDayLbl.SetThemeBinding(ContentControl.ForegroundProperty, BaseTheme.CV_HOME_CURRENT_DAY_PATH);
-            this.NoEventsLabel.SetThemeBinding(ContentControl.ForegroundProperty, BaseTheme.CV_GENERIC_GRAY_FONT_PATH);
-            this.Loader.SetThemeBinding(CVReload.EllipseColorBrushProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
-            this.Loader.SetThemeBinding(CVReload.SpinnerColorBrushProperty, BaseTheme.CV_SPINNER_PATH);
-            this.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
         }
         
 

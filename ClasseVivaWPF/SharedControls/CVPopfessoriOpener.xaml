@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d"
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
@@ -14,7 +15,7 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Background="{StaticResource ResourceKey=CV_RED}">
+        <DockPanel DockPanel.Dock="Top" Background="{themes:ThemeBinding Path=CVHeader}">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="WrapPanel" x:Key="ToLoad">
@@ -46,20 +47,42 @@
                 </Grid.ColumnDefinitions>
 
                 <WrapPanel Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
-                    <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
+                    <ContentControl Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
                 </WrapPanel>
 
                 <WrapPanel Grid.Column="1" Style="{StaticResource ResourceKey=ToLoad}" VerticalAlignment="Center" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding Counter}" FontSize="48" Foreground="White" Margin="0,-3,5,0"></TextBlock>
+                    <TextBlock Text="{Binding Path=Counter}" FontSize="48" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" Margin="0,-3,5,0"></TextBlock>
                     <WrapPanel Cursor="Hand" MouseLeftButtonDown="OnLikeBtnClick" Width="48" Height="48">
-                        <ContentControl Background="White" Template="{StaticResource ResourceKey=EmptyHeartIcon}"/>
-                        <ContentControl Background="{Binding Liked, Converter={StaticResource ColorIfConverter}}" Template="{StaticResource ResourceKey=FilledHeartIcon}"/>
+                        <ContentControl Background="{themes:ThemeBinding Path=CVExtraInteractIcons}" Template="{StaticResource ResourceKey=EmptyHeartIcon}"/>
+                        <ContentControl Template="{StaticResource ResourceKey=FilledHeartIcon}">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Liked}" Value="True">
+                                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVExtraInteractIcons}"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
                     </WrapPanel>
                 </WrapPanel>
                 
                 <WrapPanel Style="{StaticResource ResourceKey=ToLoad}" Grid.Column="2" Cursor="Hand" MouseLeftButtonDown="OnSaveBtnClick" Background="Transparent">
-                    <ContentControl Background="White" Template="{StaticResource ResourceKey=EmptySaveIcon}" Margin="0,-3,0,0"/>
-                    <ContentControl Background="{Binding Saved, Converter={StaticResource ColorIfConverter}}" Template="{StaticResource ResourceKey=FilledSaveIcon}" Margin="0,-3,0,0"/>
+                    <ContentControl Background="{themes:ThemeBinding Path=CVExtraInteractIcons}" Template="{StaticResource ResourceKey=EmptySaveIcon}" Margin="0,-3,0,0"/>
+                    <ContentControl Template="{StaticResource ResourceKey=FilledSaveIcon}" Margin="0,-3,0,0">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Background" Value="Transparent"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Saved}" Value="True">
+                                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVExtraInteractIcons}"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
                 </WrapPanel>
             </Grid>
         </DockPanel>

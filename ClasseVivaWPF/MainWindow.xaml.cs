@@ -29,7 +29,7 @@ namespace ClasseVivaWPF
     {
         public static readonly DependencyProperty CurrentThemeProperty;
         public static readonly DependencyProperty DefaultFontColorProperty;
-        
+
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
         Forms.ToolStripMenuItem? NotifyIcon = null;
@@ -62,8 +62,6 @@ namespace ClasseVivaWPF
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
             this.DataContext = this;
             InitializeComponent();
-            MainBackground.SetThemeBinding(DockPanel.BackgroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
-            this.SetThemeBinding(MainWindow.DefaultFontColorProperty, BaseTheme.CV_GENERIC_FONT_COLOR_PATH);
 
             this.PostLogin += () =>
             {
@@ -158,7 +156,10 @@ namespace ClasseVivaWPF
                 this.ReplaceMainContent(new CVLoginPage());
 
             if (api_error_message is not null)
+            {
                 new CVMessageBox("Errore di Login", api_error_message).Inject();
+                return;
+            }
 
             if (icon.Visible is false)
             {
@@ -188,6 +189,10 @@ namespace ClasseVivaWPF
 
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Handled)
+                return;
+
+            e.Handled = true;
             if (KonamiCode[KonamiCodeIndex] == e.Key)
             {
                 KonamiCodeIndex++;

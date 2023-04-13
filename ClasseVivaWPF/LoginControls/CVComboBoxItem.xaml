@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.LoginControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -12,7 +13,7 @@
             <ColumnDefinition Width="12"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="0" Fill="{StaticResource ResourceKey=CV_RED}" Height="12" VerticalAlignment="Center"></Rectangle>
-        <Label Content="{Binding Path=LabelContent, Mode=OneWay}" Grid.Column="1"></Label>
+        <Rectangle Grid.Column="0" Fill="Red" Height="12" VerticalAlignment="Center"></Rectangle>
+        <Label Content="{Binding Path=LabelContent}" Grid.Column="1"></Label>
     </Grid>
 </UserControl>

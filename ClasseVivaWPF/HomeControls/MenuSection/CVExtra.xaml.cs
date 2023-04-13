@@ -55,7 +55,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
 
         public void OnKeyDown(object sender, KeyEventArgs e)
         {
-            content_wp.RaiseEvent(e);
+            // content_wp.RaiseEvent(e);
         }
 
         public void OnChildClosed()

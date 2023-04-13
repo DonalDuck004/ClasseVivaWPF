@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,26 +22,6 @@ namespace ClasseVivaWPF.SharedControls
     /// </summary>
     public partial class CVReload : UserControl
     {
-        public static readonly DependencyProperty EllipseColorBrushProperty;
-        public static readonly DependencyProperty SpinnerColorBrushProperty;
-
-        public SolidColorBrush EllipseColorBrush
-        {
-            get => (SolidColorBrush)GetValue(EllipseColorBrushProperty);
-            set => SetValue(EllipseColorBrushProperty, value);
-        }
-        public SolidColorBrush SpinnerColorBrush
-        {
-            get => (SolidColorBrush)GetValue(SpinnerColorBrushProperty);
-            set => SetValue(SpinnerColorBrushProperty, value);
-        }
-
-        static CVReload()
-        {
-            EllipseColorBrushProperty = DependencyProperty.Register("EllipseColorBrush", typeof(SolidColorBrush), typeof(CVReload), new PropertyMetadata(new SolidColorBrush(Colors.White)));
-            SpinnerColorBrushProperty = DependencyProperty.Register("SpinnerColorBrush", typeof(SolidColorBrush), typeof(CVReload), new PropertyMetadata(new SolidColorBrush(Colors.Blue)));
-        }
-
         public CVReload()
         {
             InitializeComponent();

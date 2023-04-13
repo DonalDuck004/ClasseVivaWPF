@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
              xmlns:sessions="clr-namespace:ClasseVivaWPF.Sessions"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Name="Control"
              d:DesignHeight="1000" d:DesignWidth="800">
@@ -15,9 +16,9 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Name="Header">
+        <DockPanel Grid.Row="0" Background="{themes:ThemeBinding Path=CVHeader}">
             <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
-                <ContentControl Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}"/>
+                <ContentControl Name="BackIcon" Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </DockPanel>
         <ScrollViewer
@@ -25,20 +26,21 @@
             VerticalScrollBarVisibility="Hidden"
             shared:CVScollerView.IsEnabled="True"
             shared:CVScollerView.CatchWidthProperty="False"
-            Grid.Row="1" Name="Scroller">
+            Grid.Row="1" Background="{themes:ThemeBinding Path=CVGenericBackground}">
             <StackPanel Name="settings_wp" Width="{Binding Path=ActualWidth, ElementName=Control, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=2.2}">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock" x:Key="Title">
                         <Setter Property="Margin" Value="0,10,0,7"></Setter>
                         <Setter Property="FontSize" Value="18"></Setter>
-                        <Setter Property="Foreground" Value="{Binding Path=TitlesColor}"></Setter>
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVSettingsSectionHeader}"></Setter>
                     </Style>
                     <Style TargetType="TextBlock" x:Key="VoiceTitle">
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         <Setter Property="FontSize" Value="14"></Setter>
                     </Style>
                     <Style TargetType="TextBlock" x:Key="Paragraph">
                         <Setter Property="FontSize" Value="12"></Setter>
-                        <Setter Property="Foreground" Value="{Binding Path=ParagraphColor}"></Setter>
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         <Setter Property="Margin" Value="0,0,0,5"></Setter>
                         <Setter Property="TextWrapping" Value="Wrap"></Setter>
                     </Style>
@@ -78,7 +80,8 @@
                                     Minimum="2" 
                                     Maximum="21" 
                                     IsSnapToTickEnabled="True"></Slider>
-                            <Label Foreground="{Binding Path=TitlesColor}" Content="{Binding Path=Value, ElementName=NotificationsRangeSlider}" ContentStringFormat="{}{0} Giorni"></Label>
+                            <Label Foreground="{themes:ThemeBinding Path=CVSettingsSectionHeader}" 
+                                   Content="{Binding Path=Value, ElementName=NotificationsRangeSlider}" ContentStringFormat="{}{0} Giorni"></Label>
                          </DockPanel>
                     </Grid>
                 </StackPanel>
@@ -99,15 +102,15 @@
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="1">
                             <Run Name="ShowMediaDirSize"></Run> utilizzati per i media
                         </TextBlock>
-                        <shared:CVButton Foreground="{Binding Path=TitlesColor}" Content="Apri Cartella" Grid.Column="1" Grid.RowSpan="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenMediaDir"></shared:CVButton>
+                        <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.RowSpan="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenMediaDir"></shared:CVButton>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Spazio Utilizzato Dai File Di Sessione" Grid.Row="2"></TextBlock>
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3">
                             <Run Name="ShowDBSize"></Run> utilizzati per il database
                             <LineBreak></LineBreak>
                             <Run Name="ShowCache"></Run> utilizzati per la cache
                         </TextBlock>
-                        <shared:CVButton Foreground="{Binding Path=TitlesColor}" Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></shared:CVButton>
-                        <shared:CVButton Foreground="{Binding Path=TitlesColor}" Content="Svuota Cache" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DropSessionCache"></shared:CVButton>
+                        <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></shared:CVButton>
+                        <shared:CVButton Content="Svuota Cache" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DropSessionCache"></shared:CVButton>
                     </Grid>
                 </StackPanel>
                 <StackPanel>
@@ -131,7 +134,8 @@
                                 Minimum="2" 
                                 Maximum="10" 
                                 IsSnapToTickEnabled="True"></Slider>
-                            <Label Foreground="{Binding Path=TitlesColor}" Content="{Binding Path=Value, ElementName=PagesStackSlider}" ContentStringFormat="{}{0} Pagine"></Label>
+                            <Label Foreground="{themes:ThemeBinding Path=CVSettingsSectionHeader}"
+                                   Content="{Binding Path=Value, ElementName=PagesStackSlider}" ContentStringFormat="{}{0} Pagine"></Label>
                         </DockPanel>
                     </Grid>
                 </StackPanel>

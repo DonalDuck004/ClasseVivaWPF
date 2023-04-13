@@ -33,8 +33,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
         protected static DependencyProperty LastPeriodNameProperty;
         protected static DependencyProperty DataFetchedProperty;
         protected static DependencyProperty ShowGraphSettingsProperty;
-        protected static DependencyProperty SectionsForegroundProperty;
-        protected static DependencyProperty PercentageBackgroundProperty;
 
         private bool UpdateGradesRequired = true;
         private bool UpdateAbsencesRequired = true;
@@ -75,11 +73,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             set => base.SetValue(LastPeriodNameProperty, value);
         }
 
-        public SolidColorBrush SectionsForeground
-        {
-            get => (SolidColorBrush)base.GetValue(LastPeriodNameProperty);
-            set => base.SetValue(LastPeriodNameProperty, value);
-        }
 
         static CVRegistry()
         {
@@ -87,8 +80,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             ShowGraphSettingsProperty = DependencyProperty.Register("ShowGraphSettings", typeof(bool), typeof(CVRegistry), new PropertyMetadata(false));
             FirstPeriodNameProperty = DependencyProperty.Register("FirstPeriodName", typeof(string), typeof(CVRegistry), new PropertyMetadata(null));
             LastPeriodNameProperty = DependencyProperty.Register("LastPeriodName", typeof(string), typeof(CVRegistry), new PropertyMetadata(null));
-            SectionsForegroundProperty = DependencyProperty.Register("SectionsForeground", typeof(SolidColorBrush), typeof(CVRegistry));
-            PercentageBackgroundProperty = DependencyProperty.Register("PercentageBackground", typeof(SolidColorBrush), typeof(CVRegistry));
         }
         
         private SemaphoreSlim ReloadLock = new SemaphoreSlim(1, 1);
@@ -98,14 +89,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             InitializeComponent();
             this.DataContext = this;
             CVRegistry.INSTANCE = this;
-            this.wp.SetThemeBinding(StackPanel.BackgroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
-            this.SetThemeBinding(CVRegistry.PercentageBackgroundProperty, BaseTheme.CV_PERCENTAGE_BACKGROUND_PATH);
-            this.SetThemeBinding(CVRegistry.SectionsForegroundProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
             
-            this.l.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_LATE_PATH);
-            this.ee.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_EARLY_EXIT_PATH);
-            this.pabs.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_PARTIALLY_ABSENT_PATH);
-            this.abs.SetThemeBinding(CVRegistryAbsence.RectColorProperty, BaseTheme.CV_ABSENCES_ABSENT_PATH);
 
             this.Graph.ColumnAdded += (c) => this.SetAVG(c.Value, c);
         }

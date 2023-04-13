@@ -5,15 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" Cursor="Hand" MouseLeftButtonDown="OnSelected"
              d:DesignHeight="80" d:DesignWidth="240">
-    <UserControl.Resources>
-        <converters:ColorIfConverter x:Key="SelectedConverter" FalseColor="{StaticResource ResourceKey=CV_RED_COLOR}" TrueColor="White"></converters:ColorIfConverter>
-    </UserControl.Resources>
-
-    <Border CornerRadius="25" BorderThickness="2" BorderBrush="White" Background="{Binding Path=IsSelected, Converter={StaticResource SelectedConverter}}">
+    <Border CornerRadius="25" BorderThickness="2" BorderBrush="{themes:ThemeBinding Path=CVExtraHeaderEllipse}">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVExtraHeaderEllipse}"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
         <DockPanel Background="Transparent">
-            <Label Content="{Binding HeaderText}" Foreground="{Binding Path=IsSelected, Converter={StaticResource SelectedConverter}, ConverterParameter=swap}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"></Label>
+            <Label Content="{Binding HeaderText}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVExtraHeaderEllipse}"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
         </DockPanel>
     </Border>
 </UserControl>

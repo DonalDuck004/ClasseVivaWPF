@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
         xmlns:local="clr-namespace:ClasseVivaWPF"
+        xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
         xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
         Keyboard.KeyDown="window_KeyDown" Focusable="True"
         MouseDown="window_MouseDown"
@@ -12,7 +13,7 @@
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">
-        <DockPanel x:Name="MainBackground">
+        <DockPanel x:Name="MainBackground" Background="{themes:ThemeBinding Path=CVGenericRed}">
             <StackPanel Width="{Binding Path=ActualWidth, ElementName=window, Converter={StaticResource DivisionConverter}, ConverterParameter=2}"
                         Height="{Binding Path=ActualHeight, ElementName=window, Converter={StaticResource DivisionConverter}, ConverterParameter=2}">
                 <StackPanel.Background>

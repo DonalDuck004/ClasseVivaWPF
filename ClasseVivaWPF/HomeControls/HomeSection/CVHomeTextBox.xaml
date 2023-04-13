@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.HomeSection"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" Margin="4,10,4,0"
              d:DesignHeight="170" d:DesignWidth="600">
     <Border CornerRadius="10" BorderThickness="1">
@@ -40,7 +41,7 @@
             </WrapPanel>
             <StackPanel Background="#1F221106" Grid.Column="1" Grid.Row="2" Margin="5,0,5,0" Opacity="0.9" Height="2" Grid.ColumnSpan="3" Name="line"></StackPanel>
             <WrapPanel Grid.Column="1" Grid.Row="4" Margin="0,3,0,8" Grid.ColumnSpan="3" Name="last_wp">
-                <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" BorderThickness="0" Background="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}" Name="ContentTextBox">
+                <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" BorderThickness="0" Background="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" Name="ContentTextBox">
                     <FlowDocument>
                         <Paragraph Name="lesson_txt"></Paragraph>
                     </FlowDocument>

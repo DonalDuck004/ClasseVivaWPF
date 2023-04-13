@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:icons="clr-namespace:ClasseVivaWPF.HomeControls.Icons"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:root="clr-namespace:ClasseVivaWPF"
@@ -15,7 +16,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid DockPanel.Dock="Top" Name="Header" Grid.Row="0">
+        <Grid DockPanel.Dock="Top" Name="Header" Grid.Row="0" Background="{themes:ThemeBinding Path=CVHeader}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="159"></ColumnDefinition>
@@ -35,7 +36,8 @@
         </Grid>
         <DockPanel Name="Current" Grid.Row="1">
         </DockPanel>
-        <Grid Grid.Row="2" x:Name="wp_buttons">
+
+        <Grid Grid.Row="2" x:Name="wp_buttons" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

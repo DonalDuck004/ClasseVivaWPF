@@ -39,29 +39,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
         public static readonly DependencyProperty SelectedSubjectProperty;
         public static readonly DependencyProperty SelectedSectionProperty;
 
-        public static readonly DependencyProperty HeaderColorProperty;
-        public static readonly DependencyProperty BackgroundColorProperty;
-
-        public static readonly DependencyProperty GradesFilterColorProperty;
-
-        public SolidColorBrush GradesFilterColor
-        {
-            get => (SolidColorBrush)GetValue(GradesFilterColorProperty);
-            set => SetValue(GradesFilterColorProperty, value);
-        }
-
-        public SolidColorBrush HeaderColor
-        {
-            get => (SolidColorBrush)GetValue(HeaderColorProperty);
-            set => SetValue(HeaderColorProperty, value);
-        }
-
-        public SolidColorBrush BackgroundColor
-        {
-            get => (SolidColorBrush)GetValue(BackgroundColorProperty);
-            set => SetValue(BackgroundColorProperty, value);
-        }
-
         public CVGrade? SelectedGrade
         {
             get => (CVGrade?)base.GetValue(SelectedSubjectProperty);
@@ -87,11 +64,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         static CVGradesViewer()
         {
-            HeaderColorProperty = DependencyProperty.Register("HeaderColor", typeof(SolidColorBrush), typeof(CVGradesViewer));
-            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(SolidColorBrush), typeof(CVGradesViewer));
             SelectedSubjectProperty = DependencyProperty.Register("SelectedSubject", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
             SelectedSectionProperty = DependencyProperty.Register("SelectedSection", typeof(FrameworkElement), typeof(CVGradesViewer), new PropertyMetadata(null));
-            GradesFilterColorProperty = DependencyProperty.Register("GradesFilterColor", typeof(SolidColorBrush), typeof(CVGradesViewer));
         }
 
         public CVGradesViewer()
@@ -102,11 +76,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             this.DataContext = this;
             this.InitLabels();
             this.SelectedSection = (FrameworkElement)this.SectionsWP.Children[0];
-            this.SetThemeBinding(CVGradesViewer.HeaderColorProperty, BaseTheme.CV_HEADER_PATH);
-            this.SetThemeBinding(CVGradesViewer.BackgroundColorProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
-            this.SetThemeBinding(CVGradesViewer.GradesFilterColorProperty, BaseTheme.CV_GRADES_FILTER_PATH);
-            this.BackIcon.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_BACK_ICON_PATH);
-            this.Slider.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_MULTI_MENU_FONT_SLIDER_PATH);
 
             this.Scroller.SizeChanged += (s, e) => {
                 if (this.Scroller.HorizontalOffset != 0)
@@ -137,7 +106,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                 if (h.Length > 32)
                     h = grade.SubjectAcronym;
 
-                btn = new Button()
+                btn = new CVButton()
                 {
                     Margin = new Thickness(10, 0, 0, 15),
                     Content = $"Visualizza tutti i voti in {h}",

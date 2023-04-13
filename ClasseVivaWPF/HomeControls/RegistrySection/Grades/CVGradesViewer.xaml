@@ -5,15 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="wp" Background="{Binding Path=BackgroundColor}">
+    <Grid x:Name="wp" Background="{themes:ThemeBinding Path=CVGenericBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{Binding Path=HeaderColor}">
+        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{themes:ThemeBinding Path=CVHeader}">
             <Grid x:Name="labels">
                 <Grid.Resources>
                     <Style TargetType="Label">
@@ -30,7 +31,7 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel Panel.ZIndex="1" HorizontalAlignment="Left" Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Width="48" Background="Transparent">
-                    <ContentControl x:Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}"/>
+                    <ContentControl x:Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}" Background="{themes:ThemeBinding Path=CVBackIcon}"/>
                 </WrapPanel>
                 <Label Content="Ultime Valutazioni" Grid.Column="0"></Label>
                 <Label Name="p1" Grid.Column="1"></Label>
@@ -51,10 +52,11 @@
                     Panel.ZIndex="1">
                 <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp}"
                            Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
-                           Fill="{Binding Path=HeaderColor}"></Rectangle>
+                           Fill="{themes:ThemeBinding Path=CVHeader}"></Rectangle>
                 <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp_canvas}"
                            Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
-                           Name="Slider" Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=3}"></Rectangle>
+                           Name="Slider" Fill="{themes:ThemeBinding Path=CVMultiMenuFontSlider}"
+                           Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=3}"></Rectangle>
             </Canvas>
             <DockPanel x:Name="scroller_wp" Panel.ZIndex="0" Grid.Row="1">
                 <ScrollViewer x:Name="Scroller"
@@ -88,15 +90,16 @@
                                 <StackPanel Grid.Column="0" Name="GradeStack">
                                 </StackPanel>
                                 <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
-                                              Grid.Column="1" Width="4" Background="{Binding Path=GradesFilterColor}"
+                                              Grid.Column="1" Width="4" Background="{themes:ThemeBinding Path=CVGradesFilter}"
                                               VerticalAlignment="Stretch"></GridSplitter>
                                 <Canvas Grid.Column="2" >
-                                    <StackPanel Canvas.Top="{Binding ElementName=Scroller, Path=VerticalOffset}" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}">
-                                        <Label Content="{Binding Path=SelectedSubject.DataContext.Grade.SubjectDesc, FallbackValue='Nessun voto selezionato'}" Background="{Binding Path=GradesFilterColor}"></Label>
-                                        <Label Name="s_p1" Background="{Binding Path=GradesFilterColor}"></Label>
+                                    <StackPanel Canvas.Top="{Binding ElementName=Scroller, Path=VerticalOffset}" 
+                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}">
+                                        <Label Content="{Binding Path=SelectedSubject.DataContext.Grade.SubjectDesc, FallbackValue='Nessun voto selezionato'}" Background="{themes:ThemeBinding Path=CVGradesFilter}"></Label>
+                                        <Label Name="s_p1" Background="{themes:ThemeBinding Path=CVGradesFilter}"></Label>
                                         <StackPanel x:Name="s_fp_wp">
                                         </StackPanel>
-                                        <Label Name="s_p2" Background="{Binding Path=GradesFilterColor}"></Label>
+                                        <Label Name="s_p2" Background="{themes:ThemeBinding Path=CVGradesFilter}"></Label>
                                         <StackPanel x:Name="s_lp_wp">
                                         </StackPanel>
                                     </StackPanel>

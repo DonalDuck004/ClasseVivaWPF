@@ -22,7 +22,6 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     {
         public static bool SavedUpdated = false;
 
-
         public static string[] NAMES = { "In 1 Minuto", "Popfessori", "Minigame", "Salvati" };
         public static string[] CATEGORIES = { CVContent.TYPE_PILLOLE,
                                               CVContent.TYPE_POPFESSORI,

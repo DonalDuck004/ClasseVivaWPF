@@ -1,6 +1,10 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils.Converters;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Xml.Linq;
 
 namespace ClasseVivaWPF.Utils.Themes
 {
@@ -15,10 +19,12 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_GENERIC_BACKGROUND_PATH = "CV_GENERIC_BACKGROUND";
         public const string CV_GENERIC_OPAQUE_BACKGROUND_PATH = "CV_GENERIC_OPAQUE_BACKGROUND";
         public const string CV_URI_PATH = "CV_URI";
-        public const string CV_GENERIC_FONT_COLOR_PATH = "CV_GENERIC_FONT_COLOR";
+        public const string CV_GENERIC_FONT_PATH = "CV_GENERIC_FONT";
+        public const string CV_GENERIC_HEADER_FONT_PATH = "CV_GENERIC_HEADER_FONT";
         public const string CV_HOME_CURRENT_DAY_PATH = "CV_HOME_CURRENT_DAY";
         public const string CV_HEADER_PATH = "CV_HEADER";
         public const string CV_PERCENTAGE_BACKGROUND_PATH = "CV_PERCENTAGE_BACKGROUND";
+        public const string CV_EXTRA_INTERACT_ICONS_PATH = "CV_EXTRA_INTERACT_ICONS";
         
         public const string CV_GRADES_FILTER_PATH = "CV_GRADES_FILTER";
 
@@ -27,8 +33,10 @@ namespace ClasseVivaWPF.Utils.Themes
 
         public const string CV_GENERIC_GRAY_FONT_PATH = "CV_GENERIC_GRAY_FONT";
 
-        public const string CV_DAY_UNSELECTED_PATH = "CV_DAY_UNSELECTED";
-        public const string CV_DAY_SELECTED_PATH = "CV_DAY_SELECTED";
+        public const string CV_DAY_TEXT_UNSELECTED_PATH = "CV_DAY_TEXT_UNSELECTED";
+        public const string CV_DAY_TEXT_SELECTED_PATH = "CV_DAY_TEXT_SELECTED";
+        public const string CV_DAY_BG_UNSELECTED_PATH = "CV_DAY_BG_UNSELECTED";
+        public const string CV_DAY_BG_SELECTED_PATH = "CV_DAY_BG_SELECTED";
 
         public const string CV_MAIN_MENU_ICON_SELECTED_PATH = "CV_MAIN_MENU_ICON_SELECTED";
         public const string CV_MAIN_MENU_ICON_UNSELECTED_PATH = "CV_MAIN_MENU_ICON_UNSELECTED";
@@ -53,7 +61,14 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_BACK_ICON_PATH = "CV_BACK_ICON";
         public const string CV_HR_PATH = "CV_HR";
         public const string CV_SETTINGS_SECTION_HEADER_PATH = "CV_SETTINGS_SECTION_HEADER";
-
+        public const string CV_TEXT_BOX_BACKGROUND_PATH = "CV_TEXT_BOX_BACKGROUND";
+        public const string CV_DAY_HOME_CONTAINER_PATH = "CV_DAY_HOME_CONTAINER";
+        public const string CV_SETTINGS_TEXT_PATH = "CV_SETTINGS_TEXT";
+        public const string CV_EXTRA_HEADER_ELLIPSE_PATH = "CV_EXTRA_HEADER_ELLIPSE";
+        
+        public abstract Color CV_EXTRA_HEADER_ELLIPSE { get; }
+        public abstract Color CV_SETTINGS_TEXT { get; }
+        public abstract Color CV_TEXT_BOX_BACKGROUND { get; }
         public abstract Color CV_ABSENCES_ABSENT { get; }
         public abstract Color CV_ABSENCES_PARTIALLY_ABSENT { get; }
         public abstract Color CV_ABSENCES_EARlY_EXIT { get; }
@@ -70,6 +85,7 @@ namespace ClasseVivaWPF.Utils.Themes
 
         public abstract Color CV_URI { get; }
         public abstract Color CV_HEADER { get; }
+        public abstract Color CV_GENERIC_HEADER_FONT { get; }
         public abstract Color CV_CALENDAR { get; }
         public abstract Color CV_BUTTON { get; }
         public abstract Color CV_GENERIC_RED { get; }
@@ -97,10 +113,16 @@ namespace ClasseVivaWPF.Utils.Themes
 
         public abstract Color CV_BACK_ICON { get; }
 
-        public abstract Color CV_DAY_UNSELECTED { get; }
-        public abstract Color CV_DAY_SELECTED { get; }
+        public abstract Color CV_DAY_TEXT_UNSELECTED { get; }
+        public abstract Color CV_DAY_TEXT_SELECTED { get; }
+        public abstract Color CV_DAY_BG_UNSELECTED { get; }
+        public abstract Color CV_DAY_BG_SELECTED { get; }
 
-        public abstract Color CV_GENERIC_FONT_COLOR { get; }
+        public abstract Color CV_DAY_HOME_CONTAINER { get; }
+
+        public abstract Color CV_GENERIC_FONT { get; }
+        public abstract Color CV_EXTRA_INTERACT_ICONS { get; }
 
     }
+    
 }

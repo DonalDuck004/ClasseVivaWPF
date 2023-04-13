@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
              xmlns:graphs="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Graphs"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:grades="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Loaded="OnLoad" Name="control"
@@ -30,7 +31,7 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
                       HorizontalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="wp">
+            <StackPanel x:Name="wp" Background="{themes:ThemeBinding Path=CVGenericRed}">
                 <Grid>
                     <Viewbox MouseLeftButtonDown="OnReload" Height="32" Width="32" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="22" Panel.ZIndex="1">
                         <Canvas Cursor="Hand" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
@@ -56,7 +57,7 @@
                             <Canvas.RenderTransform>
                                 <RotateTransform Angle="0" />
                             </Canvas.RenderTransform>
-                            <Ellipse Height="40" Width="40" Fill="{Binding Path=SectionsForeground}" Stroke="Black"></Ellipse>
+                            <Ellipse Height="40" Width="40" Fill="{themes:ThemeBinding Path=CVGenericBackground}" Stroke="Black"></Ellipse>
                             <Path Fill="Gray" Canvas.Top="4" Canvas.Left="4" Data="M 16 2.460938 C 13.339844 2.460938 10.859375 3.238281 8.761719 4.570312 L 5.933594 1.738281 L 5.933594 9.667969 L 13.863281 9.667969 L 10.714844 6.519531 C 12.28125 5.640625 14.078125 5.132812 16 5.132812 C 21.992188 5.132812 26.867188 10.007812 26.867188 16 C 26.867188 17.425781 26.582031 18.789062 26.078125 20.039062 L 28.410156 21.398438 C 29.136719 19.742188 29.539062 17.917969 29.539062 16 C 29.539062 8.535156 23.464844 2.460938 16 2.460938 Z M 16 2.460938 "></Path>
                             <Path Fill="Gray" Canvas.Top="4" Canvas.Left="4" Data="M 21.28125 25.476562 C 19.714844 26.355469 17.921875 26.867188 16 26.867188 C 10.007812 26.867188 5.132812 21.992188 5.132812 16 C 5.132812 14.652344 5.390625 13.367188 5.84375 12.175781 L 3.511719 10.769531 C 2.835938 12.382812 2.460938 14.148438 2.460938 16 C 2.460938 23.464844 8.535156 29.539062 16 29.539062 C 18.660156 29.539062 21.136719 28.757812 23.234375 27.425781 L 26.066406 30.261719 L 26.066406 22.332031 L 18.136719 22.332031 Z M 21.28125 25.476562 "></Path>
                         </Canvas>
@@ -69,7 +70,7 @@
                                 <Setter Property="FontWeight" Value="Bold"></Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <Border Margin="10,10,10,5" Background="{Binding Path=SectionsForeground}" CornerRadius="25">
+                        <Border Margin="10,10,10,5" Background="{themes:ThemeBinding Path=CVGenericBackground}" CornerRadius="25">
                             <StackPanel Style="{StaticResource ResourceKey=WaitForDataFetching}">
                                 <Grid Name="upper_grid">
                                     <Grid.RowDefinitions>
@@ -95,8 +96,8 @@
                                                                       Desc="Media Totale"
                                                                       Min="0" Max="10" 
                                                                       Value="NaN"
-                                                                      BackgroundColor="{Binding Path=PercentageBackground, ElementName=control}"
-                                                                      CenterColor="{Binding Path=SectionsForeground, ElementName=control}"
+                                                                      BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"
+                                                                      CenterColor="{themes:ThemeBinding Path=CVGenericBackground}"
                                                                       x:Name="AvgArc">
                                             </shared:CVProgressEllipse>
 
@@ -113,8 +114,8 @@
                                                         </Style>
                                                     </StackPanel.Resources>
                                                     <DockPanel x:Name="pps">
-                                                        <shared:CVProgressBar x:Name="sb_avg_1" Desc="Caricamento..." BackgroundColor="{Binding Path=PercentageBackground, ElementName=control}"/>
-                                                        <shared:CVProgressBar x:Name="sb_avg_2" Desc="Caricamento..." BackgroundColor="{Binding Path=PercentageBackground, ElementName=control}"/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_1" Desc="Caricamento..." BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_2" Desc="Caricamento..." BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
                                                     </DockPanel>
                                                 </StackPanel>
                                             </DockPanel>
@@ -127,7 +128,7 @@
                                             <WrapPanel Margin="4,4,0,0" Panel.ZIndex="2" Cursor="">
                                                 <Border
                                                     Cursor="Hand"
-                                                    Background="{Binding Path=SectionsForeground}"
+                                                    Background="{themes:ThemeBinding Path=CVGenericBackground}"
                                                     MouseLeftButtonDown="GraphSettingsClick"
                                                     Margin="{Binding Path=Margin, ElementName=Graph}"
                                                     VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -169,7 +170,7 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Canvas.Resources>
-                                                <Border CornerRadius="16" Background="{Binding Path=SectionsForeground}"
+                                                <Border CornerRadius="16" Background="{themes:ThemeBinding Path=CVGenericBackground}"
                                                         BorderThickness="0.3" BorderBrush="Black"
                                                         Canvas.Top="-68" Panel.ZIndex="1"
                                                         x:Name="GraphWrapper"
@@ -274,10 +275,10 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="#D05A50" Desc="Assenze"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="l" Grid.Column="1" RectColor="#EB9850" Desc="Ritardi"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="2" RectColor="#0080B8" Desc="Assenze Parziali"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="#DBB73B" Desc="Uscite"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="{themes:ThemeBinding Path=CVAbsencesAbsent, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Assenze"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="l" Grid.Column="1" RectColor="{themes:ThemeBinding Path=CVAbsencesLate, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Ritardi"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="2" RectColor="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Assenze Parziali"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="{themes:ThemeBinding Path=CVAbsencesEarlyExit, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Uscite"></local:CVRegistryAbsence>
                                         </Grid>
                                     </StackPanel>
                                 </Grid>

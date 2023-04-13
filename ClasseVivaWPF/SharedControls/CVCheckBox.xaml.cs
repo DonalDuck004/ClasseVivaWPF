@@ -74,14 +74,10 @@ namespace ClasseVivaWPF.SharedControls
 
         public void Uncheck()
         {
-            this.CHBackground.SetThemeBinding(Border.BackgroundProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_UNSELECTED_PATH);
-            this.Ellipse.SetThemeBinding(Ellipse.FillProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_UNSELECTED_PATH);
             base.SetValue(IsCheckedProperty, false);
         }
         public void Check()
         {
-            this.CHBackground.SetThemeBinding(Border.BackgroundProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED_PATH);
-            this.Ellipse.SetThemeBinding(Ellipse.FillProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_SELECTED_PATH);
             base.SetValue(IsCheckedProperty, true);
         }
 

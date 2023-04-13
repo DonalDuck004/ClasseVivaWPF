@@ -3,6 +3,7 @@ using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using QRCoder;
 using QRCoder.Xaml;
 using System;
@@ -36,11 +37,12 @@ namespace ClasseVivaWPF.HomeControls.BadgeSection
             var x = new QRCodeGenerator();
             var qr = x.CreateQrCode("Test", QRCodeGenerator.ECCLevel.L);
 
+            this.UpdateHighlight(0);
+
             this.QR.Background = new ImageBrush(new XamlQRCode(qr).GetGraphic(32))
             {
                 Stretch = Stretch.Uniform,
             };
-
             this.BR.Text = "*" + SessionHandler.Me!.Id.ToString() + "*";
 
             this.Scroller.SizeChanged += (s, e) => {
@@ -94,8 +96,8 @@ namespace ClasseVivaWPF.HomeControls.BadgeSection
         
         private void UpdateHighlight(int idx)
         {
-            ((Label)labels.Children[idx]).Foreground = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xFF, 0xFF));
-            ((Label)labels.Children[++idx % 2]).Foreground = new SolidColorBrush(Color.FromArgb(0xAF, 0x17, 0x17, 0x17));
+            ((Label)labels.Children[idx]).SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
+            ((Label)labels.Children[++idx % 2]).SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

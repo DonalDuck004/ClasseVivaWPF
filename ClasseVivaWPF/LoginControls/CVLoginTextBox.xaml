@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.LoginControls"
              mc:Ignorable="d"
-             d:DesignHeight="70" d:DesignWidth="800" Background="White">
+             d:DesignHeight="70" d:DesignWidth="800" Background="{themes:ThemeBinding Path=CVGenericBackground}">
     <UserControl.Resources>
         <Storyboard x:Name="show_popup" x:Key="show_popup">
             <DoubleAnimation From="0" To="1" Duration="0:0:0.4" Storyboard.TargetProperty="Opacity"></DoubleAnimation>
@@ -19,18 +20,18 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label x:Name="top_lbl" Content="{Binding Path=PlaceHolder}" Grid.Row="0" FontSize="14" Height="32" HorizontalAlignment="Left" Margin="-5,0,0,0">
+        <Label x:Name="top_lbl" Panel.ZIndex="1" Content="{Binding Path=PlaceHolder}" Grid.Row="0" FontSize="14" Height="32" HorizontalAlignment="Left" Margin="-5,0,0,0">
             <Label.Style>
                 <Style TargetType="Label">
-                    <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
+                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Text, ElementName=Input}" Value="">
+                        <DataTrigger Binding="{Binding Path=Text, ElementName=Input}" Value="">
                             <Setter Property="Foreground" Value="Black"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsFocused, ElementName=Input}" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource ResourceKey=CV_RED}"></Setter>
+                        <DataTrigger Binding="{Binding Path=IsFocused, ElementName=Input}" Value="True">
+                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Visibility, ElementName=placeholder_txt}" Value="Visible">
+                        <DataTrigger Binding="{Binding Path=Visibility, ElementName=placeholder_txt}" Value="Visible">
                             <Setter Property="Visibility" Value="Visible"></Setter>
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard x:Name="hide_animation_wp">
@@ -44,7 +45,7 @@
                                 <RemoveStoryboard BeginStoryboardName="hide_animation_wp"/>
                             </DataTrigger.ExitActions>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Visibility, ElementName=placeholder_txt}" Value="Hidden">
+                        <DataTrigger Binding="{Binding Path=Visibility, ElementName=placeholder_txt}" Value="Hidden">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard x:Name="show_animation_wp">
                                     <Storyboard>
@@ -61,25 +62,26 @@
                 </Style>
             </Label.Style>
         </Label>
-        <Label Content="{Binding Path=PlaceHolder}" Grid.Row="1" VerticalContentAlignment="Center" Name="placeholder_txt" HorizontalAlignment="Left">
+        <Label Content="{Binding Path=PlaceHolder}" Grid.Row="1" VerticalContentAlignment="Center" Name="placeholder_txt" HorizontalAlignment="Left" Width="{Binding Path=ActualWidth, ElementName=Input}" Background="{themes:ThemeBinding Path=CVTextBoxBackground}" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
             <Label.Style>
                 <Style TargetType="Label">
                     <Setter Property="Visibility" Value="Hidden"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Text, ElementName=Input}" Value="">
+                        <DataTrigger Binding="{Binding Path=Text, ElementName=Input}" Value="">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Label.Style>
         </Label>
-        <TextBox x:Name="Input" CaretBrush="{StaticResource ResourceKey=CV_RED}" BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" SelectionBrush="{StaticResource ResourceKey=CV_RED}" TextChanged="Input_TextChanged">
+        <TextBox x:Name="Input" CaretBrush="{themes:ThemeBinding Path=CVGenericRed}"  BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" TextChanged="Input_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
-                    <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=CV_RED}"/>
+                    <Setter Property="BorderBrush" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
+                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"/>
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
+                            <ControlTemplate TargetType="TextBox">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                                     <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                                 </Border>
@@ -88,7 +90,7 @@
                                         <Setter Property="BorderBrush" Value="Black"/>
                                     </Trigger>
                                     <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="{StaticResource ResourceKey=CV_RED}"/>
+                                        <Setter Property="BorderBrush" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -97,10 +99,10 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Rectangle Width="12" Height="12" Fill="{StaticResource ResourceKey=CV_RED}" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,4,0" Visibility="Hidden" x:Name="warn_symbol"></Rectangle>
+        <Rectangle Width="12" Height="12" Fill="{themes:ThemeBinding Path=CVGenericRed}" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,4,0" Visibility="Hidden" x:Name="warn_symbol"></Rectangle>
         <StackPanel Width="90" Height="30" HorizontalAlignment="Right" Grid.Row="2" Visibility="Hidden" x:Name="warn_box">
             <Canvas>
-                <Path Fill="{StaticResource ResourceKey=CV_RED}">
+                <Path Fill="{themes:ThemeBinding Path=CVGenericRed}">
                     <Path.Data>
                         <PathGeometry>
                             <PathGeometry.Figures>

@@ -13,6 +13,7 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_MAIN_MENU_ICON_SELECTED { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_MAIN_MENU_ICON_UNSELECTED { get; } = Color.FromArgb(0xFF, 0x80, 0x80, 0x80);
         public override Color CV_GENERIC_RED { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
+        public override Color CV_TEXT_BOX_BACKGROUND { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
         public override Color CV_CALENDAR { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_BUTTON { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_HEADER { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
@@ -40,8 +41,15 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_BACK_ICON { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
         public override Color CV_SETTINGS_SECTION_HEADER { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_HR { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
-        public override Color CV_DAY_UNSELECTED { get; } = Color.FromArgb(0xFF, 0x6E, 0x6E, 0x6E);
-        public override Color CV_DAY_SELECTED { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
-        public override Color CV_GENERIC_FONT_COLOR { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
+        public override Color CV_DAY_TEXT_UNSELECTED { get; } = Color.FromArgb(0xFF, 0x6E, 0x6E, 0x6E);
+        public override Color CV_DAY_TEXT_SELECTED { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_DAY_BG_UNSELECTED { get; } = Color.FromArgb(0x00, 0x00, 0x00, 0x00);
+        public override Color CV_DAY_BG_SELECTED { get; } = Color.FromArgb(0xFF, 0x6A, 0x96, 0xAE);
+        public override Color CV_GENERIC_FONT { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
+        public override Color CV_GENERIC_HEADER_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_DAY_HOME_CONTAINER { get; } = Color.FromArgb(0xFF, 0xF0, 0xF0, 0xF0);
+        public override Color CV_SETTINGS_TEXT { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
+        public override Color CV_EXTRA_HEADER_ELLIPSE { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_EXTRA_INTERACT_ICONS { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
     }
 }

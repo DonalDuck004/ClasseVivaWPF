@@ -14,23 +14,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// </summary>
     public partial class CVCalendar : UserControl
     {
-        public static DependencyProperty MainColorBrushProperty;
-
-        public SolidColorBrush MainColorBrush
-        {
-            get => (SolidColorBrush)this.GetValue(MainColorBrushProperty);
-            set => this.SetValue(MainColorBrushProperty, value);
-        }
-
-        static CVCalendar()
-        {
-            MainColorBrushProperty = DependencyProperty.Register("MainColorBrush", typeof(SolidColorBrush), typeof(CVCalendar), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
-        }
-
         public CVCalendar(string theme_path = BaseTheme.CV_CALENDAR_PATH)
         {
             this.DataContext = this;
-            this.SetThemeBinding(CVCalendar.MainColorBrushProperty, theme_path);
             InitializeComponent();
             SetToday();
         }

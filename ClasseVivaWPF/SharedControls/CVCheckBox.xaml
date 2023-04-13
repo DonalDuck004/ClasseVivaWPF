@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              mc:Ignorable="d" MouseLeftButtonDown="OnClick" Cursor="Hand"
@@ -35,10 +36,32 @@
         <Grid Width="112" Height="48">
             <Canvas Panel.ZIndex="1">
                 <Canvas Width="48" Height="48" Style="{StaticResource ResourceKey=Point}" Canvas.Left="0" Name="Point">
-                    <Ellipse Name="Ellipse" StrokeThickness="0.2" Stroke="Gray" Width="48" Height="48"></Ellipse>
+                    <Ellipse Name="Ellipse" StrokeThickness="0.2" Stroke="Gray" Width="48" Height="48">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Fill" Value="{themes:ThemeBinding Path=CVCheckBoxEllipseUnselected}"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked}" Value="True">
+                                        <Setter Property="Fill" Value="{themes:ThemeBinding Path=CVCheckBoxEllipseSelected}"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
                 </Canvas>
             </Canvas>
-            <Border CornerRadius="18" Margin="8,4,8,4" Opacity="0.2" Name="CHBackground"></Border>
+            <Border CornerRadius="18" Margin="8,4,8,4" Opacity="0.2" Name="CHBackground">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVCheckBoxEllipseBackgroundUnselected}"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsChecked}" Value="True">
+                                <Setter Property="Background" Value="{themes:ThemeBinding Path=CVCheckBoxEllipseBackgroundSelected}"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
         </Grid>
     </Viewbox>
 </UserControl>

@@ -5,24 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Loaded="OnLoad"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{StaticResource ResourceKey=CV_RED}">
+    <Grid Background="{themes:ThemeBinding Path=CVGenericRed}">
         <Grid.RowDefinitions>
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
+        <DockPanel Grid.Row="0" Panel.ZIndex="1">
             <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
-                <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
+                <ContentControl Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </DockPanel>
-        <DockPanel x:Name="wp" Margin="0,3,0,3" Grid.Row="0">
-            <Grid x:Name="h_grid">
+        <DockPanel x:Name="wp" Grid.Row="0" Background="{themes:ThemeBinding Path=CVHeader}">
+            <Grid x:Name="h_grid" DockPanel.Dock="Top">
                 <Grid.Resources>
                     <Style TargetType="local:CVExtraHeader">
                         <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=wp, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=6}"></Setter>
+                        <Setter Property="Margin" Value="0,3,0,3"></Setter>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -37,14 +40,14 @@
                 <local:CVExtraHeader HeaderText="Salvati" Grid.Column="3"></local:CVExtraHeader>
             </Grid>
         </DockPanel>
+        <Rectangle Grid.Row="1" Fill="Black" Opacity="0.2" Height="1" VerticalAlignment="Bottom" DockPanel.Dock="Top"></Rectangle>
         <ScrollViewer 
-            Grid.Row="1"
+            Grid.Row="2"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Hidden"
             shared:CVScollerView.IsEnabled="True"
             shared:CVScollerView.CatchWidthProperty="False"
-            Name="content_wp"
-            Background="Transparent">
+            Name="content_wp">
             <ScrollViewer.Resources>
                 <Style TargetType="Grid">
                     <Setter Property="HorizontalAlignment" Value="Center"></Setter>

@@ -20,8 +20,8 @@
             </Grid.ColumnDefinitions>
             <Label Content="{Binding Path=Title}" FontSize="20" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"></Label>
             <Label Content="{Binding Path=Description}" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Top"></Label>
-            <Button Content="Chiudi" Grid.Row="2" Grid.Column="0" Width="120" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="Button_Click"></Button>
-            <Button Content="Aiuto" Grid.Row="2" Grid.Column="1" Width="120" HorizontalAlignment="Left" Height="30" Margin="80,0,0,0" VerticalAlignment="Top" Click="Button_Click_1"></Button>
+            <local:CVButton Content="Chiudi" Grid.Row="2" Grid.Column="0" Width="120" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="Button_Click"></local:CVButton>
+            <local:CVButton Content="Aiuto" Grid.Row="2" Grid.Column="1" Width="120" HorizontalAlignment="Left" Height="30" Margin="80,0,0,0" VerticalAlignment="Top" Click="Button_Click_1"></local:CVButton>
         </Grid>
     </DockPanel>
 </UserControl>
