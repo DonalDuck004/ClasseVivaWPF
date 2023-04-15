@@ -1,4 +1,5 @@
-﻿using ClasseVivaWPF.Utils;
+﻿using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Diagnostics;
@@ -12,9 +13,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// <summary>
     /// Logica di interazione per CVCalendar.xaml
     /// </summary>
-    public partial class CVCalendar : UserControl
+    public partial class CVCalendar : Injectable
     {
-        public CVCalendar()
+        public CVCalendar() : base()
         {
             this.DataContext = this;
             InitializeComponent();
@@ -49,16 +50,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             Debug.Assert(!week.Destroyed);
             week.SelectChild(date.DayOfWeek);
             this.Close();
-        }
-
-        public void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
         }
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

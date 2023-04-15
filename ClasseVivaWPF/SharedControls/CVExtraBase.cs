@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.HomeControls.MenuSection;
+using ClasseVivaWPF.Utils;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace ClasseVivaWPF.SharedControls
 {
-    public class CVExtraBase : UserControl
+    public class CVExtraBase : Injectable
     {
         protected static DependencyProperty CounterProperty;
         protected static DependencyProperty SavedProperty;
@@ -32,13 +33,13 @@ namespace ClasseVivaWPF.SharedControls
         }
 
 #if DEBUG
-        protected CVExtraBase()
+        protected CVExtraBase() : base()
         {
 
         }
 #endif
 
-        public CVExtraBase(int ID)
+        public CVExtraBase(int ID) : base()
         {
             this.ID = ID;
             new Task(async () => await Client.INSTANCE.SetInteraction(ID, Interaction.REACTION_CLICK)).Start();
@@ -155,15 +156,5 @@ namespace ClasseVivaWPF.SharedControls
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
-
-        public virtual void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
     }
 }

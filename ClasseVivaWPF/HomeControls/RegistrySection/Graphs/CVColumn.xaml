@@ -4,6 +4,7 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                          xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Graphs"
+                         xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
                          xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
                          mc:Ignorable="d" 
                          d:DesignHeight="450" d:DesignWidth="800">
@@ -19,7 +20,7 @@
             HorizontalAlignment="Center"
             FontWeight="DemiBold"
             Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=''}"
-            Foreground="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}"></TextBlock>
+            Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
         <Rectangle Grid.Row="1" Fill="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}">
             <Rectangle.ToolTip>
                 <ToolTip>

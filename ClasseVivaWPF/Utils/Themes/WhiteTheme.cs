@@ -54,6 +54,9 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_SETTINGS_TEXT { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
         public override Color CV_EXTRA_HEADER_ELLIPSE { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
         public override Color CV_EXTRA_INTERACT_ICONS { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_GRADE_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_GRADE_GRV2 { get; } = Color.FromArgb(0xFF, 0xC3, 0x7F, 0X45);
+        public override Color CV_ABSENCES_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
 
         public WhiteTheme() : base()
         {

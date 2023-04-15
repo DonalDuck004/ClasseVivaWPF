@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -121,6 +122,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
                 any_added = false;
 
                 header = new() { Text = column!.Desc };
+                header.SetThemeBinding(TextBlock.ForegroundProperty, BaseTheme.CV_GENERIC_FONT_PATH);
                 this.Grid.Children.Add(header);
                 Grid.SetRow(header, 1);
                 Grid.SetColumn(header, c++);
@@ -138,6 +140,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
                 this.Grid.ColumnDefinitions.Add(new());
 
                 header = new() { Text = column };
+                header.SetThemeBinding(TextBlock.ForegroundProperty, BaseTheme.CV_GENERIC_FONT_PATH);
                 this.Grid.Children.Add(header);
                 Grid.SetRow(header, 1);
                 Grid.SetColumn(header, c++);

@@ -13,7 +13,6 @@ namespace ClasseVivaWPF.Utils.Themes
      * [{"name": ..., "theme": {}}]
      * In db:
      * Themes(ID, name, theme)
-     * 
      */
     public abstract class BaseTheme
     {
@@ -80,6 +79,9 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_DAY_HOME_CONTAINER_PATH = "CV_DAY_HOME_CONTAINER";
         public const string CV_SETTINGS_TEXT_PATH = "CV_SETTINGS_TEXT";
         public const string CV_EXTRA_HEADER_ELLIPSE_PATH = "CV_EXTRA_HEADER_ELLIPSE";
+        public const string CV_GRADE_FONT_PATH = "CV_GRADE_FONT";
+        public const string CV_GRADE_GRV2_PATH = "CV_GRADE_GRV2";
+        public const string CV_ABSENCES_FONT_PATH = "CV_ABSENCES_FONT";
         
         public abstract Color CV_EXTRA_HEADER_ELLIPSE { get; }
         public abstract Color CV_SETTINGS_TEXT { get; }
@@ -141,6 +143,9 @@ namespace ClasseVivaWPF.Utils.Themes
 
         public abstract Color CV_GENERIC_FONT { get; }
         public abstract Color CV_EXTRA_INTERACT_ICONS { get; }
+        public abstract Color CV_GRADE_FONT { get; }
+        public abstract Color CV_GRADE_GRV2 { get; }
+        public abstract Color CV_ABSENCES_FONT { get; }
 
         public BaseTheme(bool reg = true)
         {

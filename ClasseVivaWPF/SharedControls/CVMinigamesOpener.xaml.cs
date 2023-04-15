@@ -2,10 +2,7 @@
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using Microsoft.Web.WebView2.Core;
-using Microsoft.Web.WebView2.Wpf;
-using Newtonsoft.Json;
 using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,49 +10,8 @@ using System.Windows.Input;
 
 namespace ClasseVivaWPF.SharedControls
 {
-    /// <summary>
-    /// Logica di interazione per CVWebView.xaml
-    /// </summary>
-    /// 
 
-    [ClassInterface(ClassInterfaceType.AutoDual)]
-    [ComVisible(true)]
-    public class CVJsHelper
-    {
-        // This was veryyyyy funny to emulate :)
-        public const string NAME = "cvv";
-
-        public class CVJSCredentials
-        {
-            public required string token;
-            public required string playerId;
-        }
-
-        private WebView2 provvider;
-
-        public CVJsHelper(WebView2 provvider)
-        {
-            this.provvider = provvider;
-            this.provvider.ExecuteScriptAsync("globalThis.cvv = chrome.webview.hostObjects.cvv");
-        }
-
-        public void refreshToken()
-        {
-            var c = Client.INSTANCE.GetMinigameCredentials().Result;
-
-            var obj = new CVJSCredentials()
-            {
-                token = c.MinigameToken,
-                playerId = c.For
-            };
-
-            var js_obj = JsonConvert.SerializeObject(obj)!;
-
-            this.provvider.ExecuteScriptAsync($"globalThis.nsgame.setApiCredentials({js_obj})");
-        }
-    }
-
-    public partial class CVMinigamesOpener : UserControl, ICloseRequested
+    public partial class CVMinigamesOpener : Injectable, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 
@@ -65,14 +21,13 @@ namespace ClasseVivaWPF.SharedControls
         }
 
 #if DEBUG
-        private CVMinigamesOpener() // For vs editor
+        private CVMinigamesOpener() : base() // For vs editor
         {
             InitializeComponent();
-            this.DataContext = this;
         }
 #endif
 
-        public CVMinigamesOpener(Content content)
+        public CVMinigamesOpener(Content content) : base()
         {
             InitializeComponent();
             var Options = new CoreWebView2EnvironmentOptions();
@@ -116,15 +71,5 @@ namespace ClasseVivaWPF.SharedControls
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
-
-        public virtual void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
     }
 }

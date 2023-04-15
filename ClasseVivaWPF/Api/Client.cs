@@ -81,8 +81,17 @@ namespace ClasseVivaWPF.Api
 
 
             var message = BuildMessage(method, path, data, cached_etag, cached_date);
-            var raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
-
+            HttpResponseMessage raw_response;
+            try
+            {
+                raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
+            }catch (TaskCanceledException e) {
+                throw new ApiError(e);
+            }
+            catch (HttpRequestException e)
+            {
+                throw new ApiError(e);
+            }
             // DumpMsg(response);
             Response response;
 
@@ -127,7 +136,7 @@ namespace ClasseVivaWPF.Api
             MessageBox.Show(msg);
         }
 
-        public async Task<Me> Login(string uid, string pass, string? ident = null)
+        public async Task<ApiObject> Login(string uid, string pass, string? ident = null)
         {
             var req = new JObject()
             {
@@ -137,11 +146,19 @@ namespace ClasseVivaWPF.Api
             };
 
             var response = await this.Send(HttpMethod.Post, "rest/v1/auth/login", req, allow_cache: false).ConfigureAwait(false);
-            var me = response.GetObject<Me>();
-            if (me is null)
+            ApiObject? result;
+            try
+            {
+                result = response.GetObject<Me>();
+            }catch (JsonSerializationException)
+            {
+                result = response.GetObject<LoginMultipleChoice>();
+            }
+
+            if (result is null)
                 response.GetError();
 
-            return me!;
+            return result!;
         }
         public void UnSetLoginToken()
         {

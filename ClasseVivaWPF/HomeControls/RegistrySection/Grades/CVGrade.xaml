@@ -4,6 +4,7 @@
                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                    xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
+                   xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
                    mc:Ignorable="d" MaxWidth="512"
                    d:DesignHeight="200" d:DesignWidth="800">
     <Grid x:Name="WP" VerticalAlignment="Center" Margin="5,2,0,0">
@@ -13,9 +14,9 @@
         </Grid.ColumnDefinitions>
 
         <Border VerticalAlignment="Top" Background="{Binding Path=EllipseColor}" Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="100">
-            <TextBlock Text="{Binding Path=Grade.DisplayValue}" Foreground="White" FontSize="24" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <Label Content="{Binding Path=Grade.DisplayValue}" Foreground="{themes:ThemeBinding Path=CVGradeFont}" FontSize="24" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
         </Border>
-        <Grid Grid.Column="1" Margin="16,0,0,0">
+        <Grid Grid.Column="1" Margin="16,0,0,0" x:Name="Grid">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"></Setter>
@@ -26,15 +27,17 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Path=Grade.SubjectDesc}" FontWeight="Regular"></TextBlock>
-            <TextBlock Grid.Row="1" Foreground="#6E6E6E">
+            <TextBlock Grid.Row="1" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
                 <Run Text="{Binding Path=Grade.EvtDate, Converter={StaticResource ResourceKey=DateTimeConverter}, ConverterParameter=dd MMMM yyyy -}"></Run>
                 <Run Text="{Binding Path=Grade.ComponentDesc}"></Run>
                 <Run Text="-"></Run>
                 <Run Text="{Binding Path=Grade.PeriodDesc}"></Run>
             </TextBlock>
-            <TextBlock Grid.Row="2" Text="{Binding Path=Grade.NotesForFamily}" Foreground="#6E6E6E"></TextBlock>
+            <TextBlock Grid.Row="2" Text="{Binding Path=Grade.OldskillDesc}" Name="OldSkill" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+            <TextBlock Grid.Row="3" Text="{Binding Path=Grade.NotesForFamily}" Name="Notes" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
         </Grid>
     </Grid>
 </local:CVGradeBase>

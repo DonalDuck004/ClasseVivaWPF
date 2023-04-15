@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,7 +14,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Path=Desc}" Name="Header" FontSize="16"></TextBlock>
+        <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=Desc}" Name="Header" FontSize="16"></TextBlock>
         <Grid Grid.Row="1">
             <Canvas Height="18" Name="c" Width="{Binding Path=ActualWidth, ElementName=g}">
                 <Rectangle x:Name="to"
@@ -34,7 +35,7 @@
                     </Rectangle.Width>
                 </Rectangle>
             </Canvas>
-            <TextBlock Foreground="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
 
     </Grid>

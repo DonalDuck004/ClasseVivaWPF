@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ClasseVivaWPF.Utils;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ClasseVivaWPF.SharedControls
@@ -6,7 +7,7 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVMessageBox.xaml
     /// </summary>
-    public partial class CVMessageBox : UserControl
+    public partial class CVMessageBox : Injectable
     {
         private static DependencyProperty TitleProperty;
         private static DependencyProperty DescriptionProperty;
@@ -17,7 +18,7 @@ namespace ClasseVivaWPF.SharedControls
             DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(CVMessageBox));
         }
 
-        public CVMessageBox(string title, string description)
+        public CVMessageBox(string title, string description) : base()
         {
             InitializeComponent();
             this.DataContext = this;
@@ -36,16 +37,8 @@ namespace ClasseVivaWPF.SharedControls
             set => base.SetValue(DescriptionProperty, value);
         }
 
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-
-        }
+        private void Button_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

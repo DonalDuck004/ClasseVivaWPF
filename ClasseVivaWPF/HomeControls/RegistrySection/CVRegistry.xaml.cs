@@ -305,17 +305,25 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             if (ReloadLock.CurrentCount == 0)
                 return;
 
-            await ReloadLock.WaitAsync();
-            this.DataFetched = false;
-
-            _CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
-            _CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
-            _CachedAbsences = (await Client.INSTANCE.GetAbsences()).ContentEvents;
-
-            this.DataFetched = true;
-
             try
             {
+                await ReloadLock.WaitAsync();
+                this.DataFetched = false;
+
+                try
+                {
+                    _CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
+                    _CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
+                    _CachedAbsences = (await Client.INSTANCE.GetAbsences()).ContentEvents;
+                }catch(ApiError e)
+                {
+                    this.DataFetched = true;
+                    e.ApplyStdProcedure();
+                    return;
+                }
+
+                this.DataFetched = true;
+
                 this.UpdateControls();
             }
             finally
@@ -392,7 +400,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
         private void OpenGradesViewer(object sender, MouseButtonEventArgs e)
         {
-            if (this.CachedGrades.Length == 0 || this.FirstPeriodName is null || this.LastPeriodCB is null)
+            if (this.CachedGrades is null || this.CachedGrades.Length == 0 || this.FirstPeriodName is null || this.LastPeriodCB is null)
             {
                 new CVMessageBox("Errore!", "Impossibile aprire questa schermata, poichè al momento non hai valutazioni o perchè è in corso il caricamento").Inject();
                 return;

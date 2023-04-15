@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,30 +14,24 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClasseVivaWPF.Api.Types;
 
-namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
+namespace ClasseVivaWPF.LoginControls
 {
     /// <summary>
-    /// Logica di interazione per CVGrade.xaml
+    /// Logica di interazione per CVLoginAccountOption.xaml
     /// </summary>
-    public partial class CVGrade : CVGradeBase
+    public partial class CVLoginAccountOption : UserControl
     {
         // For vs
-        private CVGrade() : base()
+        public CVLoginAccountOption()
         {
             InitializeComponent();
         }
 
-        public CVGrade(Grade grade) : base(grade)
+        public CVLoginAccountOption(LoginChoice Choice)
         {
             InitializeComponent();
-            Debug.Assert(grade.EvtCode != Grade.GRADE_GRADE_UNKNOW2);
 
-            if (grade.OldskillDesc == "")
-            {
-                this.Grid.Children.Remove(this.OldSkill);
-                this.Grid.RowDefinitions.RemoveAt(3);
-                Grid.SetRow(Notes, 2);
-            }
+            this.DataContext = Choice;
         }
     }
 }

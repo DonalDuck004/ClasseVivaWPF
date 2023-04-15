@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ClasseVivaWPF.Api.Types;
+using Newtonsoft.Json;
 
 namespace ClasseVivaWPF.Api.Types
 {

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace ClasseVivaWPF.Utils.Themes
@@ -52,7 +53,27 @@ namespace ClasseVivaWPF.Utils.Themes
         public static readonly DependencyProperty CVGenericFontProperty;
         public static readonly DependencyProperty CVSettingsTextProperty;
         public static readonly DependencyProperty CVExtraHeaderEllipseProperty;
-        
+        public static readonly DependencyProperty CVGradeFontProperty;
+        public static readonly DependencyProperty CVGradeGRV2Property;
+        public static readonly DependencyProperty CVAbsencesFontProperty;
+
+        public SolidColorBrush CVAbsencesFont
+        {
+            get => (SolidColorBrush)GetValue(CVAbsencesFontProperty);
+            set => SetValue(CVAbsencesFontProperty, value);
+        }
+        public SolidColorBrush CVGradeFont
+        {
+            get => (SolidColorBrush)GetValue(CVGradeFontProperty);
+            set => SetValue(CVGradeFontProperty, value);
+        }
+
+        public SolidColorBrush CVGradeGRV2
+        {
+            get => (SolidColorBrush)GetValue(CVGradeGRV2Property);
+            set => SetValue(CVGradeGRV2Property, value);
+        }
+
         public SolidColorBrush CVExtraInteractIcons
         {
             get => (SolidColorBrush)GetValue(CVExtraInteractIconsProperty);
@@ -371,7 +392,10 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.CVSettingsTextProperty = DependencyProperty.Register("CVSettingsText", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVExtraHeaderEllipseProperty = DependencyProperty.Register("CVExtraHeaderEllipse", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVExtraInteractIconsProperty = DependencyProperty.Register("CVExtraInteractIcons", typeof(SolidColorBrush), typeof(ThemeProperties));
-            
+            ThemeProperties.CVGradeFontProperty = DependencyProperty.Register("CVGradeFont", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVGradeGRV2Property = DependencyProperty.Register("CVGradeGRV2", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAbsencesFontProperty = DependencyProperty.Register("CVAbsencesFont", typeof(SolidColorBrush), typeof(ThemeProperties));
+
             ThemeProperties.INSTANCE = new();
         }
 
@@ -423,6 +447,9 @@ namespace ClasseVivaWPF.Utils.Themes
             this.SetThemeBinding(ThemeProperties.CVGenericHeaderFontProperty, BaseTheme.CV_GENERIC_HEADER_FONT_PATH);
             this.SetThemeBinding(ThemeProperties.CVDayHomeContainerProperty, BaseTheme.CV_DAY_HOME_CONTAINER_PATH);
             this.SetThemeBinding(ThemeProperties.CVSettingsTextProperty, BaseTheme.CV_SETTINGS_TEXT_PATH);
+            this.SetThemeBinding(ThemeProperties.CVGradeFontProperty, BaseTheme.CV_GRADE_FONT_PATH);
+            this.SetThemeBinding(ThemeProperties.CVGradeGRV2Property, BaseTheme.CV_GRADE_GRV2_PATH);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesFontProperty, BaseTheme.CV_ABSENCES_FONT_PATH);
         }
     }
 }

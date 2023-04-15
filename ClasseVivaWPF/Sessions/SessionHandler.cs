@@ -3,6 +3,7 @@ using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ClasseVivaWPF.Sessions
@@ -81,9 +82,16 @@ namespace ClasseVivaWPF.Sessions
             return false;
         }
 
-        public static SessionHandler InitConn(int user_id)
+        public static bool ExistsSessionFor(string ident)
         {
-            return INSTANCE = new(Path.Join(Config.SESSIONS_DIR_PATH, user_id.ToString()));
+            var FileName = Path.Join(Config.SESSIONS_DIR_PATH, ident) + ".db";
+
+            return File.Exists(FileName);
+        }
+
+        public static SessionHandler InitConn(string ident)
+        {
+            return INSTANCE = new(Path.Join(Config.SESSIONS_DIR_PATH, ident));
         }
 
         public void LoadSchema()
@@ -179,7 +187,7 @@ namespace ClasseVivaWPF.Sessions
 
         public (string, string, string) GetTokenRenewStuffs()
         {
-            var sql = "SELECT ident, pass, uid FROM Session";
+            var sql = "SELECT pass, uid FROM Session";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             var row = cur.ExecuteReader();
@@ -188,14 +196,14 @@ namespace ClasseVivaWPF.Sessions
             return (row.GetString(0), row.GetString(1), row.GetString(2));
         }
 
-        public void SetMe(Me me, string uid, string pass)
+        public void SetMe(Me me, string uid, string pass, bool just_register = false)
         {
             var sql = "DELETE FROM Session";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
 
-            sql = "INSERT INTO Session(ident, firstName, lastName, showPwdChangeReminder, token, release, expire, uid, pass) VALUES($ident, $firstName, $lastName, $showPwdChangeReminder, $token, $release, $expire, $uid, $pass)";
+            sql = "INSERT OR REPLACE INTO Session(ident, firstName, lastName, showPwdChangeReminder, token, release, expire, uid, pass) VALUES($ident, $firstName, $lastName, $showPwdChangeReminder, $token, $release, $expire, $uid, $pass)";
             cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             cur.Parameters.AddWithValue("$ident", me.Ident);
@@ -209,11 +217,14 @@ namespace ClasseVivaWPF.Sessions
             cur.Parameters.AddWithValue("$pass", pass);
             cur.ExecuteNonQuery();
 
-            SessionHandler.Me = me;
+            if (just_register is false)
+            {
+                SessionHandler.Me = me;
 
-            var sw = new StreamWriter(Path.Join(Config.SESSIONS_DIR_PATH, "Last"), false);
-            sw.WriteLine(me.Id.ToString());
-            sw.Close();
+                var sw = new StreamWriter(Path.Join(Config.SESSIONS_DIR_PATH, "Last"), false);
+                sw.Write(me.Ident);
+                sw.Close();
+            }
         }
 
         public void RenewToken(DateTime? expire = null)
@@ -224,7 +235,8 @@ namespace ClasseVivaWPF.Sessions
 
                 (var ident, var pass, var uid) = this.GetTokenRenewStuffs();
                 var me = Client.INSTANCE.Login(ident: ident, pass: pass, uid: uid).ConfigureAwait(false).GetAwaiter().GetResult();
-                this.SetMe(me, uid, pass);
+                // An ident maybe an email and have multiple accounts attached
+                this.SetMe((Me)me, uid, pass);
             }
         }
 

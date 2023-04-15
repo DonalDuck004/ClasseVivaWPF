@@ -15,7 +15,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVSettings.xaml
     /// </summary>
-    public partial class CVSettings : UserControl, ICloseRequested, ICVMeta
+    public partial class CVSettings : Injectable, ICloseRequested, ICVMeta
     {
         public bool CountsInStack { get; } = false;
        
@@ -29,7 +29,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName
         };
 
-        public CVSettings()
+        public CVSettings() : base()
         {
             InitializeComponent();
 
@@ -65,16 +65,6 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
-
-        public virtual void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
 
         private void OpenRepo(object sender, MouseButtonEventArgs e)
         {

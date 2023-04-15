@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -22,7 +23,7 @@
                FontWeight="SemiBold"
                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}"
                Background="{Binding Path=RectColor, Converter={StaticResource ResourceKey=ToBrushConverter}}"
-               Foreground="White"
+               Foreground="{themes:ThemeBinding Path=CVAbsencesFont}"
                Content="{Binding Path=Count}" 
                VerticalContentAlignment="Center"
                HorizontalContentAlignment="Center"/>

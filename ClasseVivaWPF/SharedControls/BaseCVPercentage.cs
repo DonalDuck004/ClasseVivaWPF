@@ -14,7 +14,6 @@ namespace ClasseVivaWPF.SharedControls
     {
         public static readonly DependencyProperty DescProperty;
         public static readonly DependencyProperty BackgroundColorProperty;
-        public static readonly DependencyProperty FontColorProperty;
         public static readonly DependencyProperty PercentageColorProperty;
         public static readonly DependencyProperty MaxProperty;
         public static readonly DependencyProperty MinProperty;
@@ -31,12 +30,6 @@ namespace ClasseVivaWPF.SharedControls
         {
             get => (SolidColorBrush)GetValue(BackgroundColorProperty);
             set => SetValue(BackgroundColorProperty, value);
-        }
-
-        public virtual Color FontColor
-        {
-            get => (Color)GetValue(FontColorProperty);
-            set => SetValue(FontColorProperty, value);
         }
 
         public virtual Color PercentageColor
@@ -64,7 +57,6 @@ namespace ClasseVivaWPF.SharedControls
 
         static BaseCVPercentage()
         {
-            FontColorProperty = DependencyProperty.Register("FontColor", typeof(Color), typeof(BaseCVPercentage), new PropertyMetadata(Colors.Black));
             DescProperty = DependencyProperty.Register("Desc", typeof(string), typeof(BaseCVPercentage));
 
             BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(SolidColorBrush), typeof(BaseCVPercentage), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC))));

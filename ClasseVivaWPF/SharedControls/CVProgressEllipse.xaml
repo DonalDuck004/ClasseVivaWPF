@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              mc:Ignorable="d" 
              Loaded="OnLoad"
@@ -23,7 +24,7 @@
                      Margin="36" 
                      Fill="{Binding Path=CenterColor}"/>
             <local:CVAvgArc 
-                StrokeThickness="30"
+                StrokeThickness="31.3"
                 Stroke="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}" 
                 Margin="5">
                 <local:CVAvgArc.StartAngle>
@@ -42,7 +43,7 @@
             <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="Text">
                 <TextBlock.Resources>
                     <Style TargetType="Run">
-                        <Setter Property="Foreground" Value="{Binding Path=FontColor, Converter={StaticResource ToBrushConverter}}"></Setter>
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                     </Style>
                 </TextBlock.Resources>
                 <Run Name="PrimatyText" FontSize="72" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" FontWeight="Bold"></Run>

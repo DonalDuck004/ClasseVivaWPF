@@ -40,12 +40,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             EllipseColorProperty = DependencyProperty.Register("EllipseColor", typeof(SolidColorBrush), typeof(CVGradeBase));
         }
 
-        internal CVGradeBase()
+        // For vs
+        public CVGradeBase() : base()
         {
 
         }
 
-        public CVGradeBase(Grade grade)
+        public CVGradeBase(Grade grade) : base()
         {
             this.Grade = grade;
             this.DataContext = this;

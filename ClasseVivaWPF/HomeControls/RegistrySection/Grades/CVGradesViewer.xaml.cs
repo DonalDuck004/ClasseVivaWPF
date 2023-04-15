@@ -37,9 +37,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     /// Logica di interazione per CVGradesViewer.xaml
     /// </summary>
     /// 
-    public partial class CVGradesViewer : UserControl
+    public partial class CVGradesViewer : Injectable
     {
-        public static readonly DependencyProperty SelectedSubjectProperty;
+        public static readonly DependencyProperty SelectedGradeProperty;
         public static readonly DependencyProperty SelectedSectionProperty;
         public static readonly DependencyProperty DataFetchedProperty;
 
@@ -47,16 +47,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         public CVGrade? SelectedGrade
         {
-            get => (CVGrade?)base.GetValue(SelectedSubjectProperty);
+            get => (CVGrade?)base.GetValue(SelectedGradeProperty);
             set
             {
-                base.SetValue(SelectedSubjectProperty, value);
+                base.SetValue(SelectedGradeProperty, value);
                 this.s_fp_wp.Children.Clear();
                 this.s_lp_wp.Children.Clear();
 
                 if (value is not null)
                 {
-                    foreach (var grade in CVRegistry.INSTANCE!.CachedGrades.Where(x => x.SubjectId == this.SelectedGrade.Grade.SubjectId))
+                    foreach (var grade in CVRegistry.INSTANCE!.CachedGrades.Where(x => x.SubjectId == value.Grade.SubjectId).OnlyDisplayable())
                         (grade.PeriodDesc == CVRegistry.INSTANCE!.FirstPeriodName ? s_fp_wp : s_lp_wp).Children.Add(new CVGrade(grade));
                 }
             }
@@ -75,12 +75,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         static CVGradesViewer()
         {
-            SelectedSubjectProperty = DependencyProperty.Register("SelectedSubject", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
+            SelectedGradeProperty = DependencyProperty.Register("SelectedGrade", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
             SelectedSectionProperty = DependencyProperty.Register("SelectedSection", typeof(FrameworkElement), typeof(CVGradesViewer), new PropertyMetadata(null));
             DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVGradesViewer), new PropertyMetadata(true));
         }
 
-        public CVGradesViewer()
+        public CVGradesViewer() : base()
         {
             InitializeComponent();
 
@@ -113,6 +113,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
             foreach (var grade in CVRegistry.INSTANCE!.CachedGrades)
             {
+                if (grade.EvtCode == BaseEvent.GRADE_GRADE_UNKNOW2)
+                {
+                    this.GradeStack.Children.Add(new CVGradeGRV2(grade));
+                    continue;
+                }
+
                 this.GradeStack.Children.Add(tmp = new(grade));
 
                 h = grade.SubjectDesc.ToTitle();
@@ -143,7 +149,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             this.LastPeriodStack.Children.Clear();
 
             foreach (var grade in from subject in CVRegistry.INSTANCE!.CachedSubjects
-                                  join grade in CVRegistry.INSTANCE!.CachedGrades on subject.Id equals grade.SubjectId
+                                  join grade in CVRegistry.INSTANCE!.CachedGrades.OnlyDisplayable() on subject.Id equals grade.SubjectId
                                   group grade by (grade.PeriodDesc, subject))
             {
                 tmp = CVSubjectGrades.New(grade.ToArray(), grade.Key.subject);
@@ -181,16 +187,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
         }
 
         public void OnClose(object sender, RoutedEventArgs e) => this.Close();
-
-        public void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
 
         public void OnButtonClick(object sender, RoutedEventArgs e)
         {
@@ -251,20 +247,28 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             if (ReloadLock.CurrentCount == 0)
                 return;
 
-            await ReloadLock.WaitAsync();
-
-            this.DataFetched = false;
-
             try
             {
-                CVRegistry.INSTANCE!.CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
-                CVRegistry.INSTANCE!.CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
+                await ReloadLock.WaitAsync();
+
+                this.DataFetched = false;
+
+                try
+                {
+                    CVRegistry.INSTANCE!.CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
+                    CVRegistry.INSTANCE!.CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
+                }
+                catch (ApiError exc)
+                {
+                    this.DataFetched = true;
+                    exc.ApplyStdProcedure();
+                    return;
+                }
             }
-            catch
+            finally
             {
-                // TODO
+                ReloadLock.Release();
             }
-            ReloadLock.Release();
 
             this.Update();
             this.DataFetched = true;

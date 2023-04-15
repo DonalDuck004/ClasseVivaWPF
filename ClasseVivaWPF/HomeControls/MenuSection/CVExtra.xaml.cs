@@ -4,18 +4,19 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System;
+using ClasseVivaWPF.SharedControls;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {
     /// <summary>
     /// Logica di interazione per CVExtra.xaml
     /// </summary>
-    public partial class CVExtra : UserControl, IOnKeyDown, ICloseRequested, IOnChildClosed, ICVMeta
+    public partial class CVExtra : Injectable, IOnKeyDown, ICloseRequested, IOnChildClosed, ICVMeta
     {
         public bool CountsInStack { get; } = false;
         public static CVExtra? INSTANCE = null;
 
-        public CVExtra()
+        public CVExtra() : base()
         {
             CVExtra.INSTANCE = this;
             InitializeComponent();
@@ -32,16 +33,6 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
-
-        public virtual void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
 
         public void SetContent(Grid grid)
         {

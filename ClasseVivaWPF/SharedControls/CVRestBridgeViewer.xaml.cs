@@ -10,7 +10,7 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVRestBridgeViewer.xaml
     /// </summary>
-    public partial class CVRestBridgeViewer : UserControl, ICloseRequested
+    public partial class CVRestBridgeViewer : Injectable, ICloseRequested
     {
         private static DependencyProperty UriProperty;
 
@@ -19,7 +19,7 @@ namespace ClasseVivaWPF.SharedControls
             UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVRestBridgeViewer));
         }
 
-        public CVRestBridgeViewer()
+        public CVRestBridgeViewer() : base()
         {
             InitializeComponent();
             var Options = new CoreWebView2EnvironmentOptions();
@@ -39,20 +39,11 @@ namespace ClasseVivaWPF.SharedControls
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
 
-        public virtual void Close()
-        {
-            MainWindow.INSTANCE.RemoveField(this);
-        }
-
         public required Uri Uri
         {
             get => (Uri)base.GetValue(UriProperty);
             set => base.SetValue(UriProperty, value);
         }
 
-        public void Inject()
-        {
-            MainWindow.INSTANCE.AddFieldOverlap(this);
-        }
     }
 }

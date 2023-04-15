@@ -6,6 +6,7 @@ using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.Utils;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -24,8 +25,8 @@ namespace ClasseVivaWPF.LoginControls
             InitializeComponent();
             this.password.HideContent();
 
-            // this.username.Text = "S7319056Z";
-            // this.password.Text = "L2004b2007!";
+            this.username.Text = "leonardo.burla@ittvt.edu.it";
+            this.password.Text = "L2004b2007!";
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -48,8 +49,43 @@ namespace ClasseVivaWPF.LoginControls
 
                 try
                 {
-                    var me = await Client.INSTANCE.Login(pass: this.password.Text, uid: this.username.Text);
-                    SessionHandler.InitConn(me.Id).SetMe(me, pass: this.password.Text, uid: this.username.Text);
+                    var pass = this.password.Text;
+                    var uid = this.username.Text;
+
+                    var login = await Client.INSTANCE.Login(pass: pass, uid: uid);
+                    Me me;
+                    if (login is LoginMultipleChoice mc)
+                    {
+                        var choicer = new CVLoginAccountSelector(mc);
+                        choicer.Inject();
+                        await choicer.WaitForExit();
+                        if (choicer.Result is null)
+                            return;
+
+                        me = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: choicer.Result);
+
+                        new Task(async () =>
+                        {
+                            Me other;
+
+                            foreach (var choice in mc.Choices)
+                            {
+                                if (choice.Ident == me.Ident || SessionHandler.ExistsSessionFor(choice.Ident))
+                                    continue;
+
+
+                                other = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: choice.Ident);
+
+                                SessionHandler.InitConn(other.Ident).SetMe(other, pass: pass, uid: uid, just_register: true);
+                            }
+                        }
+                        ).Start();
+                    }
+                    else
+                        me = (Me)login;
+
+                    SessionHandler.InitConn(me.Ident).SetMe(me, pass: this.password.Text, uid: this.username.Text);
+
                     EndLogin();
                 }
                 catch (ApiError exc)
