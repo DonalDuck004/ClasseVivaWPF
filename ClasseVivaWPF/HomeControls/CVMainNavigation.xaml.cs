@@ -4,6 +4,7 @@ using ClasseVivaWPF.HomeControls.MenuSection;
 using ClasseVivaWPF.HomeControls.RegistrySection;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Themes;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,7 +14,7 @@ namespace ClasseVivaWPF.HomeControls
     /// <summary>
     /// Logica di interazione per CVMainNavigation.xaml
     /// </summary>
-    public partial class CVMainNavigation : UserControl, IOnKeyDown, ICVMeta
+    public partial class CVMainNavigation : UserControl, IOnKeyDown, ICVMeta, IOnChildClosed
     {
         public bool CountsInStack { get; } = false;
      
@@ -67,6 +68,12 @@ namespace ClasseVivaWPF.HomeControls
             {
                 kd.OnKeyDown(sender, e);
             }
+        }
+
+        public void OnChildClosed()
+        {
+            if (Current.Children[0] is IOnChildClosed kd)
+                kd.OnChildClosed();
         }
     }
 }

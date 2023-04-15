@@ -61,6 +61,7 @@ namespace ClasseVivaWPF
         {
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
             this.DataContext = this;
+            this.AddHandler(Keyboard.KeyDownEvent, new KeyEventHandler(window_KeyDown), true);
             InitializeComponent();
 
             this.PostLogin += () =>
@@ -89,6 +90,11 @@ namespace ClasseVivaWPF
                 this.RemoveField(f.First());
 
             this.wrapper.Children.Add(element);
+        }
+
+        public FrameworkElement GetLastField()
+        {
+            return (FrameworkElement)this.wrapper.Children[this.wrapper.Children.Count - 1];
         }
 
         private void OnNotificationsFlagChanged(SessionHandler sender, bool Flag)
@@ -189,10 +195,6 @@ namespace ClasseVivaWPF
 
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Handled)
-                return;
-
-            e.Handled = true;
             if (KonamiCode[KonamiCodeIndex] == e.Key)
             {
                 KonamiCodeIndex++;

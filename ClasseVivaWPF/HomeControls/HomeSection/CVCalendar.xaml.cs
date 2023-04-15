@@ -14,13 +14,13 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// </summary>
     public partial class CVCalendar : UserControl
     {
-        public CVCalendar(string theme_path = BaseTheme.CV_CALENDAR_PATH)
+        public CVCalendar()
         {
             this.DataContext = this;
             InitializeComponent();
             SetToday();
         }
-        
+
         private void SetToday()
         {
             this.calendar.SelectedDate = this.calendar.DisplayDate = DateTime.Now;

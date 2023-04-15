@@ -1,7 +1,9 @@
 ﻿using ClasseVivaWPF.Utils;
 using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {
@@ -46,16 +48,39 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             this.content_wp.Content = grid;
         }
 
+        public void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is not Key.Left && e.Key is not Key.Right)
+                return;
+
+            var pool = this.h_grid.Children.OfType<CVExtraHeader>();
+
+            if (e.Key is not Key.Left)
+            {
+                try
+                {
+                    pool.SkipWhile(x => !x.IsSelected).Skip(1).First().IsSelected = true;
+                }
+                catch (InvalidOperationException)
+                {
+                    pool.First().IsSelected = true;
+                }
+                return;
+            }
+            try
+            {
+                pool.TakeWhile(x => !x.IsSelected).Last().IsSelected = true;
+            } catch (InvalidOperationException)
+            {
+                pool.Last().IsSelected = true;
+            }
+        }
+
         private void OnLoad(object sender, RoutedEventArgs e)
         {
             this.SetContent(((CVExtraHeader)h_grid.Children[0]).GContent);
 
             this.Loaded -= OnLoad;
-        }
-
-        public void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            // content_wp.RaiseEvent(e);
         }
 
         public void OnChildClosed()

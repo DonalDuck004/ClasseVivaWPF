@@ -169,7 +169,6 @@
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="5" Text="{x:Static utils:Config.VERSION_LONGEST_STRING}"></TextBlock>
                     </Grid>
                 </StackPanel>
-                
             </StackPanel>
         </ScrollViewer>
     </Grid>

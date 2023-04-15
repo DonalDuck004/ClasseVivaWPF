@@ -16,6 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClasseVivaWPF.Api.Types;
+using System.Threading;
+using ClasseVivaWPF.Api;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 {
@@ -38,6 +41,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     {
         public static readonly DependencyProperty SelectedSubjectProperty;
         public static readonly DependencyProperty SelectedSectionProperty;
+        public static readonly DependencyProperty DataFetchedProperty;
+
+        private SemaphoreSlim ReloadLock = new SemaphoreSlim(1, 1);
 
         public CVGrade? SelectedGrade
         {
@@ -55,6 +61,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                 }
             }
         }
+        public bool DataFetched
+        {
+            get => (bool)base.GetValue(DataFetchedProperty);
+            set => base.SetValue(DataFetchedProperty, value);
+        }
 
         public FrameworkElement SelectedSection
         {
@@ -66,6 +77,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
         {
             SelectedSubjectProperty = DependencyProperty.Register("SelectedSubject", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
             SelectedSectionProperty = DependencyProperty.Register("SelectedSection", typeof(FrameworkElement), typeof(CVGradesViewer), new PropertyMetadata(null));
+            DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVGradesViewer), new PropertyMetadata(true));
         }
 
         public CVGradesViewer()
@@ -97,6 +109,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             CVGrade tmp;
             Button btn;
             string h;
+            this.GradeStack.Children.Clear();
 
             foreach (var grade in CVRegistry.INSTANCE!.CachedGrades)
             {
@@ -124,8 +137,47 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         private void UpdateBlock2()
         {
-            this.FirstPeriodStack.Children.Add(CVSubjectGrades.New(CVRegistry.INSTANCE!.CachedGrades));
-            this.FirstPeriodStack.Children.Add(CVSubjectGrades.New(CVRegistry.INSTANCE!.CachedGrades));
+            CVSubjectGrades? tmp;
+            var block2empty = true;
+            this.FirstPeriodStack.Children.Clear();
+            this.LastPeriodStack.Children.Clear();
+
+            foreach (var grade in from subject in CVRegistry.INSTANCE!.CachedSubjects
+                                  join grade in CVRegistry.INSTANCE!.CachedGrades on subject.Id equals grade.SubjectId
+                                  group grade by (grade.PeriodDesc, subject))
+            {
+                tmp = CVSubjectGrades.New(grade.ToArray(), grade.Key.subject);
+                if (tmp is null)
+                    continue;
+
+                if (grade.Key.PeriodDesc == this.p1.Content.ToString())
+                    this.FirstPeriodStack.Children.Add(tmp);
+                else
+                {
+                    block2empty = false;
+                    this.LastPeriodStack.Children.Add(tmp);
+                }
+            }
+
+            if (block2empty)
+            {
+                Label lbl;
+
+                this.LastPeriodStack.Children.Add(lbl = new()
+                {
+                    Content = "Nessun voto disponibile",
+                    FontSize = 48,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                });
+
+                lbl.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_GENERIC_GRAY_FONT_PATH);
+                BindingOperations.SetBinding(lbl, Label.HeightProperty, new Binding()
+                {
+                    Source = this.Scroller,
+                    Path = new("ActualHeight")
+                });
+            }
         }
 
         public void OnClose(object sender, RoutedEventArgs e) => this.Close();
@@ -158,7 +210,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         private Label GetSelectedLabel()
         {
-            return this.labels.Children.OfType<Label>().Where(x => ((SolidColorBrush)x.Foreground).Color == Colors.White).First();
+            return this.labels.Children.OfType<Label>().Where(
+                x => ((SolidColorBrush)x.Foreground).Color == MainWindow.INSTANCE!.CurrentTheme.CV_MULTI_MENU_FONT_SELECTED
+            ).First();
         }
 
         private void SelectLabel(Label @new, Label old)
@@ -181,12 +235,39 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
         {
             var labels = this.labels.Children.OfType<Label>().ToArray();
             var old = labels.Where(x => ((SolidColorBrush)x.Foreground).Color == MainWindow.INSTANCE.CurrentTheme.CV_MULTI_MENU_FONT_SELECTED).First();
+            if (ReferenceEquals(sender, old))
+                return;
+
             var idx = labels.ReferenceIndexOf(sender);
             this.SelectedSection = (FrameworkElement)((StackPanel)this.SectionsWP.Children[idx]).Children[0];
             SelectLabel((Label)sender, old);
 
             this.Scroller.ScrollToVerticalOffset(0);
             this.Scroller.ScrollToHorizontalOffset(this.Scroller.ActualWidth * idx);
+        }
+
+        private async void CVReloadButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ReloadLock.CurrentCount == 0)
+                return;
+
+            await ReloadLock.WaitAsync();
+
+            this.DataFetched = false;
+
+            try
+            {
+                CVRegistry.INSTANCE!.CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
+                CVRegistry.INSTANCE!.CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
+            }
+            catch
+            {
+                // TODO
+            }
+            ReloadLock.Release();
+
+            this.Update();
+            this.DataFetched = true;
         }
     }
 }

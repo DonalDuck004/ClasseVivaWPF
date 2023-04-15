@@ -33,6 +33,7 @@
                 <WrapPanel Panel.ZIndex="1" HorizontalAlignment="Left" Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Width="48" Background="Transparent">
                     <ContentControl x:Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}" Background="{themes:ThemeBinding Path=CVBackIcon}"/>
                 </WrapPanel>
+                <shared:CVReloadButton Margin="5" Grid.Column="2" MouseLeftButtonDown="CVReloadButton_MouseLeftButtonDown" Height="32" Width="32" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="1"></shared:CVReloadButton>
                 <Label Content="Ultime Valutazioni" Grid.Column="0"></Label>
                 <Label Name="p1" Grid.Column="1"></Label>
                 <Label Name="p2" Grid.Column="2"></Label>
@@ -63,7 +64,7 @@
                               shared:CVScollerView.OnSnap="Scroller_OnSnap"
                               shared:CVScollerView.IsEnabled="True"
                               shared:CVScollerView.MaxVerticalOffset="{Binding Path=SelectedSection.ActualHeight}"
-                              Height="{Binding ElementName=scroller_wp, Path=ActualHeight}"
+                              shared:CVScollerView.MaxVerticalOffsetSubstractSelf="True"
                               shared:CVScollerView.Snap="True"
                               shared:CVScollerView.SnapSensibility="5"
                               VerticalScrollBarVisibility="Hidden"
@@ -107,8 +108,16 @@
                                 </Canvas>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Style="{StaticResource ResourceKey=wp}" Name="FirstPeriodStack"></StackPanel>
-                        <StackPanel Style="{StaticResource ResourceKey=wp}"></StackPanel>
+                        <StackPanel Style="{StaticResource ResourceKey=wp}">
+                            <StackPanel Name="FirstPeriodStack">
+                                
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ResourceKey=wp}">
+                            <StackPanel Name="LastPeriodStack">
+
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>

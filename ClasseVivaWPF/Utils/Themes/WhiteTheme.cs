@@ -10,6 +10,9 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_GRADE_INSUFFICIENT { get; } = Color.FromArgb(0xFF, 0xD0, 0x5A, 0x50);
         public override Color CV_GRADE_SLIGHTLY_INSUFFICIENT { get; } = Color.FromArgb(0xFF, 0xEB, 0x98, 0x60);
         public override Color CV_GRADE_SUFFICIENT { get; } = Color.FromArgb(0xFF, 0x83, 0xB5, 0x88);
+        public override Color CV_GRADE_INSUFFICIENT_BG { get; } = Color.FromArgb(0xAF, 0xD0, 0x5A, 0x50);
+        public override Color CV_GRADE_SLIGHTLY_INSUFFICIENT_BG { get; } = Color.FromArgb(0xAF, 0xEB, 0x98, 0x60);
+        public override Color CV_GRADE_SUFFICIENT_BG { get; } = Color.FromArgb(0xAF, 0x83, 0xB5, 0x88);
         public override Color CV_MAIN_MENU_ICON_SELECTED { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_MAIN_MENU_ICON_UNSELECTED { get; } = Color.FromArgb(0xFF, 0x80, 0x80, 0x80);
         public override Color CV_GENERIC_RED { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
@@ -51,5 +54,9 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_SETTINGS_TEXT { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
         public override Color CV_EXTRA_HEADER_ELLIPSE { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
         public override Color CV_EXTRA_INTERACT_ICONS { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+
+        public WhiteTheme() : base()
+        {
+        }
     }
 }

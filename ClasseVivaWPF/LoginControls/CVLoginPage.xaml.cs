@@ -24,8 +24,8 @@ namespace ClasseVivaWPF.LoginControls
             InitializeComponent();
             this.password.HideContent();
 
-            this.username.Text = "S7319056Z";
-            this.password.Text = "L2004b2007!";
+            // this.username.Text = "S7319056Z";
+            // this.password.Text = "L2004b2007!";
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

@@ -7,9 +7,8 @@
         xmlns:local="clr-namespace:ClasseVivaWPF"
         xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
         xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
-        Keyboard.KeyDown="window_KeyDown" Focusable="True"
+        Focusable="True"
         MouseDown="window_MouseDown"
-        Keyboard.LostKeyboardFocus="window_LostKeyboardFocus"
         mc:Ignorable="d" Name="window" ContentRendered="window_Loaded" Closing="window_Closing"
         Title="ClasseViva Unoffical Client" MinHeight="562" MinWidth="1000">
     <Grid Name="main_grid">

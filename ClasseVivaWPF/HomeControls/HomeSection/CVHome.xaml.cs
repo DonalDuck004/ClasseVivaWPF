@@ -24,7 +24,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             InitializeComponent();
             this.DataContext = this;
         }
-        
 
         public static void GlobDispose()
         {
@@ -108,8 +107,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             if (e.Key is Key.Left || e.Key is Key.Right)
                 DaysOnKeyDown(sender, e);
-            else if (e.Key is Key.Down || e.Key is Key.Up)
-                this.homework_scroller.RaiseEvent(e);
             else if (e.Key is Key.F5)
                 this.UpdateSelected();
         }

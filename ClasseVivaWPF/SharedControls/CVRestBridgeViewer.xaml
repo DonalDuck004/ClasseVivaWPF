@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,9 +14,9 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{StaticResource ResourceKey=CV_RED}">
+        <DockPanel Background="{themes:ThemeBinding Path=CVHeader}">
             <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
-                <ContentControl Background="White" Template="{StaticResource ResourceKey=BackIcon}"/>
+                <ContentControl Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </DockPanel>
         <wv2:WebView2 Source="{Binding Uri}" Grid.Row="2" Name="WebView">

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,6 @@ namespace ClasseVivaWPF.Api.Types
 {
     public class Lesson : BaseEvent
     {
-        private static List<int> ColorsIDS = new List<int>();
         private int? _color_id = null;
 
         [JsonProperty(Required = Required.Always)]
@@ -25,19 +25,8 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.Always)]
         public required string AuthorName { get; init; }
 
-        private int _SubjectId;
-
         [JsonProperty(Required = Required.Always)]
-        public required int SubjectId
-        {
-            get => _SubjectId;
-            init
-            {
-                if (!ColorsIDS.Contains(value))
-                    ColorsIDS.Add(value);
-                _SubjectId = value;
-            }
-        }
+        public required int SubjectId { get; init; }
 
         [JsonProperty(Required = Required.AllowNull)]
         public required string? SubjectCode { get; init; }
@@ -55,8 +44,8 @@ namespace ClasseVivaWPF.Api.Types
 
         public int ColorID
         {
-            get => _color_id ??= (ColorsIDS.IndexOf(this.SubjectId) % DayOverview.COLORS.Length);
-            set => _color_id = value;
+            get => _color_id ??= Subject.ColorIDFor(this.SubjectId); 
+            private set => _color_id = value;
         }
 
         internal Tuple<int, string, string, string, string, DateTime> Identifiers => new(SubjectId, LessonType, LessonArg, AuthorName, ClassDesc, EvtDate);

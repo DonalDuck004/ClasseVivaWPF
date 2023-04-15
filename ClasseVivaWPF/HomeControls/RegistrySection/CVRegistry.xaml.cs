@@ -18,13 +18,14 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection
 {
     /// <summary>
     /// Logica di interazione per CVRegistry.xaml
     /// </summary>
-    public partial class CVRegistry : UserControl, IOnSwitch
+    public partial class CVRegistry : UserControl, IOnSwitch, IOnKeyDown, IOnChildClosed
     {
 
         public static CVRegistry? INSTANCE { get; private set; }
@@ -34,10 +35,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
         protected static DependencyProperty DataFetchedProperty;
         protected static DependencyProperty ShowGraphSettingsProperty;
 
-        private bool UpdateGradesRequired = true;
-        private bool UpdateAbsencesRequired = true;
+        private bool UpdateGradesRequired = false;
+        private bool UpdateAbsencesRequired = false;
+        private bool UpdateSubjectsRequired = false;
 
-        public Grade[] _CachedGrades;
+
+        private Grade[] _CachedGrades;
         public Grade[] CachedGrades { 
             get => _CachedGrades;
             set { 
@@ -46,8 +49,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             }
         }
 
-        public Event[] _CachedAbsences;
+        private Event[] _CachedAbsences;
         public Event[] CachedAbsences { get => _CachedAbsences; set { UpdateAbsencesRequired = true; _CachedAbsences = value; } }
+
+        private Subject[] _CachedSubjects;
+        public Subject[] CachedSubjects { get => _CachedSubjects; set { UpdateSubjectsRequired = true; _CachedSubjects = value; } }
+
 
         public bool DataFetched
         {
@@ -161,15 +168,14 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             CVRegistry.INSTANCE = null;
         }
 
-        private void UpdateControls(Subject[]? subjects = null)
+        private void UpdateControls()
         {
-            // CachedGrades = new Grade[0];
 
-            if (CachedGrades.Length != 0)
+            if (_CachedGrades.Length != 0)
             {
-                this.SetAVG(SafeAVG(CachedGrades.WhereCountsInAVG().Select(x => x.DecimalValue!.Value)), this.AvgArc);
+                this.SetAVG(SafeAVG(_CachedGrades.WhereCountsInAVG().Select(x => x.DecimalValue!.Value)), this.AvgArc);
 
-                var g = (from grade in CachedGrades
+                var g = (from grade in _CachedGrades
                          where grade.DecimalValue is not null && !grade.IsNote
                          group grade by grade.PeriodDesc into tmp
                          orderby tmp.First().PeriodPos
@@ -217,34 +223,29 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
                 this.ShowNaNCB.CanAlterCheck = true;
 
-                if (subjects is not null)
-                {
-                    var filtered_cols = g.Merge().OnlyDisplayable();
+                var filtered_cols = g.Merge().OnlyDisplayable();
 
-                    var columns = (from subject in subjects
-                                   join grade in filtered_cols
-                                   on subject.Id equals grade.SubjectId into sg
-                                   from grade in sg.DefaultIfEmpty()
-                                   group grade by (subject, grade?.PeriodDesc) into gr
-                                   let values = gr.Select(x => x is null || x.DecimalValue is null ? double.NaN : x.DecimalValue.Value)
-                                   select new CVColumn()
-                                   {
-                                       ContentID = gr.Key.subject.Id,
-                                       Desc = gr.Key.subject.ShortName,
-                                       SubGroupName = gr.Key.PeriodDesc,
-                                       LongDesc = gr.Key.subject.Description.ToTitle(),
-                                       Values = values,
-                                       Value = SafeAVG(values)
-                                   }).ToList();
+                var columns = (from subject in _CachedSubjects
+                                join grade in filtered_cols
+                                on subject.Id equals grade.SubjectId into sg
+                                from grade in sg.DefaultIfEmpty()
+                                group grade by (subject, grade?.PeriodDesc) into gr
+                                let values = gr.Select(x => x is null || x.DecimalValue is null ? double.NaN : x.DecimalValue.Value)
+                                select new CVColumn()
+                                {
+                                    ContentID = gr.Key.subject.Id,
+                                    Desc = gr.Key.subject.ShortName,
+                                    SubGroupName = gr.Key.PeriodDesc,
+                                    LongDesc = gr.Key.subject.Description.ToTitle(),
+                                    Values = values,
+                                    Value = SafeAVG(values)
+                                }).ToList();
 
-                    this.grades_placeholder.Visibility = Visibility.Hidden;
-                    this.Graph.Update(columns, this.ShowNaNCB.IsChecked, op: CVColumnsGraphFilterOperation.GroupAVG);
-                    this.GradesWrapper.Children.Clear();
-                    foreach (var grade in CachedGrades)
-                    {
-                        this.GradesWrapper.Children.Add(new CVGradeEllipse(grade));
-                    }
-                }
+                this.grades_placeholder.Visibility = Visibility.Hidden;
+                this.Graph.Update(columns, this.ShowNaNCB.IsChecked, op: CVColumnsGraphFilterOperation.GroupAVG);
+                this.GradesWrapper.Children.Clear();
+                foreach (var grade in _CachedGrades)
+                    this.GradesWrapper.Children.Add(new CVGradeEllipse(grade));
             }
             else
             {
@@ -253,8 +254,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 this.grades_placeholder.Content = "Nessun voto disponibile";
                 this.GradesWrapper.Children.Clear();
                
-                if (subjects is not null)
-                    this.Graph.Update(subjects.Select(x => x.ShortName));
+                if (_CachedSubjects.Length != 0)
+                    this.Graph.Update(_CachedSubjects.Select(x => x.ShortName));
                 else
                     this.Graph.Clear();
 
@@ -283,7 +284,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 this.ee.Count = this.l.Count = this.abs.Count = 0;
                 this.l.ExtraDesc = "";
             }
-            
+
             return;
 
             double SafeAVG(IEnumerable<double> s)
@@ -307,15 +308,15 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             await ReloadLock.WaitAsync();
             this.DataFetched = false;
 
-            var subjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
-            CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
-            CachedAbsences = (await Client.INSTANCE.GetAbsences()).ContentEvents;
+            _CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
+            _CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
+            _CachedAbsences = (await Client.INSTANCE.GetAbsences()).ContentEvents;
 
             this.DataFetched = true;
 
             try
             {
-                this.UpdateControls(subjects: subjects);
+                this.UpdateControls();
             }
             finally
             {
@@ -380,15 +381,33 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             this.ShakeGraphSettings();
         }
 
+        public void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is not Key.F5)
+                return;
+
+
+            this.Dispatcher.BeginInvoke(Reload);
+        }
+
         private void OpenGradesViewer(object sender, MouseButtonEventArgs e)
         {
-            if (this.CachedGrades.Length == 0)
+            if (this.CachedGrades.Length == 0 || this.FirstPeriodName is null || this.LastPeriodCB is null)
             {
-                new CVMessageBox("Errore!", "Impossibile aprire questa schermata, poichè al momento non hai valutazioni").Inject();
+                new CVMessageBox("Errore!", "Impossibile aprire questa schermata, poichè al momento non hai valutazioni o perchè è in corso il caricamento").Inject();
                 return;
             }
 
             new CVGradesViewer().Inject();
+        }
+
+        public void OnChildClosed()
+        {
+            if (this.UpdateAbsencesRequired || this.UpdateGradesRequired || this.UpdateSubjectsRequired)
+            {
+                this.UpdateAbsencesRequired = this.UpdateGradesRequired = this.UpdateSubjectsRequired = false;
+                this.UpdateControls();
+            }
         }
     }
 

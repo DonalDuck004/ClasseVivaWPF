@@ -270,5 +270,22 @@
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
+
+        <ControlTemplate x:Key="TrendDownIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="1024" Height="1024">
+                    <Path Fill="{TemplateBinding Background}" Data="M409.6,0l0,512l-153.6,0l256.1,512l255.9,-512l-153.5,0l0,-512z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="TrendStableIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="1024" Height="1024">
+                    <Path Fill="{TemplateBinding Background}" Data="M0,0h1024v359.4h-1024z"></Path>
+                    <Path Fill="{TemplateBinding Background}" Data="M0,664.6h1024v359.4h-1024z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
     </Application.Resources>
 </Application>

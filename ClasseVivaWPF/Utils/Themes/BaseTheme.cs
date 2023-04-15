@@ -8,12 +8,27 @@ using System.Xml.Linq;
 
 namespace ClasseVivaWPF.Utils.Themes
 {
+    /* Plane for dynamic themes (from files)
+     * Structure:
+     * [{"name": ..., "theme": {}}]
+     * In db:
+     * Themes(ID, name, theme)
+     * 
+     */
     public abstract class BaseTheme
     {
+        public static List<Type> StaticThemes = new List<Type>();
+
         public const string CV_GRADE_NOTE_PATH = "CV_GRADE_NOTE";
+
         public const string CV_GRADE_INSUFFICIENT_PATH = "CV_GRADE_INSUFFICIENT";
         public const string CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH = "CV_GRADE_SLIGHTLY_INSUFFICIENT";
         public const string CV_GRADE_SUFFICIENT_PATH = "CV_GRADE_SUFFICIENT";
+
+        public const string CV_GRADE_INSUFFICIENT_BG_PATH = "CV_GRADE_INSUFFICIENT_BG";
+        public const string CV_GRADE_SLIGHTLY_INSUFFICIENT_BG_PATH = "CV_GRADE_SLIGHTLY_INSUFFICIENT_BG";
+        public const string CV_GRADE_SUFFICIENT_BG_PATH = "CV_GRADE_SUFFICIENT_BG";
+
         public const string CV_GENERIC_RED_PATH = "CV_GENERIC_RED";
         public const string CV_GENERIC_GRAY_PATH = "CV_GENERIC_GRAY";
         public const string CV_GENERIC_BACKGROUND_PATH = "CV_GENERIC_BACKGROUND";
@@ -76,9 +91,13 @@ namespace ClasseVivaWPF.Utils.Themes
 
         public abstract Color CV_GRADES_FILTER { get; }
         public abstract Color CV_GRADE_NOTE { get; }
+
         public abstract Color CV_GRADE_INSUFFICIENT { get; }
         public abstract Color CV_GRADE_SLIGHTLY_INSUFFICIENT { get; }
         public abstract Color CV_GRADE_SUFFICIENT { get; }
+        public abstract Color CV_GRADE_INSUFFICIENT_BG { get; }
+        public abstract Color CV_GRADE_SLIGHTLY_INSUFFICIENT_BG { get; }
+        public abstract Color CV_GRADE_SUFFICIENT_BG { get; }
         
         public abstract Color CV_MAIN_MENU_ICON_SELECTED { get; }
         public abstract Color CV_MAIN_MENU_ICON_UNSELECTED { get; }
@@ -123,6 +142,11 @@ namespace ClasseVivaWPF.Utils.Themes
         public abstract Color CV_GENERIC_FONT { get; }
         public abstract Color CV_EXTRA_INTERACT_ICONS { get; }
 
+        public BaseTheme(bool reg = true)
+        {
+            if (reg && !StaticThemes.Contains(this.GetType()))
+                StaticThemes.Add(this.GetType());
+        }
     }
     
 }

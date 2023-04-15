@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              mc:Ignorable="d" Name="control"
              d:DesignHeight="128" d:DesignWidth="800">
     <Grid ClipToBounds="True">
-        <Canvas x:Name="GradeStackWP" Margin="{Binding Path=ActualHeight, ElementName=grid, Converter={StaticResource ResourceKey=ThicknessConverter}, ConverterParameter=Top}">
-            <StackPanel Orientation="Vertical" Name="GradeStack" Width="{Binding ElementName=GradeStackWP, Path=ActualWidth}">
+        <Canvas x:Name="GradeStackWP" Margin="{Binding Path=ActualHeight, ElementName=grid, Converter={StaticResource ResourceKey=ThicknessConverter}, ConverterParameter=Top}" Height="0">
+            <StackPanel Orientation="Vertical" Name="GradeStack" Width="{Binding ElementName=GradeStackWP, Path=ActualWidth}" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" Cursor="">
                 <StackPanel.Resources>
                     <Style TargetType="local:CVGrade">
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
@@ -18,23 +19,21 @@
                 </StackPanel.Resources>
             </StackPanel>
         </Canvas>
-        <Grid x:Name="grid" Background="White" MouseLeftButtonUp="OnExpand" MaxHeight="96" VerticalAlignment="Top" Cursor="Hand">
+        <Grid x:Name="grid" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonUp="OnExpand" VerticalAlignment="Top" Cursor="Hand">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="12"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="69"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Rectangle Margin="5,0,0,0" Fill="Red" Grid.RowSpan="3"></Rectangle>
-            <TextBlock Text="Scienze Naturali" Grid.Column="1" FontWeight="DemiBold" FontSize="24" Margin="10,5,0,0"></TextBlock>
-            <TextBlock VerticalAlignment="Top" Text="Maggio marisa" Grid.Column="1" Grid.Row="1" FontSize="18" Margin="10,5,0,0"></TextBlock>
-            <shared:CVProgressEllipse Max="10" x:Name="avg" Grid.RowSpan="3" Grid.Column="2" HorizontalAlignment="Right" Width="128" Margin="0,0,16,0"></shared:CVProgressEllipse>
-            <Rectangle Width="64" Height="64" Fill="Red" Grid.Column="3" Grid.RowSpan="3"></Rectangle>
+            <Rectangle Margin="5,5,0,5" Name="SubjectColor" Grid.RowSpan="2"></Rectangle>
+            <TextBlock Name="Subject" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="24" Margin="10,5,0,0" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Cursor=""></TextBlock>
+            <TextBlock Margin="10,5,0,5" Name="Teachers" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontSize="18" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+            <shared:CVProgressEllipse CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" Max="10" x:Name="avg" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" Width="80" Margin="0,0,16,0" Cursor=""></shared:CVProgressEllipse>
         </Grid>
     </Grid>
 </UserControl>

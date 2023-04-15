@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#BF000000">
-    <DockPanel Background="White" Width="400" Height="250" VerticalAlignment="Center">
+    <DockPanel Background="{themes:ThemeBinding Path=CVGenericBackground}" Width="400" Height="250" VerticalAlignment="Center">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="43"></RowDefinition>
@@ -19,7 +20,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Content="{Binding Path=Title}" FontSize="20" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"></Label>
-            <Label Content="{Binding Path=Description}" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Top"></Label>
+            <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Description}" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Top" TextWrapping="Wrap"></TextBlock>
             <local:CVButton Content="Chiudi" Grid.Row="2" Grid.Column="0" Width="120" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Click="Button_Click"></local:CVButton>
             <local:CVButton Content="Aiuto" Grid.Row="2" Grid.Column="1" Width="120" HorizontalAlignment="Left" Height="30" Margin="80,0,0,0" VerticalAlignment="Top" Click="Button_Click_1"></local:CVButton>
         </Grid>

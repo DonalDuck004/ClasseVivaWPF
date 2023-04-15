@@ -6,13 +6,16 @@ namespace ClasseVivaWPF.Utils.Themes
     public class EasterEggTheme : BaseTheme // For debug lol
     {
         private static Random random = new Random();
-
+        
         public override Color CV_MAIN_MENU_ICON_SELECTED { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_MAIN_MENU_ICON_UNSELECTED { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GRADE_NOTE { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GRADE_INSUFFICIENT { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GRADE_SLIGHTLY_INSUFFICIENT { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GRADE_SUFFICIENT { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+        public override Color CV_GRADE_INSUFFICIENT_BG { get; } = Color.FromArgb(0xAF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+        public override Color CV_GRADE_SLIGHTLY_INSUFFICIENT_BG { get; } = Color.FromArgb(0xAF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+        public override Color CV_GRADE_SUFFICIENT_BG { get; } = Color.FromArgb(0xAF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GENERIC_RED { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GENERIC_GRAY { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_GENERIC_BACKGROUND { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
@@ -52,5 +55,9 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_SETTINGS_TEXT { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_EXTRA_HEADER_ELLIPSE { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
         public override Color CV_EXTRA_INTERACT_ICONS { get; } = Color.FromArgb(0xFF, (byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255));
+    
+        public EasterEggTheme() : base(false){
+
         }
     }
+}

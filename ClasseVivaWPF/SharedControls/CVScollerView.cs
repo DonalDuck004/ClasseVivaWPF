@@ -56,6 +56,14 @@ namespace ClasseVivaWPF.SharedControls
         public static double GetMaxHorizontalOffset(DependencyObject obj) => (double)obj.GetValue(MaxHorizontalOffsetProperty);
 
         public static void SetMaxHorizontalOffset(DependencyObject obj, double value) => obj.SetValue(MaxHorizontalOffsetProperty, value);
+        
+        public static bool GetMaxHorizontalOffsetSubstractSelf(DependencyObject obj) => (bool)obj.GetValue(MaxHorizontalOffsetSubstractSelfProperty);
+        
+        public static void SetGetMaxHorizontalOffsetSubstractSelf(DependencyObject obj, bool value) => obj.SetValue(MaxHorizontalOffsetSubstractSelfProperty, value);
+        
+        public static bool GetMaxVerticalOffsetSubstractSelf(DependencyObject obj) => (bool)obj.GetValue(MaxVerticalOffsetSubstractSelfProperty);
+        
+        public static void SetMaxVerticalOffsetSubstractSelf(DependencyObject obj, bool value) => obj.SetValue(MaxVerticalOffsetSubstractSelfProperty, value);
 
 
         public bool IsEnabled
@@ -106,6 +114,18 @@ namespace ClasseVivaWPF.SharedControls
             set => SetValue(SnapIncludeMarginsProperty, value);
         }
 
+        public bool MaxHorizontalOffsetSubstractSelf
+        {
+            get => (bool)GetValue(MaxHorizontalOffsetSubstractSelfProperty);
+            set => SetValue(MaxHorizontalOffsetSubstractSelfProperty, value);
+        }
+
+        public bool MaxVerticalOffsetSubstractSelf
+        {
+            get => (bool)GetValue(MaxVerticalOffsetSubstractSelfProperty);
+            set => SetValue(MaxVerticalOffsetSubstractSelfProperty, value);
+        }
+
         public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false, IsEnabledChanged));
         public static readonly DependencyProperty SpeedProperty = DependencyProperty.RegisterAttached("Speed", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(1D));
         public static readonly DependencyProperty CatchWidthProperty = DependencyProperty.RegisterAttached("CatchWidth", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(true));
@@ -115,28 +135,67 @@ namespace ClasseVivaWPF.SharedControls
         public static readonly DependencyProperty SnapSensibilityProperty = DependencyProperty.RegisterAttached("SnapSensibility", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(4D));
         public static readonly DependencyProperty ScrollDirectionProperty = DependencyProperty.RegisterAttached("ScrollDirection", typeof(ScrollDirections), typeof(CVScollerView), new UIPropertyMetadata(ScrollDirections.Vertical));
         public static readonly DependencyProperty SnapIncludeMarginsProperty = DependencyProperty.RegisterAttached("SnapIncludeMargins", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
-        public static readonly DependencyProperty MaxVerticalOffsetProperty = DependencyProperty.RegisterAttached("MaxVerticalOffset", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(double.NaN));
-        public static readonly DependencyProperty MaxHorizontalOffsetProperty = DependencyProperty.RegisterAttached("MaxHorizontalOffset", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(double.NaN));
+        public static readonly DependencyProperty MaxVerticalOffsetProperty = DependencyProperty.RegisterAttached("MaxVerticalOffset", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(double.NaN, OnMaxVerticalOffsetChanged));
+        public static readonly DependencyProperty MaxHorizontalOffsetProperty = DependencyProperty.RegisterAttached("MaxHorizontalOffset", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(double.NaN, OnMaxHorizontalOffsetChanged));
+        public static readonly DependencyProperty MaxHorizontalOffsetSubstractSelfProperty = DependencyProperty.RegisterAttached("MaxHorizontalOffsetSubstractSelf", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty MaxVerticalOffsetSubstractSelfProperty = DependencyProperty.RegisterAttached("MaxVerticalOffsetSubstractSelf", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
         
         public static readonly RoutedEvent OnSnapEvent = EventManager.RegisterRoutedEvent("OnSnap", RoutingStrategy.Bubble, typeof(OnSnapHandler), typeof(CVScollerView));
         public delegate void OnSnapHandler(object sender, SnapEventArgs e);
 
         static Dictionary<object, MouseCapture> _captures = new Dictionary<object, MouseCapture>();
 
-        public static void AddOnSnapHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
+        public static void OnMaxVerticalOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if (dependencyObject is not UIElement uiElement)
+            if (dependencyObject is not ScrollViewer target)
                 return;
 
-            uiElement.AddHandler(OnSnapEvent, handler);
+            if (GetMaxVerticalOffsetSubstractSelf(target))
+            {
+                if (target.VerticalOffset > (double)e.NewValue - target.ActualHeight)
+                    target.ScrollToVerticalOffset((double)e.NewValue - target.ActualHeight);
+                else if (target.VerticalOffset == (double)e.OldValue - target.ActualHeight)
+                    target.ScrollToVerticalOffset((double)e.NewValue - target.ActualHeight);
+            }
+            else if (target.VerticalOffset > (double)e.NewValue)
+                target.ScrollToVerticalOffset((double)e.NewValue);
+            else if (target.VerticalOffset == (double)e.OldValue)
+                target.ScrollToVerticalOffset((double)e.NewValue);
+
+        }
+
+        public static void OnMaxHorizontalOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is not ScrollViewer target)
+                return;
+
+            if (GetMaxHorizontalOffsetSubstractSelf(target))
+            {
+                if (target.HorizontalOffset > (double)e.NewValue - target.ActualWidth)
+                    target.ScrollToHorizontalOffset((double)e.NewValue - target.ActualWidth);
+                else if (target.ActualWidth == (double)e.OldValue - target.ActualWidth)
+                    target.ScrollToHorizontalOffset((double)e.NewValue - target.ActualWidth);
+            }
+            else if (target.HorizontalOffset > (double)e.NewValue)
+                target.ScrollToHorizontalOffset((double)e.NewValue);
+            else if (target.HorizontalOffset == (double)e.OldValue)
+                target.ScrollToHorizontalOffset((double)e.NewValue);
+        }
+
+        public static void AddOnSnapHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
+        {
+            if (dependencyObject is not ScrollViewer target)
+                return;
+
+            target.AddHandler(OnSnapEvent, handler);
         }
 
         public static void RemoveOnSnapHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
         {
-            if (dependencyObject is not UIElement uiElement)
+            if (dependencyObject is not ScrollViewer target)
                 return;
 
-            uiElement.RemoveHandler(OnSnapEvent, handler);
+            target.RemoveHandler(OnSnapEvent, handler);
         }
 
         static void IsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -157,24 +216,31 @@ namespace ClasseVivaWPF.SharedControls
             if (target is null)
                 return;
             double tmp;
-            double tmp1;
-            var x = GetMaxVerticalOffset(target);
-
+            double max;
 
             if (GetScrollDirection(target) is ScrollDirections.Vertical)
             {
-                
                 tmp = target.VerticalOffset - e.Delta * GetSpeed(target);
-                if (tmp > (tmp1 = Math.CopySign(GetMaxVerticalOffset(target), tmp)))
-                    tmp = tmp1;
+                max = GetMaxVerticalOffset(target);
+
+                if (GetMaxVerticalOffsetSubstractSelf(target))
+                    max -= target.ActualHeight;
+
+                if (tmp > max)
+                    tmp = max;
 
                 target.ScrollToVerticalOffset(tmp);
             }
             else
             {
                 tmp = target.HorizontalOffset - e.Delta * GetSpeed(target);
-                if (tmp > (tmp1 = GetMaxHorizontalOffset(target)))
-                    tmp = tmp1;
+                max = GetMaxHorizontalOffset(target);
+
+                if (GetMaxHorizontalOffsetSubstractSelf(target))
+                    max -= target.ActualWidth;
+
+                if (tmp > max)
+                    tmp = max;
 
                 target.ScrollToHorizontalOffset(tmp);
             }
@@ -386,13 +452,18 @@ namespace ClasseVivaWPF.SharedControls
             
             var speed = GetSpeed(target);
             double to;
-            double tmp;
+            double max;
 
             if (catch_height && capture.VerticalOffset != dy)
             {
                 to = (capture.VerticalOffset - dy) * speed;
-                if (to > (tmp = GetMaxVerticalOffset(target)))
-                    to = tmp;
+
+                max = GetMaxVerticalOffset(target);
+                if (GetMaxVerticalOffsetSubstractSelf(target))
+                    max -= target.ActualWidth;
+
+                if (to > max)
+                    to = max;
 
                 target.ScrollToVerticalOffset(to);
             }
@@ -400,8 +471,12 @@ namespace ClasseVivaWPF.SharedControls
             if (catch_width && capture.HorizontalOffset != dx)
             {
                 to = (capture.HorizontalOffset - dx) * speed;
-                if (to > (tmp = GetMaxHorizontalOffset(target)))
-                    to = tmp;
+                max = GetMaxHorizontalOffset(target);
+                if (GetMaxHorizontalOffsetSubstractSelf(target))
+                    max -= target.ActualWidth;
+
+                if (to > max)
+                    to = max;
 
                 target.ScrollToHorizontalOffset(to);
             }

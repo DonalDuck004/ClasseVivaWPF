@@ -119,5 +119,10 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         {
             SessionHandler.INSTANCE!.SetPagesStackSize((int)e.NewValue);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
