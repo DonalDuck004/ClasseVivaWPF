@@ -36,7 +36,7 @@ namespace ClasseVivaWPF
         private int PagesStackSize;
 
         public delegate void PostLoginEventHandler();
-        public event PostLoginEventHandler? PostLogin = null;
+        public event PostLoginEventHandler PostLogin;
 
         public BaseTheme CurrentTheme
         {
@@ -60,19 +60,46 @@ namespace ClasseVivaWPF
         public MainWindow()
         {
             Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location!)!;
+            NotificationSystem.AvoidCompilationExcelusion();
             this.DataContext = this;
             this.AddHandler(Keyboard.KeyDownEvent, new KeyEventHandler(window_KeyDown), true);
             InitializeComponent();
 
-            this.PostLogin += () =>
+            this.PostLogin += OnPostLogin;
+        }
+
+
+        private void OnPostLogin()
+        {
+            if (this.NotifyIcon is not null)
+                this.NotifyIcon!.Checked = SessionHandler.INSTANCE!.GetNotificationsFlag();
+
+   
+            if (this.icon.Visible is false)
             {
-                if (NotifyIcon is not null)
-                    this.NotifyIcon!.Checked = SessionHandler.INSTANCE!.GetNotificationsFlag();
-                
-                PagesStackSize = SessionHandler.INSTANCE!.GetPagesStackSize();
-                SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
-                SessionHandler.INSTANCE!.PagesStackSizeChanged += OnPagesStackSizeChanged;
-            };
+                this.icon.Icon = new(Application.GetResourceStream(new Uri("pack://application:,,,/Assets/Images/icon.ico")).Stream);
+                this.icon.ContextMenuStrip = new();
+                this.icon.ContextMenuStrip.Items.Add("Apri", null, (s, e) => this.Show());
+
+                this.NotifyIcon = new Forms.ToolStripMenuItem()
+                {
+                    Text = "Notifiche",
+                    Checked = true,
+                    CheckOnClick = true,
+                };
+                this.NotifyIcon.CheckedChanged += (s, e) =>
+                {
+                    SessionHandler.INSTANCE!.SetNotificationsFlag(NotifyIcon.Checked);
+                };
+                this.icon.ContextMenuStrip.Items.Add(NotifyIcon);
+
+                this.icon.ContextMenuStrip.Items.Add("Chiudi", null, (s, e) => Application.Current.Shutdown());
+                this.icon.Visible = true;
+            }
+
+            this.PagesStackSize = SessionHandler.INSTANCE!.GetPagesStackSize();
+            SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
+            SessionHandler.INSTANCE!.PagesStackSizeChanged += OnPagesStackSizeChanged;
         }
 
         private void OnPagesStackSizeChanged(SessionHandler sender, int Size)
@@ -125,7 +152,7 @@ namespace ClasseVivaWPF
 
         public void RemoveField(FrameworkElement element)
         {
-            if (element is ICloseRequested sub_win)
+            if (element is IOnCloseRequested sub_win)
                 sub_win.OnCloseRequested();
 
             this.wrapper.Children.Remove(element);
@@ -159,34 +186,16 @@ namespace ClasseVivaWPF
             if (SessionHandler.TryInit(out string? api_error_message))
                 CVLoginPage.EndLogin();
             else
-                this.ReplaceMainContent(new CVLoginPage());
-
-            if (api_error_message is not null)
             {
-                new CVMessageBox("Errore di Login", api_error_message).Inject();
+                this.ReplaceMainContent(new CVLoginPage());
                 return;
             }
 
-            if (icon.Visible is false)
+            if (api_error_message is not null)
             {
-                icon.Icon = new(Application.GetResourceStream(new Uri("pack://application:,,,/Assets/Images/icon.ico")).Stream);
-                icon.ContextMenuStrip = new();
-                icon.ContextMenuStrip.Items.Add("Apri", null, (s, e) => this.Show());
-
-                NotifyIcon = new Forms.ToolStripMenuItem()
-                {
-                    Text = "Notifiche",
-                    Checked = true,
-                    CheckOnClick = true,
-                };
-                NotifyIcon.CheckedChanged += (s, e) =>
-                {
-                    SessionHandler.INSTANCE!.SetNotificationsFlag(NotifyIcon.Checked);
-                };
-                icon.ContextMenuStrip.Items.Add(NotifyIcon);
-
-                icon.ContextMenuStrip.Items.Add("Chiudi", null, (s, e) => Application.Current.Shutdown());
-                icon.Visible = true;
+                this.ReplaceMainContent(new CVLoginPage());
+                new CVMessageBox("Errore di Login", api_error_message).Inject();
+                return;
             }
         }
 
@@ -246,10 +255,9 @@ namespace ClasseVivaWPF
                 this.wrapper.Children[0].Focus();
         }
 
-        public void OnPostLogin()
+        public void RaisePostLogin()
         {
-            if (MainWindow.INSTANCE.PostLogin is not null)
-                MainWindow.INSTANCE.PostLogin();
+            MainWindow.INSTANCE.PostLogin();
         }
 
         internal void Goto(ToastArguments args)

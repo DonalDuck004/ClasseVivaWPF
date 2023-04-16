@@ -8,7 +8,7 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVWebView.xaml
     /// </summary>
-    public partial class CVPopfessoriOpener : CVExtraBase, ICloseRequested
+    public partial class CVPopfessoriOpener : CVExtraBase, IOnCloseRequested
     {
         private static DependencyProperty UriProperty;
 

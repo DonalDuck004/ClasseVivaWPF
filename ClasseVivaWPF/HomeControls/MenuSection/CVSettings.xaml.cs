@@ -15,7 +15,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVSettings.xaml
     /// </summary>
-    public partial class CVSettings : Injectable, ICloseRequested, ICVMeta
+    public partial class CVSettings : Injectable, IOnCloseRequested, ICVMeta
     {
         public bool CountsInStack { get; } = false;
        

@@ -4,4 +4,9 @@
     {
         void OnChildClosed();
     }
+
+    public interface IOnUpdateRequired
+    {
+        void OnUpdateRequired();
+    }
 }

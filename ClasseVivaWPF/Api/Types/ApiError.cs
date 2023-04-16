@@ -3,6 +3,7 @@ using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
+
     public class ApiError : Exception
     {
         public ApiErrorObject? Error { get; init; }
@@ -19,7 +20,6 @@ namespace ClasseVivaWPF.Api.Types
             this.WrappedExc = exc;
             this.Error = null;
         }
-
 
         public void ApplyStdProcedure(string header = "")
         {

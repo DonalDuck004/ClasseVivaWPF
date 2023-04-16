@@ -11,7 +11,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     /// <summary>
     /// Logica di interazione per CVExtra.xaml
     /// </summary>
-    public partial class CVExtra : Injectable, IOnKeyDown, ICloseRequested, IOnChildClosed, ICVMeta
+    public partial class CVExtra : Injectable, IOnKeyDown, IOnChildClosed, ICVMeta
     {
         public bool CountsInStack { get; } = false;
         public static CVExtra? INSTANCE = null;
@@ -27,9 +27,10 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             CVExtraHeader.DestroyAll();
         }
 
-        public void OnCloseRequested()
+        public virtual new void OnCloseRequested()
         {
             this.Destroy();
+            base.OnCloseRequested();
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();

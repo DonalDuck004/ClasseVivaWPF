@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 
 
@@ -28,8 +29,16 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.Always)]
         public required DateTime Expire { get; init; }
 
-
         private int? _id = null;
         public int Id => _id ??= int.Parse(new Regex("\\d+").Match(Ident).Value);
+
+        public string FullName
+        {
+            get
+            {
+                var rt = this.Ident[0] == 'G' ? "Genitore di " : "";
+                return rt + this.FirstName + " " + this.LastName;
+            }
+        }
     };
 }

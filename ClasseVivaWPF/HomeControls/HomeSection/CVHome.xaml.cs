@@ -14,7 +14,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// <summary>
     /// Logica di interazione per CVHome.xaml
     /// </summary>
-    public partial class CVHome : UserControl, IOnSwitch, IOnKeyDown
+    public partial class CVHome : UserControl, IOnSwitch, IOnKeyDown, IOnUpdateRequired
     {
         public static CVHome INSTANCE { get; private set; } = new();
         public Dictionary<DateTime, List<Content>>? Contents { get; set; } = null;
@@ -149,52 +149,50 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             calendar.Inject();
         }
 
-        private Point? mouse_fist_snap = null;
+        private Point? mouse_first_snap = null;
 
         private void OnSetScrollerOffestFromContent(object sender, MouseButtonEventArgs e)
         {
             if (e.OriginalSource is Run)
                 return;
 
-            this.mouse_fist_snap = e.GetPosition(this.homework_scroller);
+            this.mouse_first_snap = e.GetPosition(this.homework_scroller);
         }
 
         private void UpdateSelected()
         {
             this.Loader.Show();
-            return;
             CVDay.SelectedDay!.Update(require_new_call: true);
         }
 
         private void OnSnapScrollerFromContent(object sender, MouseButtonEventArgs e)
         {
-            if (this.days_wp.Children.Count == 0 || this.mouse_fist_snap is null)
+            if (this.days_wp.Children.Count == 0 || this.mouse_first_snap is null)
                 return;
 
             var pos = e.GetPosition(this.homework_scroller);
-            if (this.mouse_fist_snap.Value.Y <= this.homework_scroller.ActualHeight / 30 && pos.Y - this.mouse_fist_snap.Value.Y >= this.homework_scroller.ActualHeight / 2)
+            if (this.mouse_first_snap.Value.Y <= this.homework_scroller.ActualHeight / 30 && pos.Y - this.mouse_first_snap.Value.Y >= this.homework_scroller.ActualHeight / 2)
             {
                 this.UpdateSelected();
                 return;
             }
 
-            return;
             var required = this.head_wp.ActualWidth / 3;
 
             var idx = CVDay.SelectedDay!.ParentIdx;
 
-            if (this.mouse_fist_snap.Value.X - pos.X > required)
+            if (this.mouse_first_snap.Value.X - pos.X > required)
             {
                 if (++idx == 7) idx = 0;
                 CVDay.SelectedDay.Parent.SelectChild(idx);
             }
-            else if (pos.X - this.mouse_fist_snap.Value.X > required)
+            else if (pos.X - this.mouse_first_snap.Value.X > required)
             {
                 if (--idx == -1) idx = 6;
                 CVDay.SelectedDay.Parent.SelectChild(idx);
             }
 
-            this.mouse_fist_snap = null;
+            this.mouse_first_snap = null;
         }
 
         private void OnUpdateContent(object sender, MouseButtonEventArgs e)
@@ -210,6 +208,12 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private void OnSnapScroller(object sender, SnapEventArgs e)
         {
             ((CVWeek)e.SnappendElement).Scroll();
+        }
+
+        public void OnUpdateRequired()
+        {
+            CVDay.DestroyCache();
+            this.UpdateSelected();
         }
     }
 }

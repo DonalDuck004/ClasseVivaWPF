@@ -63,28 +63,30 @@ namespace ClasseVivaWPF.LoginControls
                             return;
 
                         me = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: choicer.Result);
-
-                        new Task(async () =>
-                        {
-                            Me other;
-
-                            foreach (var choice in mc.Choices)
-                            {
-                                if (choice.Ident == me.Ident || SessionHandler.ExistsSessionFor(choice.Ident))
-                                    continue;
-
-
-                                other = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: choice.Ident);
-
-                                SessionHandler.InitConn(other.Ident).SetMe(other, pass: pass, uid: uid, just_register: true);
-                            }
-                        }
-                        ).Start();
                     }
                     else
                         me = (Me)login;
 
                     SessionHandler.InitConn(me.Ident).SetMe(me, pass: this.password.Text, uid: this.username.Text);
+
+                    new Task(async () =>
+                    {
+                        var cards = await Client.INSTANCE.Cards();
+                        Me other;
+
+                        foreach (var card in cards.ContentCards)
+                        {
+
+                            SessionMetaController.AddAccount(card, card.Ident == me.Ident);
+
+                            if (card.Ident != me.Ident)
+                            {
+                                other = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: card.Ident);
+                                SessionHandler.InitConn(card.Ident).SetMe(other, pass: pass, uid: uid, just_register: true);
+                            }
+                        }
+                    }).Start();
+
 
                     EndLogin();
                 }
@@ -99,10 +101,14 @@ namespace ClasseVivaWPF.LoginControls
             }
         }
 
-        public static void EndLogin()
+        public static void EndLogin(bool set_content = true)
         {
-            var navigation = CVMainNavigation.New();
-            MainWindow.INSTANCE.ReplaceMainContent(navigation);
+            if (set_content)
+            {
+                var navigation = CVMainNavigation.New();
+                MainWindow.INSTANCE.ReplaceMainContent(navigation);
+            }
+
             var raw_content = Client.INSTANCE.Contents().ConfigureAwait(false).GetAwaiter().GetResult();
             CVHome.INSTANCE.Contents = new();
 
@@ -117,12 +123,9 @@ namespace ClasseVivaWPF.LoginControls
                     CVHome.INSTANCE.Contents[item.BeginDate].Add(item);
             }
 
-            if (SessionHandler.INSTANCE!.GetNotificationsFlag())
-                NotificationSystem.INSTANCE.SpawnTask();
-
             Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
 
-            MainWindow.INSTANCE.OnPostLogin();
+            MainWindow.INSTANCE.RaisePostLogin();
         }
     }
 }

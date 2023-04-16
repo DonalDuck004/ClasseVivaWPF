@@ -4,6 +4,7 @@ using ClasseVivaWPF.Sessions;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +13,7 @@ namespace ClasseVivaWPF.Utils
 {
     public class NotificationSystem
     {
-        public static NotificationSystem INSTANCE { get; } = new NotificationSystem();
+        public static NotificationSystem INSTANCE { get; private set; } = new();
 
         private Task? task;
 
@@ -26,6 +27,10 @@ namespace ClasseVivaWPF.Utils
         {
             MainWindow.INSTANCE.PostLogin += () =>
             {
+                this.Stop();
+                if (SessionHandler.INSTANCE!.GetNotificationsFlag())
+                    this.SpawnTask();
+
                 this.Range = SessionHandler.INSTANCE!.GetNotificationsRange();
                 SessionHandler.INSTANCE!.NotificationsFlagChanged += OnNotificationsFlagChanged;
                 SessionHandler.INSTANCE!.NotificationsRangeChanged += OnNotificationsRangeChanged;
@@ -62,10 +67,13 @@ namespace ClasseVivaWPF.Utils
 
             ToastContentBuilder builder;
 
+            DateTime BeginSleep;
+
             while (this.run)
             {
                 foreach (var item in (await this.Fetch()).Where(x => !displayed_ids.Contains(x.EffectiveID)))
                 {
+                    Debug.Assert(!displayed_ids.Contains(item.EffectiveID));
                     displayed_ids.Add(item.EffectiveID);
                     if (!quiteNext)
                     {
@@ -77,14 +85,29 @@ namespace ClasseVivaWPF.Utils
                 }
 
                 quiteNext = false;
-
-                await Task.Delay(Config.NOTIFY_UPDATE_DELAY);
+                BeginSleep = DateTime.Now;
+                while (DateTime.Now - BeginSleep < TimeSpan.FromMilliseconds(Config.NOTIFY_UPDATE_DELAY))
+                {
+                    await Task.Delay(200);
+                    if (!this.run)
+                        break;
+                }
             }
         }
 
         public void Stop()
         {
             this.run = false;
+
+            try
+            {
+                if (this.task is not null)
+                    this.task.Wait();
+            }catch (Exception)
+            {
+                ;
+            }
+
             this.task = null;
         }
 
@@ -103,6 +126,11 @@ namespace ClasseVivaWPF.Utils
         {
             this.Range = Range;
             this.quiteNext = true;
+        }
+
+        public static void AvoidCompilationExcelusion()
+        {
+            INSTANCE = INSTANCE;
         }
     }
 }

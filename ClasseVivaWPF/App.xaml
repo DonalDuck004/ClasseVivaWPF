@@ -287,5 +287,13 @@
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
+
+        <ControlTemplate x:Key="DoneIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Path Fill="{TemplateBinding Background}" Data="M9,16.2L4.8,12l-1.4,1.4L9,19 21,7l-1.4,-1.4L9,16.2z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
     </Application.Resources>
 </Application>

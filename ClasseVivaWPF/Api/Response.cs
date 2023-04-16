@@ -65,8 +65,15 @@ namespace ClasseVivaWPF.Api
 
         public void GetError()
         {
-            var obj = JsonConvert.DeserializeObject<ApiErrorObject>(this.Text)!;
-            throw new ApiError(obj);
+            try
+            {
+                var obj = JsonConvert.DeserializeObject<ApiErrorObject>(this.Text)!;
+                throw new ApiError(obj);
+            }
+            catch (JsonReaderException)
+            {
+                throw new ApiError(new UnparsableException() { response = this });
+            }
         }
     }
 }

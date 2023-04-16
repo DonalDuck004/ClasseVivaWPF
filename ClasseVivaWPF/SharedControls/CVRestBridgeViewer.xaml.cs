@@ -10,7 +10,7 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVRestBridgeViewer.xaml
     /// </summary>
-    public partial class CVRestBridgeViewer : Injectable, ICloseRequested
+    public partial class CVRestBridgeViewer : Injectable
     {
         private static DependencyProperty UriProperty;
 
@@ -32,9 +32,10 @@ namespace ClasseVivaWPF.SharedControls
             this.DataContext = this;
         }
 
-        public void OnCloseRequested()
+        public override void OnCloseRequested()
         {
             this.WebView.Dispose();
+            base.OnCloseRequested();
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();

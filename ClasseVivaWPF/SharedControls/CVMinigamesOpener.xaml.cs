@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace ClasseVivaWPF.SharedControls
 {
 
-    public partial class CVMinigamesOpener : Injectable, ICloseRequested
+    public partial class CVMinigamesOpener : Injectable
     {
         private static DependencyProperty UriProperty;
 
@@ -64,10 +64,11 @@ namespace ClasseVivaWPF.SharedControls
             set => base.SetValue(UriProperty, value);
         }
 
-        public void OnCloseRequested()
+        public override void OnCloseRequested()
         {
             this.WebView.Dispose();
             GC.Collect();
+            base.OnCloseRequested();
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();

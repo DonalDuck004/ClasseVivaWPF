@@ -25,7 +25,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
     /// <summary>
     /// Logica di interazione per CVRegistry.xaml
     /// </summary>
-    public partial class CVRegistry : UserControl, IOnSwitch, IOnKeyDown, IOnChildClosed
+    public partial class CVRegistry : UserControl, IOnSwitch, IOnKeyDown, IOnChildClosed, IOnUpdateRequired
     {
 
         public static CVRegistry? INSTANCE { get; private set; }
@@ -417,6 +417,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 this.UpdateControls();
             }
         }
+
+        public void OnUpdateRequired() => this.UpdateControls();
     }
 
 }

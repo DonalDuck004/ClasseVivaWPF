@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace ClasseVivaWPF.SharedControls
 {
-    public class Injectable : UserControl, ICloseRequested
+    public class Injectable : UserControl, IOnCloseRequested
     {
         private SemaphoreSlim waiter = new SemaphoreSlim(1);
 

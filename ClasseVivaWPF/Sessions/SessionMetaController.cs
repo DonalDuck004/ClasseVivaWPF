@@ -1,0 +1,90 @@
+﻿using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Utils;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+namespace ClasseVivaWPF.Sessions
+{
+    public static class SessionMetaController
+    {
+        public static AccountMetaContainer Current { get; private set; }
+        public const string FILENAME = "meta.json";
+        public static string EFFECTIVE_PATH { get; private set; }
+
+        static SessionMetaController()
+        {
+            SessionMetaController.EFFECTIVE_PATH = Path.Join(Config.SESSIONS_DIR_PATH, FILENAME);
+            SessionMetaController.Current = SessionMetaController.Reload();
+        }
+
+        private static AccountMetaContainer Reload()
+        {
+            string content;
+            if (!File.Exists(SessionMetaController.EFFECTIVE_PATH))
+                content = "";
+            else
+                content = File.ReadAllText(SessionMetaController.EFFECTIVE_PATH);
+            
+            var obj = JsonConvert.DeserializeObject<AccountMetaContainer>(content) ?? new() { LastIdx = null, Accounts = new() };
+            if (obj.LastIdx is null && obj.Accounts.Count != 0)
+                obj.LastIdx = 0;
+
+            return obj;
+        }
+       
+        private static void Dump()
+        {
+            var content = JsonConvert.SerializeObject(SessionMetaController.Current);
+            File.WriteAllText(SessionMetaController.EFFECTIVE_PATH, content);
+        }
+
+        public static bool AddAccount(Card card, bool SetAsCurrent = false) => AddAccount(new AccountMeta() { Ident = card.Ident, Name = card.FullName, School = card.SchCode, Initials = card.Initials }, SetAsCurrent);
+
+        public static bool AddAccount(AccountMeta meta, bool SetAsCurrent = false)
+        {
+            if (SessionMetaController.Current.Accounts.Contains(meta))
+                return false;
+
+          
+            if (SessionMetaController.Current.LastIdx is null || SetAsCurrent)
+                SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.Count;
+            
+            SessionMetaController.Current.Accounts.Add(meta);
+            SessionMetaController.Dump();
+
+            return true;
+        }
+        
+        public static void Select(AccountMeta meta)
+        {
+            SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.IndexOf(meta);
+            SessionMetaController.Dump();
+        }
+
+        public static void RemoveAt(int idx)
+        {
+            SessionMetaController.Current.Accounts.RemoveAt(idx);
+            SessionMetaController.Dump();
+        }
+
+        public static void SelectAt(int idx)
+        {
+            SessionMetaController.Current.LastIdx = idx;
+            SessionMetaController.Dump();
+        }
+
+        public static void RemoveCurrent(int new_idx)
+        {
+            if (new_idx > SessionMetaController.Current.LastIdx)
+                new_idx--;
+
+            SessionMetaController.Current.Accounts.RemoveAt(SessionMetaController.Current.LastIdx.Value);
+            SessionMetaController.Dump();
+        }
+    }
+}

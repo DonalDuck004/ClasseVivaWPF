@@ -160,6 +160,7 @@ namespace ClasseVivaWPF.Api
 
             return result!;
         }
+
         public void UnSetLoginToken()
         {
             this.client.DefaultRequestHeaders.Remove("z-auth-token");
@@ -169,6 +170,9 @@ namespace ClasseVivaWPF.Api
 
         public void SetLoginToken(string z_auth_token)
         {
+            if (this.client.DefaultRequestHeaders.Contains("z-auth-token"))
+                UnSetLoginToken();
+
             this.client.DefaultRequestHeaders.Add("z-auth-token", z_auth_token);
         }
 
@@ -327,6 +331,28 @@ namespace ClasseVivaWPF.Api
         {
             var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/absences/details", null, allow_cache: true).ConfigureAwait(false);
             var content = response.GetObject<Events>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Card> Card()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/card", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Card>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Cards> Cards()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/cards", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Cards>();
 
             if (content is null)
                 response.GetError();

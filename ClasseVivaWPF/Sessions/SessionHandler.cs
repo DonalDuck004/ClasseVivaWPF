@@ -38,7 +38,7 @@ namespace ClasseVivaWPF.Sessions
         
         private SessionHandler(string session_name)
         {
-            this.FileName = session_name + ".db";
+            this.FileName = session_name;
 
             var exists = File.Exists(this.FileName);
             this.conn = new SqliteConnection($"Data Source={this.FileName}");
@@ -47,22 +47,14 @@ namespace ClasseVivaWPF.Sessions
                 this.LoadSchema();
         }
 
-        public static bool TryInit(out string? api_error_message)
+        public static bool TryInit(out string? api_error_message, int? idx = null)
         {
             api_error_message = null;
-            var last = Path.Join(Config.SESSIONS_DIR_PATH, "Last");
+            var current = SessionMetaController.Current;
 
-            if (File.Exists(last))
+            if (current.HasAccounts)
             {
-                string? l;
-                using (var sr = new StreamReader(last))
-                {
-                    l = sr.ReadLine();
-                    if (l is null)
-                        return false;
-                }
-
-                var @this = new SessionHandler(Path.Join(Config.SESSIONS_DIR_PATH, l));
+                var @this = new SessionHandler(SessionFileFor((idx is null ? current.CurrentAccount : current.Accounts[idx.Value])!.Ident));
                 try
                 {
                     @this.GetMe();
@@ -75,23 +67,27 @@ namespace ClasseVivaWPF.Sessions
                     @this.Destroy();
                     return false;
                 }
-                INSTANCE = @this;
+
+                SessionHandler.INSTANCE = @this;
                 return true;
             }
 
             return false;
         }
 
+        public static string SessionFileFor(string ident)
+        {
+            return Path.Join(Config.SESSIONS_DIR_PATH, ident) + ".db";
+        }
+
         public static bool ExistsSessionFor(string ident)
         {
-            var FileName = Path.Join(Config.SESSIONS_DIR_PATH, ident) + ".db";
-
-            return File.Exists(FileName);
+            return File.Exists(SessionFileFor(ident));
         }
 
         public static SessionHandler InitConn(string ident)
         {
-            return INSTANCE = new(Path.Join(Config.SESSIONS_DIR_PATH, ident));
+            return SessionHandler.INSTANCE = new(SessionFileFor(ident));
         }
 
         public void LoadSchema()
@@ -187,7 +183,7 @@ namespace ClasseVivaWPF.Sessions
 
         public (string, string, string) GetTokenRenewStuffs()
         {
-            var sql = "SELECT pass, uid FROM Session";
+            var sql = "SELECT ident, pass, uid FROM Session";
             var cur = this.conn.CreateCommand();
             cur.CommandText = sql;
             var row = cur.ExecuteReader();
@@ -218,13 +214,7 @@ namespace ClasseVivaWPF.Sessions
             cur.ExecuteNonQuery();
 
             if (just_register is false)
-            {
                 SessionHandler.Me = me;
-
-                var sw = new StreamWriter(Path.Join(Config.SESSIONS_DIR_PATH, "Last"), false);
-                sw.Write(me.Ident);
-                sw.Close();
-            }
         }
 
         public void RenewToken(DateTime? expire = null)
@@ -239,7 +229,6 @@ namespace ClasseVivaWPF.Sessions
                 this.SetMe((Me)me, uid, pass);
             }
         }
-
 
         public int GetCacheSize()
         {
@@ -325,6 +314,11 @@ namespace ClasseVivaWPF.Sessions
 
             if (PagesStackSizeChanged is not null)
                 PagesStackSizeChanged(this, newValue);
+        }
+
+        public void Close()
+        {
+            this.conn.Close();
         }
     }
 }

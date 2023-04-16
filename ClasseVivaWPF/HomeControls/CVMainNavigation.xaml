@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="159"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Border Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0">
+            <Border Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0" MouseLeftButtonDown="OnExpandAccounts" Panel.ZIndex="1">
                 <Image x:Name="profile_image"></Image>
             </Border>
             <DockPanel Grid.Column="1" Name="logo_wp">
@@ -34,6 +34,71 @@
             </DockPanel>
             <Rectangle Fill="Black" Opacity="0.2" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="3"></Rectangle>
         </Grid>
+        <Canvas VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="2">
+            <Canvas Canvas.Top="37" Canvas.Left="-300">
+                <Canvas.Resources>
+                    <Storyboard x:Key="Expand">
+                        <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(Canvas.Left)"></DoubleAnimation>
+                    </Storyboard>
+                    <Storyboard x:Key="Dexpand">
+                        <DoubleAnimation Duration="0:0:0.3" To="-300" Storyboard.TargetProperty="(Canvas.Left)"></DoubleAnimation>
+                    </Storyboard>
+                </Canvas.Resources>
+                <Canvas.Style>
+                    <Style TargetType="Canvas">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=AccountSectionExpanded}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ResourceKey=Expand}"/>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ResourceKey=Dexpand}"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Style>
+                <Path Fill="Red">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigure StartPoint="18.5,10" IsClosed="True">
+                                    <LineSegment Point="23.5,3"></LineSegment>
+                                    <LineSegment Point="28.5,10"></LineSegment>
+                                </PathFigure>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+                <Grid Canvas.Top="10" Background="Blue" Margin="5,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Rectangle Grid.Row="0" Fill="Red"></Rectangle>
+                    <StackPanel Grid.Row="1" Name="accounts_wp">
+                    </StackPanel>
+                    <Rectangle Grid.Row="2" Height="0.7" Fill="WhiteSmoke"></Rectangle>
+                    <StackPanel Grid.Row="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Content="Aggiungi un account" Grid.Column="1" Grid.Row="0"></Label>
+                            <Label Content="Gestisci account" Grid.Column="1" Grid.Row="1"></Label>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Canvas>
+        </Canvas>
+        
         <DockPanel Name="Current" Grid.Row="1">
         </DockPanel>
 

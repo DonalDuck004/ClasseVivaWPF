@@ -114,7 +114,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                     Retries.Remove(this.Date);
                 }
 
-                if (this._content is null)
+                if (this._content is null || !READY_CONTENT.ContainsKey(this.Date))
                 {
                     if (this._destroyed)
                         return null;
@@ -328,6 +328,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             INSTANCES.Clear();
             SelectedDay = null;
+        }
+
+        public static void DestroyCache()
+        {
+            READY_CONTENT.Clear();
         }
     }
 }

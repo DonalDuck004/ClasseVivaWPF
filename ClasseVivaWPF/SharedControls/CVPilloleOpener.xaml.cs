@@ -18,7 +18,7 @@ namespace ClasseVivaWPF.SharedControls
     /// Logica di interazione per CVMemeViewer.xaml
     /// </summary>
     ///
-    public partial class CVPilloleOpener : CVExtraBase, ICloseRequested, IOnKeyDown
+    public partial class CVPilloleOpener : CVExtraBase, IOnCloseRequested, IOnKeyDown
     {
         public static readonly DependencyProperty SelectedContentProperty;
         public static readonly DependencyProperty MultiProperty;
@@ -192,12 +192,13 @@ namespace ClasseVivaWPF.SharedControls
             this.Loaded -= OnLoad;
         }
 
-        public void OnCloseRequested()
+        public override void OnCloseRequested()
         {
             this.Content = null;
             foreach (var item in this.Images)
                 item.Item1.Source = null;
             Application.Current.Dispatcher.BeginInvoke(GC.Collect);
+            base.OnCloseRequested();
         }
     }
 }

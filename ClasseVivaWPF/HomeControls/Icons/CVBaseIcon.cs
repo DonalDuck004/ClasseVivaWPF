@@ -73,7 +73,9 @@ namespace ClasseVivaWPF.HomeControls.Icons
                         Selected.IsSelected = false;
 
                     Selected = this;
-                    CVMainNavigation.INSTANCE!.SelectVoice(IconValue);
+
+                    if (CVMainNavigation.INSTANCE is not null) // Prevent vs render error
+                        CVMainNavigation.INSTANCE!.SelectVoice(IconValue);
                 }
 
                 SetValue(IsSelectedProperty, value);
