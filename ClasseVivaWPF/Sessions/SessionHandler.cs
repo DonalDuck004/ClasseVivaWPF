@@ -320,5 +320,15 @@ namespace ClasseVivaWPF.Sessions
         {
             this.conn.Close();
         }
+
+        public static void DestroyFile(string v)
+        {
+            try
+            {
+                File.Delete(v);
+            }catch (Exception) {
+                ;
+            }
+        }
     }
 }

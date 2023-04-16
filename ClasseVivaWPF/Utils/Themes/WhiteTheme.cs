@@ -57,6 +57,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_GRADE_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
         public override Color CV_GRADE_GRV2 { get; } = Color.FromArgb(0xFF, 0xC3, 0x7F, 0X45);
         public override Color CV_ABSENCES_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_ACCOUNT_BUBBLE_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_ACCOUNT_BUBBLE { get; } = Color.FromArgb(0xFF, 0x16, 0xA0, 0x85);
 
         public WhiteTheme() : base()
         {

@@ -43,11 +43,15 @@ namespace ClasseVivaWPF.Sessions
             File.WriteAllText(SessionMetaController.EFFECTIVE_PATH, content);
         }
 
-        public static bool AddAccount(Card card, bool SetAsCurrent = false) => AddAccount(new AccountMeta() { Ident = card.Ident, Name = card.FullName, School = card.SchCode, Initials = card.Initials }, SetAsCurrent);
+        public static bool AddAccount(Card card, bool SetAsCurrent = false) => AddAccount(new AccountMeta() { Ident = card.Ident, 
+                                                                                                              Name = card.FullName,
+                                                                                                              School = card.SchCode,
+                                                                                                              Initials = card.Initials},
+                                                                                           SetAsCurrent);
 
         public static bool AddAccount(AccountMeta meta, bool SetAsCurrent = false)
         {
-            if (SessionMetaController.Current.Accounts.Contains(meta))
+            if (SessionMetaController.Current.Accounts.Where(x => x.Ident == meta.Ident).Any())
                 return false;
 
           
@@ -62,7 +66,7 @@ namespace ClasseVivaWPF.Sessions
         
         public static void Select(AccountMeta meta)
         {
-            SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.IndexOf(meta);
+            SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.TakeWhile(x => x.Ident != meta.Ident).Count();
             SessionMetaController.Dump();
         }
 
@@ -78,13 +82,23 @@ namespace ClasseVivaWPF.Sessions
             SessionMetaController.Dump();
         }
 
-        public static void RemoveCurrent(int new_idx)
+        public static void RemoveCurrent(int new_idx = 0)
         {
             if (new_idx > SessionMetaController.Current.LastIdx)
                 new_idx--;
 
-            SessionMetaController.Current.Accounts.RemoveAt(SessionMetaController.Current.LastIdx.Value);
+            SessionMetaController.Current.Accounts.RemoveAt(SessionMetaController.Current.LastIdx!.Value);
+            SessionMetaController.Current.LastIdx = new_idx;
+
             SessionMetaController.Dump();
+        }
+
+        public static void Remove(AccountMeta meta)
+        {
+            var idx = SessionMetaController.Current.Accounts.TakeWhile(x => x.Ident != meta.Ident).Count();
+            RemoveAt(idx);
+            if (idx == SessionMetaController.Current.LastIdx)
+                SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.Count == 0 ? null : 0;
         }
     }
 }

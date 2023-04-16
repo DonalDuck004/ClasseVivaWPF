@@ -56,12 +56,27 @@ namespace ClasseVivaWPF.Utils.Themes
         public static readonly DependencyProperty CVGradeFontProperty;
         public static readonly DependencyProperty CVGradeGRV2Property;
         public static readonly DependencyProperty CVAbsencesFontProperty;
+        public static readonly DependencyProperty CVAccountBubbleFontProperty;
+        public static readonly DependencyProperty CVAccountBubbleProperty;
+
+        public SolidColorBrush CVAccountBubbleFont
+        {
+            get => (SolidColorBrush)GetValue(CVAccountBubbleFontProperty);
+            set => SetValue(CVAccountBubbleFontProperty, value);
+        }
+
+        public SolidColorBrush CVAccountBubble
+        {
+            get => (SolidColorBrush)GetValue(CVAccountBubbleProperty);
+            set => SetValue(CVAccountBubbleProperty, value);
+        }
 
         public SolidColorBrush CVAbsencesFont
         {
             get => (SolidColorBrush)GetValue(CVAbsencesFontProperty);
             set => SetValue(CVAbsencesFontProperty, value);
         }
+
         public SolidColorBrush CVGradeFont
         {
             get => (SolidColorBrush)GetValue(CVGradeFontProperty);
@@ -395,6 +410,8 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.CVGradeFontProperty = DependencyProperty.Register("CVGradeFont", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVGradeGRV2Property = DependencyProperty.Register("CVGradeGRV2", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAbsencesFontProperty = DependencyProperty.Register("CVAbsencesFont", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAccountBubbleProperty = DependencyProperty.Register("CVAccountBubble", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAccountBubbleFontProperty = DependencyProperty.Register("CVAccountBubbleFont", typeof(SolidColorBrush), typeof(ThemeProperties));
 
             ThemeProperties.INSTANCE = new();
         }
@@ -402,6 +419,8 @@ namespace ClasseVivaWPF.Utils.Themes
 
         private ThemeProperties()
         {
+            this.SetThemeBinding(ThemeProperties.CVAccountBubbleProperty, BaseTheme.CV_ACCOUNT_BUBBLE_PATH);
+            this.SetThemeBinding(ThemeProperties.CVAccountBubbleFontProperty, BaseTheme.CV_ACCOUNT_BUBBLE_FONT_PATH);
             this.SetThemeBinding(ThemeProperties.CVExtraInteractIconsProperty, BaseTheme.CV_EXTRA_INTERACT_ICONS_PATH);
             this.SetThemeBinding(ThemeProperties.CVExtraHeaderEllipseProperty, BaseTheme.CV_EXTRA_HEADER_ELLIPSE_PATH);
             this.SetThemeBinding(ThemeProperties.CVTextBoxBackgroundProperty, BaseTheme.CV_TEXT_BOX_BACKGROUND_PATH);

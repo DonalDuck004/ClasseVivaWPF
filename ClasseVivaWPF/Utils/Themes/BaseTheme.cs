@@ -82,7 +82,11 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_GRADE_FONT_PATH = "CV_GRADE_FONT";
         public const string CV_GRADE_GRV2_PATH = "CV_GRADE_GRV2";
         public const string CV_ABSENCES_FONT_PATH = "CV_ABSENCES_FONT";
-        
+        public const string CV_ACCOUNT_BUBBLE_FONT_PATH = "CV_ACCOUNT_BUBBLE_FONT";
+        public const string CV_ACCOUNT_BUBBLE_PATH = "CV_ACCOUNT_BUBBLE";
+
+        public abstract Color CV_ACCOUNT_BUBBLE { get; }
+        public abstract Color CV_ACCOUNT_BUBBLE_FONT { get; }
         public abstract Color CV_EXTRA_HEADER_ELLIPSE { get; }
         public abstract Color CV_SETTINGS_TEXT { get; }
         public abstract Color CV_TEXT_BOX_BACKGROUND { get; }

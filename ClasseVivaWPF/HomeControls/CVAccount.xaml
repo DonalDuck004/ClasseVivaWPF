@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="200">
     <Grid Margin="3,5,3,5" MouseLeftButtonDown="OnSelected" Cursor="Hand">
@@ -16,11 +17,11 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Width="32" Height="32" Grid.RowSpan="2" CornerRadius="100" VerticalAlignment="Center" Background="Aquamarine">
-            <TextBlock Text="{Binding Path=Account.Initials}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+        <Border Grid.Column="0" Width="32" Height="32" Grid.RowSpan="2" CornerRadius="100" VerticalAlignment="Center" Background="{themes:ThemeBinding Path=CVAccountBubble}">
+            <TextBlock Text="{Binding Path=Account.Initials}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVAccountBubbleFont}" FontSize="16" FontWeight="DemiBold"></TextBlock>
         </Border>
-        <TextBlock Margin="5,0,0,0" Text="{Binding Path=Account.Name}" Grid.Column="1" VerticalAlignment="Center"></TextBlock>
-        <TextBlock Margin="5,0,0,0" FontSize="11" Text="{Binding Path=Account.School}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
-        <ContentControl Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=VisibilityConverter}}" Template="{StaticResource ResourceKey=DoneIcon}" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Background="Red" Width="32" Height="32"></ContentControl>
+        <TextBlock Margin="5,0,0,0" Text="{Binding Path=Account.Name}" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.Column="1" VerticalAlignment="Center"></TextBlock>
+        <TextBlock Margin="5,0,0,0" FontSize="11" Text="{Binding Path=Account.School}" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
+        <ContentControl Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=VisibilityConverter}}" Template="{StaticResource ResourceKey=DoneIcon}" Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Background="{themes:ThemeBinding Path=CVGenericRed}" Width="32" Height="32"></ContentControl>
     </Grid>
 </UserControl>

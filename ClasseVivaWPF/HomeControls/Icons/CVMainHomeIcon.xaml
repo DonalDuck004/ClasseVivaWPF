@@ -20,15 +20,15 @@
                 <Viewbox Height="32" Width="32" Name="img" HorizontalAlignment="Center">
                     <Canvas Height="500" Width="500">
                         <Path x:Name="Path1" 
-                            StrokeThickness="14"
-                            Data="M295.48,333.64l0,142.21l127.43,0l0,-238.92l47.78,0l-220.69,-210.48l-220.7,210.48l47.79,0l0,238.92l127.43,0l0,-142.21l90.96,0z"></Path>
+                              StrokeThickness="14"
+                              Data="M295.48,333.64l0,142.21l127.43,0l0,-238.92l47.78,0l-220.69,-210.48l-220.7,210.48l47.79,0l0,238.92l127.43,0l0,-142.21l90.96,0z"></Path>
                     </Canvas>
                 </Viewbox>
             </StackPanel>
             <Label Grid.Row="2" Name="Desc"
-                    Content="{Binding IconValue}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top" FontSize="11">
+                   Content="{Binding Path=IconValue}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top" FontSize="11">
                 <Label.Resources>
                     <Style TargetType="Label">
                         <Style.Triggers>

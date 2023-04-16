@@ -189,12 +189,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 }
 
                 this.FirstPeriodCB.Check();
-                this.FirstPeriodCB.CanAlterCheck = true;
                 this.FirstPeriodName = sb_avg_1.Desc!;
 
                 if (g.Count == 1)
                 {
-                    this.FirstPeriodCB.Uncheck();
+                    this.LastPeriodCB.Uncheck();
+                    this.LastPeriodCB.CanAlterCheck = false;
                     this.FirstPeriodCB.CanAlterCheck = false;
 
                     sb_avg_2.Value = double.NaN;
@@ -216,6 +216,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 }
                 else
                 {
+                    this.FirstPeriodCB.CanAlterCheck = true;
                     this.LastPeriodName = sb_avg_2.Desc!;
                     this.LastPeriodCB.Check();
                     this.LastPeriodCB.CanAlterCheck = true;
@@ -313,7 +314,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 try
                 {
                     _CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
-                    _CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades;
+                    _CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades.OrderByDescending(x => x.EvtDate).ToArray();
                     _CachedAbsences = (await Client.INSTANCE.GetAbsences()).ContentEvents;
                 }catch(ApiError e)
                 {
@@ -382,6 +383,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 this.Graph.Filter(CVColumnsGraphFilterOperation.GroupAVG, ShowNaN, "Trimestre");
             else
                 (object.ReferenceEquals(sender, this.FirstPeriodCB) ? this.LastPeriodCB : this.FirstPeriodCB).IsChecked = true;
+
         }
 
         private void OnTriedChangeStateCB(CVCheckBox sender, EventArgs e)
@@ -418,7 +420,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             }
         }
 
-        public void OnUpdateRequired() => this.UpdateControls();
+        public async void OnUpdateRequired() => await Reload();
     }
 
 }

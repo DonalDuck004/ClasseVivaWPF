@@ -1,4 +1,5 @@
-﻿using ClasseVivaWPF.HomeControls.BadgeSection;
+﻿using ClasseVivaWPF.Api;
+using ClasseVivaWPF.HomeControls.BadgeSection;
 using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.HomeControls.MenuSection;
 using ClasseVivaWPF.HomeControls.RegistrySection;
@@ -9,6 +10,7 @@ using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,6 +26,7 @@ namespace ClasseVivaWPF.HomeControls
      
         public static CVMainNavigation? INSTANCE = null;
         public static readonly DependencyProperty AccountSectionExpandedProperty;
+        public static readonly DependencyProperty AccountSectionShowManagementProperty;
 
         public bool AccountSectionExpanded
         {
@@ -31,9 +34,16 @@ namespace ClasseVivaWPF.HomeControls
             set => SetValue(AccountSectionExpandedProperty, value);
         }
 
+        public bool AccountSectionShowManagement
+        {
+            get => (bool)GetValue(AccountSectionShowManagementProperty);
+            set => SetValue(AccountSectionShowManagementProperty, value);
+        }
+
         static CVMainNavigation()
         {
             AccountSectionExpandedProperty = DependencyProperty.Register("AccountSectionExpanded", typeof(bool), typeof(CVMainNavigation));
+            AccountSectionShowManagementProperty = DependencyProperty.Register("AccountSectionShowManagement", typeof(bool), typeof(CVMainNavigation));
         }
 
         private CVMainNavigation()
@@ -41,7 +51,16 @@ namespace ClasseVivaWPF.HomeControls
             InitializeComponent();
             this.DataContext = this;
 
+            this.BuildAccountSection();
+        }
+
+        private void BuildAccountSection()
+        {
+            this.accounts_wp.Children.Clear();
+            this.logout_wp.Children.Clear();
+           
             CVAccount tmp;
+            CVAccountLogout tmp1;
             for (int i = 0; i < SessionMetaController.Current.Accounts.Count; i++)
             {
                 this.accounts_wp.Children.Add(tmp = new() { Account = SessionMetaController.Current.Accounts[i] });
@@ -50,6 +69,9 @@ namespace ClasseVivaWPF.HomeControls
                     tmp.IsSelected = true;
 
                 tmp.OnSelect += OnAccountChanged!;
+
+                this.logout_wp.Children.Add(tmp1 = new () { Account = SessionMetaController.Current.Accounts[i] });
+                tmp1.OnLogout += OnAccountLogout!;
             }
         }
         
@@ -107,23 +129,44 @@ namespace ClasseVivaWPF.HomeControls
         private void OnExpandAccounts(object sender, MouseButtonEventArgs e)
         {
             this.AccountSectionExpanded = !AccountSectionExpanded;
+            if (this.AccountSectionExpanded is false)
+                this.AccountSectionShowManagement = false;
         }
 
-        private void OnAccountChanged(object sender, EventArgs e)
+        private bool ChangeAccount(int old_idx = 0)
         {
-            var old_idx = SessionMetaController.Current.LastIdx!.Value;
+            SessionHandler old;
 
-            var meta = ((CVAccount)sender).Account;
-            SessionMetaController.Select(meta);
-            SessionHandler.INSTANCE!.Close();
-            SessionHandler.TryInit(out string? error_msg);
-            
-            if (error_msg is not null)
+            while (true)
             {
-                new CVMessageBox("Errore di login", error_msg).Inject();
+                old = SessionHandler.INSTANCE!;
+                SessionHandler.TryInit(out string? error_msg);
 
-                SessionMetaController.RemoveCurrent(old_idx);
+                if (error_msg is not null)
+                {
+                    new CVMessageBox("Errore di login", error_msg).Inject();
+
+                    SessionHandler.DestroyFile(SessionHandler.SessionFileFor(SessionMetaController.Current.CurrentAccount.Ident));
+                    SessionMetaController.RemoveCurrent(old_idx);
+                }
+                else
+                {
+                    if (!SessionMetaController.Current.HasAccounts)
+                    {
+                        Client.INSTANCE.UnSetLoginToken();
+                        NotificationSystem.INSTANCE.Stop();
+                        MainWindow.INSTANCE.HideIcon();
+                        MainWindow.INSTANCE.ReplaceMainContent(new CVLoginPage());
+
+                        return false;
+                    }
+
+                    old.Close();
+                    break;
+                }
             }
+
+            Client.INSTANCE.SetLoginToken(SessionHandler.Me!.Token);
 
             MainWindow.INSTANCE.RemoveField(this);
 
@@ -133,7 +176,48 @@ namespace ClasseVivaWPF.HomeControls
                 x.OnUpdateRequired();
 
             MainWindow.INSTANCE.ReplaceMainContent(this);
-            this.AccountSectionExpanded = false;
+            return true;
+        }
+
+        private void OnAccountChanged(object sender, EventArgs e)
+        {
+            var old_idx = SessionMetaController.Current.LastIdx!.Value;
+
+            var meta = ((CVAccount)sender).Account;
+            SessionMetaController.Select(meta);
+
+            if (ChangeAccount(old_idx))
+                this.AccountSectionExpanded = false;
+        }
+
+        private async void OnAddAccount(object sender, MouseButtonEventArgs e)
+        {
+            var window = new CVLoginPage(true);
+            window.Inject();
+            await window.WaitForExit();
+
+            if (window.LoginFinalizer is Task task)
+                task.Wait();
+
+            this.BuildAccountSection();
+        }
+
+        private void OnHandleAccounts(object sender, MouseButtonEventArgs e)
+        {
+            this.AccountSectionShowManagement = !this.AccountSectionShowManagement;
+
+            if (this.AccountSectionShowManagement)
+                this.AccountSectionExpanded = true;
+        }
+
+        private void OnAccountLogout(object sender, EventArgs e)
+        {
+            var meta = ((CVAccountLogout)sender).Account;
+
+            SessionMetaController.Remove(meta);
+            SessionMetaController.Select(SessionMetaController.Current.CurrentAccount!);
+            if (ChangeAccount())
+                this.BuildAccountSection();
         }
     }
 }

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
              xmlns:graphs="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Graphs"
+             xmlns:advicons="clr-namespace:ClasseVivaWPF.Utils.AdvancedIcons"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:grades="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
@@ -105,10 +106,7 @@
                                                     Margin="{Binding Path=Margin, ElementName=Graph}"
                                                     VerticalAlignment="Top" HorizontalAlignment="Left"
                                                     CornerRadius="100" BorderBrush="Black" BorderThickness="0.4">
-                                                    <ContentControl Background="Gray" Margin="1"
-                                                                    Height="20" Width="20"
-                                                                    Template="{StaticResource ResourceKey=SettingsIcon}">
-                                                    </ContentControl>
+                                                    <advicons:CVSettingsIcon Margin="1" BordersColor="Gray" Color="Gray" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" Height="20" Width="20"></advicons:CVSettingsIcon>
                                                 </Border>
                                             </WrapPanel>
                                             <Canvas HorizontalAlignment="Left" Panel.ZIndex="1" Name="cv">
@@ -145,7 +143,7 @@
                                                 <Border CornerRadius="16" Background="{themes:ThemeBinding Path=CVGenericBackground}"
                                                         BorderThickness="0.3" BorderBrush="Black"
                                                         Canvas.Top="-68" Panel.ZIndex="1"
-                                                        x:Name="GraphWrapper"
+                                                        x:Name="GraphWrapper" Canvas.Left="0"
                                                         Style="{StaticResource ResourceKey=SettingsContent}">
                                                     <StackPanel Width="{Binding Path=ActualWidth, ElementName=GrapOptWP, ConverterParameter=20, Converter={StaticResource ResourceKey=AddConverter}}">
                                                         <Grid x:Name="GrapOptWP" Margin="1" MaxHeight="72" HorizontalAlignment="Right">

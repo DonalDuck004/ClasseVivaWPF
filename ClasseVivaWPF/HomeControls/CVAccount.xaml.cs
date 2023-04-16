@@ -51,7 +51,6 @@ namespace ClasseVivaWPF.HomeControls
             IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(CVAccount), new PropertyMetadata(false));
         }
 
-
         public CVAccount()
         {
             InitializeComponent();

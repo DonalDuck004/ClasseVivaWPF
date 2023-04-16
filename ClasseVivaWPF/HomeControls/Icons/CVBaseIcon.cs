@@ -21,18 +21,6 @@ namespace ClasseVivaWPF.HomeControls.Icons
 
         private CVBaseIcon()
         {
-
-            /*
-            Loaded += (s, e) =>
-            {
-                if (INSTANCES.ContainsKey(IconValue))
-                    throw new Exception();
-
-                INSTANCES[IconValue] = this;
-
-                if (IconValue is CVMainMenuIconValues.Home)
-                    IsSelected = true;
-            };*/
         }
 
         internal CVBaseIcon(CVMainMenuIconValues Icon)
@@ -56,10 +44,7 @@ namespace ClasseVivaWPF.HomeControls.Icons
         public CVMainMenuIconValues IconValue
         {
             get => (CVMainMenuIconValues)GetValue(IconValueProperty);
-            set
-            {
-                SetValue(IconValueProperty, value);
-            }
+            set => SetValue(IconValueProperty, value);
         }
 
         public virtual bool IsSelected

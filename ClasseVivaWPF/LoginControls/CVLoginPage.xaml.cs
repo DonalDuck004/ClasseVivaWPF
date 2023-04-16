@@ -1,8 +1,9 @@
-﻿using ClasseVivaWPF.Api;
+﻿ using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.HomeControls;
 using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.Sessions;
+using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using System.Diagnostics;
 using System.Linq;
@@ -16,14 +17,23 @@ namespace ClasseVivaWPF.LoginControls
     /// <summary>
     /// Logica di interazione per CVLoginPage.xaml
     /// </summary>
-    public partial class CVLoginPage : UserControl, ICVMeta
+    public partial class CVLoginPage : Injectable, ICVMeta
     {
-        public bool CountsInStack { get; } = false;
-     
-        public CVLoginPage()
+        public bool CountsInStack { get; }
+        public Task? LoginFinalizer { get; private set; } = null;
+
+
+        public CVLoginPage(bool injectable_mode = false)
         {
             InitializeComponent();
             this.password.HideContent();
+
+            this.CountsInStack = injectable_mode;
+            if (!injectable_mode)
+            {
+                this.BackIcon.Width = 0;
+                this.BackIcon.Visibility = Visibility.Hidden;
+            }
 
             this.username.Text = "leonardo.burla@ittvt.edu.it";
             this.password.Text = "L2004b2007!";
@@ -52,7 +62,15 @@ namespace ClasseVivaWPF.LoginControls
                     var pass = this.password.Text;
                     var uid = this.username.Text;
 
-                    var login = await Client.INSTANCE.Login(pass: pass, uid: uid);
+                    Client client;
+
+                    if (this.CountsInStack)
+                        client = new(set_instance: false);
+                    else
+                        client = Client.INSTANCE; 
+
+                    var login = await client.Login(pass: pass, uid: uid);
+                    
                     Me me;
                     if (login is LoginMultipleChoice mc)
                     {
@@ -62,33 +80,46 @@ namespace ClasseVivaWPF.LoginControls
                         if (choicer.Result is null)
                             return;
 
-                        me = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: choicer.Result);
-                    }
-                    else
-                        me = (Me)login;
+                        me = (Me)await client.Login(pass: pass, uid: uid, ident: choicer.Result);
+                        client.SetLoginToken(me.Token);
 
-                    SessionHandler.InitConn(me.Ident).SetMe(me, pass: this.password.Text, uid: this.username.Text);
-
-                    new Task(async () =>
-                    {
-                        var cards = await Client.INSTANCE.Cards();
-                        Me other;
-
-                        foreach (var card in cards.ContentCards)
+                        this.LoginFinalizer = new Task(async () =>
                         {
 
-                            SessionMetaController.AddAccount(card, card.Ident == me.Ident);
+                            var cards = await client.Cards(id: me.Id);
+                            Me other;
 
-                            if (card.Ident != me.Ident)
+                            foreach (var card in cards.ContentCards)
                             {
-                                other = (Me)await Client.INSTANCE.Login(pass: pass, uid: uid, ident: card.Ident);
-                                SessionHandler.InitConn(card.Ident).SetMe(other, pass: pass, uid: uid, just_register: true);
+
+                                SessionMetaController.AddAccount(card, card.Ident == me.Ident && !this.CountsInStack);
+
+                                if (card.Ident != me.Ident)
+                                {
+                                    other = (Me)await client.Login(pass: pass, uid: uid, ident: card.Ident);
+                                    SessionHandler.InitConn(card.Ident).SetMe(other, pass: pass, uid: uid, just_register: true);
+                                }
                             }
-                        }
-                    }).Start();
+                        });
+
+                        this.LoginFinalizer.Start();
+                    }
+                    else
+                    {
+                        me = (Me)login;
+
+                        client.SetLoginToken(me.Token);
+
+                        SessionMetaController.AddAccount((await client.Card(id: me.Id)).ContentCard, !this.CountsInStack);
+                    }
 
 
-                    EndLogin();
+                    SessionHandler.InitConn(me.Ident).SetMe(me, pass: this.password.Text, uid: this.username.Text, just_register: this.CountsInStack);
+
+                    if (this.CountsInStack)
+                        this.Close();
+                    else
+                        CVLoginPage.EndLogin(src: this);
                 }
                 catch (ApiError exc)
                 {
@@ -101,14 +132,8 @@ namespace ClasseVivaWPF.LoginControls
             }
         }
 
-        public static void EndLogin(bool set_content = true)
+        public static void EndLogin(bool set_content = true, CVLoginPage? src = null)
         {
-            if (set_content)
-            {
-                var navigation = CVMainNavigation.New();
-                MainWindow.INSTANCE.ReplaceMainContent(navigation);
-            }
-
             var raw_content = Client.INSTANCE.Contents().ConfigureAwait(false).GetAwaiter().GetResult();
             CVHome.INSTANCE.Contents = new();
 
@@ -125,7 +150,19 @@ namespace ClasseVivaWPF.LoginControls
 
             Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
 
+            if (set_content)
+            {
+                var navigation = CVMainNavigation.New();
+                MainWindow.INSTANCE.ReplaceMainContent(navigation);
+            }
+
+            if (src is not null && src.LoginFinalizer is Task x)
+                x.Wait();
+
+
             MainWindow.INSTANCE.RaisePostLogin();
         }
+
+        private void OnClose(object sender, System.Windows.Input.MouseButtonEventArgs e) => Close();
     }
 }

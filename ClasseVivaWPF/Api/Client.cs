@@ -22,7 +22,7 @@ namespace ClasseVivaWPF.Api
         private int UserID => SessionHandler.Me!.Id;
         private HttpClient client;
 
-        public Client()
+        public Client(bool set_instance = true)
         {
             if (Config.USE_PROXY)
                 HttpClient.DefaultProxy = new WebProxy(Config.PROXY_HOST, Config.PROXY_PORT);
@@ -40,8 +40,9 @@ namespace ClasseVivaWPF.Api
             this.client.DefaultRequestHeaders.Add("Connection", "keep-alive");
 
             this.client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "CVVS/std/4.2.2 C# App/7.1.2");
-
-            Client.INSTANCE = this;
+            
+            if (set_instance)
+                Client.INSTANCE = this;
         }
 
         private void _NotImplementedCheck(object? v)
@@ -95,9 +96,8 @@ namespace ClasseVivaWPF.Api
             // DumpMsg(response);
             Response response;
 
-            if (raw_response.StatusCode is HttpStatusCode.Unauthorized)
+            if (raw_response.StatusCode is HttpStatusCode.Unauthorized && SessionHandler.INSTANCE is not null)
             {
-                Debug.Assert(SessionHandler.INSTANCE is not null);
                 SessionHandler.INSTANCE.RenewToken();
                 message = BuildMessage(method, path, data, cached_etag, cached_date);
                 raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
@@ -338,10 +338,10 @@ namespace ClasseVivaWPF.Api
             return content!;
         }
 
-        public async Task<Card> Card()
+        public async Task<CardSingle> Card(int? id = null)
         {
-            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/card", null, allow_cache: true).ConfigureAwait(false);
-            var content = response.GetObject<Card>();
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{id ?? UserID}/card", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<CardSingle>();
 
             if (content is null)
                 response.GetError();
@@ -349,9 +349,9 @@ namespace ClasseVivaWPF.Api
             return content!;
         }
 
-        public async Task<Cards> Cards()
+        public async Task<Cards> Cards(int? id = null)
         {
-            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/cards", null, allow_cache: true).ConfigureAwait(false);
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{id ?? UserID}/cards", null, allow_cache: id is null).ConfigureAwait(false);
             var content = response.GetObject<Cards>();
 
             if (content is null)

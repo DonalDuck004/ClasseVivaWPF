@@ -26,16 +26,12 @@
 
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
-            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"/>
         </Style>
         
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource FT}"></Style>
         <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
-        </Style>
-        <Style TargetType="{x:Type Run}">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>
         
@@ -292,6 +288,14 @@
             <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Canvas Width="24" Height="24">
                     <Path Fill="{TemplateBinding Background}" Data="M9,16.2L4.8,12l-1.4,1.4L9,19 21,7l-1.4,-1.4L9,16.2z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="AddIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Path Fill="{TemplateBinding Background}" Data="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>

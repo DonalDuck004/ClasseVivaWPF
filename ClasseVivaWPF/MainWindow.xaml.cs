@@ -331,5 +331,10 @@ namespace ClasseVivaWPF
                 e.Handled = true;
             }
         }
+
+        public void HideIcon()
+        {
+            icon.Visible = false;
+        }
     }
 }
