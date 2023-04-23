@@ -1,12 +1,17 @@
 ﻿using Microsoft.VisualBasic;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 
 namespace ClasseVivaWPF.SharedControls
@@ -20,6 +25,10 @@ namespace ClasseVivaWPF.SharedControls
         public static double GetSnapSensibility(DependencyObject obj) => (double)obj.GetValue(SnapSensibilityProperty);
 
         public static void SetSnapSensibility(DependencyObject obj, double value) => obj.SetValue(SnapSensibilityProperty, value);
+
+        public static bool GetSnapFrame(DependencyObject obj) => (bool)obj.GetValue(SnapFrameProperty);
+
+        public static void SetSnapFrame(DependencyObject obj, bool value) => obj.SetValue(SnapFrameProperty, value);
 
         public static bool GetSnap(DependencyObject obj) => (bool)obj.GetValue(SnapProperty);
 
@@ -114,6 +123,18 @@ namespace ClasseVivaWPF.SharedControls
             set => SetValue(SnapIncludeMarginsProperty, value);
         }
 
+        public bool Snap
+        {
+            get => (bool)GetValue(SnapProperty);
+            set => SetValue(SnapProperty, value);
+        }
+
+        public bool SnapFrame
+        {
+            get => (bool)GetValue(SnapFrameProperty);
+            set => SetValue(SnapFrameProperty, value);
+        }
+
         public bool MaxHorizontalOffsetSubstractSelf
         {
             get => (bool)GetValue(MaxHorizontalOffsetSubstractSelfProperty);
@@ -132,6 +153,7 @@ namespace ClasseVivaWPF.SharedControls
         public static readonly DependencyProperty CatchHeightProperty = DependencyProperty.RegisterAttached("CatchHeight", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(true));
         public static readonly DependencyProperty SnapDirectionProperty = DependencyProperty.RegisterAttached("SnapDirection", typeof(SnapDirections), typeof(CVScollerView), new UIPropertyMetadata(SnapDirections.Horizontal));
         public static readonly DependencyProperty SnapProperty = DependencyProperty.RegisterAttached("Snap", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty SnapFrameProperty = DependencyProperty.RegisterAttached("SnapFrame", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
         public static readonly DependencyProperty SnapSensibilityProperty = DependencyProperty.RegisterAttached("SnapSensibility", typeof(double), typeof(CVScollerView), new UIPropertyMetadata(4D));
         public static readonly DependencyProperty ScrollDirectionProperty = DependencyProperty.RegisterAttached("ScrollDirection", typeof(ScrollDirections), typeof(CVScollerView), new UIPropertyMetadata(ScrollDirections.Vertical));
         public static readonly DependencyProperty SnapIncludeMarginsProperty = DependencyProperty.RegisterAttached("SnapIncludeMargins", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
@@ -140,10 +162,13 @@ namespace ClasseVivaWPF.SharedControls
         public static readonly DependencyProperty MaxHorizontalOffsetSubstractSelfProperty = DependencyProperty.RegisterAttached("MaxHorizontalOffsetSubstractSelf", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
         public static readonly DependencyProperty MaxVerticalOffsetSubstractSelfProperty = DependencyProperty.RegisterAttached("MaxVerticalOffsetSubstractSelf", typeof(bool), typeof(CVScollerView), new UIPropertyMetadata(false));
         
+        public static readonly RoutedEvent OnSnapFrameEvent = EventManager.RegisterRoutedEvent("OnSnapFrame", RoutingStrategy.Bubble, typeof(OnSnapFrameHandler), typeof(CVScollerView));
         public static readonly RoutedEvent OnSnapEvent = EventManager.RegisterRoutedEvent("OnSnap", RoutingStrategy.Bubble, typeof(OnSnapHandler), typeof(CVScollerView));
+        public delegate void OnSnapFrameHandler(object sender, SnapFrameEventArgs e);
         public delegate void OnSnapHandler(object sender, SnapEventArgs e);
 
-        static Dictionary<object, MouseCapture> _captures = new Dictionary<object, MouseCapture>();
+        static Dictionary<int, MouseCapture> _captures = new Dictionary<int, MouseCapture>();
+        static Dictionary<int, int> _last_snap = new Dictionary<int, int>();
 
         public static void OnMaxVerticalOffsetChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -180,6 +205,22 @@ namespace ClasseVivaWPF.SharedControls
                 target.ScrollToHorizontalOffset((double)e.NewValue);
             else if (target.HorizontalOffset == (double)e.OldValue)
                 target.ScrollToHorizontalOffset((double)e.NewValue);
+        }
+
+        public static void AddOnSnapFrameHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
+        {
+            if (dependencyObject is not ScrollViewer target)
+                return;
+
+            target.AddHandler(OnSnapFrameEvent, handler);
+        }
+
+        public static void RemoveOnSnapFrameHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
+        {
+            if (dependencyObject is not ScrollViewer target)
+                return;
+
+            target.RemoveHandler(OnSnapFrameEvent, handler);
         }
 
         public static void AddOnSnapHandler(DependencyObject dependencyObject, RoutedEventHandler handler)
@@ -252,7 +293,7 @@ namespace ClasseVivaWPF.SharedControls
             if (target is null)
                 return;
 
-            _captures.Remove(sender);
+            _captures.Remove(sender.GetHashCode());
 
             // target.Loaded -= target_Loaded;
             target.Unloaded -= target_Unloaded;
@@ -273,7 +314,7 @@ namespace ClasseVivaWPF.SharedControls
             if (e.Source is GridSplitter)
                 return;
 
-            _captures[sender] = new MouseCapture()
+            _captures[sender.GetHashCode()] = new MouseCapture()
             {
                 VerticalOffset = target.VerticalOffset,
                 HorizontalOffset = target.HorizontalOffset,
@@ -295,15 +336,111 @@ namespace ClasseVivaWPF.SharedControls
             target.PreviewMouseLeftButtonUp += target_PreviewMouseLeftButtonUp;
         }
 
-        static void target_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private static (FrameworkElement element, double offset, int idx, int old_idx) GetCurrentHorizontal(ScrollViewer target)
         {
-            var target = sender as ScrollViewer;
-            if (target is null)
+            var hash = target.GetHashCode();
+            var container = ((Panel)target.Content).Children;
+            
+            var i = 0;
+            var h = 0D;
+            double check;
+            double o_check;
+
+            double p_s;
+            double req;
+            double[] sizes;
+            // The ActualWidth includes only the padding, not the margin (same with ActualHeight).
+            p_s = target.ActualWidth;
+            check = target.HorizontalOffset;
+            o_check = _captures[hash].HorizontalOffset;
+
+            if (GetSnapIncludeMargins(target))
+                sizes = container.OfType<FrameworkElement>().Select(x => x.ActualWidth - x.Margin.Right - x.Margin.Left).ToArray();
+            else
+                sizes = container.OfType<FrameworkElement>().Select(x => x.ActualWidth).ToArray();
+
+            req = ((FrameworkElement)target.Parent).ActualWidth / GetSnapSensibility(target);
+
+            for (; i < container.Count; i++)
+            {
+                h += ((FrameworkElement)container[i]).ActualWidth;
+                if (target.HorizontalOffset < h)
+                {
+                    i++;
+                    break;
+                }
+            }
+
+            return Finalize(container: container, check: check, o_check: o_check, req: req, sizes: sizes, i: i);
+        }
+
+        private static (FrameworkElement element, double offset, int idx, int old_idx) GetCurrentVertical(ScrollViewer target)
+        {
+            var hash = target.GetHashCode();
+            var container = ((Panel)target.Content).Children;
+
+            var i = 0;
+            var h = 0D;
+            double check;
+            double o_check;
+
+            double p_s;
+            double req;
+            double[] sizes;
+            // The ActualWidth includes only the padding, not the margin (same with ActualHeight).
+            p_s = target.ActualHeight;
+            check = target.VerticalOffset;
+            o_check = _captures[hash].VerticalOffset;
+            if (GetSnapIncludeMargins(target))
+                sizes = container.OfType<FrameworkElement>().Select(x => x.ActualHeight + x.Margin.Top + x.Margin.Bottom).ToArray();
+            else
+                sizes = container.OfType<FrameworkElement>().Select(x => x.ActualHeight).ToArray();
+
+            req = ((FrameworkElement)target.Parent).ActualHeight / GetSnapSensibility(target);
+
+            for (; i < container.Count; i++)
+            {
+                h += ((FrameworkElement)container[i]).ActualHeight;
+                if (target.VerticalOffset < h)
+                {
+                    i++;
+                    break;
+                }
+            }
+
+            return Finalize(container: container, check: check, o_check: o_check, req: req, sizes: sizes, i: i);
+        }
+
+        private static (FrameworkElement element, double offset, int idx, int old_idx) Finalize(int i, double check, double o_check, double req, UIElementCollection container, double[] sizes)
+        {
+            var suff = Math.Abs(check - o_check) > req;
+            var old_idx = i;
+
+            if (check > o_check && suff) // ->
+                old_idx--;
+            else if (check < o_check && suff) // <-
+                i--; // i--; // |  -|--- |
+            else if (check < o_check)
+            { }
+            else
+                old_idx = --i;
+
+            i = i < 0 ? 0 : i % container.Count;
+            var to = sizes.Take(i).Sum();
+
+            return ((FrameworkElement)container[i], to, i, old_idx);
+        }
+
+        private static void target_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not ScrollViewer target)
                 return;
+
+            var hash = sender.GetHashCode();
 
             try
             {
-                if (GetSnap(target) && _captures.ContainsKey(sender))
+                if (GetSnap(target) && _captures.ContainsKey(hash))
                 {
                     var c = ((Panel)target.Content).Children;
                     var d = GetSnapDirection(target);
@@ -313,93 +450,18 @@ namespace ClasseVivaWPF.SharedControls
                             target.ScrollToHorizontalOffset(0);
                         else if (d is SnapDirections.Vertical)
                             target.ScrollToVerticalOffset(0);
-                        else
-                            throw new Exception();
+
                         return;
                     }
 
-                    var i = 0;
-                    var h = 0D;
-                    double check;
-                    double o_check;
-
-                    double p_s;
-                    double req;
-                    double[] sizes;
-                    // The ActualWidth includes only the padding, not the margin (same with ActualHeight).
-                    if (d is SnapDirections.Horizontal)
-                    {
-                        p_s = target.ActualWidth;
-                        check = target.HorizontalOffset;
-                        o_check = _captures[target].HorizontalOffset;
-
-                        if (GetSnapIncludeMargins(target))
-                            sizes = c.OfType<FrameworkElement>().Select(x => x.ActualWidth - x.Margin.Right - x.Margin.Left).ToArray();
-                        else
-                            sizes = c.OfType<FrameworkElement>().Select(x => x.ActualWidth).ToArray();
-
-                        req = ((FrameworkElement)target.Parent).ActualWidth / GetSnapSensibility(target);
-
-                        for (; i < c.Count; i++)
-                        {
-                            h += ((FrameworkElement)c[i]).ActualWidth;
-                            if (target.HorizontalOffset < h)
-                            {
-                                i++;
-                                break;
-                            }
-                        }
-                    }
-                    else if (d is SnapDirections.Vertical)
-                    {
-                        p_s = target.ActualHeight;
-                        check = target.VerticalOffset;
-                        o_check = _captures[target].VerticalOffset;
-                        if (GetSnapIncludeMargins(target))
-                            sizes = c.OfType<FrameworkElement>().Select(x => x.ActualHeight + x.Margin.Top + x.Margin.Bottom).ToArray();
-                        else
-                            sizes = c.OfType<FrameworkElement>().Select(x => x.ActualHeight).ToArray();
-                        req = ((FrameworkElement)target.Parent).ActualHeight / GetSnapSensibility(target);
-
-                        for (; i < c.Count; i++)
-                        {
-                            h += ((FrameworkElement)c[i]).ActualHeight;
-                            if (target.VerticalOffset < h)
-                            {
-                                i++;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                        throw new Exception();
-
-                    var suff = Math.Abs(check - o_check) > req;
-                    var old_idx = i;
-
-                    if (check > o_check && suff) // ->
-                        old_idx--;
-                    else if (check < o_check && suff) // <-
-                        i--; // i--; // |  -|--- |
-                    else if (check < o_check)
-                    { }
-                    else
-                        old_idx = --i;
-
-                    i = i < 0 ? 0 : i % c.Count;
-                    var to = sizes.Take(i).Sum();
-                    /*if (i != 0)
-                        to += ((FrameworkElement)c[0]).Margin.Left;*/
+                    (FrameworkElement element, double offset, int idx, int old_idx) = d is SnapDirections.Horizontal ? GetCurrentHorizontal(target) : GetCurrentVertical(target);
 
                     if (d is SnapDirections.Horizontal)
-                        target.ScrollToHorizontalOffset(to);
+                        target.ScrollToHorizontalOffset(offset);
                     else
-                        target.ScrollToVerticalOffset(to);
+                        target.ScrollToVerticalOffset(offset);
 
-                    var t = (FrameworkElement)c[i];
-                    target.RaiseEvent(new SnapEventArgs() { Index = i, SnappendElement = t, OldIndex = old_idx });
-
-                    // OnSnap?.Invoke(target, new(i, (FrameworkElement)c[i], (Panel)target.Content));
+                    target.RaiseEvent(new SnapEventArgs() { Index = idx, SnappendElement = element, OldIndex = old_idx });
                 }
             }
             finally
@@ -411,12 +473,13 @@ namespace ClasseVivaWPF.SharedControls
 
         static void target_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (!_captures.ContainsKey(sender))
+            var hash = sender.GetHashCode();
+            if (!_captures.ContainsKey(hash))
                 return;
 
             if (e.LeftButton is not MouseButtonState.Pressed)
             {
-                _captures.Remove(sender);
+                _captures.Remove(hash);
                 return;
             }
 
@@ -424,7 +487,7 @@ namespace ClasseVivaWPF.SharedControls
             if (target is null)
                 return;
 
-            var capture = _captures[sender];
+            var capture = _captures[hash];
 
             var point = e.GetPosition(target);
 
@@ -451,7 +514,7 @@ namespace ClasseVivaWPF.SharedControls
                 target.CaptureMouse();
             
             var speed = GetSpeed(target);
-            double to;
+            double? to = null;
             double max;
 
             if (catch_height && capture.VerticalOffset != dy)
@@ -465,7 +528,7 @@ namespace ClasseVivaWPF.SharedControls
                 if (to > max)
                     to = max;
 
-                target.ScrollToVerticalOffset(to);
+                target.ScrollToVerticalOffset(to.Value);
             }
 
             if (catch_width && capture.HorizontalOffset != dx)
@@ -478,8 +541,30 @@ namespace ClasseVivaWPF.SharedControls
                 if (to > max)
                     to = max;
 
-                target.ScrollToHorizontalOffset(to);
+                target.ScrollToHorizontalOffset(to.Value);
             }
+
+            if (to is not null && GetSnapFrame(target))
+            {
+                (FrameworkElement element, double offset, int idx, int old_idx) = GetSnapDirection(target) is SnapDirections.Horizontal ? GetCurrentHorizontal(target) : GetCurrentVertical(target);
+
+                var element_hash = element.GetHashCode();
+
+                if (!_last_snap.ContainsKey(hash))
+                {
+                    _last_snap[hash] = element_hash;
+                    return;
+                }
+
+                if (_last_snap[hash] != element_hash)
+                {
+                    _last_snap[hash] = element_hash;
+
+                    target.RaiseEvent(new SnapFrameEventArgs() { Index = idx, SnappendElement = element, OldIndex = old_idx, offset = offset });
+                }
+
+            }
+
         }
     }
 }

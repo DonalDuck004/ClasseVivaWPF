@@ -34,8 +34,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             HourProperty = DependencyProperty.Register("Hour", typeof(int?), typeof(CVHomeTextBox));
             HoursProperty = DependencyProperty.Register("Hours", typeof(int?), typeof(CVHomeTextBox));
             Row2Property = DependencyProperty.Register("Row2", typeof(string), typeof(CVHomeTextBox), new PropertyMetadata(""));
-            FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(Color), typeof(CVHomeTextBox));
-            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(CVHomeTextBox));
+            FillerColorProperty = DependencyProperty.Register("FillerColor", typeof(SolidColorBrush), typeof(CVHomeTextBox));
+            BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(SolidColorBrush), typeof(CVHomeTextBox));
             FontColorProperty = DependencyProperty.Register("FontColor", typeof(SolidColorBrush), typeof(CVHomeTextBox), new PropertyMetadata(new SolidColorBrush(Colors.Black)));
             IconTemplateProperty = DependencyProperty.Register("IconTemplate", typeof(ControlTemplate), typeof(CVHomeTextBox));
         }
@@ -45,7 +45,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             InitializeComponent();
             this.DataContext = this;
 
-            this.ContentTextBox.SetThemeBinding(RichTextBox.SelectionBrushProperty, BaseTheme.CV_GENERIC_TEXT_SELECTION_PATH);
+            this.ContentTextBox.SetThemeBinding(RichTextBox.SelectionBrushProperty, ThemeProperties.CVGenericTextSelectionProperty);
         }
 
         private void ParseText(string text, InlineCollection target, string init_value = "")
@@ -68,7 +68,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                         TextDecorations = null
                     };
 
-                    uri.SetThemeBinding(Hyperlink.ForegroundProperty, BaseTheme.CV_GENERIC_RED_PATH);
+                    uri.SetThemeBinding(Hyperlink.ForegroundProperty, ThemeProperties.CVGenericRedProperty);
                     uri.RequestNavigate += OpenUrl;
                     target.Add(uri);
                 }
@@ -87,8 +87,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             @this.Hour = lesson.EvtHPos;
             @this.Hours = lesson.EvtDuration;
             @this.Row2 = lesson.AuthorName.ToTitle();
-            @this.FillerColor = DayOverview.COLORS[lesson.ColorID];
-            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
+            @this.FillerColor = new(DayOverview.COLORS[lesson.ColorID]);
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
 
             if (lesson.LessonArg == "")
             {
@@ -107,7 +107,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 @this.lesson_txt.Inlines.Add(new Run()
                 {
                     Text = lesson.LessonType,
-                    Foreground = new SolidColorBrush(@this.FillerColor)
+                    Foreground = @this.FillerColor
                 });
                 @this.ParseText(lesson.LessonArg, @this.lesson_txt.Inlines, ": ");
             }
@@ -121,7 +121,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         public static CVHomeTextBox FromAgendaEvent(AgendaEvent e, EventAppCategory category)
         {
             CVHomeTextBox @this = new();
-            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
             @this.Title = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc!;
             if (category is EventAppCategory.Homework && !e.IsFullDay)
                 @this.Row2 = $"{e.EvtDatetimeBegin:HH:mm} - {e.EvtDatetimeEnd:HH:mm}";
@@ -133,7 +133,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("CalendarIcon");
 
-            @this.FillerColor = Colors.WhiteSmoke;
+            @this.FillerColor = new(Colors.WhiteSmoke);
 
             @this.ParseText(e.Notes, @this.lesson_txt.Inlines);
             @this.LowerImgWP.Height = 0;
@@ -145,26 +145,26 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             CVHomeTextBox @this = new();
             if (e.IsAbsence)
             {
-                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xD0, 0x5A, 0x50);
+                @this.FillerColor = @this.BackgroundColor = new(Color.FromRgb(0xD0, 0x5A, 0x50));
                 @this.line.Visibility = Visibility.Hidden;
                 @this.line.Height = 0;
                 @this.Title = "Assenze";
             }
             else if (e.IsEarlyExit)
             {
-                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xDB, 0xB6, 0x3B);
+                @this.FillerColor = @this.BackgroundColor = new(Color.FromRgb(0xDB, 0xB6, 0x3B));
                 @this.Title = "Uscita anticipata";
             }
             else if (e.IsLate || e.IsShortLate)
             {
                 @this.Title = "Ritardi";
-                @this.FillerColor = @this.BackgroundColor = Color.FromRgb(0xEB, 0x98, 50);
+                @this.FillerColor = @this.BackgroundColor = new(Color.FromRgb(0xEB, 0x98, 50));
             }
             else
                 throw new Exception();
             // TODO
-            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
-            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
+            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
 
             @this.FontColor = new SolidColorBrush(Colors.White);
 
@@ -185,7 +185,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("AbsenceIcon");
             Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
             Grid.SetZIndex(@this.UpperImgWPContainer, 1);
-            @this.UpperImgWPContainer.Background = new SolidColorBrush(@this.FillerColor);
+            @this.UpperImgWPContainer.Background = @this.FillerColor;
             @this.UpperImgWP.Margin = new Thickness(0, 10, 0, 10);
 
             @this.last_wp.VerticalAlignment = VerticalAlignment.Top;
@@ -198,8 +198,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             CVHomeTextBox @this = new();
             @this.TitleControl.Foreground = new SolidColorBrush(Colors.White);
 
-            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, evt.InternalColorPath);
-            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, evt.InternalColorPath);
+            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, evt.InternalColorProperty);
+            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, evt.InternalColorProperty);
 
 
             @this.Title = evt.SubjectDesc.ToTitle();
@@ -247,14 +247,14 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             set => base.SetValue(Row2Property, value);
         }
 
-        public Color FillerColor
+        public SolidColorBrush FillerColor
         {
-            get => (Color)base.GetValue(FillerColorProperty);
+            get => (SolidColorBrush)base.GetValue(FillerColorProperty);
             set => base.SetValue(FillerColorProperty, value);
         }
-        public Color BackgroundColor
+        public SolidColorBrush BackgroundColor
         {
-            get => (Color)base.GetValue(BackgroundColorProperty);
+            get => (SolidColorBrush)base.GetValue(BackgroundColorProperty);
             set => base.SetValue(BackgroundColorProperty, value);
         }
 

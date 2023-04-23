@@ -28,6 +28,9 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.Always)]
         public required int[] HoursAbsence { get; init; }
 
+        [JsonIgnore]
+        public string FormattedDate => this.EvtDate.ToString("dd MMMM yyyy");
+
         public override void BuildNotifyText(ToastContentBuilder toast)
         {
             toast.AddText(GetHeader() + "_TODO_evt");  // TODO

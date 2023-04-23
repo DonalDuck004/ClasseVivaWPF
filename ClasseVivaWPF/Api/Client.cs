@@ -359,5 +359,16 @@ namespace ClasseVivaWPF.Api
 
             return content!;
         }
+
+        public async Task<Calendar> Calendar()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/calendar/all", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Calendar>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
     }
 }

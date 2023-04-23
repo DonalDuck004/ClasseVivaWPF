@@ -11,11 +11,11 @@
     <Border CornerRadius="10" BorderThickness="1">
         <Border.Background>
             <LinearGradientBrush StartPoint="0.504,0.03" EndPoint="1,0.2">
-                <GradientStop Color="{Binding Path=FillerColor}" Offset="0"/>
-                <GradientStop Color="{Binding Path=BackgroundColor}" Offset="0.567"/>
+                <GradientStop Color="{Binding Path=FillerColor, Converter={StaticResource ResourceKey=ToColorConverter}}" Offset="0"/>
+                <GradientStop Color="{Binding Path=BackgroundColor, Converter={StaticResource ResourceKey=ToColorConverter}}" Offset="0.567"/>
             </LinearGradientBrush>
         </Border.Background>
-        <Grid Margin="7,-1,10,-1" Background="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}" Name="main_wp">
+        <Grid Margin="7,-1,10,-1" Background="{Binding Path=BackgroundColor}" Name="main_wp">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -41,7 +41,7 @@
             </WrapPanel>
             <StackPanel Background="#1F221106" Grid.Column="1" Grid.Row="2" Margin="5,0,5,0" Opacity="0.9" Height="2" Grid.ColumnSpan="3" Name="line"></StackPanel>
             <WrapPanel Grid.Column="1" Grid.Row="4" Margin="0,3,0,8" Grid.ColumnSpan="3" Name="last_wp">
-                <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" BorderThickness="0" Background="{Binding Path=BackgroundColor, Converter={StaticResource ToBrushConverter}}" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" Name="ContentTextBox">
+                <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" BorderThickness="0" Background="{Binding Path=BackgroundColor}" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" Name="ContentTextBox">
                     <FlowDocument>
                         <Paragraph Name="lesson_txt"></Paragraph>
                     </FlowDocument>

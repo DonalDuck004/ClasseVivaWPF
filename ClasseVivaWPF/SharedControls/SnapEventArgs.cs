@@ -10,6 +10,11 @@ namespace ClasseVivaWPF.SharedControls
 
         }
 
+        protected SnapEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+        {
+
+        }
+
         public required int OldIndex { get; init; }
         public required int Index { get; init; }
         public required FrameworkElement SnappendElement { get; init; }

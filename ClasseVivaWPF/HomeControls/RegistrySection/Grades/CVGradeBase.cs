@@ -23,7 +23,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             init
             {
                 SetValue(GradeProperty, value);
-                this.SetThemeBinding(CVGradeEllipse.EllipseColorProperty, value.InternalColorPath);
+                this.SetThemeBinding(CVGradeEllipse.EllipseColorProperty, value.InternalColorProperty);
             }
         }
 

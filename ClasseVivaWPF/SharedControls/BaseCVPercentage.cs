@@ -32,9 +32,9 @@ namespace ClasseVivaWPF.SharedControls
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public virtual Color PercentageColor
+        public virtual SolidColorBrush PercentageColor
         {
-            get => (Color)GetValue(PercentageColorProperty);
+            get => (SolidColorBrush)GetValue(PercentageColorProperty);
             set => SetValue(PercentageColorProperty, value);
         }
         public virtual double Min
@@ -61,7 +61,7 @@ namespace ClasseVivaWPF.SharedControls
 
             BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(SolidColorBrush), typeof(BaseCVPercentage), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC))));
 
-            PercentageColorProperty = DependencyProperty.Register("PercentageColor", typeof(Color), typeof(BaseCVPercentage), new PropertyMetadata(Colors.Green));
+            PercentageColorProperty = DependencyProperty.Register("PercentageColor", typeof(SolidColorBrush), typeof(BaseCVPercentage), new PropertyMetadata(new SolidColorBrush(Colors.Green)));
 
             MaxProperty = DependencyProperty.Register("Max", typeof(double), typeof(BaseCVPercentage), new PropertyMetadata(100D));
             MinProperty = DependencyProperty.Register("Min", typeof(double), typeof(BaseCVPercentage), new PropertyMetadata(0D));

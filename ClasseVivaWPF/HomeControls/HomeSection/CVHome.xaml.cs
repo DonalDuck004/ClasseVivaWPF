@@ -14,7 +14,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
     /// <summary>
     /// Logica di interazione per CVHome.xaml
     /// </summary>
-    public partial class CVHome : UserControl, IOnSwitch, IOnKeyDown, IOnUpdateRequired
+    public partial class CVHome : UserControl, IOnSwitch, IOnKeyDown, IOnFullReload
     {
         public static CVHome INSTANCE { get; private set; } = new();
         public Dictionary<DateTime, List<Content>>? Contents { get; set; } = null;
@@ -210,7 +210,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             ((CVWeek)e.SnappendElement).Scroll();
         }
 
-        public void OnUpdateRequired()
+        public void OnFullReload()
         {
             CVDay.DestroyCache();
             this.UpdateSelected();

@@ -30,21 +30,21 @@ namespace ClasseVivaWPF.HomeControls.Icons
 
                 if (value)
                 {
-                    this.Top.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
-                    this.Desc.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
-                    this.Path1.SetThemeBinding(Path.FillProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
+                    this.Top.SetThemeBinding(Rectangle.FillProperty, ThemeProperties.CVMainMenuIconSelectedProperty);
+                    this.Desc.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMainMenuIconSelectedProperty);
+                    this.Path1.SetThemeBinding(Path.FillProperty, ThemeProperties.CVMainMenuIconSelectedProperty);
 
-                    this.Path1.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
-                    this.Path2.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
+                    this.Path1.SetThemeBinding(Path.StrokeProperty, ThemeProperties.CVMainMenuIconSelectedProperty);
+                    this.Path2.SetThemeBinding(Path.StrokeProperty, ThemeProperties.CVMainMenuIconSelectedProperty);
                 }
                 else
                 {
-                    this.Top.SetThemeBinding(Rectangle.FillProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
-                    this.Desc.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH);
-                    this.Path1.SetThemeBinding(Path.FillProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
+                    this.Top.SetThemeBinding(Rectangle.FillProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
+                    this.Desc.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMainMenuIconUnselectedProperty);
+                    this.Path1.SetThemeBinding(Path.FillProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
 
-                    this.Path1.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH);
-                    this.Path2.SetThemeBinding(Path.StrokeProperty, BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH);
+                    this.Path1.SetThemeBinding(Path.StrokeProperty, ThemeProperties.CVMainMenuIconUnselectedProperty);
+                    this.Path2.SetThemeBinding(Path.StrokeProperty, ThemeProperties.CVMainMenuIconUnselectedProperty);
                 }
 
             }
@@ -54,7 +54,7 @@ namespace ClasseVivaWPF.HomeControls.Icons
         {
             InitializeComponent();
 
-            this.Path2.SetThemeBinding(Path.FillProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
+            this.Path2.SetThemeBinding(Path.FillProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
         }
     }
 }

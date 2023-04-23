@@ -4,10 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Diagnostics;
+using System.Windows;
 using System.Linq;
 using System.Windows.Controls;
-
+using System.Diagnostics;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
 {
@@ -28,22 +28,46 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
             InitializeComponent();
         }
 
+        private static Func<IGrouping<object, CVColumn>, CVColumn[]> Orderer = x => x.OrderByDescending(y => y.Value).ToArray();
+
         public void Update(IEnumerable<CVColumn> columns,
                            bool persist_empty_fields = true,
-                           CVColumnsGraphFilterOperation op = CVColumnsGraphFilterOperation.None)
+                           bool persist_zero_fields = true,
+                           Func<IGrouping<object, CVColumn>, CVColumn[]>? order_func = null,
+                           CVColumnsGraphFilterOperation op = CVColumnsGraphFilterOperation.NoneOverlap)
         {
             this.CurrentValues = (from column in columns 
                                   group column by column.ContentID).ToDictionary(
                                     x => x.Key,
-                                    x => x.OrderBy(y => y.Value).ToArray()
-                                  );
+                                    order_func ?? Orderer);
 
-            this.Filter(op: op, persist_empty_fields: persist_empty_fields);
+            this.Filter(op: op, persist_empty_fields: persist_empty_fields, persist_zero_fields: persist_zero_fields);
         }
 
-        private bool AddColumn(CVColumn column, int idx, bool persist_empty_fields)
+        public void Update(IEnumerable<string> column_names)
+        {
+            TextBlock header;
+            var c = 0;
+            this.Clear();
+
+            foreach (var column in column_names)
+            {
+                this.Grid.ColumnDefinitions.Add(new());
+
+                header = new() { Text = column };
+                header.SetThemeBinding(TextBlock.ForegroundProperty, ThemeProperties.CVGenericFontProperty);
+                this.Grid.Children.Add(header);
+                Grid.SetRow(header, 1);
+                Grid.SetColumn(header, c++);
+            }
+        }
+
+        private bool AddColumn(CVColumn column, int idx, bool persist_empty_fields, bool persist_zero_fields)
         {
             if (!persist_empty_fields && column.Value is double.NaN)
+                return false;
+
+            if (!persist_zero_fields && column.Value == 0)
                 return false;
 
             this.Grid.Children.Add(column);
@@ -55,19 +79,23 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
             return true;
         }
 
-        public void Filter(CVColumnsGraphFilterOperation op = CVColumnsGraphFilterOperation.None,
+        public void Filter(CVColumnsGraphFilterOperation op = CVColumnsGraphFilterOperation.NoneOverlap,
                            bool persist_empty_fields = true,
+                           bool persist_zero_fields = true,
                            params string[] group_names)
         {
-            TextBlock header;
-            var c = 0;
+            TextBlock? header = null;
+            var col_idx = 0;
+            bool tmp;
+            int ac;
             CVColumn? column = null;
-            bool any_added = false;
             this.Clear();
 
-            foreach (var column_group in CurrentValues)
+            foreach (var column_group in this.CurrentValues)
             {
-                if (op is CVColumnsGraphFilterOperation.None)
+                ac = 0;
+
+                if (op is CVColumnsGraphFilterOperation.NoneOverlap)
                 {
                     for (int i = 0; i < column_group.Value.Length; i++)
                     {
@@ -76,24 +104,57 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
                         if (group_names.Contains(column.SubGroupName))
                             continue;
 
-                        any_added |= this.AddColumn(column, c, persist_empty_fields);
+                        if (tmp = this.AddColumn(column, col_idx, persist_empty_fields, persist_zero_fields))
+                            ac++;
                     }
-                }else if (op is CVColumnsGraphFilterOperation.GroupSum)
+                } 
+                else if (op is CVColumnsGraphFilterOperation.NoneNoOverlap)
+                {
+                    for (int i = 0; i < column_group.Value.Length; i++)
+                    {
+                        column = column_group.Value[i];
+
+                        if (group_names.Contains(column.SubGroupName))
+                            continue;
+
+
+                        if (tmp = this.AddColumn(column, col_idx, persist_empty_fields, persist_zero_fields))
+                        {
+                            col_idx++;
+                            this.Grid.ColumnDefinitions.Add(new());
+                            ac++;
+                        }
+                    }
+
+                    if (ac != 0)
+                    {
+                        header = new(){ Text = column!.Desc };
+                        Grid.SetColumn(header, col_idx - ac);
+                    }
+
+                    column = null;
+                }
+                else if (op is CVColumnsGraphFilterOperation.GroupSum)
                 {
                     column = column_group.Value.First();
                     column = new() { 
+                        Min = column!.Min,
+                        Max = column!.Max,
                         Desc = column.Desc,
                         LongDesc = column.LongDesc,
                         Value = column_group.Value.Where(x => !group_names.Contains(x.SubGroupName)).Sum(x => x.Value)
                     };
 
-                    any_added |= this.AddColumn(column, c, persist_empty_fields);
+                    if (tmp = this.AddColumn(column, col_idx, persist_empty_fields, persist_zero_fields))
+                        ac++;
                 }
                 else
                 {
                     column = column_group.Value.First();
                     column = new()
                     {
+                        Max = column.Max,
+                        Min = column.Min,
                         Desc = column.Desc,
                         LongDesc = column.LongDesc,
                         Value = double.NaN,
@@ -109,42 +170,37 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
                     {
                     }
 
-                    any_added |= this.AddColumn(column, c, persist_empty_fields);
+                    if (tmp = this.AddColumn(column, col_idx, persist_empty_fields, persist_zero_fields))
+                        ac++;
                 }
 
-                if (!any_added)
-                {
-                    any_added = false;
+                if (ac == 0)
                     continue;
+
+                if (op is not CVColumnsGraphFilterOperation.NoneNoOverlap)
+                {
+                    this.Grid.ColumnDefinitions.Add(new());
+                    header = new() { Text = column!.Desc };
+                    Grid.SetColumn(header, col_idx++);
+                }
+                else if (ac != 0)
+                {
+                    Grid.SetColumnSpan(header, ac);
+
+                    this.Grid.ColumnDefinitions.Add(new());
+                    col_idx++;
                 }
 
-                this.Grid.ColumnDefinitions.Add(new());
-                any_added = false;
-
-                header = new() { Text = column!.Desc };
-                header.SetThemeBinding(TextBlock.ForegroundProperty, BaseTheme.CV_GENERIC_FONT_PATH);
+                Debug.Assert(header is not null);
+                header.SetThemeBinding(TextBlock.ForegroundProperty, ThemeProperties.CVGenericFontProperty);
                 this.Grid.Children.Add(header);
                 Grid.SetRow(header, 1);
-                Grid.SetColumn(header, c++);
+
+                ac = 0;
             }
-        }
 
-        public void Update(IEnumerable<string> column_names)
-        {
-            TextBlock header;
-            var c = 0;
-            this.Clear();
-
-            foreach (var column in column_names)
-            {
-                this.Grid.ColumnDefinitions.Add(new());
-
-                header = new() { Text = column };
-                header.SetThemeBinding(TextBlock.ForegroundProperty, BaseTheme.CV_GENERIC_FONT_PATH);
-                this.Grid.Children.Add(header);
-                Grid.SetRow(header, 1);
-                Grid.SetColumn(header, c++);
-            }
+            if (op is CVColumnsGraphFilterOperation.NoneNoOverlap && this.Grid.Children.Count != 0)
+                this.Grid.ColumnDefinitions.RemoveAt(this.Grid.ColumnDefinitions.Count - 1);
         }
 
         public void Clear()

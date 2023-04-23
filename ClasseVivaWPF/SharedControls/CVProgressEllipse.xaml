@@ -25,7 +25,7 @@
                      Fill="{Binding Path=CenterColor}"/>
             <local:CVAvgArc 
                 StrokeThickness="31.3"
-                Stroke="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}" 
+                Stroke="{Binding Path=PercentageColor}" 
                 Margin="5">
                 <local:CVAvgArc.StartAngle>
                     <MultiBinding Converter="{StaticResource ProgressConverter}">

@@ -2,6 +2,7 @@
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils.Converters;
+using ClasseVivaWPF.Utils.Themes;
 using Newtonsoft.Json.Linq;
 using System;
 using System.CodeDom;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -225,26 +227,34 @@ namespace ClasseVivaWPF.Utils
             }
         }
 
-        public static DispatcherTimer AnimateScrollerH(this ScrollViewer sc, double from, double to, double duration)
+        public static Timer? AnimateScrollerH(this ScrollViewer sc, double from, double to, double duration, bool do_nothing_if_running = false)
         {
-            if (sc.Tag is DispatcherTimer old_dp)
-                old_dp.IsEnabled = false;
+            if (from == to)
+                return null;
 
-            DispatcherTimer dp;
+            if (sc.Tag is Timer old_dp)
+            {
+                if (do_nothing_if_running && old_dp.Enabled)
+                    return null;
+
+                old_dp.Enabled = false;
+            }
+
+            Timer dp;
             var inc = from < to;
-            const int INC_FOR_TICK = 2;
+            const int INC_FOR_TICK = 16;
 
             sc.Tag = dp = new()
             {
-                Interval = TimeSpan.FromSeconds(duration / Math.Abs(from - to)) * INC_FOR_TICK
+                Interval = duration / Math.Abs(from - to) * INC_FOR_TICK * 1000,
             };
 
-            dp.Tick += (s, e) =>
+            dp.Elapsed += (s, e) =>
             {
                 if ((inc && from++ > to) || (!inc && to > --from))
                 {
-                    ((DispatcherTimer)s!).IsEnabled = false;
-                    sc.ScrollToHorizontalOffset(to);
+                    dp.Enabled = false;
+                    sc.Dispatcher.Invoke(() => sc.ScrollToHorizontalOffset(to));
                     return;
                 }
 
@@ -253,8 +263,10 @@ namespace ClasseVivaWPF.Utils
                 else
                     from -= INC_FOR_TICK - 1;
 
-                sc.ScrollToHorizontalOffset(from);
+                sc.Dispatcher.Invoke(() => sc.ScrollToHorizontalOffset(from));
             }; // It's not animable
+
+            dp.Start();
 
             return dp;
         }
@@ -381,52 +393,13 @@ namespace ClasseVivaWPF.Utils
 
         public static void SetThemeBinding<T>(this T element,
                                               DependencyProperty property,
-                                              string VAR_PATH,
+                                              DependencyProperty path,
                                               bool run_animation = false) where T : DependencyObject, IAnimatable
         {
-            bool initialized = run_animation;
             var binding = new Binding()
             {
-                Path = new("CurrentTheme." + VAR_PATH),
-                Converter = new ActionConverter(),
-                ConverterParameter = (object v) =>
-                {
-                    var rt = property.PropertyType == typeof(Color) ? v : new SolidColorBrush((Color)v);
-
-                    if (initialized is true)
-                    {
-                        var st = new Storyboard();
-                        var path = property.PropertyType == typeof(Color) ?
-                                        new PropertyPath(property.Name) :
-                                        new PropertyPath($"({property.Name}).(SolidColorBrush.Color)");
-                        var current = element.GetValue(property);
-
-                        var animation = new ColorAnimation()
-                        {
-                            Duration = new(TimeSpan.FromSeconds(0.5)),
-                            From = (Color)(current is Color ? current : ((SolidColorBrush)current).Color),
-                            To = (Color)v,
-                            FillBehavior = FillBehavior.Stop
-                        };
-
-                        Storyboard.SetTargetProperty(animation, path);
-                        st.Children.Add(animation);
-
-                        element.Dispatcher.BeginInvoke(() =>
-                        {
-                            if (element is FrameworkElement x)
-                                st.Begin(x);
-                            else if (element is FrameworkContentElement y)
-                                st.Begin(y);
-                        });
-
-                    }
-                    else
-                        initialized = true;
-
-                    return rt; 
-                },
-                Source = MainWindow.INSTANCE
+                Path = new(path),
+                Source = ThemeProperties.INSTANCE
             };
 
             BindingOperations.SetBinding(element, property, binding);

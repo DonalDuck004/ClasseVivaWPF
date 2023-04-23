@@ -25,7 +25,7 @@
                             Stroke="Black"
                             StrokeThickness="0.4"
                             Fill="{Binding Path=BackgroundColor}"></Rectangle>
-                <Rectangle Canvas.Top="0.45" Height="{Binding ElementName=c, Path=ActualHeight}" Fill="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}">
+                <Rectangle Canvas.Top="0.45" Height="{Binding ElementName=c, Path=ActualHeight}" Fill="{Binding Path=PercentageColor}">
                     <Rectangle.Width>
                         <MultiBinding Converter="{StaticResource ProgressConverter}">
                             <Binding Path="Value"/>

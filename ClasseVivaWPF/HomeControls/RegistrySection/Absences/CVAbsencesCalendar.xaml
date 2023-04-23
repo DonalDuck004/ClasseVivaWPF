@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="ClasseVivaWPF.HomeControls.RegistrySection.Absences.CVAbsencesCalendar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Absences"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             mc:Ignorable="d" MinWidth="224"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid ClipToBounds="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Canvas VerticalAlignment="Center" Cursor="Hand" Height="18" Width="18" MouseLeftButtonDown="GoBackClick">
+                <Path Fill="{themes:ThemeBinding Path=CVGenericFont}" Margin="2" Opacity="0.6">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigure StartPoint="0,7" IsClosed="True">
+                                    <LineSegment Point="7,0"/>
+                                    <LineSegment Point="7,14"/>
+                                </PathFigure>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+            <Canvas Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ElementName=date_header, Path=ActualWidth}" Height="{Binding ElementName=date_header, Path=ActualHeight}">
+                <TextBlock Text="{Binding Path=SelectedDate, StringFormat='{}MMMM yyyy'}" Name="date_header" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
+            </Canvas>
+            <Canvas Grid.Column="2" Cursor="Hand" VerticalAlignment="Center" Height="18" Width="18" MouseLeftButtonDown="GoNextClick">
+                <Path Fill="{themes:ThemeBinding Path=CVGenericFont}" Margin="2" Opacity="0.6">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigure StartPoint="14,7" IsClosed="True">
+                                    <LineSegment Point="7,14"/>
+                                    <LineSegment Point="7,0"/>
+                                </PathFigure>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Grid>
+        <ScrollViewer Grid.Row="1" Name="scroller"
+                      VerticalScrollBarVisibility="Disabled" 
+                      HorizontalScrollBarVisibility="Hidden"
+                      shared:CVScollerView.OnSnapFrame="scroller_OnSnapFrame"
+                      shared:CVScollerView.OnSnap="scroller_OnSnap"
+                      shared:CVScollerView.SnapFrame="True"
+                      shared:CVScollerView.Snap="True"
+                      shared:CVScollerView.IsEnabled="True"
+                      shared:CVScollerView.SnapDirection="Horizontal"
+                      shared:CVScollerView.CatchHeightProperty="False" 
+                      shared:CVScollerView.CatchWidthProperty="True">
+            <ScrollViewer.Resources>
+                <Style TargetType="local:CVAbsencesCalendarMonth">
+                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=scroller}"></Setter>
+                </Style>
+            </ScrollViewer.Resources>
+                <!--todo Key handling-->
+            <StackPanel x:Name="months_wrapper" Orientation="Horizontal">
+                
+            </StackPanel>
+            
+        </ScrollViewer>
+    </Grid>
+</UserControl>

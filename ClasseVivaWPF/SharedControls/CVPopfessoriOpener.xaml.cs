@@ -47,10 +47,11 @@ namespace ClasseVivaWPF.SharedControls
             set => base.SetValue(UriProperty, value);
         }
 
-        public void OnCloseRequested()
+        public override void OnCloseRequested()
         {
             this.WebView.Dispose();
             GC.Collect();
+            base.OnCloseRequested();
         }
     }
 }

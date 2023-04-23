@@ -7,7 +7,7 @@
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
-             mc:Ignorable="d" Name="control"
+             mc:Ignorable="d" Name="control" Loaded="OnLoad"
              d:DesignHeight="128" d:DesignWidth="800">
     <Grid ClipToBounds="True">
         <Canvas x:Name="GradeStackWP" Margin="{Binding Path=ActualHeight, ElementName=grid, Converter={StaticResource ResourceKey=ThicknessConverter}, ConverterParameter=Top}" Height="0">
@@ -19,7 +19,7 @@
                 </StackPanel.Resources>
             </StackPanel>
         </Canvas>
-        <Grid x:Name="grid" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonUp="OnExpand" VerticalAlignment="Top" Cursor="Hand">
+        <Grid x:Name="grid" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonUp="OnMouseUp" MouseLeftButtonDown="OnMouseDown" VerticalAlignment="Top" Cursor="Hand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

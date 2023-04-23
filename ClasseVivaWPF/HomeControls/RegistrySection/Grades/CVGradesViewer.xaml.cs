@@ -37,7 +37,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     /// Logica di interazione per CVGradesViewer.xaml
     /// </summary>
     /// 
-    public partial class CVGradesViewer : Injectable
+    public partial class CVGradesViewer : Injectable, IOnKeyDown
     {
         public static readonly DependencyProperty SelectedGradeProperty;
         public static readonly DependencyProperty SelectedSectionProperty;
@@ -61,6 +61,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                 }
             }
         }
+
         public bool DataFetched
         {
             get => (bool)base.GetValue(DataFetchedProperty);
@@ -143,7 +144,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         private void UpdateBlock2()
         {
-            CVSubjectGrades? tmp;
             var block2empty = true;
             this.FirstPeriodStack.Children.Clear();
             this.LastPeriodStack.Children.Clear();
@@ -152,7 +152,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                                   join grade in CVRegistry.INSTANCE!.CachedGrades.OnlyDisplayable() on subject.Id equals grade.SubjectId
                                   group grade by (grade.PeriodDesc, subject))
             {
-                tmp = CVSubjectGrades.New(grade.ToArray(), grade.Key.subject);
+                CVSubjectGrades? tmp = CVSubjectGrades.New(grade.ToArray(), grade.Key.subject);
                 if (tmp is null)
                     continue;
 
@@ -177,7 +177,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                     VerticalContentAlignment = VerticalAlignment.Center,
                 });
 
-                lbl.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_GENERIC_GRAY_FONT_PATH);
+                lbl.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVGenericGrayFontProperty);
                 BindingOperations.SetBinding(lbl, Label.HeightProperty, new Binding()
                 {
                     Source = this.Scroller,
@@ -213,24 +213,24 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
         private void SelectLabel(Label @new, Label old)
         {
-            @new.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
-            old.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
+            @new.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMultiMenuFontSelectedProperty);
+            old.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMultiMenuFontUnselectedProperty);
         }
 
         private void InitLabels()
         {
             var iterator = this.labels.Children.OfType<Label>().GetEnumerator();
             iterator.MoveNext();
-            iterator.Current.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
+            iterator.Current.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMultiMenuFontSelectedProperty);
 
             while (iterator.MoveNext())
-                iterator.Current.SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
+                iterator.Current.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMultiMenuFontUnselectedProperty);
         }
 
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var labels = this.labels.Children.OfType<Label>().ToArray();
-            var old = labels.Where(x => ((SolidColorBrush)x.Foreground).Color == MainWindow.INSTANCE.CurrentTheme.CV_MULTI_MENU_FONT_SELECTED).First();
+            var old = this.GetSelectedLabel();
             if (ReferenceEquals(sender, old))
                 return;
 
@@ -242,16 +242,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             this.Scroller.ScrollToHorizontalOffset(this.Scroller.ActualWidth * idx);
         }
 
-        private async void CVReloadButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async Task Reload()
         {
             if (ReloadLock.CurrentCount == 0)
                 return;
 
+            this.DataFetched = false;
+
             try
             {
                 await ReloadLock.WaitAsync();
-
-                this.DataFetched = false;
 
                 try
                 {
@@ -269,9 +269,40 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             {
                 ReloadLock.Release();
             }
+            this.DataFetched = true;
 
             this.Update();
-            this.DataFetched = true;
+        }
+
+        private async void ReloadBtn(object sender, MouseButtonEventArgs e) => await Reload();
+
+        public void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is Key.F5)
+            {
+                Task.Run(Reload);
+                return;
+            }
+
+            if (e.Key is not Key.Left && e.Key is not Key.Right)
+                return;
+
+            var labels = this.labels.Children.OfType<Label>().ToArray();
+            var old = this.GetSelectedLabel();
+            var idx = labels.ReferenceIndexOf(old);
+
+            if (e.Key is Key.Left)
+                idx--;
+            else 
+                idx++;
+
+            idx = idx == -1 ? 2 : idx % 3;
+
+            this.SelectedSection = (FrameworkElement)((StackPanel)this.SectionsWP.Children[idx]).Children[0];
+            SelectLabel(labels[idx], old);
+
+            this.Scroller.ScrollToVerticalOffset(0);
+            this.Scroller.ScrollToHorizontalOffset(this.Scroller.ActualWidth * idx);
         }
     }
 }

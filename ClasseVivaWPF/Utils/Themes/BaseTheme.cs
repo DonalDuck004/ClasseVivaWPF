@@ -67,7 +67,10 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_ABSENCES_PARTIALLY_ABSENT_PATH = "CV_ABSENCES_PARTIALLY_ABSENT";
         public const string CV_ABSENCES_EARLY_EXIT_PATH = "CV_ABSENCES_EARlY_EXIT";
         public const string CV_ABSENCES_LATE_PATH = "CV_ABSENCES_LATE";
-
+        public const string CV_ABSENCES_PRESENT_PATH = "CV_ABSENCES_PRESENT";
+        public const string CV_ABSENCES_CALENDAR_HAS_EVENT_FONT_PATH = "CV_ABSENCES_CALENDAR_HAS_EVENT_FONT";
+        public const string CV_ABSENCES_CALENDAR_NO_EVENT_FONT_PATH = "CV_ABSENCES_CALENDAR_NO_EVENT_FONT";
+        
         public const string CV_MULTI_MENU_FONT_SELECTED_PATH = "CV_MULTI_MENU_FONT_SELECTED";
         public const string CV_MULTI_MENU_FONT_UNSELECTED_PATH = "CV_MULTI_MENU_FONT_UNSELECTED";
         public const string CV_MULTI_MENU_FONT_SLIDER_PATH = "CV_MULTI_MENU_FONT_SLIDER";
@@ -91,10 +94,11 @@ namespace ClasseVivaWPF.Utils.Themes
         public abstract Color CV_SETTINGS_TEXT { get; }
         public abstract Color CV_TEXT_BOX_BACKGROUND { get; }
         public abstract Color CV_ABSENCES_ABSENT { get; }
+        public abstract Color CV_ABSENCES_PRESENT { get; }
         public abstract Color CV_ABSENCES_PARTIALLY_ABSENT { get; }
         public abstract Color CV_ABSENCES_EARlY_EXIT { get; }
         public abstract Color CV_ABSENCES_LATE { get; }
-
+        
         public abstract Color CV_GRADES_FILTER { get; }
         public abstract Color CV_GRADE_NOTE { get; }
 
@@ -150,6 +154,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public abstract Color CV_GRADE_FONT { get; }
         public abstract Color CV_GRADE_GRV2 { get; }
         public abstract Color CV_ABSENCES_FONT { get; }
+        public abstract Color CV_ABSENCES_CALENDAR_HAS_EVENT_FONT { get; }
+        public abstract Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; }
 
         public BaseTheme(bool reg = true)
         {

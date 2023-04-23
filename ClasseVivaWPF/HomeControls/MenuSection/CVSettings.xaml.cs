@@ -87,10 +87,11 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             this.Update();
         }
 
-        public void OnCloseRequested()
+        public override void OnCloseRequested()
         {
             SessionHandler.INSTANCE!.NotificationsFlagChanged -= OnNotificationsFlagChanged;
             this.MediaDirChanged.Dispose();
+            base.OnCloseRequested();
         }
 
         private void OnCheckStateChanged(object sender, EventArgs e)

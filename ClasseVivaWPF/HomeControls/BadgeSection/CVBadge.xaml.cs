@@ -83,7 +83,7 @@ namespace ClasseVivaWPF.HomeControls.BadgeSection
             if (to == this.Scroller.HorizontalOffset)
                 return;
 
-            this.Scroller.AnimateScrollerH(this.Scroller.HorizontalOffset, to, 0.02).Start();
+            this.Scroller.AnimateScrollerH(this.Scroller.HorizontalOffset, to, 0.2);
 
             var idx = this.labels.Children.ReferenceIndexOf(sender);
             UpdateHighlight(idx);
@@ -96,8 +96,8 @@ namespace ClasseVivaWPF.HomeControls.BadgeSection
         
         private void UpdateHighlight(int idx)
         {
-            ((Label)labels.Children[idx]).SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
-            ((Label)labels.Children[++idx % 2]).SetThemeBinding(Label.ForegroundProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
+            ((Label)labels.Children[idx]).SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMultiMenuFontSelectedProperty);
+            ((Label)labels.Children[++idx % 2]).SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVMultiMenuFontUnselectedProperty);
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

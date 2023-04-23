@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="ClasseVivaWPF.HomeControls.RegistrySection.Absences.CVAbsence"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Absences"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid MinHeight="64" MaxHeight="96" Background="{themes:ThemeBinding Path=CVGenericBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Margin="16,4,0,4" CornerRadius="100" Grid.RowSpan="2" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsAbsence}" Value="True">
+                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesAbsent}"></Setter>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <TextBlock Text="Assenza"></TextBlock>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsLate}" Value="True">
+                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesLate}"></Setter>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <TextBlock Text="Ritardo"></TextBlock>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsShortLate}" Value="True">
+                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesLate}"></Setter>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <TextBlock Text="Ritardo Breve"></TextBlock>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsEarlyExit}" Value="True">
+                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesEarlyExit}"></Setter>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <TextBlock Text="Uscita Anticipata"></TextBlock>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsPartiallyAbsent}" Value="True">
+                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}"></Setter>
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <TextBlock Text="Assenza Parziale"></TextBlock>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEvent}"></Setter>
+                        <Setter Property="FontSize" Value="24"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsAbsence}" Value="True">
+                                <Setter Property="Text" Value="A"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsLate}" Value="True">
+                                <Setter Property="Text" Value="R"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsShortLate}" Value="True">
+                                <Setter Property="Text" Value="Rb"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsEarlyExit}" Value="True">
+                                <Setter Property="Text" Value="U"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsPartiallyAbsent}" Value="True">
+                                <Setter Property="Text" Value="P"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Border>
+        <TextBlock Text="{Binding Path=FormattedDate}" Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom"></TextBlock>
+        <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Top" Grid.Row="1"></TextBlock>
+    </Grid>
+</UserControl>

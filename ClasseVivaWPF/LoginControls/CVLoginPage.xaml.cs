@@ -150,15 +150,14 @@ namespace ClasseVivaWPF.LoginControls
 
             Debug.Assert(CVHome.INSTANCE.Contents.Count > 0);
 
+            if (src is not null && src.LoginFinalizer is Task x)
+                x.Wait();
+
             if (set_content)
             {
                 var navigation = CVMainNavigation.New();
                 MainWindow.INSTANCE.ReplaceMainContent(navigation);
             }
-
-            if (src is not null && src.LoginFinalizer is Task x)
-                x.Wait();
-
 
             MainWindow.INSTANCE.RaisePostLogin();
         }

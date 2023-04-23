@@ -21,7 +21,7 @@
             FontWeight="DemiBold"
             Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=''}"
             Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
-        <Rectangle Grid.Row="1" Fill="{Binding Path=PercentageColor, Converter={StaticResource ToBrushConverter}}">
+        <Rectangle Grid.Row="1" Fill="{Binding Path=PercentageColor}">
             <Rectangle.ToolTip>
                 <ToolTip>
                     <TextBlock Text="{Binding Path=LongDesc}"></TextBlock>

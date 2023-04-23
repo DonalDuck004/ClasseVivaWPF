@@ -97,6 +97,7 @@ namespace ClasseVivaWPF.Sessions
         {
             var idx = SessionMetaController.Current.Accounts.TakeWhile(x => x.Ident != meta.Ident).Count();
             RemoveAt(idx);
+
             if (idx == SessionMetaController.Current.LastIdx)
                 SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.Count == 0 ? null : 0;
         }

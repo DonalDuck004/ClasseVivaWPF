@@ -27,7 +27,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     public partial class CVSubjectGrades : UserControl
     {
         public static readonly DependencyProperty ExpandedProperty;
-
+        private Grade[]? grades = null;
+        private Point? DownPos = null;
 
         public bool Expanded
         {
@@ -113,23 +114,22 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             @this.Subject.Text = subject.Description;
             @this.Teachers.Text = subject.TeachersString.ToTitle();
 
-            foreach (var g in grades)
-                @this.GradeStack.Children.Add(new CVGrade(g));
-
+            @this.grades = grades;
+            
             if (@this.avg.Value < 5)
             {
-                @this.avg.SetThemeBinding(CVProgressEllipse.PercentageColorProperty, BaseTheme.CV_GRADE_INSUFFICIENT_PATH);
-                @this.avg.SetThemeBinding(CVProgressEllipse.BackgroundColorProperty, BaseTheme.CV_GRADE_INSUFFICIENT_BG_PATH);
+                @this.avg.SetThemeBinding(CVProgressEllipse.PercentageColorProperty, ThemeProperties.CVGradeInsufficientProperty);
+                @this.avg.SetThemeBinding(CVProgressEllipse.BackgroundColorProperty, ThemeProperties.CVGradeInsufficientBgProperty);
             }
             else if (@this.avg.Value < 6)
             {
-                @this.avg.SetThemeBinding(CVProgressEllipse.PercentageColorProperty, BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH);
-                @this.avg.SetThemeBinding(CVProgressEllipse.BackgroundColorProperty, BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_BG_PATH);
+                @this.avg.SetThemeBinding(CVProgressEllipse.PercentageColorProperty, ThemeProperties.CVGradeSlightlyInsufficientProperty);
+                @this.avg.SetThemeBinding(CVProgressEllipse.BackgroundColorProperty, ThemeProperties.CVGradeSlightlyInsufficientBgProperty);
             }
             else
             {
-                @this.avg.SetThemeBinding(CVProgressEllipse.PercentageColorProperty, BaseTheme.CV_GRADE_SUFFICIENT_PATH);
-                @this.avg.SetThemeBinding(CVProgressEllipse.BackgroundColorProperty, BaseTheme.CV_GRADE_SUFFICIENT_BG_PATH);
+                @this.avg.SetThemeBinding(CVProgressEllipse.PercentageColorProperty, ThemeProperties.CVGradeSufficientProperty);
+                @this.avg.SetThemeBinding(CVProgressEllipse.BackgroundColorProperty, ThemeProperties.CVGradeSufficientBgProperty);
             }
 
             if (avg_grades.Length > 1)
@@ -150,7 +150,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                 if (g1.DecimalValue == g2.DecimalValue)
                 {
                     control.Template = (ControlTemplate)Application.Current.FindResource("TrendStableIcon");
-                    control.SetThemeBinding(ContentControl.BackgroundProperty, g1.InternalColorPath);
+                    control.SetThemeBinding(ContentControl.BackgroundProperty, g1.InternalColorProperty);
                 }
                 else
                 {
@@ -159,9 +159,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
                     if (g1.DecimalValue > g2.DecimalValue)
                     {
                         control.LayoutTransform = new RotateTransform(180, 0.5, 0.5);
-                        control.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_GRADE_SUFFICIENT_PATH);
+                        control.SetThemeBinding(ContentControl.BackgroundProperty, ThemeProperties.CVGradeSufficientProperty);
                     }else
-                        control.SetThemeBinding(ContentControl.BackgroundProperty, BaseTheme.CV_GRADE_INSUFFICIENT_PATH);
+                        control.SetThemeBinding(ContentControl.BackgroundProperty, ThemeProperties.CVGradeInsufficientProperty);
                 }
             }
 
@@ -170,9 +170,39 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             return @this;
         }
 
-        private void OnExpand(object sender, MouseButtonEventArgs e)
+        private void Expand()
         {
             this.Expanded = !this.Expanded;
+
+            if (this.Expanded)
+                this.BringIntoView();
+        }
+
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (DownPos == e.GetPosition(MainWindow.INSTANCE))
+                Expand();
+
+            DownPos = null;
+        }
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DownPos = e.GetPosition(MainWindow.INSTANCE);
+        }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= OnLoad;
+
+            foreach (var g in this.grades!)
+                this.GradeStack.Children.Add(new CVGrade(g));
+
+            this.grades = null;
+        }
+
+        private void grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

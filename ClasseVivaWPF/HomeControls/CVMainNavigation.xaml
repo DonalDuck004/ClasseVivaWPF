@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="159"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Border Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0" MouseLeftButtonDown="OnExpandAccounts" Panel.ZIndex="1">
+            <Border Cursor="Hand" Width="32" Height="32" CornerRadius="100" Background="White" Margin="7,0,0,0" Grid.Column="0" MouseLeftButtonDown="OnExpandAccounts" Panel.ZIndex="1">
                 <Image x:Name="profile_image"></Image>
             </Border>
             <DockPanel Grid.Column="1" Name="logo_wp">

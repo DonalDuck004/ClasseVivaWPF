@@ -169,6 +169,18 @@ namespace ClasseVivaWPF
             this.RemoveField((FrameworkElement)this.wrapper.Children[this.wrapper.Children.Count - 1]);
         }
 
+        public bool UpdateLast()
+        {
+            if (this.wrapper.Children.Count == 0)
+                return false;
+
+            if (this.wrapper.Children[wrapper.Children.Count - 1] is not IUpdate x)
+                return false;
+
+            x.Update();
+            return true;
+        }
+
         public new void Show()
         {
             if (this.WindowState is WindowState.Minimized)

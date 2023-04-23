@@ -66,6 +66,7 @@ namespace ClasseVivaWPF.Api.Types
         public bool IsHomework => this.EvtCode == AGENDA_HOMEWORK;
         public bool IsNote => this.EvtCode == AGENDA_NOTE;
         public bool IsEarlyExit => this.EvtCode == ABSENCE_EARLY_EXIT;
+        public bool IsPartiallyAbsent => this.EvtCode == "Not implemented in official app"; // Todo
         public bool IsAbsence => this.EvtCode == ABSENCE_ABSENCE;
         public bool IsLate => this.EvtCode == ABSENCE_LATE;
         public bool IsShortLate => this.EvtCode == ABSENCE_SHORT_LATE;

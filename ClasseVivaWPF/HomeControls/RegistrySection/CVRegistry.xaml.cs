@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.HomeControls.RegistrySection.Absences;
 using ClasseVivaWPF.HomeControls.RegistrySection.Grades;
 using ClasseVivaWPF.HomeControls.RegistrySection.Graphs;
 using ClasseVivaWPF.SharedControls;
@@ -25,7 +26,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
     /// <summary>
     /// Logica di interazione per CVRegistry.xaml
     /// </summary>
-    public partial class CVRegistry : UserControl, IOnSwitch, IOnKeyDown, IOnChildClosed, IOnUpdateRequired
+    public partial class CVRegistry : UserControl, IOnSwitch, IOnKeyDown, IOnChildClosed, IOnFullReload
     {
 
         public static CVRegistry? INSTANCE { get; private set; }
@@ -118,40 +119,40 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 Duration = new(TimeSpan.FromSeconds(1)),
                 FillBehavior = FillBehavior.Stop
             };
-            Storyboard.SetTargetProperty(animation, new PropertyPath(CVProgressEllipse.ValueProperty));
+            Storyboard.SetTargetProperty(animation, new(CVProgressEllipse.ValueProperty));
             st.Children.Add(animation);
 
 
-            var dest = BaseTheme.CV_GRADE_INSUFFICIENT_PATH;
-            target.PercentageColor = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_INSUFFICIENT;
+            var dest = ThemeProperties.CVGradeInsufficientProperty;
+            target.PercentageColor = new(ThemeProperties.INSTANCE.CVGradeInsufficient.Color);
 
             if (avg >= 5)
             {
-                dest = BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH;
+                dest = ThemeProperties.CVGradeSlightlyInsufficientProperty;
                 animation = new ColorAnimation()
                 {
-                    To = target.PercentageColor = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT,
+                    To = (target.PercentageColor = new(ThemeProperties.INSTANCE.CVGradeSlightlyInsufficient.Color)).Color,
                     AccelerationRatio = 0.1,
                     Duration = new(TimeSpan.FromSeconds(avg >= 6 ? 0.5 : 1)),
                     FillBehavior = FillBehavior.Stop
                 };
-
-                Storyboard.SetTargetProperty(animation, new PropertyPath(CVProgressEllipse.PercentageColorProperty));
+                
+                Storyboard.SetTargetProperty(animation, new("PercentageColor.Color"));
                 st.Children.Add(animation);
             }
 
             if (avg >= 6)
             {
-                dest = BaseTheme.CV_GRADE_SUFFICIENT_PATH;
+                dest = ThemeProperties.CVGradeSufficientProperty;
                 animation = new ColorAnimation()
                 {
-                    To = target.PercentageColor = MainWindow.INSTANCE.CurrentTheme.CV_GRADE_SUFFICIENT,
+                    To = (target.PercentageColor = new(ThemeProperties.INSTANCE.CVGradeSufficient.Color)).Color, // Copy
                     Duration = new(TimeSpan.FromSeconds(0.35)),
                     BeginTime = TimeSpan.FromSeconds(0.65),
                     FillBehavior = FillBehavior.Stop
                 };
 
-                Storyboard.SetTargetProperty(animation, new PropertyPath(CVProgressEllipse.PercentageColorProperty));
+                Storyboard.SetTargetProperty(animation, new("PercentageColor.Color"));
                 st.Children.Add(animation);
             }
 
@@ -227,20 +228,21 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                 var filtered_cols = g.Merge().OnlyDisplayable();
 
                 var columns = (from subject in _CachedSubjects
-                                join grade in filtered_cols
-                                on subject.Id equals grade.SubjectId into sg
-                                from grade in sg.DefaultIfEmpty()
-                                group grade by (subject, grade?.PeriodDesc) into gr
-                                let values = gr.Select(x => x is null || x.DecimalValue is null ? double.NaN : x.DecimalValue.Value)
-                                select new CVColumn()
-                                {
-                                    ContentID = gr.Key.subject.Id,
-                                    Desc = gr.Key.subject.ShortName,
-                                    SubGroupName = gr.Key.PeriodDesc,
-                                    LongDesc = gr.Key.subject.Description.ToTitle(),
-                                    Values = values,
-                                    Value = SafeAVG(values)
-                                }).ToList();
+                               join grade in filtered_cols
+                               on subject.Id equals grade.SubjectId into sg
+                               from grade in sg.DefaultIfEmpty()
+                               group grade by (subject, grade?.PeriodDesc) into gr
+                               let values = gr.Select(x => x is null || x.DecimalValue is null ? double.NaN : x.DecimalValue.Value)
+                               select new CVColumn()
+                               {
+                                   ContentID = gr.Key.subject.Id,
+                                   SubGroupName = gr.Key.PeriodDesc,
+                                   Desc = gr.Key.subject.ShortName,
+                                   LongDesc = gr.Key.subject.Description.ToTitle(),
+                                   Values = values,
+                                   Value = SafeAVG(values),
+                                   Max = 10
+                               }).ToList();
 
                 this.grades_placeholder.Visibility = Visibility.Hidden;
                 this.Graph.Update(columns, this.ShowNaNCB.IsChecked, op: CVColumnsGraphFilterOperation.GroupAVG);
@@ -378,9 +380,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             if (FPChecked && LPChecked)
                 this.Graph.Filter(CVColumnsGraphFilterOperation.GroupAVG, ShowNaN);
             else if (FPChecked)
-                this.Graph.Filter(CVColumnsGraphFilterOperation.GroupAVG, ShowNaN, "Pentamestre");
+                this.Graph.Filter(CVColumnsGraphFilterOperation.GroupAVG, ShowNaN, true, "Pentamestre");
             else if (LPChecked)
-                this.Graph.Filter(CVColumnsGraphFilterOperation.GroupAVG, ShowNaN, "Trimestre");
+                this.Graph.Filter(CVColumnsGraphFilterOperation.GroupAVG, ShowNaN, true, "Trimestre");
             else
                 (object.ReferenceEquals(sender, this.FirstPeriodCB) ? this.LastPeriodCB : this.FirstPeriodCB).IsChecked = true;
 
@@ -402,7 +404,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
         private void OpenGradesViewer(object sender, MouseButtonEventArgs e)
         {
-            if (this.CachedGrades is null || this.CachedGrades.Length == 0 || this.FirstPeriodName is null || this.LastPeriodCB is null)
+            if (this.CachedGrades is null || this.CachedGrades.Length == 0 || this.FirstPeriodName is null || this.LastPeriodCB is null || !this.DataFetched)
             {
                 new CVMessageBox("Errore!", "Impossibile aprire questa schermata, poichè al momento non hai valutazioni o perchè è in corso il caricamento").Inject();
                 return;
@@ -420,7 +422,18 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             }
         }
 
-        public async void OnUpdateRequired() => await Reload();
+        public async void OnFullReload() => await Reload();
+
+        private void OpenAbsencesViewer(object sender, MouseButtonEventArgs e)
+        {
+            if (this.CachedAbsences is null || this.CachedAbsences.Length == 0 || !this.DataFetched)
+            {
+                new CVMessageBox("Errore!", "Impossibile aprire questa schermata, poichè al momento non sono state registrate assenze/presenze o perchè è in corso il caricamento").Inject();
+                return;
+            }
+
+            new CVAbsencesViewer().Inject();
+        }
     }
 
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Media;
 
 namespace ClasseVivaWPF.Api.Types
@@ -117,6 +118,12 @@ namespace ClasseVivaWPF.Api.Types
             this.DecimalValue < 5 ? BaseTheme.CV_GRADE_INSUFFICIENT_PATH : 
             this.DecimalValue < 6 ? BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH :
             BaseTheme.CV_GRADE_SUFFICIENT_PATH;
+
+        public DependencyProperty InternalColorProperty =>
+            this.DecimalValue is null ? ThemeProperties.CVGradeNoteProperty :
+            this.DecimalValue < 5 ? ThemeProperties.CVGradeInsufficientProperty :
+            this.DecimalValue < 6 ? ThemeProperties.CVGradeSlightlyInsufficientProperty :
+            ThemeProperties.CVGradeSufficientProperty;
 
         public override void BuildNotifyText(ToastContentBuilder toast)
         {

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ClasseVivaWPF.Utils.Converters;
+using System;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace ClasseVivaWPF.Utils.Themes
 {
@@ -58,6 +61,31 @@ namespace ClasseVivaWPF.Utils.Themes
         public static readonly DependencyProperty CVAbsencesFontProperty;
         public static readonly DependencyProperty CVAccountBubbleFontProperty;
         public static readonly DependencyProperty CVAccountBubbleProperty;
+        public static readonly DependencyProperty CVAbsencesPresentProperty;
+        public static readonly DependencyProperty CVAbsencesCalendarNoEventProperty;
+        public static readonly DependencyProperty CVAbsencesCalendarHasEventProperty;
+        public static readonly DependencyProperty CVGradeInsufficientBgProperty;
+        public static readonly DependencyProperty CVGradeSlightlyInsufficientBgProperty;
+        public static readonly DependencyProperty CVGradeSufficientBgProperty;
+
+
+        public SolidColorBrush CVAbsencesCalendarNoEvent
+        {
+            get => (SolidColorBrush)GetValue(CVAbsencesCalendarNoEventProperty);
+            set => SetValue(CVAbsencesCalendarNoEventProperty, value);
+        }
+
+        public SolidColorBrush CVAbsencesCalendarHasEvent
+        {
+            get => (SolidColorBrush)GetValue(CVAbsencesCalendarHasEventProperty);
+            set => SetValue(CVAbsencesCalendarHasEventProperty, value);
+        }
+        
+        public SolidColorBrush CVAbsencesPresent
+        {
+            get => (SolidColorBrush)GetValue(CVAbsencesPresentProperty);
+            set => SetValue(CVAbsencesPresentProperty, value);
+        }
 
         public SolidColorBrush CVAccountBubbleFont
         {
@@ -359,9 +387,30 @@ namespace ClasseVivaWPF.Utils.Themes
             set => SetValue(CVGenericFontProperty, value);
         }
 
+        public SolidColorBrush CVGradeInsufficientBg
+        {
+            get => (SolidColorBrush)GetValue(CVGradeInsufficientBgProperty);
+            set => SetValue(CVGradeInsufficientBgProperty, value);
+        }
+
+        public SolidColorBrush CVGradeSlightlyInsufficientBg
+        {
+            get => (SolidColorBrush)GetValue(CVGradeSlightlyInsufficientBgProperty);
+            set => SetValue(CVGradeSlightlyInsufficientBgProperty, value);
+        }
+
+        public SolidColorBrush CVGradeSufficientBg
+        {
+            get => (SolidColorBrush)GetValue(CVGradeSufficientBgProperty);
+            set => SetValue(CVGradeSufficientBgProperty, value);
+        }
+
 
         static ThemeProperties()
         {
+            ThemeProperties.CVGradeInsufficientBgProperty = DependencyProperty.Register("CVGradeInsufficientBg", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVGradeSlightlyInsufficientBgProperty = DependencyProperty.Register("CVGradeSlightlyInsufficientBg", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVGradeSufficientBgProperty = DependencyProperty.Register("CVGradeSufficientBg", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAbsencesAbsentProperty = DependencyProperty.Register("CVAbsencesAbsent", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVTextBoxBackgroundProperty = DependencyProperty.Register("CVTextBoxBackground", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAbsencesPartiallyAbsentProperty = DependencyProperty.Register("CVAbsencesPartiallyAbsent", typeof(SolidColorBrush), typeof(ThemeProperties));
@@ -412,6 +461,9 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.CVAbsencesFontProperty = DependencyProperty.Register("CVAbsencesFont", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAccountBubbleProperty = DependencyProperty.Register("CVAccountBubble", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAccountBubbleFontProperty = DependencyProperty.Register("CVAccountBubbleFont", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAbsencesPresentProperty = DependencyProperty.Register("CVAbsencesPresent", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAbsencesCalendarNoEventProperty = DependencyProperty.Register("CVAbsencesCalendarNoEvent", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAbsencesCalendarHasEventProperty = DependencyProperty.Register("CVAbsencesCalendarHasEvent", typeof(SolidColorBrush), typeof(ThemeProperties));
 
             ThemeProperties.INSTANCE = new();
         }
@@ -419,6 +471,12 @@ namespace ClasseVivaWPF.Utils.Themes
 
         private ThemeProperties()
         {
+            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientBgProperty, BaseTheme.CV_GRADE_INSUFFICIENT_BG_PATH);
+            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientBgProperty, BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_BG_PATH);
+            this.SetThemeBinding(ThemeProperties.CVGradeSufficientBgProperty, BaseTheme.CV_GRADE_SUFFICIENT_BG_PATH);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarNoEventProperty, BaseTheme.CV_ABSENCES_CALENDAR_NO_EVENT_FONT_PATH);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarHasEventProperty, BaseTheme.CV_ABSENCES_CALENDAR_HAS_EVENT_FONT_PATH);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesPresentProperty, BaseTheme.CV_ABSENCES_PRESENT_PATH);
             this.SetThemeBinding(ThemeProperties.CVAccountBubbleProperty, BaseTheme.CV_ACCOUNT_BUBBLE_PATH);
             this.SetThemeBinding(ThemeProperties.CVAccountBubbleFontProperty, BaseTheme.CV_ACCOUNT_BUBBLE_FONT_PATH);
             this.SetThemeBinding(ThemeProperties.CVExtraInteractIconsProperty, BaseTheme.CV_EXTRA_INTERACT_ICONS_PATH);
@@ -469,6 +527,55 @@ namespace ClasseVivaWPF.Utils.Themes
             this.SetThemeBinding(ThemeProperties.CVGradeFontProperty, BaseTheme.CV_GRADE_FONT_PATH);
             this.SetThemeBinding(ThemeProperties.CVGradeGRV2Property, BaseTheme.CV_GRADE_GRV2_PATH);
             this.SetThemeBinding(ThemeProperties.CVAbsencesFontProperty, BaseTheme.CV_ABSENCES_FONT_PATH);
+        }
+
+        private void SetThemeBinding(DependencyProperty property,
+                                              string VAR_PATH,
+                                              bool run_animation = false)
+        {
+            bool initialized = run_animation;
+            var binding = new Binding()
+            {
+                Path = new("CurrentTheme." + VAR_PATH),
+                Converter = new ActionConverter(),
+                ConverterParameter = (object v) =>
+                {
+                    var rt = property.PropertyType == typeof(Color) ? v : new SolidColorBrush((Color)v);
+
+                    if (initialized is true)
+                    {
+                        var st = new Storyboard();
+                        var path = property.PropertyType == typeof(Color) ?
+                                        new PropertyPath(property.Name) :
+                                        new PropertyPath($"({property.Name}).(SolidColorBrush.Color)");
+                        var current = this.GetValue(property);
+
+                        var animation = new ColorAnimation()
+                        {
+                            Duration = new(TimeSpan.FromSeconds(0.5)),
+                            From = (Color)(current is Color ? current : ((SolidColorBrush)current).Color),
+                            To = (Color)v,
+                            FillBehavior = FillBehavior.Stop
+                        };
+
+                        Storyboard.SetTargetProperty(animation, path);
+                        st.Children.Add(animation);
+
+                        this.Dispatcher.BeginInvoke(() =>
+                        {
+                            st.Begin(this);
+                        });
+
+                    }
+                    else
+                        initialized = true;
+
+                    return rt;
+                },
+                Source = MainWindow.INSTANCE
+            };
+
+            BindingOperations.SetBinding(this, property, binding);
         }
     }
 }

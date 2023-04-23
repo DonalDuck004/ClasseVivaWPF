@@ -2,7 +2,8 @@
 {
     public enum CVColumnsGraphFilterOperation
     {
-        None,
+        NoneNoOverlap,
+        NoneOverlap,
         GroupSum,
         GroupAVG
     }

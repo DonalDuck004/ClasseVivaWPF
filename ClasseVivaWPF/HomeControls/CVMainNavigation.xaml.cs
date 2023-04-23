@@ -79,6 +79,8 @@ namespace ClasseVivaWPF.HomeControls
         {
             if (CVMainNavigation.INSTANCE is null)
                 CVMainNavigation.INSTANCE = new();
+            else
+                CVMainNavigation.INSTANCE.BuildAccountSection();
 
             return CVMainNavigation.INSTANCE;
         }
@@ -146,18 +148,19 @@ namespace ClasseVivaWPF.HomeControls
                 {
                     new CVMessageBox("Errore di login", error_msg).Inject();
 
-                    SessionHandler.DestroyFile(SessionHandler.SessionFileFor(SessionMetaController.Current.CurrentAccount.Ident));
+                    SessionHandler.DestroyFile(SessionHandler.SessionFileFor(SessionMetaController.Current.CurrentAccount!.Ident));
                     SessionMetaController.RemoveCurrent(old_idx);
                 }
                 else
                 {
                     if (!SessionMetaController.Current.HasAccounts)
                     {
-                        Client.INSTANCE.UnSetLoginToken();
                         NotificationSystem.INSTANCE.Stop();
                         MainWindow.INSTANCE.HideIcon();
-                        MainWindow.INSTANCE.ReplaceMainContent(new CVLoginPage());
+                        Client.INSTANCE.UnSetLoginToken();
+                        old.Close();
 
+                        MainWindow.INSTANCE.ReplaceMainContent(new CVLoginPage());
                         return false;
                     }
 
@@ -171,9 +174,10 @@ namespace ClasseVivaWPF.HomeControls
             MainWindow.INSTANCE.RemoveField(this);
 
             CVLoginPage.EndLogin(set_content: false);
+
             if (Current.Children.Count > 0 && // Camera section
-                Current.Children[0] is IOnUpdateRequired x)
-                x.OnUpdateRequired();
+                Current.Children[0] is IOnFullReload x)
+                x.OnFullReload();
 
             MainWindow.INSTANCE.ReplaceMainContent(this);
             return true;
@@ -218,6 +222,7 @@ namespace ClasseVivaWPF.HomeControls
             SessionMetaController.Select(SessionMetaController.Current.CurrentAccount!);
             if (ChangeAccount())
                 this.BuildAccountSection();
+            SessionHandler.DestroyFile(SessionHandler.SessionFileFor(meta.Ident));
         }
     }
 }

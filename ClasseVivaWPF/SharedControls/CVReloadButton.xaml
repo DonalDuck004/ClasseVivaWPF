@@ -5,28 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Loaded="OnLoad"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Canvas Cursor="Hand" Width="40" Height="40" RenderTransformOrigin="0.5,0.5">
-        <Canvas.Resources>
-            <Storyboard x:Key="Animation">
-                <DoubleAnimation Storyboard.TargetProperty="(Canvas.RenderTransform).(RotateTransform.Angle)" To="-360" Duration="0:0:1" RepeatBehavior="Forever" />
-            </Storyboard>
-        </Canvas.Resources>
-        <Canvas.Style>
-            <Style TargetType="Canvas">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Path=DataFetched}" Value="False">
-                        <DataTrigger.EnterActions>
-                            <BeginStoryboard x:Name="ca" Storyboard="{StaticResource ResourceKey=Animation}"></BeginStoryboard>
-                        </DataTrigger.EnterActions>
-                        <DataTrigger.ExitActions>
-                            <RemoveStoryboard BeginStoryboardName="ca"></RemoveStoryboard>
-                        </DataTrigger.ExitActions>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Canvas.Style>
+    <Canvas Cursor="Hand" Width="40" Height="40" RenderTransformOrigin="0.5,0.5" Name="cv">
         <Canvas.RenderTransform>
             <RotateTransform Angle="0" />
         </Canvas.RenderTransform>

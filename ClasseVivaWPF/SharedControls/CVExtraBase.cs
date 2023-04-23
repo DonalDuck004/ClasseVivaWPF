@@ -45,7 +45,6 @@ namespace ClasseVivaWPF.SharedControls
             new Task(async () => await Client.INSTANCE.SetInteraction(ID, Interaction.REACTION_CLICK)).Start();
 
             this.Loaded += OnLoad;
-
         }
 
         public bool Saved
@@ -75,6 +74,8 @@ namespace ClasseVivaWPF.SharedControls
 
         private async void OnLoad(object sender, RoutedEventArgs e)
         {
+            this.Loaded -= OnLoad;
+
             try
             {
                 var result = await Client.INSTANCE.GetInteractions(this.ID);
