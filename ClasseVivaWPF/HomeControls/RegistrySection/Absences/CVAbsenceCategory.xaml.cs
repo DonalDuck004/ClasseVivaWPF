@@ -43,5 +43,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             this.ContentWrapper.Children.Add(abs);
             this.Counter.Text = this.ContentWrapper.Children.Count.ToString();
         }
+
+        public void ClearAll()
+        {
+            this.ContentWrapper.Children.Clear();
+            this.Counter.Text = "0";
+        }
     }
 }

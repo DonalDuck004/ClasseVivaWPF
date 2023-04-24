@@ -37,9 +37,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             set => SetValue(DescProperty, value);
         }
 
-        public required Color RectColor
+        public required SolidColorBrush RectColor
         {
-            get => (Color)GetValue(RectColorProperty);
+            get => (SolidColorBrush)GetValue(RectColorProperty);
             set => SetValue(RectColorProperty, value);
         }
 
@@ -54,7 +54,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             DescProperty = DependencyProperty.Register("Desc", typeof(string), typeof(CVRegistryAbsence));
             ExtraDescProperty = DependencyProperty.Register("ExtraDesc", typeof(string), typeof(CVRegistryAbsence));
             CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(CVRegistryAbsence), new PropertyMetadata(0));
-            RectColorProperty = DependencyProperty.Register("RectColor", typeof(Color), typeof(CVRegistryAbsence));
+            RectColorProperty = DependencyProperty.Register("RectColor", typeof(SolidColorBrush), typeof(CVRegistryAbsence));
         }
 
         public CVRegistryAbsence()

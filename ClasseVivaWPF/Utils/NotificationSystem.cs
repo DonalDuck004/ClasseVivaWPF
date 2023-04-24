@@ -57,8 +57,10 @@ namespace ClasseVivaWPF.Utils
 
         private async Task<IEnumerable<BaseEvent>> Fetch()
         {
-            var events = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents(Grades: false);
-            return events.Concat((await Client.INSTANCE.GetGrades()).ContentGrades);
+            IEnumerable<BaseEvent> events = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents(Grades: false, Absences: false);
+            events = events.Concat((await Client.INSTANCE.GetGrades()).ContentGrades); // Grades
+            events = events.Concat((await Client.INSTANCE.GetAbsences()).ContentEvents); // Absences
+            return events;
         }
 
         private async Task Listener()

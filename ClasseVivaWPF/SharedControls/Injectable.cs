@@ -11,7 +11,8 @@ namespace ClasseVivaWPF.SharedControls
 {
     public class Injectable : UserControl, IOnCloseRequested
     {
-        private SemaphoreSlim waiter = new SemaphoreSlim(1);
+        private AsyncEvent @event = new();
+        private bool Opened = false;
 
         public Injectable()
         {
@@ -20,27 +21,34 @@ namespace ClasseVivaWPF.SharedControls
 
         public virtual void Inject()
         {
-            if (waiter.CurrentCount == 0)
+            if (@event.IsSet() && this.Opened)
                 throw new InvalidOperationException();
+            
 
-            waiter.Wait();
+            if (!this.Opened)
+                @event.Clear();
+
+            this.Opened = true;
+
             MainWindow.INSTANCE!.AddFieldOverlap(this);
         }
 
         public virtual void Close()
         {
             MainWindow.INSTANCE.RemoveField(this);
-            waiter.Release();
+            this.Opened = false;
+            @event.Set();
         }
 
         public async Task WaitForExit()
         {
-            await waiter.WaitAsync();
+            await @event.WaitAsync();
         }
 
         public virtual void OnCloseRequested()
         {
-            waiter.Release();
+            this.Opened = false;
+            @event.Set();
         }
     }
 }

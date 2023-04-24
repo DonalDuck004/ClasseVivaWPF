@@ -8,6 +8,7 @@ using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -318,6 +319,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                     _CachedSubjects = (await Client.INSTANCE.GetSubjects()).ContentSubjects;
                     _CachedGrades = (await Client.INSTANCE.GetGrades()).ContentGrades.OrderByDescending(x => x.EvtDate).ToArray();
                     _CachedAbsences = (await Client.INSTANCE.GetAbsences()).ContentEvents;
+                    Debug.Assert(_CachedAbsences.Length != 0);
                 }catch(ApiError e)
                 {
                     this.DataFetched = true;

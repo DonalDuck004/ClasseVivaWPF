@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" MaxHeight="64"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="wp" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
@@ -22,7 +22,7 @@
                MaxWidth="48"
                FontWeight="SemiBold"
                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}"
-               Background="{Binding Path=RectColor, Converter={StaticResource ResourceKey=ToBrushConverter}}"
+               Background="{Binding Path=RectColor}"
                Foreground="{themes:ThemeBinding Path=CVAbsencesFont}"
                Content="{Binding Path=Count}" 
                VerticalContentAlignment="Center"

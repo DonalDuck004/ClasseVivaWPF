@@ -31,9 +31,10 @@ namespace ClasseVivaWPF.Api.Types
 
 
         public List<BaseEvent> GetBaseEvents(bool Lessons = true, 
-                                         bool Agenda = true,
-                                         bool Events = true, 
-                                         bool Grades = true)
+                                             bool Agenda = true,
+                                             bool Events = true, 
+                                             bool Absences = true,
+                                             bool Grades = true)
         {
             List<BaseEvent> result = new();
 
@@ -44,7 +45,12 @@ namespace ClasseVivaWPF.Api.Types
                 result.AddRange(this.Agenda);
 
             if (Events)
-                result.AddRange(this.Events);
+            {
+                if (Absences)
+                    result.AddRange(this.Events);
+                else
+                    result.AddRange(this.Events.Where(x => !x.IsInAbsenceSection));
+            }
 
             if (Grades)
                 result.AddRange(this.Grades);

@@ -162,6 +162,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
                               persist_zero_fields: false,
                               op: CVColumnsGraphFilterOperation.NoneNoOverlap);
 
+            this.Justified.ClearAll();
+            this.NotJustified.ClearAll();
+
             foreach (var item in CVRegistry.INSTANCE!.CachedAbsences)
             {
                 if (item.IsJustified)

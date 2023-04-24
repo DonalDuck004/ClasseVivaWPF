@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Logs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -80,6 +81,8 @@ namespace ClasseVivaWPF.Api
             if (allow_cache)
                 cached_date = SessionHandler.INSTANCE!.CheckCache(path, out cached_json_response, out cached_etag);
 
+            var tmp = allow_cache ? "Cache allowed" : "Cache Not Allowed";
+            Logger.Log($"Calling {method.Method} {path} - {tmp}");
 
             var message = BuildMessage(method, path, data, cached_etag, cached_date);
             HttpResponseMessage raw_response;
@@ -93,7 +96,10 @@ namespace ClasseVivaWPF.Api
             {
                 throw new ApiError(e);
             }
-            // DumpMsg(response);
+            
+            if (Logger.CanLog(LogLevel.DEBUG))
+                Logger.Log($"{method.Method} {path} replied with {raw_response.Content.ReadAsStringAsync().ConfigureAwait(false).GetAwaiter().GetResult()}", LogLevel.DEBUG);
+
             Response response;
 
             if (raw_response.StatusCode is HttpStatusCode.Unauthorized && SessionHandler.INSTANCE is not null)
@@ -104,12 +110,19 @@ namespace ClasseVivaWPF.Api
             }
 
             if (raw_response.StatusCode is HttpStatusCode.NotModified && cached_json_response is not null)
+            {
                 response = new(cached_json_response);
+                if (Logger.CanLog(LogLevel.DEBUG))
+                    Logger.Log($"{method.Method} {path} cache hit {cached_json_response}", LogLevel.DEBUG);
+                else if (Logger.CanLog(LogLevel.INFO))
+                    Logger.Log($"{method.Method} {path} cache hit", LogLevel.INFO);
+            }
             else
             {
                 response = new(raw_response);
                 if (allow_cache)
                 {
+                    Logger.Log($"{method.Method} {path} cache miss", LogLevel.DEBUG);
                     var new_etag = raw_response.Headers.ETag;
                     SessionHandler.INSTANCE!.SetCache(path, response.Text, new_etag is null ? null : new_etag.ToString());
                 }

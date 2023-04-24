@@ -98,7 +98,7 @@
                                         </Grid>
 
                                         <Grid Grid.Column="1" Margin="20,0,20,0" Height="{Binding ElementName=uc1, Path=ActualHeight}">
-                                            <Label Panel.ZIndex="1" Name="graph_loading" Visibility="{Binding Path=DataFetched,Converter={StaticResource ResourceKey=VisibilityConverter}, ConverterParameter=swap}" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="#6E6E6E" HorizontalAlignment="Center"></Label>
+                                            <Label Panel.ZIndex="1" Name="graph_loading" Visibility="{Binding Path=DataFetched,Converter={StaticResource ResourceKey=VisibilityConverter}, ConverterParameter=swap}" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" HorizontalAlignment="Center"></Label>
                                             <graphs:CVColumnsGraph x:Name="Graph" Margin="0,20,0,0"></graphs:CVColumnsGraph>
 
                                             <WrapPanel Margin="4,4,0,0" Panel.ZIndex="2" Cursor="">
@@ -229,7 +229,7 @@
                                                     </StackPanel.Resources>
                                                 </StackPanel>
                                             </ScrollViewer>
-                                            <Label Panel.ZIndex="1" Name="grades_placeholder" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="#6E6E6E" HorizontalAlignment="Center"></Label>
+                                            <Label Panel.ZIndex="1" Name="grades_placeholder" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" HorizontalAlignment="Center"></Label>
                                         </Grid>
                                     </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="0,10,0,0">
@@ -237,7 +237,7 @@
                                             <TextBlock Text="Assenze/Ritardi" Style="{StaticResource ResourceKey=Header}"></TextBlock>
                                             <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0.6" Template="{StaticResource ResourceKey=RightArrowIcon}" Height="32" Width="32" Margin="0,0,5,0" Background="Black" Grid.Column="2"></ContentControl>
                                         </Grid>
-                                        <Grid Margin="5,0,0,20" VerticalAlignment="Top">
+                                        <Grid Margin="5,0,0,0" VerticalAlignment="Center">
                                             <Grid.Resources>
                                                 <Style TargetType="local:CVRegistryAbsence">
                                                     <Setter Property="Height" Value="{Binding ElementName=uc1, Path=ActualHeight, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=5}"></Setter>
@@ -249,10 +249,10 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="{themes:ThemeBinding Path=CVAbsencesAbsent, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Assenze"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="l" Grid.Column="1" RectColor="{themes:ThemeBinding Path=CVAbsencesLate, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Ritardi"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="2" RectColor="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Assenze Parziali"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="{themes:ThemeBinding Path=CVAbsencesEarlyExit, Converter={StaticResource ResourceKey=ToColorConverter}}" Desc="Uscite"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="{themes:ThemeBinding Path=CVAbsencesAbsent}" Desc="Assenze"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="l" Grid.Column="1" RectColor="{themes:ThemeBinding Path=CVAbsencesLate}" Desc="Ritardi"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="2" RectColor="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}" Desc="Assenze Parziali"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="{themes:ThemeBinding Path=CVAbsencesEarlyExit}" Desc="Uscite"></local:CVRegistryAbsence>
                                         </Grid>
                                     </StackPanel>
                                 </Grid>
