@@ -31,6 +31,9 @@ namespace ClasseVivaWPF.Api.Types
         [JsonIgnore]
         public string FormattedDate => this.EvtDate.ToString("dd MMMM yyyy");
 
+        [JsonIgnore]
+        public string FormattedHoursAbsence => HoursAbsence.Length == 0 ? "" : HoursAbsence.Length == 2 ? $"{HoursAbsence[0]} - {HoursAbsence[1]}" : string.Join("; ", HoursAbsence);
+
         public override void BuildNotifyText(ToastContentBuilder toast)
         {
             toast.AddText(GetHeader() + "_TODO_evt");  // TODO

@@ -21,17 +21,62 @@
             </WrapPanel>
             <shared:CVReloadButton Margin="5" Grid.Column="2" MouseLeftButtonDown="ReloadBtn" Height="32" Width="32" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="1"></shared:CVReloadButton>
         </DockPanel>
-        <Grid Grid.Row="1" Name="TopGrid">
+        <TextBlock Grid.Row="1" Text="Caricamento..." HorizontalAlignment="Center"
+                   VerticalAlignment="Center" FontSize="48" Panel.ZIndex="1"
+                   Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Opacity="0">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DataFetched, ElementName=ot}" Value="False">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard x:Name="loading">
+                                    <Storyboard>
+                                        <DoubleAnimation AutoReverse="True" Storyboard.TargetProperty="Opacity" From="1" To="0" RepeatBehavior="Forever" Duration="0:0:1" BeginTime="0:0:0.5"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="loading"></RemoveStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <Grid Grid.Row="1" Name="TopGrid" Opacity="0">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DataFetched}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" From="0" Duration="0:0:1"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" From="1" Duration="0:0:1"></DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            
             <Grid.RowDefinitions>
-                <RowDefinition MinHeight="{Binding ElementName=Calendar, Path=ActualHeight}"></RowDefinition>
+                <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition MaxWidth="{Binding ElementName=wp, Path=ActualWidth, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=4}"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <local:CVAbsencesCalendar x:Name="Calendar" Width="{Binding ElementName=ot, Path=ActualWidth, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=4}"></local:CVAbsencesCalendar>
-            <graphs:CVColumnsGraph x:Name="Graph" Grid.Column="1" Margin="0,20,0,0" Width="{Binding ElementName=ot, Path=ActualWidth, Converter={StaticResource ResourceKey=DivisionConverter}, ConverterParameter=1.33}"></graphs:CVColumnsGraph>
+            <local:CVAbsencesCalendar x:Name="Calendar"></local:CVAbsencesCalendar>
+            <graphs:CVColumnsGraph x:Name="Graph" Grid.Column="1" Margin="0,20,0,0"></graphs:CVColumnsGraph>
 
             <Border CornerRadius="0,0,10,10" Grid.ColumnSpan="2" 
                     HorizontalAlignment="Center" VerticalAlignment="Top"
@@ -69,9 +114,10 @@
                     </WrapPanel>
                 </StackPanel>
             </Border>
+            <Rectangle Height="0.3" Opacity="0.2" VerticalAlignment="Top" Fill="Black" Grid.Row="1" Grid.ColumnSpan="2" Panel.ZIndex="1"></Rectangle>
 
             <ScrollViewer Grid.ColumnSpan="2" Grid.Row="1" shared:CVScollerView.IsEnabled="True"
-                          shared:CVScollerView.CatchHeightProperty="False"
+                          shared:CVScollerView.CatchWidthProperty="False"
                           HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
                 <StackPanel>
                     <local:CVAbsenceCategory HeaderName="DA GIUSTIFICARE" x:Name="NotJustified"></local:CVAbsenceCategory>

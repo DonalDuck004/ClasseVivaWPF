@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
     /// </summary>
     public partial class CVAbsencesCalendarMonth : UserControl
     {
+        private SemaphoreSlim loader_check;
         private DayStatus[] days;
         public DateTime Date { get; private set; }
 
@@ -30,11 +32,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             InitializeComponent();
         }
 
-        public CVAbsencesCalendarMonth(DayStatus[] days)
+        public CVAbsencesCalendarMonth(DayStatus[] days, SemaphoreSlim loader_check)
         {
             InitializeComponent();
             this.days = days;
             this.Date = days[0].Date;
+            this.loader_check = loader_check;
         }
 
         private void OnLoad(object sender, RoutedEventArgs e)
@@ -54,6 +57,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
                     row_idx++;
             }
 
+            this.loader_check.Release();
         }
     }
 }

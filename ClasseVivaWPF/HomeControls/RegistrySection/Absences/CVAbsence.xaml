@@ -102,7 +102,21 @@
                 </TextBlock.Style>
             </TextBlock>
         </Border>
-        <TextBlock Text="{Binding Path=FormattedDate}" Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom"></TextBlock>
+        <TextBlock Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+            <Run Text="{Binding Path=FormattedDate, Mode=OneWay}"></Run>
+            <Run Text="{Binding Path=EvtHPos, StringFormat='a {0}° ora'}">
+                <Run.Style>
+                    <Style TargetType="Run">
+                        <Setter Property="FontSize" Value="13"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=EvtHPos}" Value="{x:Null}">
+                                <Setter Property="FontSize" Value="0.1"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Run.Style>
+            </Run>
+        </TextBlock>
         <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Top" Grid.Row="1"></TextBlock>
     </Grid>
 </UserControl>

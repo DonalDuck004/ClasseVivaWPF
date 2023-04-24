@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -28,7 +30,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
         private Storyboard PreviusMonth;
 
         public static readonly DependencyProperty SelectedDateProperty;
-        private List<DayStatus>? days = null;
+        private SemaphoreSlim? WaitLoader = null;
 
         private DateTime ActualSelectedDate;
 
@@ -86,11 +88,14 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 
         public void Init(List<DayStatus> days)
         {
-            this.scroller.SizeChanged += (s, e) => this.scroller.ScrollToHorizontalOffset(OffsetOf(GetMonth(this.ActualSelectedDate)));
-            this.days = days;
+            this.months_wrapper.Children.Clear();
+            var groups = days.GroupBy(x => x.Date.Month).ToArray();
+            this.WaitLoader = new SemaphoreSlim(0, groups.Length);
 
-            foreach (var month in days.GroupBy(x => x.Date.Month))
-                this.months_wrapper.Children.Add(new CVAbsencesCalendarMonth(month.ToArray()));
+            this.scroller.SizeChanged += (s, e) => GetMonth(this.ActualSelectedDate).BringIntoView();
+
+            foreach (var month in groups)
+                this.months_wrapper.Children.Add(new CVAbsencesCalendarMonth(month.ToArray(), this.WaitLoader));
 
             var dt = DateTime.Now.Date;
             var mt = GetMonth(dt.AddDays(-dt.Day + 1));
@@ -98,6 +103,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             this.scroller.ScrollToHorizontalOffset(OffsetOf(mt));
         }
 
+        public async Task WaitForLoading()
+        {
+            if (this.WaitLoader is null) throw new Exception();
+
+            while(this.WaitLoader.CurrentCount > 0)
+                await Task.Delay(100);
+        }
 
         private CVAbsencesCalendarMonth GetMonth(DateTime date)
         {

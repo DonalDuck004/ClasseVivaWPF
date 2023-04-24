@@ -19,6 +19,7 @@ namespace ClasseVivaWPF.Api.Types
         public const string SCHOOL_DAY_STATUS = "SD";
         public const string NO_WORK_STATUS = "NW";
 
+        [JsonIgnore]
         public int NumberDay => this.DayDate.Day;
 
         public bool IsHolyday => HOLY_DAY_STATUS == DayStatus;

@@ -28,14 +28,6 @@ using System.Windows.Forms;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 {
-    /// <summary>
-    /// Logica di interazione per CVAbsencesViewer.xaml
-    /// </summary>
-    /// 
-    public record class DayStatus(DateTime Date, bool IsPresent, bool IsAbsent, bool IsLate, bool IsEarlyExit, bool IsPartiallyAbsent)
-    {
-        public bool AllFalse => !(IsPresent || IsAbsent || IsLate || IsEarlyExit || IsPartiallyAbsent);
-    }
 
     public partial class CVAbsencesViewer : Injectable, IUpdate
     {
@@ -210,6 +202,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             }
 
             this.Update();
+            await this.Calendar.WaitForLoading();
             this.DataFetched = true;
         }
 
@@ -225,6 +218,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             {
                 this.Days = (await Client.INSTANCE.Calendar()).ContentCalendar;
                 this.Update();
+                await this.Calendar.WaitForLoading();
 
                 // TODO Process Days
 

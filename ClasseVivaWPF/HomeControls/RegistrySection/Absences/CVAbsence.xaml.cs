@@ -30,6 +30,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
         {
             InitializeComponent();
             this.DataContext = absence;
+            var x = absence.HoursAbsence;
         }
     }
 }

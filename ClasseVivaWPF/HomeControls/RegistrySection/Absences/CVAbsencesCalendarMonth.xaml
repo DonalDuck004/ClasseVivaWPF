@@ -7,31 +7,32 @@
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" Loaded="OnLoad"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="Grid">
+    <Grid x:Name="Grid" Width="448" Height="400">
         <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
                 <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
                 <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericGrayFont}"></Setter>
             </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
+            <ColumnDefinition Width="64"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="16"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="Lun" Grid.Column="0"></TextBlock>
         <TextBlock Text="Mar" Grid.Column="1"></TextBlock>
