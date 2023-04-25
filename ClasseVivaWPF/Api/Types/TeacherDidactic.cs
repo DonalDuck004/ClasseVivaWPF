@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.Net.Mail;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class TeacherFrame : ApiObject
+    public class TeacherDidactic : ApiObject
     {
         [JsonProperty(Required = Required.Always)]
         public required int TeacherID { get; init; }
@@ -12,12 +11,12 @@ namespace ClasseVivaWPF.Api.Types
         public required string TeacherName { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required SubjectFrame[] Subjects { get; init; }
+        public required string TeacherFirstName { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required bool HasOpenTalks { get; init; }
+        public required string TeacherLastName { get; init; }
 
         [JsonProperty(Required = Required.Always)]
-        public required Frame[] Frames { get; init; }
+        public required Folder[] Folders { get; init; }
     }
 }

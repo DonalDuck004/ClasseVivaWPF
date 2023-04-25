@@ -57,8 +57,11 @@ namespace ClasseVivaWPF.Api.Types
         public const string GRADE_GRADE_UNKNOW4 = "GRA1";
         #endregion
 
+        public const string NOTICEBOARD_NOTICEBOARD = "CF";
+
+
         [JsonProperty(Required = Required.Always)]
-        public required int EvtId { get; init; }
+        public required virtual int EvtId { get; init; }
 
         [JsonProperty(Required = Required.Always)]
         public required string EvtCode { get; init; }
@@ -74,6 +77,7 @@ namespace ClasseVivaWPF.Api.Types
         public bool IsCoPresence => this.EvtCode == LESSON_CO_PRESENCE;
         public bool IsSupport => this.EvtCode == LESSON_SUPPORT;
         public bool IsGrade => this.EvtCode == GRADE_GRADE;
+        public bool IsNoticeBoard => this.EvtCode == NOTICEBOARD_NOTICEBOARD;
 
 
         public bool IsInAbsenceSection => this.EvtCode.StartsWith(ABSENCE_ABSENCE_START_STRING);
@@ -98,6 +102,9 @@ namespace ClasseVivaWPF.Api.Types
 
             if (IsGrade)
                 return "Voti";
+
+            if (IsNoticeBoard)
+                return "Comunicazione";
 
             throw new NotImplementedException();
         }

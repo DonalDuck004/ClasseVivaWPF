@@ -386,8 +386,33 @@ namespace ClasseVivaWPF.Api
             if (fc is not null)
                 throw new NotImplementedException(); // ???
 
-            var response = await this.Send(HttpMethod.Get, $"rest/v1/parents/{UserID}/talks/teachersframes2/{from}/{to}");
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/parents/{UserID}/talks/teachersframes2/{from}/{to}", null, allow_cache: true).ConfigureAwait(false);
             var content = response.GetObject<TeachersFrames>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Didactics> Didatics()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/didactics", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Didactics>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<HomeworksContent> Homeworks(int? fc = null)
+        {
+            if (fc is not null)
+                throw new NotImplementedException(); // ???
+            
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/homeworks", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<HomeworksContent>();
 
             if (content is null)
                 response.GetError();
