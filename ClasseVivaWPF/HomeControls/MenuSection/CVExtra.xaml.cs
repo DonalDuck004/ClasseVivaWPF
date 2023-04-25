@@ -45,11 +45,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             if (e.Key is not Key.Left && e.Key is not Key.Right && e.Key is not Key.Tab)
                 return;
 
-            bool previus;
-            if (e.Key is Key.Tab)
-                previus = !(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift));
-            else
-                previus = e.Key is not Key.Left;
+            var previus = e.Key is Key.Tab ? !(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) : e.Key is not Key.Left;
 
             var pool = this.h_grid.Children.OfType<CVExtraHeader>();
 

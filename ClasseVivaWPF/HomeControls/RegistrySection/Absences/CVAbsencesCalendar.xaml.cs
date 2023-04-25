@@ -100,7 +100,18 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             var dt = DateTime.Now.Date;
             var mt = GetMonth(dt.AddDays(-dt.Day + 1));
             this.ActualSelectedDate = this.SelectedDate = mt.Date;
-            this.scroller.ScrollToHorizontalOffset(OffsetOf(mt));
+            
+            if (this.scroller.IsLoaded)
+                mt.BringIntoView();
+            else
+                this.scroller.Loaded += sc;
+
+            return;
+
+            void sc(object? s, RoutedEventArgs e)  {
+                this.scroller.ScrollToHorizontalOffset(OffsetOf(mt));
+                this.scroller.Loaded -= sc;
+            };
         }
 
         public async Task WaitForLoading()

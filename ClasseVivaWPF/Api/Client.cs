@@ -132,23 +132,6 @@ namespace ClasseVivaWPF.Api
             return response;
         }
 
-        private void DumpMsg(HttpResponseMessage response)
-        {
-            var msg = "";
-
-            foreach (var item in response.RequestMessage!.Headers)
-                msg += $"{item.Key}: {string.Join("\n", item.Value)}\n";
-            foreach (var item in response.RequestMessage.Content!.Headers)
-                msg += $"{item.Key}: {string.Join("\n", item.Value)}\n";
-            msg += "\n\n";
-
-            foreach (var item in response.Content.Headers)
-                msg += $"{item.Key}: {string.Join("\n", item.Value)}\n";
-            foreach (var item in response.Headers)
-                msg += $"{item.Key}: {string.Join("\n", item.Value)}\n";
-            MessageBox.Show(msg);
-        }
-
         public async Task<ApiObject> Login(string uid, string pass, string? ident = null)
         {
             var req = new JObject()
@@ -377,6 +360,34 @@ namespace ClasseVivaWPF.Api
         {
             var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/calendar/all", null, allow_cache: true).ConfigureAwait(false);
             var content = response.GetObject<Calendar>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<Calendar> Calendar()
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/calendar/all", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<Calendar>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public Task<TeachersFrames> TeachersFrames(DateTime from, int? fc = null) => this.TeachersFrames(from.AddDays(-6), from.AddDays(6), fc);
+        public Task<TeachersFrames> TeachersFrames(DateTime from, int Range, int? fc = null) => this.TeachersFrames(from.AddDays(-Range), from.AddDays(Range), fc);
+        public Task<TeachersFrames> TeachersFrames(DateTime from, DateTime to, int? fc = null) => this.TeachersFrames(from.ToString("yyyyMMdd"), to.ToString("yyyyMMdd"), fc);
+        public async Task<TeachersFrames> TeachersFrames(string from, string to, int? fc = null)
+        {
+            if (fc is not null)
+                throw new NotImplementedException(); // ???
+
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/parents/{UserID}/talks/teachersframes2/{from}/{to}");
+            var content = response.GetObject<TeachersFrames>();
 
             if (content is null)
                 response.GetError();

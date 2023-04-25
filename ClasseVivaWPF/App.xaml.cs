@@ -16,7 +16,9 @@ namespace ClasseVivaWPF
     /// </summary>
     public partial class App : Application
     {
-        public App() :base() {
+        private Mutex RunLock; // prevent from get destructed
+
+        public App() : base() {
 #if !DEBUG
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
 #endif
@@ -24,6 +26,14 @@ namespace ClasseVivaWPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            RunLock = new Mutex(true, "ClasseVivaDesktop", out bool was_running);
+
+            if (!was_running)
+            {
+                Application.Current.Shutdown();
+                return;
+            }
+
             var cult = new CultureInfo("it-IT");
 
             ToastNotificationManagerCompat.OnActivated += toastArgs =>
