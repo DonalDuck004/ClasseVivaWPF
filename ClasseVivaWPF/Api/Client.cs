@@ -417,7 +417,7 @@ namespace ClasseVivaWPF.Api
             if (content is null)
                 response.GetError();
 
-            return content!;
+            return content!; // Click on component requires another call
         }
     }
 }

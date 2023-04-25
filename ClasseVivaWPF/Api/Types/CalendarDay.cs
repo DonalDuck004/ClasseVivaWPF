@@ -15,9 +15,15 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.Always)]
         public required string DayStatus;
 
+
+        #region \smali\eu\spaggiari\classevivastudente\models\students\students\Day$EventCode.smali
+        public const string DAY_UNKNOW1 = "ND";
+        public const string DAY_UNKNOW2 = "US";
+
         public const string HOLY_DAY_STATUS = "HD";
         public const string SCHOOL_DAY_STATUS = "SD";
         public const string NO_WORK_STATUS = "NW";
+        #endregion
 
         [JsonIgnore]
         public int NumberDay => this.DayDate.Day;

@@ -35,20 +35,13 @@ namespace ClasseVivaWPF.Api.Types
         public const string LESSON_SUPPORT = "LSS0";
         #endregion
 
-        #region \smali\eu\spaggiari\classevivastudente\models\students\students\Day$EventCode.smali
-        public const string DAY_UNKNOW1 = "SD";
-        public const string DAY_UNKNOW2 = "ND";
-        public const string DAY_UNKNOW3 = "HD";
-        public const string DAY_UNKNOW4 = "NW";
-        public const string DAY_UNKNOW5 = "US";
-        #endregion
 
         #region \smali\eu\spaggiari\classevivastudente\models\students\students\Grade$EventCode.smali
         public const string GRADE_GRADE_START_STRING = "GR";
 
         public const string GRADE_GRADE = "GRV0";
-        public const string GRADE_GRADE_UNKNOW1 = "GRV1"; // Only this counts in grades periods app sections
-        
+        public const string GRADE_GRADE_UNKNOW1 = "GRV1"; // This only counts in grades periods app sections
+
         public const string GRADE_GRADE_UNKNOW2 = "GRV2"; // https://pasteboard.co/Jvu8mZckip60.png
         // Doesn't count in average
 
