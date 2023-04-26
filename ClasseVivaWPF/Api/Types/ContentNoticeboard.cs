@@ -8,4 +8,3 @@ namespace ClasseVivaWPF.Api.Types
         public required Noticeboard[] Items { get; init; }
     }
 }
-}

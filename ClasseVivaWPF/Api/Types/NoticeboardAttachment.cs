@@ -11,4 +11,3 @@ namespace ClasseVivaWPF.Api.Types
         public required bool AttachCount { get; init; }
     }
 }
-}

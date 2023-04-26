@@ -122,6 +122,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         {
             CVHomeTextBox @this = new();
             @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
+            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
             @this.Title = category is EventAppCategory.Agenda ? e.AuthorName : e.SubjectDesc!;
             if (category is EventAppCategory.Homework && !e.IsFullDay)
                 @this.Row2 = $"{e.EvtDatetimeBegin:HH:mm} - {e.EvtDatetimeEnd:HH:mm}";
@@ -133,8 +134,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("CalendarIcon");
 
-            @this.FillerColor = new(Colors.WhiteSmoke);
-
             @this.ParseText(e.Notes, @this.lesson_txt.Inlines);
             @this.LowerImgWP.Height = 0;
             return @this;
@@ -145,28 +144,32 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             CVHomeTextBox @this = new();
             if (e.IsAbsence)
             {
-                @this.FillerColor = @this.BackgroundColor = new(Color.FromRgb(0xD0, 0x5A, 0x50));
+                @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVAbsencesAbsentProperty);
+                @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVAbsencesAbsentProperty);
+                @this.UpperImgWPContainer.SetThemeBinding(WrapPanel.BackgroundProperty, ThemeProperties.CVAbsencesAbsentProperty);
                 @this.line.Visibility = Visibility.Hidden;
                 @this.line.Height = 0;
                 @this.Title = "Assenze";
             }
             else if (e.IsEarlyExit)
             {
-                @this.FillerColor = @this.BackgroundColor = new(Color.FromRgb(0xDB, 0xB6, 0x3B));
+                @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVAbsencesEarlyExitProperty);
+                @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVAbsencesEarlyExitProperty);
+                @this.UpperImgWPContainer.SetThemeBinding(WrapPanel.BackgroundProperty, ThemeProperties.CVAbsencesEarlyExitProperty);
                 @this.Title = "Uscita anticipata";
             }
             else if (e.IsLate || e.IsShortLate)
             {
                 @this.Title = "Ritardi";
-                @this.FillerColor = @this.BackgroundColor = new(Color.FromRgb(0xEB, 0x98, 50));
+                @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVAbsencesLateProperty);
+                @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVAbsencesLateProperty);
+                @this.UpperImgWPContainer.SetThemeBinding(WrapPanel.BackgroundProperty, ThemeProperties.CVAbsencesLateProperty);
+                // TODO Fix layout remove (gradient)
             }
             else
                 throw new Exception();
-            // TODO
-            @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
-            @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVGenericOpaqueBackgroundProperty);
 
-            @this.FontColor = new SolidColorBrush(Colors.White);
+            @this.SetThemeBinding(CVHomeTextBox.FontColorProperty, ThemeProperties.CVAbsencesFontProperty);
 
             @this.lesson_txt.Inlines.Add(new Run() { Text = e.IsJustified ? e.JustifReasonDesc : "Da giustificare", Foreground = @this.FontColor });
 
@@ -181,11 +184,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             @this.TitleControl.VerticalAlignment = VerticalAlignment.Bottom;
             @this.LowerImgWP.Height = 0;
 
-            @this.UpperImgWP.Background = new SolidColorBrush(Colors.White);
+            @this.UpperImgWP.SetThemeBinding(ContentControl.BackgroundProperty, ThemeProperties.CVAbsencesFontProperty);
+
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("AbsenceIcon");
             Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
             Grid.SetZIndex(@this.UpperImgWPContainer, 1);
-            @this.UpperImgWPContainer.Background = @this.FillerColor;
             @this.UpperImgWP.Margin = new Thickness(0, 10, 0, 10);
 
             @this.last_wp.VerticalAlignment = VerticalAlignment.Top;

@@ -367,17 +367,6 @@ namespace ClasseVivaWPF.Api
             return content!;
         }
 
-        public async Task<Calendar> Calendar()
-        {
-            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/calendar/all", null, allow_cache: true).ConfigureAwait(false);
-            var content = response.GetObject<Calendar>();
-
-            if (content is null)
-                response.GetError();
-
-            return content!;
-        }
-
         public Task<TeachersFrames> TeachersFrames(DateTime from, int? fc = null) => this.TeachersFrames(from.AddDays(-6), from.AddDays(6), fc);
         public Task<TeachersFrames> TeachersFrames(DateTime from, int Range, int? fc = null) => this.TeachersFrames(from.AddDays(-Range), from.AddDays(Range), fc);
         public Task<TeachersFrames> TeachersFrames(DateTime from, DateTime to, int? fc = null) => this.TeachersFrames(from.ToString("yyyyMMdd"), to.ToString("yyyyMMdd"), fc);
