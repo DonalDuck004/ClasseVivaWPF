@@ -109,12 +109,26 @@
                             <LineBreak></LineBreak>
                             <Run Name="ShowCache"></Run> utilizzati per la cache
                         </TextBlock>
-                        <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenSessionDir"></shared:CVButton>
+                        <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenThemeEditor"></shared:CVButton>
                         <shared:CVButton Content="Svuota Cache" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DropSessionCache"></shared:CVButton>
                     </Grid>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Gestione File"></TextBlock>
+                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Temi (WIP)"></TextBlock>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Style="{StaticResource ResourceKey=LastCol}"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <shared:CVButton Content="Apri Editor" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="OpenThemeEditor"></shared:CVButton>
+                    </Grid>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Altro"></TextBlock>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>

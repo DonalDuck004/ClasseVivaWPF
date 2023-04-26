@@ -14,7 +14,7 @@ namespace ClasseVivaWPF.Utils.Themes
      * In db:
      * Themes(ID, name, theme)
      */
-    public abstract class BaseTheme
+    public abstract class BaseTheme : ICloneable
     {
         public static List<Type> StaticThemes = new List<Type>();
 
@@ -88,7 +88,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_ACCOUNT_BUBBLE_FONT_PATH = "CV_ACCOUNT_BUBBLE_FONT";
         public const string CV_ACCOUNT_BUBBLE_PATH = "CV_ACCOUNT_BUBBLE";
 
-        public virtual string THEME_NAME => this.GetType().Name;
+        public virtual string Name => this.GetType().Name;
+        public virtual bool SUPPORTS_OVERWRITE => false;
 
         public abstract Color CV_ACCOUNT_BUBBLE { get; }
         public abstract Color CV_ACCOUNT_BUBBLE_FONT { get; }
@@ -163,6 +164,11 @@ namespace ClasseVivaWPF.Utils.Themes
         {
             if (reg && !StaticThemes.Contains(this.GetType()))
                 StaticThemes.Add(this.GetType());
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
     

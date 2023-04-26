@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using ClasseVivaWPF.SharedControls;
 using System.Windows.Media;
 using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Utils.Themes.Extra;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {
@@ -114,6 +115,12 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void OpenThemeEditor(object sender, RoutedEventArgs e)
+        {
+            if (!await ThemeEditor.New())
+                new CVMessageBox("Errore!", "Editor temi già aperto").Inject();
         }
     }
 }

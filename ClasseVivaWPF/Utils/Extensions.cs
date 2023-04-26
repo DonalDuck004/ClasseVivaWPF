@@ -394,13 +394,16 @@ namespace ClasseVivaWPF.Utils
         public static void SetThemeBinding<T>(this T element,
                                               DependencyProperty property,
                                               DependencyProperty path,
-                                              bool run_animation = false) where T : DependencyObject, IAnimatable
+                                              IValueConverter? converter = null) where T : DependencyObject, IAnimatable
         {
             var binding = new Binding()
             {
                 Path = new(path),
                 Source = ThemeProperties.INSTANCE
             };
+
+            if (converter is not null)
+                binding.Converter = converter;
 
             BindingOperations.SetBinding(element, property, binding);
         }

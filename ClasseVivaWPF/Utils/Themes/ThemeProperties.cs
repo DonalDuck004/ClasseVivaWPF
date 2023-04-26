@@ -1,5 +1,6 @@
 ﻿using ClasseVivaWPF.Utils.Converters;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -582,15 +583,8 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.INSTANCE = new();
         }
 
-        private void a()
-        {
-
-        }
         private ThemeProperties()
         {
-
-            /*var x = buff.CustomAttributes.ToArray();
-            var y = buff.GetCustomAttributes().ToArray();*/
             this.SetThemeBinding(ThemeProperties.CVGradeInsufficientBgProperty);
             this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientBgProperty);
             this.SetThemeBinding(ThemeProperties.CVGradeSufficientBgProperty);
@@ -649,9 +643,19 @@ namespace ClasseVivaWPF.Utils.Themes
             this.SetThemeBinding(ThemeProperties.CVAbsencesFontProperty);
         }
 
+        public static IEnumerable<DependencyProperty> GetProperties()
+        {
+            return typeof(ThemeProperties).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null)).Where(x => x is DependencyProperty).Cast<DependencyProperty>().OrderBy(x => x.Name);
+        }
+
         public static string GetTargetThemePath(DependencyProperty property)
         {
-            return typeof(ThemeProperties).GetField(property.Name + "Property", BindingFlags.Static | BindingFlags.Public)!.GetCustomAttribute<ThemePropertyMeta>()!.BindsTo;
+            return GetTargetThemePath(typeof(ThemeProperties).GetField(property.Name + "Property", BindingFlags.Static | BindingFlags.Public)!);
+        }
+
+        public static string GetTargetThemePath(FieldInfo field)
+        {
+            return field.GetCustomAttribute<ThemePropertyMeta>()!.BindsTo;
         }
 
         private void SetThemeBinding(DependencyProperty property, bool run_animation = false)
