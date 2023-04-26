@@ -1,0 +1,18 @@
+﻿<Window x:Class="ClasseVivaWPF.Utils.Themes.Extra.ThemeEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClasseVivaWPF.Utils.Themes.Extra"
+        mc:Ignorable="d"
+        Title="ThemeEditor" Height="450" Width="800">
+    <StackPanel>
+        <DockPanel Background="Red" Height="48">
+            <Label Content="Roba qui"></Label>
+        </DockPanel>
+
+        <StackPanel x:Name="ThemePropertiesWP">
+            
+        </StackPanel>
+    </StackPanel>
+</Window>

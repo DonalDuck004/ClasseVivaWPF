@@ -88,6 +88,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_ACCOUNT_BUBBLE_FONT_PATH = "CV_ACCOUNT_BUBBLE_FONT";
         public const string CV_ACCOUNT_BUBBLE_PATH = "CV_ACCOUNT_BUBBLE";
 
+        public virtual string THEME_NAME => this.GetType().Name;
+
         public abstract Color CV_ACCOUNT_BUBBLE { get; }
         public abstract Color CV_ACCOUNT_BUBBLE_FONT { get; }
         public abstract Color CV_EXTRA_HEADER_ELLIPSE { get; }

@@ -69,10 +69,10 @@
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
-                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEvent}"></Setter>
+                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEventFont}"></Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=AllFalse}" Value="True">
-                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarNoEvent}"></Setter>
+                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarNoEventFont}"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

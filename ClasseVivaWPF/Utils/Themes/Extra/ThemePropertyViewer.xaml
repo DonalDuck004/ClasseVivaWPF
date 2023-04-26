@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="ClasseVivaWPF.Utils.Themes.Extra.ThemePropertyViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.Utils.Themes.Extra"
+             mc:Ignorable="d" MaxHeight="128"
+             d:DesignHeight="128" d:DesignWidth="512">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--TextBlock x:Name="{Binding Path=PropertyName}"></TextBlock-->
+        <DockPanel Grid.Column="1">
+            <Border Width="128" Height="64" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gray" BorderThickness="1" Name="ColorViewer"></Border>
+        </DockPanel>
+    </Grid>
+</UserControl>

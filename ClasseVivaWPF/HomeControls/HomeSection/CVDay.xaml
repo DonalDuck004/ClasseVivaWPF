@@ -10,10 +10,10 @@
              d:DesignHeight="64" d:DesignWidth="64">
     <UserControl.Resources>
         <Style TargetType="Border">
-            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDayBGUnselected}"></Setter>
+            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDayBgUnselected}"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDayBGSelected}"></Setter>
+                    <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDayBgSelected}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>

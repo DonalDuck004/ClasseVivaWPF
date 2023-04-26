@@ -74,6 +74,8 @@
                                  x:Name="homework_scroller">
             <StackPanel></StackPanel>
         </local:CVHomeworksViewer>
-        <Label Grid.Row="2" Name="last_update_date" ContentStringFormat="Data aggiornamento: {0} (Clicca per aggiornare)" MouseLeftButtonDown="OnUpdateContent" Cursor="Hand"></Label>
+
+        <Label Grid.Row="2" Name="last_update_date" ContentStringFormat="Data aggiornamento: {0} (Clicca per aggiornare)" 
+               MouseLeftButtonDown="OnUpdateContent" Cursor="Hand" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></Label>
     </Grid>
 </UserControl>

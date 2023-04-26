@@ -186,21 +186,16 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 (iterator = ext_contents.Where(x =>
                     (x.ExpireDate is null || x.ExpireDate < DateTime.Now) && x.PanoramicImg is not null && x.PanoramicaPos == Api.Types.Content.PANORAMIC_BANNER)).Any())
             {
-                this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label()
-                {
-                    Content = "Contenuti",
-                    FontSize = 14,
-                    FontWeight = FontWeights.Bold
-                });
+                this._content.Children.Add(sub_content = new());
+                sub_content.Children.Add(PrepareLabel("Contenuti"));
 
-                sub_content.Children.Add(sub_content = new StackPanel() { Orientation = Orientation.Horizontal });
+                sub_content.Children.Add(sub_content = new() { Orientation = Orientation.Horizontal });
                 sub_content.HorizontalAlignment = HorizontalAlignment.Center;
                 var style = (Style)Application.Current.FindResource("BDImg");
 
                 foreach (var content in iterator)
                 {
-                    Image tmp = new() { SnapsToDevicePixels = true };
+                    var tmp = new Image() { SnapsToDevicePixels = true };
 
                     sub_content.Children.Add(new Border()
                     {
@@ -215,8 +210,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                         tmp.Tag = content;
                         tmp.SetOpener();
                     }, DecodePixelHeight: 200);
-
-                    // Todo Tag ti open Extr
                 }
             }
 
@@ -228,12 +221,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 foreach (var item in headers)
                 {
                     this._content.Children.Add(contents[item] = new());
-                    contents[item].Children.Add(new Label()
-                    {
-                        Content = item,
-                        FontSize = 14,
-                        FontWeight = FontWeights.Bold
-                    });
+                    contents[item].Children.Add(PrepareLabel(item));
                 }
 
                 foreach (var evt in READY_CONTENT[this.Date].Events)
@@ -242,67 +230,56 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             if (READY_CONTENT[this.Date].Grades.Count != 0)
             {
-                this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label()
-                {
-                    Content = READY_CONTENT[this.Date].Grades[0].GetHeader(),
-                    FontSize = 14,
-                    FontWeight = FontWeights.Bold
-                });
+                this._content.Children.Add(sub_content = new());
+                sub_content.Children.Add(PrepareLabel(READY_CONTENT[this.Date].Grades[0].GetHeader()));
+                
                 foreach (var evt in READY_CONTENT[this.Date].Grades)
-                {
                     sub_content.Children.Add(CVHomeTextBox.FromGrade(evt));
-                }
             }
 
             if (READY_CONTENT[this.Date].Lessons.Count != 0)
             {
                 this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label()
-                {
-                    Content = READY_CONTENT[this.Date].Lessons[0].GetHeader(),
-                    FontSize = 14,
-                    FontWeight = FontWeights.Bold
-                });
+                sub_content.Children.Add(PrepareLabel(READY_CONTENT[this.Date].Lessons[0].GetHeader()));
+
                 foreach (var evt in READY_CONTENT[this.Date].Lessons)
-                {
                     sub_content.Children.Add(CVHomeTextBox.FromLesson(evt));
-                }
             }
 
 
             if (READY_CONTENT[this.Date].Notes.Count != 0)
             {
                 this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label()
-                {
-                    Content = READY_CONTENT[this.Date].Notes[0].GetHeader(),
-                    FontSize = 14,
-                    FontWeight = FontWeights.Bold
-                });
+                sub_content.Children.Add(PrepareLabel(READY_CONTENT[this.Date].Notes[0].GetHeader()));
+
                 foreach (var evt in READY_CONTENT[this.Date].Notes)
-                {
                     sub_content.Children.Add(CVHomeTextBox.FromAgendaEvent(evt, EventAppCategory.Agenda));
-                }
             }
 
 
             if (READY_CONTENT[this.Date].Homeworks.Count != 0)
             {
                 this._content.Children.Add(sub_content = new StackPanel());
-                sub_content.Children.Add(new Label()
-                {
-                    Content = READY_CONTENT[this.Date].Homeworks[0].GetHeader(),
-                    FontSize = 14,
-                    FontWeight = FontWeights.Bold
-                });
+                sub_content.Children.Add(PrepareLabel(READY_CONTENT[this.Date].Homeworks[0].GetHeader()));
+
                 foreach (var evt in READY_CONTENT[this.Date].Homeworks)
-                {
                     sub_content.Children.Add(CVHomeTextBox.FromAgendaEvent(evt, EventAppCategory.Homework));
-                }
             }
 
             return this._content;
+
+            Label PrepareLabel(string text)
+            {
+                var label = new Label()
+                {
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold,
+                    Content = text
+                };
+                label.SetThemeBinding(Label.ForegroundProperty, ThemeProperties.CVGenericFontProperty);
+
+                return label;
+            }
         }
 
         internal void BeginDestroy()

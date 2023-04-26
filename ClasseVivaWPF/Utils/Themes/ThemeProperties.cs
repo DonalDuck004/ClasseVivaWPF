@@ -1,5 +1,8 @@
 ﻿using ClasseVivaWPF.Utils.Converters;
 using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -7,78 +10,189 @@ using System.Windows.Media.Animation;
 
 namespace ClasseVivaWPF.Utils.Themes
 {
+
     public class ThemeProperties : FrameworkElement
     {
         public static readonly ThemeProperties INSTANCE;
-        
-        public static readonly DependencyProperty CVExtraInteractIconsProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_ABSENT_PATH)]
         public static readonly DependencyProperty CVAbsencesAbsentProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_TEXT_BOX_BACKGROUND_PATH)]
         public static readonly DependencyProperty CVTextBoxBackgroundProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_PARTIALLY_ABSENT_PATH)]
         public static readonly DependencyProperty CVAbsencesPartiallyAbsentProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_EARLY_EXIT_PATH)]
         public static readonly DependencyProperty CVAbsencesEarlyExitProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_LATE_PATH)]
         public static readonly DependencyProperty CVAbsencesLateProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADES_FILTER_PATH)]
         public static readonly DependencyProperty CVGradesFilterProperty;
-        public static readonly DependencyProperty CVGradeNoteProperty; 
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_NOTE_PATH)]
+        public static readonly DependencyProperty CVGradeNoteProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_INSUFFICIENT_PATH)]
         public static readonly DependencyProperty CVGradeInsufficientProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_HEADER_FONT_PATH)]
         public static readonly DependencyProperty CVGenericHeaderFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_DAY_HOME_CONTAINER_PATH)]
         public static readonly DependencyProperty CVDayHomeContainerProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH)]
         public static readonly DependencyProperty CVGradeSlightlyInsufficientProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_SUFFICIENT_PATH)]
         public static readonly DependencyProperty CVGradeSufficientProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH)]
         public static readonly DependencyProperty CVMainMenuIconSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH)]
         public static readonly DependencyProperty CVMainMenuIconUnselectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_URI_PATH)]
         public static readonly DependencyProperty CVUriProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_HEADER_PATH)]
         public static readonly DependencyProperty CVHeaderProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_CALENDAR_PATH)]
         public static readonly DependencyProperty CVCalendarProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_BUTTON_PATH)]
         public static readonly DependencyProperty CVButtonProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_RED_PATH)]
         public static readonly DependencyProperty CVGenericRedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_GRAY_PATH)]
         public static readonly DependencyProperty CVGenericGrayProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_BACKGROUND_PATH)]
         public static readonly DependencyProperty CVGenericBackgroundProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH)]
         public static readonly DependencyProperty CVGenericOpaqueBackgroundProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_GRAY_FONT_PATH)]
         public static readonly DependencyProperty CVGenericGrayFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_PERCENTAGE_BACKGROUND_PATH)]
         public static readonly DependencyProperty CVPercentageBackgroundProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_HOME_CURRENT_DAY_PATH)]
         public static readonly DependencyProperty CVHomeCurrentDayProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_SPINNER_PATH)]
         public static readonly DependencyProperty CVSpinnerProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_TEXT_SELECTION_PATH)]
         public static readonly DependencyProperty CVGenericTextSelectionProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_HR_PATH)]
         public static readonly DependencyProperty CVHrProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_SETTINGS_SECTION_HEADER_PATH)]
         public static readonly DependencyProperty CVSettingsSectionHeaderProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_CHECK_BOX_ELLIPSE_SELECTED_PATH)]
         public static readonly DependencyProperty CVCheckBoxEllipseSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_CHECK_BOX_ELLIPSE_UNSELECTED_PATH)]
         public static readonly DependencyProperty CVCheckBoxEllipseUnselectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED_PATH)]
         public static readonly DependencyProperty CVCheckBoxEllipseBackgroundSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_UNSELECTED_PATH)]
         public static readonly DependencyProperty CVCheckBoxEllipseBackgroundUnselectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH)]
         public static readonly DependencyProperty CVMultiMenuFontSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH)]
         public static readonly DependencyProperty CVMultiMenuFontUnselectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_MULTI_MENU_FONT_SLIDER_PATH)]
         public static readonly DependencyProperty CVMultiMenuFontSliderProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_BACK_ICON_PATH)]
         public static readonly DependencyProperty CVBackIconProperty;
-        public static readonly DependencyProperty CVDayBGUnselectedProperty;
-        public static readonly DependencyProperty CVDayBGSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_DAY_BG_UNSELECTED_PATH)]
+        public static readonly DependencyProperty CVDayBgUnselectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_DAY_BG_SELECTED_PATH)]
+        public static readonly DependencyProperty CVDayBgSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_DAY_TEXT_UNSELECTED_PATH)]
         public static readonly DependencyProperty CVDayTextUnselectedProperty;
-        public static readonly DependencyProperty CVDayTextSelectedProperty; 
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_DAY_TEXT_SELECTED_PATH)]
+        public static readonly DependencyProperty CVDayTextSelectedProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GENERIC_FONT_PATH)]
         public static readonly DependencyProperty CVGenericFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_SETTINGS_TEXT_PATH)]
         public static readonly DependencyProperty CVSettingsTextProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_EXTRA_HEADER_ELLIPSE_PATH)]
         public static readonly DependencyProperty CVExtraHeaderEllipseProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_FONT_PATH)]
         public static readonly DependencyProperty CVGradeFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_GRV2_PATH)]
         public static readonly DependencyProperty CVGradeGRV2Property;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_FONT_PATH)]
         public static readonly DependencyProperty CVAbsencesFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ACCOUNT_BUBBLE_FONT_PATH)]
         public static readonly DependencyProperty CVAccountBubbleFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ACCOUNT_BUBBLE_PATH)]
         public static readonly DependencyProperty CVAccountBubbleProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_PRESENT_PATH)]
         public static readonly DependencyProperty CVAbsencesPresentProperty;
-        public static readonly DependencyProperty CVAbsencesCalendarNoEventProperty;
-        public static readonly DependencyProperty CVAbsencesCalendarHasEventProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_CALENDAR_NO_EVENT_FONT_PATH)]
+        public static readonly DependencyProperty CVAbsencesCalendarNoEventFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_ABSENCES_CALENDAR_HAS_EVENT_FONT_PATH)]
+        public static readonly DependencyProperty CVAbsencesCalendarHasEventFontProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_INSUFFICIENT_BG_PATH)]
         public static readonly DependencyProperty CVGradeInsufficientBgProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_BG_PATH)]
         public static readonly DependencyProperty CVGradeSlightlyInsufficientBgProperty;
+
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_GRADE_SUFFICIENT_BG_PATH)]
         public static readonly DependencyProperty CVGradeSufficientBgProperty;
 
-
-        public SolidColorBrush CVAbsencesCalendarNoEvent
+        [ThemePropertyMeta(BindsTo = BaseTheme.CV_EXTRA_INTERACT_ICONS_PATH)]
+        public static readonly DependencyProperty CVExtraInteractIconsProperty;
+        
+        public SolidColorBrush CVAbsencesCalendarNoEventFont
         {
-            get => (SolidColorBrush)GetValue(CVAbsencesCalendarNoEventProperty);
-            set => SetValue(CVAbsencesCalendarNoEventProperty, value);
+            get => (SolidColorBrush)GetValue(CVAbsencesCalendarNoEventFontProperty);
+            set => SetValue(CVAbsencesCalendarNoEventFontProperty, value);
         }
 
-        public SolidColorBrush CVAbsencesCalendarHasEvent
+        public SolidColorBrush CVAbsencesCalendarHasEventFont
         {
-            get => (SolidColorBrush)GetValue(CVAbsencesCalendarHasEventProperty);
-            set => SetValue(CVAbsencesCalendarHasEventProperty, value);
+            get => (SolidColorBrush)GetValue(CVAbsencesCalendarHasEventFontProperty);
+            set => SetValue(CVAbsencesCalendarHasEventFontProperty, value);
         }
         
         public SolidColorBrush CVAbsencesPresent
@@ -357,16 +471,16 @@ namespace ClasseVivaWPF.Utils.Themes
             set => SetValue(CVBackIconProperty, value);
         }
 
-        public SolidColorBrush CVDayBGUnselected
+        public SolidColorBrush CVDayBgUnselected
         {
-            get => (SolidColorBrush)GetValue(CVDayBGUnselectedProperty);
-            set => SetValue(CVDayBGUnselectedProperty, value);
+            get => (SolidColorBrush)GetValue(CVDayBgUnselectedProperty);
+            set => SetValue(CVDayBgUnselectedProperty, value);
         }
 
-        public SolidColorBrush CVDayBGSelected
+        public SolidColorBrush CVDayBgSelected
         {
-            get => (SolidColorBrush)GetValue(CVDayBGSelectedProperty);
-            set => SetValue(CVDayBGSelectedProperty, value);
+            get => (SolidColorBrush)GetValue(CVDayBgSelectedProperty);
+            set => SetValue(CVDayBgSelectedProperty, value);
         }
 
         public SolidColorBrush CVDayTextUnselected
@@ -446,8 +560,8 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.CVMultiMenuFontUnselectedProperty = DependencyProperty.Register("CVMultiMenuFontUnselected", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVMultiMenuFontSliderProperty = DependencyProperty.Register("CVMultiMenuFontSlider", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVBackIconProperty = DependencyProperty.Register("CVBackIcon", typeof(SolidColorBrush), typeof(ThemeProperties));
-            ThemeProperties.CVDayBGUnselectedProperty = DependencyProperty.Register("CVDayBGUnselected", typeof(SolidColorBrush), typeof(ThemeProperties));
-            ThemeProperties.CVDayBGSelectedProperty = DependencyProperty.Register("CVDayBGSelected", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVDayBgUnselectedProperty = DependencyProperty.Register("CVDayBgUnselected", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVDayBgSelectedProperty = DependencyProperty.Register("CVDayBgSelected", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDayTextUnselectedProperty = DependencyProperty.Register("CVDayTextUnselected", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDayTextSelectedProperty = DependencyProperty.Register("CVDayTextSelected", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVGenericFontProperty = DependencyProperty.Register("CVGenericFont", typeof(SolidColorBrush), typeof(ThemeProperties));
@@ -462,81 +576,92 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.CVAccountBubbleProperty = DependencyProperty.Register("CVAccountBubble", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAccountBubbleFontProperty = DependencyProperty.Register("CVAccountBubbleFont", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVAbsencesPresentProperty = DependencyProperty.Register("CVAbsencesPresent", typeof(SolidColorBrush), typeof(ThemeProperties));
-            ThemeProperties.CVAbsencesCalendarNoEventProperty = DependencyProperty.Register("CVAbsencesCalendarNoEvent", typeof(SolidColorBrush), typeof(ThemeProperties));
-            ThemeProperties.CVAbsencesCalendarHasEventProperty = DependencyProperty.Register("CVAbsencesCalendarHasEvent", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAbsencesCalendarNoEventFontProperty = DependencyProperty.Register("CVAbsencesCalendarNoEventFont", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVAbsencesCalendarHasEventFontProperty = DependencyProperty.Register("CVAbsencesCalendarHasEventFont", typeof(SolidColorBrush), typeof(ThemeProperties));
 
             ThemeProperties.INSTANCE = new();
         }
 
+        private void a()
+        {
 
+        }
         private ThemeProperties()
         {
-            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientBgProperty, BaseTheme.CV_GRADE_INSUFFICIENT_BG_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientBgProperty, BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_BG_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeSufficientBgProperty, BaseTheme.CV_GRADE_SUFFICIENT_BG_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarNoEventProperty, BaseTheme.CV_ABSENCES_CALENDAR_NO_EVENT_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarHasEventProperty, BaseTheme.CV_ABSENCES_CALENDAR_HAS_EVENT_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesPresentProperty, BaseTheme.CV_ABSENCES_PRESENT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAccountBubbleProperty, BaseTheme.CV_ACCOUNT_BUBBLE_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAccountBubbleFontProperty, BaseTheme.CV_ACCOUNT_BUBBLE_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVExtraInteractIconsProperty, BaseTheme.CV_EXTRA_INTERACT_ICONS_PATH);
-            this.SetThemeBinding(ThemeProperties.CVExtraHeaderEllipseProperty, BaseTheme.CV_EXTRA_HEADER_ELLIPSE_PATH);
-            this.SetThemeBinding(ThemeProperties.CVTextBoxBackgroundProperty, BaseTheme.CV_TEXT_BOX_BACKGROUND_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesAbsentProperty, BaseTheme.CV_ABSENCES_ABSENT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesPartiallyAbsentProperty, BaseTheme.CV_ABSENCES_PARTIALLY_ABSENT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesEarlyExitProperty, BaseTheme.CV_ABSENCES_EARLY_EXIT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesLateProperty, BaseTheme.CV_ABSENCES_LATE_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradesFilterProperty, BaseTheme.CV_GRADES_FILTER_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeNoteProperty, BaseTheme.CV_GRADE_NOTE_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientProperty, BaseTheme.CV_GRADE_INSUFFICIENT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientProperty, BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeSufficientProperty, BaseTheme.CV_GRADE_SUFFICIENT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVMainMenuIconSelectedProperty, BaseTheme.CV_MAIN_MENU_ICON_SELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVMainMenuIconUnselectedProperty, BaseTheme.CV_MAIN_MENU_ICON_UNSELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVUriProperty, BaseTheme.CV_URI_PATH);
-            this.SetThemeBinding(ThemeProperties.CVHeaderProperty, BaseTheme.CV_HEADER_PATH);
-            this.SetThemeBinding(ThemeProperties.CVCalendarProperty, BaseTheme.CV_CALENDAR_PATH);
-            this.SetThemeBinding(ThemeProperties.CVButtonProperty, BaseTheme.CV_BUTTON_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericRedProperty, BaseTheme.CV_GENERIC_RED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericGrayProperty, BaseTheme.CV_GENERIC_GRAY_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericBackgroundProperty, BaseTheme.CV_GENERIC_BACKGROUND_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericOpaqueBackgroundProperty, BaseTheme.CV_GENERIC_OPAQUE_BACKGROUND_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericGrayFontProperty, BaseTheme.CV_GENERIC_GRAY_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVPercentageBackgroundProperty, BaseTheme.CV_PERCENTAGE_BACKGROUND_PATH);
-            this.SetThemeBinding(ThemeProperties.CVHomeCurrentDayProperty, BaseTheme.CV_HOME_CURRENT_DAY_PATH);
-            this.SetThemeBinding(ThemeProperties.CVSpinnerProperty, BaseTheme.CV_SPINNER_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericTextSelectionProperty, BaseTheme.CV_GENERIC_TEXT_SELECTION_PATH);
-            this.SetThemeBinding(ThemeProperties.CVHrProperty, BaseTheme.CV_HR_PATH);
-            this.SetThemeBinding(ThemeProperties.CVSettingsSectionHeaderProperty, BaseTheme.CV_SETTINGS_SECTION_HEADER_PATH);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseSelectedProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_SELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseUnselectedProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_UNSELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseBackgroundSelectedProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseBackgroundUnselectedProperty, BaseTheme.CV_CHECK_BOX_ELLIPSE_BACKGROUND_UNSELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontSelectedProperty, BaseTheme.CV_MULTI_MENU_FONT_SELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontUnselectedProperty, BaseTheme.CV_MULTI_MENU_FONT_UNSELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontSliderProperty, BaseTheme.CV_MULTI_MENU_FONT_SLIDER_PATH);
-            this.SetThemeBinding(ThemeProperties.CVBackIconProperty, BaseTheme.CV_BACK_ICON_PATH);
-            this.SetThemeBinding(ThemeProperties.CVDayBGSelectedProperty, BaseTheme.CV_DAY_BG_SELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVDayBGUnselectedProperty, BaseTheme.CV_DAY_BG_UNSELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVDayTextSelectedProperty, BaseTheme.CV_DAY_TEXT_SELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVDayTextUnselectedProperty, BaseTheme.CV_DAY_TEXT_UNSELECTED_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericFontProperty, BaseTheme.CV_GENERIC_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGenericHeaderFontProperty, BaseTheme.CV_GENERIC_HEADER_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVDayHomeContainerProperty, BaseTheme.CV_DAY_HOME_CONTAINER_PATH);
-            this.SetThemeBinding(ThemeProperties.CVSettingsTextProperty, BaseTheme.CV_SETTINGS_TEXT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeFontProperty, BaseTheme.CV_GRADE_FONT_PATH);
-            this.SetThemeBinding(ThemeProperties.CVGradeGRV2Property, BaseTheme.CV_GRADE_GRV2_PATH);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesFontProperty, BaseTheme.CV_ABSENCES_FONT_PATH);
+
+            /*var x = buff.CustomAttributes.ToArray();
+            var y = buff.GetCustomAttributes().ToArray();*/
+            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientBgProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientBgProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeSufficientBgProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarNoEventFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarHasEventFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesPresentProperty);
+            this.SetThemeBinding(ThemeProperties.CVAccountBubbleProperty);
+            this.SetThemeBinding(ThemeProperties.CVAccountBubbleFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVExtraInteractIconsProperty);
+            this.SetThemeBinding(ThemeProperties.CVExtraHeaderEllipseProperty);
+            this.SetThemeBinding(ThemeProperties.CVTextBoxBackgroundProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesAbsentProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesPartiallyAbsentProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesEarlyExitProperty);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesLateProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradesFilterProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeNoteProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeSufficientProperty);
+            this.SetThemeBinding(ThemeProperties.CVMainMenuIconSelectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVMainMenuIconUnselectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVUriProperty);
+            this.SetThemeBinding(ThemeProperties.CVHeaderProperty);
+            this.SetThemeBinding(ThemeProperties.CVCalendarProperty);
+            this.SetThemeBinding(ThemeProperties.CVButtonProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericRedProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericGrayProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericBackgroundProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericOpaqueBackgroundProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericGrayFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVPercentageBackgroundProperty);
+            this.SetThemeBinding(ThemeProperties.CVHomeCurrentDayProperty);
+            this.SetThemeBinding(ThemeProperties.CVSpinnerProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericTextSelectionProperty);
+            this.SetThemeBinding(ThemeProperties.CVHrProperty);
+            this.SetThemeBinding(ThemeProperties.CVSettingsSectionHeaderProperty);
+            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseSelectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseUnselectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseBackgroundSelectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseBackgroundUnselectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontSelectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontUnselectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontSliderProperty);
+            this.SetThemeBinding(ThemeProperties.CVBackIconProperty);
+            this.SetThemeBinding(ThemeProperties.CVDayBgSelectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVDayBgUnselectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVDayTextSelectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVDayTextUnselectedProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVGenericHeaderFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVDayHomeContainerProperty);
+            this.SetThemeBinding(ThemeProperties.CVSettingsTextProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeFontProperty);
+            this.SetThemeBinding(ThemeProperties.CVGradeGRV2Property);
+            this.SetThemeBinding(ThemeProperties.CVAbsencesFontProperty);
         }
 
-        private void SetThemeBinding(DependencyProperty property,
-                                              string VAR_PATH,
-                                              bool run_animation = false)
+        public static string GetTargetThemePath(DependencyProperty property)
         {
+            return typeof(ThemeProperties).GetField(property.Name + "Property", BindingFlags.Static | BindingFlags.Public)!.GetCustomAttribute<ThemePropertyMeta>()!.BindsTo;
+        }
+
+        private void SetThemeBinding(DependencyProperty property, bool run_animation = false)
+        {
+            var path = GetTargetThemePath(property);
+            
             bool initialized = run_animation;
             var binding = new Binding()
             {
-                Path = new("CurrentTheme." + VAR_PATH),
+                Path = new("CurrentTheme." + path),
                 Converter = new ActionConverter(),
                 ConverterParameter = (object v) =>
                 {

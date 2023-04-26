@@ -79,7 +79,7 @@
                         <Setter Property="VerticalAlignment" Value="Center"></Setter>
                         <Setter Property="HorizontalAlignment" Value="Center"></Setter>
                         <Setter Property="FontWeight" Value="DemiBold"></Setter>
-                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEvent}"></Setter>
+                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEventFont}"></Setter>
                         <Setter Property="FontSize" Value="24"></Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsAbsence}" Value="True">
