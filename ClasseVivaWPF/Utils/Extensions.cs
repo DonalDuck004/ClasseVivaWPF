@@ -407,5 +407,19 @@ namespace ClasseVivaWPF.Utils
 
             BindingOperations.SetBinding(element, property, binding);
         }
+
+        public static T? FindAncestor<T>(this FrameworkElement obj) where T : DependencyObject
+        {
+            var dependObj = obj;
+            do
+            {
+                dependObj = (FrameworkElement)dependObj.Parent;
+                if (dependObj is T rt)
+                    return rt;
+            }
+            while (dependObj != null);
+
+            return null;
+        }
     }
 }

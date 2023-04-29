@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Absences"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:sessions="clr-namespace:ClasseVivaWPF.Sessions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid MinHeight="64" MaxHeight="96" Background="{themes:ThemeBinding Path=CVGenericBackground}">
@@ -15,6 +17,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Border Margin="16,4,0,4" CornerRadius="100" Grid.RowSpan="2" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
             <Border.Style>
@@ -102,6 +105,7 @@
                 </TextBlock.Style>
             </TextBlock>
         </Border>
+
         <TextBlock Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
             <Run Text="{Binding Path=FormattedDate, Mode=OneWay}"></Run>
             <Run Text="{Binding Path=EvtHPos, StringFormat='a {0}° ora'}">
@@ -117,6 +121,23 @@
                 </Run.Style>
             </Run>
         </TextBlock>
-        <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Top" Grid.Row="1"></TextBlock>
+        <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
+                   Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Top" Grid.Row="1"></TextBlock>
+
+        <WrapPanel Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0">
+            <WrapPanel.Style>
+                <Style TargetType="WrapPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsJustified}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Source={x:Static sessions:SessionHandler.INSTANCE}, Path=Me.AccountType}" Value="S">
+                            <Setter Property="Visibility" Value="Hidden"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </WrapPanel.Style>
+            <shared:CVButton FontSize="14" Content="Giustifica" Click="OnJustify"/>
+        </WrapPanel>
     </Grid>
 </UserControl>

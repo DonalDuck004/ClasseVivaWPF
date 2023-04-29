@@ -24,7 +24,6 @@ namespace ClasseVivaWPF.SharedControls
             if (@event.IsSet() && this.Opened)
                 throw new InvalidOperationException();
             
-
             if (!this.Opened)
                 @event.Clear();
 
@@ -35,6 +34,7 @@ namespace ClasseVivaWPF.SharedControls
 
         public virtual void Close()
         {
+            this.WhenInjectableIsClosed();
             MainWindow.INSTANCE.RemoveField(this);
             this.Opened = false;
             @event.Set();
@@ -47,8 +47,14 @@ namespace ClasseVivaWPF.SharedControls
 
         public virtual void OnCloseRequested()
         {
+            this.WhenInjectableIsClosed();
             this.Opened = false;
             @event.Set();
+        }
+
+        public virtual void WhenInjectableIsClosed()
+        {
+
         }
     }
 }

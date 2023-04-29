@@ -11,16 +11,19 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 
 namespace ClasseVivaWPF.Api
 {
-    public class Client
+    public partial class Client
     {
         public static Client INSTANCE { get; private set; } = new Client();
         private const string ENDPOINT = "https://web.spaggiari.eu/";
 
         private int UserID => SessionHandler.Me!.Id;
+        private Me Me => SessionHandler.Me!;
+
         private HttpClient client;
 
         public Client(bool set_instance = true)
@@ -46,17 +49,12 @@ namespace ClasseVivaWPF.Api
                 Client.INSTANCE = this;
         }
 
-        private void _NotImplementedCheck(object? v)
-        {
-            Debug.Assert(v is null);
-        }
-
-        private HttpRequestMessage BuildMessage(HttpMethod method, string path, JObject? data, string? cached_etag, DateTime? cached_date)
+        private HttpRequestMessage BuildMessage(HttpMethod method, string path, JObject? data, string? cached_etag, DateTime? cached_date, bool path_is_full_url)
         {
             var message = new HttpRequestMessage()
             {
                 Method = method,
-                RequestUri = new Uri($"{ENDPOINT}{path}"),
+                RequestUri = new Uri(path_is_full_url ? path : $"{ENDPOINT}{path}"),
             };
 
             if (data is not null)
@@ -71,7 +69,7 @@ namespace ClasseVivaWPF.Api
             return message;
         }
 
-        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache)
+        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache, bool path_is_full_url = false)
         {
             allow_cache = allow_cache && SessionHandler.INSTANCE is not null;
 
@@ -84,7 +82,7 @@ namespace ClasseVivaWPF.Api
             var tmp = allow_cache ? "Cache allowed" : "Cache Not Allowed";
             Logger.Log($"Calling {method.Method} {path} - {tmp}");
 
-            var message = BuildMessage(method, path, data, cached_etag, cached_date);
+            var message = BuildMessage(method, path, data, cached_etag, cached_date, path_is_full_url);
             HttpResponseMessage raw_response;
             try
             {
@@ -105,7 +103,7 @@ namespace ClasseVivaWPF.Api
             if (raw_response.StatusCode is HttpStatusCode.Unauthorized && SessionHandler.INSTANCE is not null)
             {
                 SessionHandler.INSTANCE.RenewToken();
-                message = BuildMessage(method, path, data, cached_etag, cached_date);
+                message = BuildMessage(method, path, data, cached_etag, cached_date, path_is_full_url);
                 raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
             }
 
@@ -275,8 +273,10 @@ namespace ClasseVivaWPF.Api
         public async Task<Uri> GetUriFromTicket(string u)
         {
             var ticket = await this.Ticket();
-            var query = "t=" + ticket.TicketString + "&u=" + u;
-            return new UriBuilder("https://web.spaggiari.eu/repx/app/default/restbridge.php") { Query = query.ToString() }.Uri;
+            var builder = HttpUtility.ParseQueryString("");
+            builder.Add("u", u);
+            var uri_string = $"https://web.spaggiari.eu/repx/app/default/restbridge.php?t={ticket.TicketString}&" + builder.ToString()!;
+            return new Uri(uri_string);
         }
 
         public async Task<MinigameCredentials> GetMinigameCredentials()

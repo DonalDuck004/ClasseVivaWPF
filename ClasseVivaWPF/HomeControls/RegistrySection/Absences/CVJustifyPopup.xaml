@@ -1,0 +1,116 @@
+﻿<shared:Injectable x:Class="ClasseVivaWPF.HomeControls.RegistrySection.Absences.CVJustifyPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Absences"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+             xmlns:types="clr-namespace:ClasseVivaWPF.Api.Types"
+             mc:Ignorable="d" Background="#BF000000"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Width="600" Height="375" VerticalAlignment="Center" Background="{themes:ThemeBinding Path=CVGenericBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Background="{themes:ThemeBinding Path=CVHeader}">
+            <TextBlock Margin="10,0,0,0" FontSize="22" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" VerticalAlignment="Center">
+                <Run>
+                    <Run.Style>
+                        <Style TargetType="Run">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsAbsence}" Value="True">
+                                    <Setter Property="Text" Value="Giustificazione dell' assenza"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsLate}" Value="True">
+                                    <Setter Property="Text" Value="Giustificazione del ritardo"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsEarlyExit}" Value="True">
+                                    <Setter Property="Text" Value="Giustificazione dell' uscita anticipata"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Run.Style>
+                </Run>
+            </TextBlock>
+        </DockPanel>
+        <Grid Grid.Row="1" Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Categoria motivo giustificazione" FontSize="18" Margin="0,5,0,10" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Orientation="Horizontal" Name="wp">
+                    <WrapPanel.Resources>
+                        <Style TargetType="RadioButton">
+                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                        </Style>
+                        <Style TargetType="Line">
+                            <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=wp}"></Setter>
+                        </Style>
+                    </WrapPanel.Resources>
+                </WrapPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+                        <Run Text="Categoria:"></Run>
+                        <Run>
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsAbsence}" Value="True">
+                                            <Setter Property="Text" Value="Assenza"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsLate}" Value="True">
+                                            <Setter Property="Text" Value="Ritardo"></Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsEarlyExit}" Value="True">
+                                            <Setter Property="Text" Value="Uscita anticipata"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                        </Run>
+                    </TextBlock>
+                    <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=EvtDate, StringFormat='Data: {0:dd-MM-yyyy}'}"></TextBlock>
+                    <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+                        <Run>
+                            <Run.Style>
+                                <Style TargetType="Run">
+                                    <Setter Property="Text" Value="{Binding Path=FormattedHoursAbsence, StringFormat='Ore comprese: {0:dd-MM-yyyy}', Mode=OneWay}"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=FormattedHoursAbsence}" Value="">
+                                            <Setter Property="Text" Value=""></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Run.Style>
+                        </Run>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+            <TextBlock Grid.Row="2" Text="Motivo giustificazione" FontSize="18" Margin="0,5,0,10" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
+            <TextBox Grid.Row="3" SelectionBrush="{themes:ThemeBinding Path=CVGenericRed}" TextWrapping="Wrap"
+                     MaxLength="512" AcceptsReturn="True" Background="{themes:ThemeBinding Path=CVGenericBackground}"
+                     Foreground="{themes:ThemeBinding Path=CVGenericFont}" Margin="0,0,10,0" Name="Desc"></TextBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <shared:CVButton Content="Chiudi" Grid.Column="0" FontSize="14" Click="OnClose"></shared:CVButton>
+            <shared:CVButton Content="Conferma" Grid.Column="1" FontSize="14" Click="OnConfirm"></shared:CVButton>
+        </Grid>
+    </Grid>
+</shared:Injectable>

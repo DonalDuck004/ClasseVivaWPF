@@ -29,8 +29,10 @@ using System.Windows.Forms;
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 {
 
-    public partial class CVAbsencesViewer : Injectable, IUpdate
+    public partial class CVAbsencesViewer : Injectable, IUpdate, ICVMeta
     {
+        public static CVAbsencesViewer? INSTANCE { get; set; } = null;
+
         public static readonly DependencyProperty DataFetchedProperty;
 
         private SemaphoreSlim ReloadLock = new SemaphoreSlim(1, 1);
@@ -38,6 +40,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
         private const int MonthOffsetLength = 10;
         private static readonly string[] Months = new string[] {"Set", "Ott", "Nov", "Dic", "Gen", "Feb", "Mar", "Apr", "Mag", "Giu"};
         private static readonly string[] Evts = new string[] {"ABA0", "ABU0", "ABR0"};
+        public bool CountsInStack { get; } = false;
         private SemaphoreSlim PreventOverlap { get; } = new SemaphoreSlim(0, 1);
         private CalendarDay[]? Days = null;
 
@@ -57,6 +60,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
         {
             InitializeComponent();
             this.DataContext = this;
+            CVAbsencesViewer.INSTANCE = this;
         }
 
         public void Update()
@@ -165,19 +169,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             this.Justified.ClearAll();
             this.NotJustified.ClearAll();
 
-            foreach (var item in CVRegistry.INSTANCE!.CachedAbsences)
+            foreach (var item in CVRegistry.INSTANCE!.CachedAbsences.OrderByDescending(x => x.EvtDate))
             {
                 if (item.IsJustified)
                     this.Justified.AddChild(new(item));
                 else
-                {
                     this.NotJustified.AddChild(new(item));
-                    break;
-                }
             }
         }
 
-        private async Task Reload()
+        public async Task Reload()
         {
             if (ReloadLock.CurrentCount == 0)
                 return;
@@ -223,8 +224,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
                 this.Update();
                 await this.Calendar.WaitForLoading();
 
-                // TODO Process Days
-
                 this.DataFetched = true;
             }
             catch (ApiError exc)
@@ -235,6 +234,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             }
 
             PreventOverlap.Release();
+        }
+
+        public override void WhenInjectableIsClosed()
+        {
+            if (ReferenceEquals(CVAbsencesViewer.INSTANCE, this))
+                CVAbsencesViewer.INSTANCE = null;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
-
+using System.Diagnostics;
 
 namespace ClasseVivaWPF.Api.Types
 {
@@ -14,7 +14,7 @@ namespace ClasseVivaWPF.Api.Types
         public required int? EvtHPos { get; init; }
 
         [JsonProperty(Required = Required.AllowNull)]
-        public required object? EvtValue { get; init; }
+        public required int? EvtValue { get; init; }
 
         [JsonProperty(Required = Required.Always)]
         public required bool IsJustified { get; init; }

@@ -30,15 +30,22 @@ namespace ClasseVivaWPF.Api.Types
         public required DateTime Expire { get; init; }
 
         private int? _id = null;
+
+        [JsonIgnore]
         public int Id => _id ??= int.Parse(new Regex("\\d+").Match(Ident).Value);
+
+        [JsonIgnore]
+        public char AccountType => this.Ident[0];
 
         public string FullName
         {
             get
             {
-                var rt = this.Ident[0] == 'G' ? "Genitore di " : "";
+                var rt = this.AccountType == 'G' ? "Genitore di " : "";
                 return rt + this.FirstName + " " + this.LastName;
             }
         }
+
+        public string StudentFullName => this.FirstName + " " + this.LastName;
     };
 }

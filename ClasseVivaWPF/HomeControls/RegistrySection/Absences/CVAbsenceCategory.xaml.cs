@@ -40,6 +40,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 
         public void AddChild(CVAbsence abs)
         {
+            if (this.Height == 0)
+                this.Height = double.NaN;
+
             this.ContentWrapper.Children.Add(abs);
             this.Counter.Text = this.ContentWrapper.Children.Count.ToString();
         }
@@ -48,6 +51,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
         {
             this.ContentWrapper.Children.Clear();
             this.Counter.Text = "0";
+            this.Height = 0;
         }
     }
 }
