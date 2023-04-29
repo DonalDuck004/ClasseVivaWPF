@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ClasseVivaWPF.SharedControls;
+using Newtonsoft.Json;
 
 namespace ClasseVivaWPF.Utils.Themes.Extra
 {
@@ -23,10 +25,10 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
     {
         public static readonly DependencyProperty SelectedThemeProperty;
 
+        public bool EditedFlag = false;
+        private bool ApplyCurrent = false;
         private static SemaphoreSlim ShowLock = new SemaphoreSlim(1, 1);
         public static ThemeEditor? INSTANCE { get; private set; }
-        private BaseTheme Current;
-        public BaseTheme CurrentCopy;
 
         public BaseTheme SelectedTheme
         {
@@ -56,10 +58,8 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
 
             await ShowLock.WaitAsync();
             INSTANCE = new ThemeEditor();
-            INSTANCE.Closed += OnClose!;
-            INSTANCE.SelectedTheme = INSTANCE.Current = MainWindow.INSTANCE.CurrentTheme;
-            INSTANCE.CurrentCopy = (BaseTheme)MainWindow.INSTANCE.CurrentTheme.Clone();
 
+            ThemeProperties.BeginThemeEditing();
 
             foreach (var item in ThemeProperties.GetProperties())
                 INSTANCE.ThemePropertiesWP.Children.Add(new ThemePropertyViewer(item));
@@ -68,20 +68,34 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
             return true;
         }
 
-        public static void OnClose(object sender, EventArgs e)
+        public void OnClose(object sender, EventArgs e)
         {
-            if (ReferenceEquals(sender, INSTANCE))
-                INSTANCE = null;
-
+            ThemeProperties.EndThemeEditing(this.ApplyCurrent);
             ShowLock.Release();
         }
 
-        private void CheckStateChanged(CVCheckBox sender, CheckedStateChangedEventArgs e)
+        private void OnClosing(object sender, CancelEventArgs e)
         {
-            if (sender.IsChecked)
-                this.SelectedTheme = MainWindow.INSTANCE.CurrentTheme = this.Current;
-            else
-                this.SelectedTheme = MainWindow.INSTANCE.CurrentTheme = this.CurrentCopy;
+            if (EditedFlag)
+            {
+                var confirm = MessageBox.Show("Non hai salvato il tema modificato, vuoi continuare?", "Tema non salvato", MessageBoxButton.OKCancel);
+
+                if (confirm is MessageBoxResult.Cancel)
+                {
+                    this.ApplyCurrent = false;
+                    e.Cancel = true;
+                    return;
+                }
+                else
+                    this.ApplyCurrent = true;
+
+            }else
+                this.ApplyCurrent = false;
+        }
+
+        private void OnSave(object sender, RoutedEventArgs e)
+        {
+            var js = ThemeProperties.FreezeAsJson();
         }
     }
 }

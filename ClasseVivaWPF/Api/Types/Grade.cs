@@ -114,10 +114,10 @@ namespace ClasseVivaWPF.Api.Types
         }
 
         public string InternalColorPath => 
-            this.DecimalValue is null ? BaseTheme.CV_GRADE_NOTE_PATH :
-            this.DecimalValue < 5 ? BaseTheme.CV_GRADE_INSUFFICIENT_PATH : 
-            this.DecimalValue < 6 ? BaseTheme.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH :
-            BaseTheme.CV_GRADE_SUFFICIENT_PATH;
+            this.DecimalValue is null ? ThemeOperations.CV_GRADE_NOTE_PATH :
+            this.DecimalValue < 5 ? ThemeOperations.CV_GRADE_INSUFFICIENT_PATH : 
+            this.DecimalValue < 6 ? ThemeOperations.CV_GRADE_SLIGHTLY_INSUFFICIENT_PATH :
+            ThemeOperations.CV_GRADE_SUFFICIENT_PATH;
 
         public DependencyProperty InternalColorProperty =>
             this.DecimalValue is null ? ThemeProperties.CVGradeNoteProperty :

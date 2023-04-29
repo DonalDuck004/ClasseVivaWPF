@@ -421,5 +421,8 @@ namespace ClasseVivaWPF.Utils
 
             return null;
         }
+
+        public static byte NextByte(this Random rnd) => (byte)rnd.Next(0xFF);
+        public static Color NextColor(this Random rnd, bool rnd_alpha = false) => Color.FromArgb(rnd_alpha ? rnd.NextByte() : (byte)0xFF, rnd.NextByte(), rnd.NextByte(), rnd.NextByte());
     }
 }

@@ -41,9 +41,6 @@ namespace ClasseVivaWPF.Utils.Logs
                 StreamEncoding = Encoding.UTF8;
                 level_len = Enum.GetNames(typeof(LogLevel)).Max(x => x.Length);
 
-                if (!Directory.Exists(Config.LOG_DIR_PATH))
-                    Directory.CreateDirectory(Config.LOG_DIR_PATH);
-
                 while (true)
                 {
                     while (File.Exists(path = Path.Join(Config.LOG_DIR_PATH, string.Format(Config.LOG_FILE_TEMPLATE, ++c))))

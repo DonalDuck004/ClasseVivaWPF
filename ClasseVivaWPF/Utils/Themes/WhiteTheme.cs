@@ -63,9 +63,5 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_ABSENCES_PRESENT { get; } = Color.FromArgb(0xFF, 0x83, 0xB5, 0x88);
         public override Color CV_ABSENCES_CALENDAR_HAS_EVENT_FONT { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
         public override Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
-
-        public WhiteTheme() : base()
-        {
-        }
     }
 }

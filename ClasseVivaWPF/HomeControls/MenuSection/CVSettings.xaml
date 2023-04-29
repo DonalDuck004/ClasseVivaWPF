@@ -114,18 +114,52 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Temi (WIP)"></TextBlock>
+                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Temi"></TextBlock>
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition Style="{StaticResource ResourceKey=LastCol}"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        
-                        <shared:CVButton Content="Apri Editor" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Click="OpenThemeEditor"></shared:CVButton>
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Tema attuale"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}"  Grid.Row="1" Text="Imposta il tema attuale"></TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.RowSpan="2">
+                            <StackPanel.Resources>
+                                <Style TargetType="WrapPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Source={x:Static themes:ThemeProperties.INSTANCE}, Path=Editing}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Source={x:Static themes:ThemeProperties.INSTANCE}, Path=Editing}" Value="True">
+                                            <Setter Property="ToolTip">
+                                                <Setter.Value>
+                                                    <ToolTip>
+                                                        <TextBlock Text="Cambiamento tema disabbilitato durante lìediting"></TextBlock>
+                                                    </ToolTip>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Resources>
+                            <WrapPanel VerticalAlignment="Center" Background="Transparent">
+                                <shared:CVButton Content="&lt;" FontSize="12" Click="OnPreviusTheme"></shared:CVButton>
+                            </WrapPanel>
+                            <TextBlock Text="{Binding Source={x:Static root:MainWindow.INSTANCE}, Path=CurrentTheme.Name}" Foreground="{themes:ThemeBinding Path=CVGenericFont}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                            <WrapPanel VerticalAlignment="Center">
+                                <shared:CVButton Content="&gt;" FontSize="12" Click="OnNextTheme"></shared:CVButton>
+                            </WrapPanel>
+                        </StackPanel>
                     </Grid>
+                  
+                    <shared:CVButton Content="Apri Editor Temi" VerticalAlignment="Center" HorizontalAlignment="Center" Click="OpenThemeEditor"></shared:CVButton>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Altro"></TextBlock>

@@ -23,18 +23,20 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
     /// </summary>
     public partial class ThemePropertyViewer : UserControl
     {
-        public static readonly DependencyProperty ColorProperty;
+        private static int[] CustomColors = new int[0];
+
+        public static readonly DependencyProperty BindendColorProperty;
         public DependencyProperty Property { get; init; }
 
-        public SolidColorBrush Color
+        public SolidColorBrush BindendColor
         {
-            get => (SolidColorBrush)GetValue(ColorProperty);
-            set => SetValue(ColorProperty, value);
+            get => (SolidColorBrush)GetValue(BindendColorProperty);
+            set => SetValue(BindendColorProperty, value);
         }
 
         static ThemePropertyViewer()
         {
-            ColorProperty = DependencyProperty.Register("Color", typeof(SolidColorBrush), typeof(ThemePropertyViewer));
+            BindendColorProperty = DependencyProperty.Register("BindendColor", typeof(SolidColorBrush), typeof(ThemePropertyViewer));
         }
 
         private ThemePropertyViewer()
@@ -46,20 +48,18 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
         {
             InitializeComponent();
 
-            var path = ThemeProperties.GetTargetThemePath(property);
             this.DataContext = this;
             this.Property = property;
-            var binding = new Binding()
+
+            var binding = new ThemeBinding()
             {
-                Source = ThemeEditor.INSTANCE,
-                Path = new($"SelectedTheme.{path}"),
-                Converter = new ToBrushConverter()
+                Path = new(property)
             };
 
-            BindingOperations.SetBinding(this, ThemePropertyViewer.ColorProperty, binding);
-
+            this.property_name.Text = ThemeProperties.GetTargetThemePath(property);
 
             BindingOperations.SetBinding(this.hex, TextBlock.TextProperty, binding);
+            BindingOperations.SetBinding(this, ThemePropertyViewer.BindendColorProperty, binding);
         }
 
         private void OnCopy(object sender, RoutedEventArgs e)
@@ -69,13 +69,19 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
 
         private void OpenColorPicker(object sender, MouseButtonEventArgs e)
         {
-            var dialog = new Forms.ColorDialog();
-            dialog.ShowDialog();
-            var color = System.Windows.Media.Color.FromArgb(dialog.Color.A, dialog.Color.R, dialog.Color.G, dialog.Color.B);
-            var path = ThemeProperties.GetTargetThemePath(this.Property);
-            var field = ThemeEditor.INSTANCE!.CurrentCopy.GetType().GetProperty(path, BindingFlags.Public | BindingFlags.Instance)!;
-            field.SetValue(ThemeEditor.INSTANCE!.CurrentCopy, color);
-            ThemeEditor.INSTANCE!.SelectedTheme = ThemeEditor.INSTANCE.CurrentCopy;
+            var dialog = new Forms.ColorDialog()
+            {
+                FullOpen = true,
+                CustomColors = CustomColors
+            };
+            var result = dialog.ShowDialog();
+            CustomColors = dialog.CustomColors;
+            if (result is Forms.DialogResult.Cancel)
+                return;
+
+            var color = Color.FromArgb(dialog.Color.A, dialog.Color.R, dialog.Color.G, dialog.Color.B);
+            ThemeProperties.INSTANCE.SetValue(this.Property, new SolidColorBrush(color));
+            ThemeEditor.INSTANCE!.EditedFlag = true;
         }
     }
 }

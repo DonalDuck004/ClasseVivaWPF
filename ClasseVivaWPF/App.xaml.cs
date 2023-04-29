@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using Forms = System.Windows.Forms;
 
 namespace ClasseVivaWPF
 {
@@ -27,6 +28,7 @@ namespace ClasseVivaWPF
         protected override void OnStartup(StartupEventArgs e)
         {
             RunLock = new Mutex(true, "ClasseVivaDesktop", out bool was_running);
+            Forms.Application.EnableVisualStyles();
 
             if (!was_running)
             {

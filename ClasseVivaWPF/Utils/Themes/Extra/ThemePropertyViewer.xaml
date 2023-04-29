@@ -13,16 +13,16 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{Binding Path=Property.Name}" Foreground="{Binding Path=SelectedTheme.CV_GENERIC_FONT, Source={x:Static local:ThemeEditor.INSTANCE}, Converter={StaticResource ResourceKey=ToBrushConverter}}" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+        <TextBlock x:Name="property_name" Foreground="{themes:ThemeBinding Path=CVGenericFont}" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
         <DockPanel Grid.Column="1">
-            <Border Width="48" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gray" BorderThickness="1" Name="ColorViewer" Background="{Binding Path=Color}" MouseLeftButtonDown="OpenColorPicker" Cursor="Hand">
+            <Border Width="48" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gray" BorderThickness="1" Name="ColorViewer" Background="{Binding Path=BindendColor}" MouseLeftButtonDown="OpenColorPicker" Cursor="Hand">
                 <Border.ToolTip>
                     <ToolTip>
-                        <TextBlock Text="{Binding Path=Color.Color}"></TextBlock>
+                        <TextBlock Text="{Binding Path=BindendColor.Color}"></TextBlock>
                     </ToolTip>
                 </Border.ToolTip>
             </Border>
-            <TextBlock Width="64" Name="hex" Margin="5,0,0,0" Text="{Binding Path=Color.Color}" Foreground="{Binding Path=Color}"></TextBlock>
+            <TextBlock Width="64" Name="hex" Margin="5,0,0,0" Text="{Binding Path=BindendColor.Color}" Foreground="{Binding Path=BindendColor}"></TextBlock>
             <shared:CVButton Content="Copia" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnCopy" FontSize="12"></shared:CVButton>
         </DockPanel>
     </Grid>

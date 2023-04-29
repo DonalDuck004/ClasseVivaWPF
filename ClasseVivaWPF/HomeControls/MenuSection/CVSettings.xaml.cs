@@ -20,6 +20,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
     {
         public bool CountsInStack { get; } = false;
        
+        private int ThemeIndex = 0;
         public static string MediaDirSize => new DirectoryInfo(Config.MEDIA_DIR_PATH).GetFiles().Sum(x => x.Length).SizeSuffix();
         public static string? SessionCacheSize => SessionHandler.INSTANCE?.GetCacheSize().SizeSuffix();
         public static string? DBSize => SessionHandler.INSTANCE is null ? null : new FileInfo(SessionHandler.INSTANCE?.FileName!).Length.SizeSuffix();
@@ -112,15 +113,26 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             SessionHandler.INSTANCE!.SetPagesStackSize((int)e.NewValue);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void OpenThemeEditor(object sender, RoutedEventArgs e)
         {
             if (!await ThemeEditor.New())
                 new CVMessageBox("Errore!", "Editor temi già aperto").Inject();
+        }
+
+        private void OnPreviusTheme(object sender, RoutedEventArgs e)
+        {
+            var current = MainWindow.INSTANCE.CurrentTheme.Name;
+            var theme = ThemeOperations.THEMES.TakeWhile(x => x.Name != current).LastOrDefault(ThemeOperations.THEMES.Last());
+
+            MainWindow.INSTANCE.CurrentTheme = ThemeOperations.Get(theme);
+        }
+
+        private void OnNextTheme(object sender, RoutedEventArgs e)
+        {
+            var current = MainWindow.INSTANCE.CurrentTheme.Name;
+            var theme = ThemeOperations.THEMES.SkipWhile(x => x.Name != current).ElementAtOrDefault(1) ?? ThemeOperations.THEMES.First();
+
+            MainWindow.INSTANCE.CurrentTheme = ThemeOperations.Get(theme);
         }
     }
 }

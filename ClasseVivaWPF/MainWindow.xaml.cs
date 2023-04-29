@@ -32,16 +32,22 @@ namespace ClasseVivaWPF
 
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
-        Forms.ToolStripMenuItem? NotifyIcon = null;
+        public Forms.ToolStripMenuItem? NotifyIcon = null;
         private int PagesStackSize;
 
         public delegate void PostLoginEventHandler();
         public event PostLoginEventHandler PostLogin;
 
-        public BaseTheme CurrentTheme
+        public ITheme LastTheme;
+
+        public ITheme CurrentTheme
         {
-            get => (BaseTheme)GetValue(CurrentThemeProperty);
-            set => SetValue(CurrentThemeProperty, value);
+            get => (ITheme)GetValue(CurrentThemeProperty);
+            set
+            {
+                this.LastTheme = this.CurrentTheme;
+                SetValue(CurrentThemeProperty, value);
+            }
         }
 
         public SolidColorBrush DefaultFontColor
@@ -53,7 +59,9 @@ namespace ClasseVivaWPF
 
         static MainWindow()
         {
-            CurrentThemeProperty = DependencyProperty.Register("CurrentTheme", typeof(BaseTheme), typeof(MainWindow), new PropertyMetadata(new WhiteTheme()));
+            ThemeOperations.Register(ThemeCreator.New<WhiteTheme>());
+
+            CurrentThemeProperty = DependencyProperty.Register("CurrentTheme", typeof(ITheme), typeof(MainWindow), new PropertyMetadata(ThemeOperations.Get(Config.DEFAULT_THEME_NAME)));
             DefaultFontColorProperty = DependencyProperty.Register("DefaultFontColor", typeof(SolidColorBrush), typeof(MainWindow));
         }
 
@@ -232,7 +240,7 @@ namespace ClasseVivaWPF
 
             if (e.Key is Key.K)
             {
-                this.CurrentTheme = this.CurrentTheme is not EasterEggTheme ? new EasterEggTheme() : new WhiteTheme();
+                this.CurrentTheme = this.CurrentTheme is not EasterEggTheme ? new EasterEggTheme() : this.LastTheme;
             }
 
             if (e.Key is Key.Escape)

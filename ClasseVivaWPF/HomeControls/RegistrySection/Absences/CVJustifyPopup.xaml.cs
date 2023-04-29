@@ -38,12 +38,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
             InitializeComponent();
             this.DataContext = @event;
 
-            foreach (var item in Client.AllowedGiustifications)
+            foreach (var item in Event.AllowedGiustifications)
             {
                 this.wp.Children.Add(new RadioButton()
                 {
-                    Content = item.Desc,
-                    Tag = item.Code,
+                    Content = item.Value,
+                    Tag = item.Key,
                 });
                 this.wp.Children.Add(new Line());
             }

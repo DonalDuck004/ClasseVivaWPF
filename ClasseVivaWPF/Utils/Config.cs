@@ -13,6 +13,8 @@ namespace ClasseVivaWPF.Utils
         public const double HEADER_HEIGHT = 48.0D;
         public static readonly GridLength HEADER_HEIGHT_GL = new GridLength(HEADER_HEIGHT);
 
+        public const string DEFAULT_THEME_NAME = "WhiteTheme";
+
         public const int NOTIFY_UPDATE_DELAY = 60000;
 
 #if DEBUG
@@ -31,8 +33,9 @@ namespace ClasseVivaWPF.Utils
 
         public static readonly string INSTALL_PATH = Directory.GetParent(Assembly.GetExecutingAssembly().Location)!.FullName;
 
-        public static readonly string MEDIA_DIR_PATH = Path.Join(INSTALL_PATH, "media");
+        public static readonly string MEDIA_DIR_PATH = Path.Join(INSTALL_PATH, "Media");
         public static readonly string SESSIONS_DIR_PATH = Path.Join(INSTALL_PATH, "Sessions");
+        public static readonly string THEMES_DIR_PATH = Path.Join(INSTALL_PATH, "Themes");
 
         public static readonly (int, int, string, string) VERSION = (3, 0, "development version", "dev");
         public static string VERSION_SHORTEST_STRING => $"{VERSION.Item1}.{VERSION.Item2}";
@@ -52,7 +55,12 @@ namespace ClasseVivaWPF.Utils
 
             if (!Directory.Exists(SESSIONS_DIR_PATH))
                 Directory.CreateDirectory(SESSIONS_DIR_PATH);
-        }
 
+            if (!Directory.Exists(LOG_DIR_PATH))
+                Directory.CreateDirectory(LOG_DIR_PATH);
+
+            if (!Directory.Exists(THEMES_DIR_PATH))
+                Directory.CreateDirectory(THEMES_DIR_PATH);
+        }
     }
 }

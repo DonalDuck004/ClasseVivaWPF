@@ -11,7 +11,7 @@ namespace ClasseVivaWPF.Api
 
         static Response()
         {
-            settings = new JsonSerializerSettings() {
+            settings = new() {
 #if DEBUG
                 MissingMemberHandling = MissingMemberHandling.Error
 #endif

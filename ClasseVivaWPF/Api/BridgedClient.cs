@@ -15,17 +15,6 @@ namespace ClasseVivaWPF.Api
     {
         public const string WEB_APP_BASE = "https://web.spaggiari.eu/tic/app/default/";
 
-        public static readonly (string Code, string Desc)[] AllowedGiustifications = new[] { 
-            ("", "Nessuno"),
-            ("A", "Salute"),
-            ("AC", "Certificato Medico"),
-            ("B", "Famiglia"),
-            ("C", "Altro"),
-            ("D", "Trasporto"),
-            ("E", "Sciopero"),
-        };
-        public static string[] AllowedGiustificationsCodes => AllowedGiustifications.Select(x => x.Code).ToArray();
-
         private string BuildUrl(string path, JObject? @params)
         {
             var url = WEB_APP_BASE + path;
@@ -64,7 +53,7 @@ namespace ClasseVivaWPF.Api
         {
             Debug.Assert(!absence.IsEarlyExit);
             Debug.Assert(origin is null);
-            Debug.Assert(AllowedGiustificationsCodes.Contains(reason_code));
+            Debug.Assert(Event.AllowedGiustificationsCodes.Contains(reason_code));
             origin = "";
 
             var @event = absence.IsLate ? "R" : absence.IsAbsence ? "A" : "U";

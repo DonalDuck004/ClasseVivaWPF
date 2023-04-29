@@ -1,7 +1,9 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace ClasseVivaWPF.Api.Types
 {
@@ -33,6 +35,22 @@ namespace ClasseVivaWPF.Api.Types
 
         [JsonIgnore]
         public string FormattedHoursAbsence => HoursAbsence.Length == 0 ? "" : HoursAbsence.Length == 2 ? $"{HoursAbsence[0]} - {HoursAbsence[1]}" : string.Join("; ", HoursAbsence);
+
+        [JsonIgnore]
+        public string? JustifReasonCodeBasedDesc => JustifReasonCode is null ? null : AllowedGiustifications[this.JustifReasonCode];
+
+        public static readonly Dictionary<string, string> AllowedGiustifications = new() {
+            { "", "Nessuno" },
+            { "A", "Salute" },
+            { "AC", "Certificato Medico" },
+            { "B", "Famiglia" },
+            { "C", "Altro" },
+            { "D", "Trasporto" },
+            { "E", "Sciopero" },
+        };
+
+        public static string[] AllowedGiustificationsCodes => AllowedGiustifications.Keys.ToArray();
+
 
         public override void BuildNotifyText(ToastContentBuilder toast)
         {
