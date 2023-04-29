@@ -76,21 +76,18 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
-            if (EditedFlag)
+            this.ApplyCurrent = !this.EditedFlag;
+
+            if (this.EditedFlag)
             {
                 var confirm = MessageBox.Show("Non hai salvato il tema modificato, vuoi continuare?", "Tema non salvato", MessageBoxButton.OKCancel);
 
                 if (confirm is MessageBoxResult.Cancel)
                 {
-                    this.ApplyCurrent = false;
                     e.Cancel = true;
                     return;
                 }
-                else
-                    this.ApplyCurrent = true;
-
-            }else
-                this.ApplyCurrent = false;
+            }
         }
 
         private void OnSave(object sender, RoutedEventArgs e)

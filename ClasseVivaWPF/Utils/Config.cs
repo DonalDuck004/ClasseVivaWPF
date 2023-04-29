@@ -37,7 +37,7 @@ namespace ClasseVivaWPF.Utils
         public static readonly string SESSIONS_DIR_PATH = Path.Join(INSTALL_PATH, "Sessions");
         public static readonly string THEMES_DIR_PATH = Path.Join(INSTALL_PATH, "Themes");
 
-        public static readonly (int, int, string, string) VERSION = (3, 0, "development version", "dev");
+        public static readonly (int, int, string, string) VERSION = (3, 9, "development version", "dev");
         public static string VERSION_SHORTEST_STRING => $"{VERSION.Item1}.{VERSION.Item2}";
         public static string VERSION_SHORT_STRING => $"{VERSION_SHORTEST_STRING} {VERSION.Item4}";
         public static string VERSION_LONG_STRING => $"{VERSION_SHORTEST_STRING} {VERSION.Item3}";
