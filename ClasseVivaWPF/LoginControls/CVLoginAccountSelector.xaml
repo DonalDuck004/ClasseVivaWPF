@@ -8,7 +8,7 @@
                    xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
                    mc:Ignorable="d" Background="#BF000000"
                    d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel Background="{themes:ThemeBinding Path=CVGenericBackground}" Width="400" VerticalAlignment="Center">
+    <DockPanel d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Width="400" VerticalAlignment="Center">
         <StackPanel Margin="10">
             <TextBlock Margin="32,0,0,0" Text="Scegli l'account da utilizzare come principale" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"></TextBlock>
             <StackPanel x:Name="Choices"></StackPanel>

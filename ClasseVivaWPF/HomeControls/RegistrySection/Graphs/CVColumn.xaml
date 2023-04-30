@@ -20,7 +20,7 @@
             HorizontalAlignment="Center"
             FontWeight="DemiBold"
             Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=''}"
-            Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
+            d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
         <Rectangle Grid.Row="1" Fill="{Binding Path=PercentageColor}">
             <Rectangle.ToolTip>
                 <ToolTip>

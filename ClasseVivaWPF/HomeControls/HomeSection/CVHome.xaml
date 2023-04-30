@@ -7,7 +7,7 @@
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.HomeSection"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
-             mc:Ignorable="d" Loaded="OnLoad" Background="{themes:ThemeBinding Path=CVGenericBackground}"
+             mc:Ignorable="d" Loaded="OnLoad" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -19,7 +19,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Background="#33000000">
-            <Grid x:Name="MenuHeader" Background="{themes:ThemeBinding Path=CVDayHomeContainer}">
+            <Grid x:Name="MenuHeader" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVDayHomeContainer}">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -45,8 +45,8 @@
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" MouseLeftButtonDown="OnOpenCalendar" Margin="0,0,0,2" Cursor="Hand" Focusable="False">
                     <WrapPanel Background="Transparent">
-                        <ContentControl x:Name="CalendarIcon" Background="{themes:ThemeBinding Path=CVHomeCurrentDay}" Template="{StaticResource ResourceKey=CalendarIcon}" Width="16" Height="16"/>
-                        <TextBlock Name="CurrentDayLbl" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVHomeCurrentDay}" Margin="3,1,0,0"></TextBlock>
+                        <ContentControl x:Name="CalendarIcon" d:Background="#FF6A96AE" Background="{themes:ThemeBinding Path=CVHomeCurrentDay}" Template="{StaticResource ResourceKey=CalendarIcon}" Width="16" Height="16"/>
+                        <TextBlock Name="CurrentDayLbl" VerticalAlignment="Center" d:Foreground="#FF6A96AE" Foreground="{themes:ThemeBinding Path=CVHomeCurrentDay}" Margin="3,1,0,0"></TextBlock>
                     </WrapPanel>
                 </StackPanel>
             </Grid>
@@ -63,7 +63,7 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
-            <Label Content="Nessun evento" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" FontSize="28" VerticalAlignment="Center" Name="NoEventsLabel"></Label>
+            <Label Content="Nessun evento" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" FontSize="28" VerticalAlignment="Center" Name="NoEventsLabel"></Label>
         </StackPanel>
         <local:CVHomeworksViewer HorizontalScrollBarVisibility="Disabled"
                                  VerticalScrollBarVisibility="Hidden" 
@@ -76,6 +76,6 @@
         </local:CVHomeworksViewer>
 
         <Label Grid.Row="2" Name="last_update_date" ContentStringFormat="Data aggiornamento: {0} (Clicca per aggiornare)" 
-               MouseLeftButtonDown="OnUpdateContent" Cursor="Hand" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></Label>
+               MouseLeftButtonDown="OnUpdateContent" Cursor="Hand" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></Label>
     </Grid>
 </UserControl>

@@ -24,8 +24,8 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Border Margin="20, 0, 0, 0" Width="48" Height="48" Background="{themes:ThemeBinding Path=CVGradeGRV2}" CornerRadius="100" Grid.RowSpan="3" VerticalAlignment="Top">
-            <Label Foreground="{themes:ThemeBinding Path=CVGradeFont}" Content="{Binding Path=Grade.DisplayValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" FontWeight="Medium"></Label>
+        <Border Margin="20, 0, 0, 0" Width="48" Height="48" d:Background="#FFC37F45" Background="{themes:ThemeBinding Path=CVGradeGRV2}" CornerRadius="100" Grid.RowSpan="3" VerticalAlignment="Top">
+            <Label d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGradeFont}" Content="{Binding Path=Grade.DisplayValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" FontWeight="Medium"></Label>
         </Border>
         <TextBlock Margin="5,0,0,0" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Grade.SkillDesc}"></TextBlock>
 

@@ -15,12 +15,12 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{themes:ThemeBinding Path=CVHeader}" Grid.Row="0">
+        <DockPanel d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Grid.Row="0">
             <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
-                <ContentControl Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
+                <ContentControl d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
             <DockPanel>
-                <Label Content="Impara Giocando" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" VerticalAlignment="Center" FontSize="26" FontWeight="SemiBold" Margin="0,2,0,0"></Label>
+                <Label Content="Impara Giocando" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" VerticalAlignment="Center" FontSize="26" FontWeight="SemiBold" Margin="0,2,0,0"></Label>
             </DockPanel>
         </DockPanel>
         <DockPanel Grid.Row="2">

@@ -18,6 +18,6 @@
             <Run Text="{Binding Path=CID}"></Run>.<Run Text="{Binding Path=Ident}"></Run>
         </TextBlock>
         <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=School}"></TextBlock>
-        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="{Binding Path=Name}" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="{Binding Path=Name}" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
     </Grid>
 </UserControl>

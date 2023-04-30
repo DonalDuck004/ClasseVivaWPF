@@ -13,7 +13,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}" Margin="5,0,5,0" Cursor="">
+        <TextBlock d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Margin="5,0,5,0" Cursor="">
             <Run Text="{Binding Path=Account.Name}"></Run> - <Run Text="{Binding Path=Account.Ident}"></Run>
         </TextBlock>
         <shared:CVButton Content="Logout" Grid.Column="1" Click="CVButton_Click"></shared:CVButton>

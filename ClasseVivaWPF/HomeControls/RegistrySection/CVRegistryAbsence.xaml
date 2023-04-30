@@ -23,7 +23,7 @@
                FontWeight="SemiBold"
                Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}"
                Background="{Binding Path=RectColor}"
-               Foreground="{themes:ThemeBinding Path=CVAbsencesFont}"
+               d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVAbsencesFont}"
                Content="{Binding Path=Count}" 
                VerticalContentAlignment="Center"
                HorizontalContentAlignment="Center"/>
@@ -32,12 +32,12 @@
                    Grid.Column="1"
                    Grid.Row="0"
                    Margin="10,0,0,0" 
-                   Foreground="{themes:ThemeBinding Path=CVGenericFont}"
+                   d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}"
                    FontSize="18"></TextBlock>
         <TextBlock Text="{Binding Path=ExtraDesc}" 
                    Grid.Column="1"
                    Grid.Row="1"
-                   Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
+                   d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
                    Margin="10,0,0,0" 
                    FontSize="12"></TextBlock>
     </Grid>

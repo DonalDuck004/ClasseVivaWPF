@@ -9,7 +9,7 @@
              xmlns:sessions="clr-namespace:ClasseVivaWPF.Sessions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid MinHeight="64" MaxHeight="96" Background="{themes:ThemeBinding Path=CVGenericBackground}">
+    <Grid MinHeight="64" MaxHeight="96" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -106,7 +106,7 @@
             </TextBlock>
         </Border>
 
-        <TextBlock Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+        <TextBlock Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
             <Run Text="{Binding Path=FormattedDate, Mode=OneWay}"></Run>
             <Run Text="{Binding Path=EvtHPos, StringFormat='a {0}° ora'}">
                 <Run.Style>
@@ -121,7 +121,7 @@
                 </Run.Style>
             </Run>
         </TextBlock>
-        <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
+        <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
                    Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Top" Grid.Row="1"></TextBlock>
 
         <WrapPanel Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0">

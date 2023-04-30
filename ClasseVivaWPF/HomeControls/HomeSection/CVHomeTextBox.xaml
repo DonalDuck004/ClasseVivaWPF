@@ -28,8 +28,8 @@
                            Text="{Binding Path=Title}" Foreground="{Binding Path=FontColor}" 
                            Grid.Column="1" Grid.Row="0" FontSize="20" 
                            VerticalAlignment="Bottom" Margin="5,0,0,-8"></TextBlock>
-                <Label Content="{Binding Path=Hour}" ContentStringFormat="{}{0}° ora" Grid.Column="2" Grid.Row="0" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Center" VerticalContentAlignment="Bottom"></Label>
-                <Label Content="{Binding Path=Hours}" ContentStringFormat="{}{0} hh" Grid.Column="2" Grid.Row="1" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" FontSize="8" VerticalAlignment="Top" HorizontalAlignment="Right" VerticalContentAlignment="Top" Margin="0,-10,0,0"></Label>
+                <Label Content="{Binding Path=Hour}" ContentStringFormat="{}{0}° ora" Grid.Column="2" Grid.Row="0" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+                <Label Content="{Binding Path=Hours}" ContentStringFormat="{}{0} hh" Grid.Column="2" Grid.Row="1" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" FontSize="8" VerticalAlignment="Top" HorizontalAlignment="Right" VerticalContentAlignment="Top" Margin="0,-10,0,0"></Label>
                 <Label Name="Row2Control" VerticalContentAlignment="Center" Foreground="{Binding Path=FontColor}" FontWeight="Normal" Content="{Binding Path=Row2}" Grid.Column="1" Grid.Row="1" FontSize="16"></Label>
                 <WrapPanel Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" VerticalAlignment="Center" Name="UpperImgWPContainer">
                     <ContentControl Template="{Binding Path=IconTemplate}" Height="32" Width="32" Name="UpperImgWP" Background="{Binding Path=FontColor}"></ContentControl>
@@ -38,7 +38,7 @@
                 <WrapPanel Grid.Column="1" Grid.Row="4" Margin="0,3,0,8" Grid.ColumnSpan="3" Name="last_wp">
                     <RichTextBox IsDocumentEnabled="True" VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" 
                                  BorderThickness="0" Background="{Binding Path=BackgroundColor}" 
-                                 SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" Name="ContentTextBox">
+                                 d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" Name="ContentTextBox">
                         <FlowDocument Foreground="{Binding Path=FontColor}">
                             <Paragraph Name="lesson_txt"></Paragraph>
                         </FlowDocument>

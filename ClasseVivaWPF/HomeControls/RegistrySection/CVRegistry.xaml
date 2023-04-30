@@ -32,7 +32,7 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
                       HorizontalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="wp" Background="{themes:ThemeBinding Path=CVGenericRed}">
+            <StackPanel x:Name="wp" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVGenericRed}">
                 <Grid>
                     <shared:CVReloadButton MouseLeftButtonDown="OnReload" Height="32" Width="32" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="22" Panel.ZIndex="1"></shared:CVReloadButton>
                     <StackPanel>
@@ -45,7 +45,7 @@
                                 <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
                             </Style>
                         </StackPanel.Resources>
-                        <Border Margin="10,10,10,5" Background="{themes:ThemeBinding Path=CVGenericBackground}" CornerRadius="25">
+                        <Border Margin="10,10,10,5" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" CornerRadius="25">
                             <StackPanel Style="{StaticResource ResourceKey=WaitForDataFetching}">
                                 <!--Seem to be too much expanded ^-->
                                 <Grid Name="upper_grid">
@@ -72,8 +72,8 @@
                                                                       Desc="Media Totale"
                                                                       Min="0" Max="10" 
                                                                       Value="NaN"
-                                                                      BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"
-                                                                      CenterColor="{themes:ThemeBinding Path=CVGenericBackground}"
+                                                                      d:BackgroundColor="#FFCCCCCC" BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"
+                                                                      d:CenterColor="#FFFFFFFF" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}"
                                                                       x:Name="AvgArc">
                                             </shared:CVProgressEllipse>
 
@@ -90,26 +90,26 @@
                                                         </Style>
                                                     </StackPanel.Resources>
                                                     <DockPanel x:Name="pps">
-                                                        <shared:CVProgressBar x:Name="sb_avg_1" Desc="Caricamento..." BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
-                                                        <shared:CVProgressBar x:Name="sb_avg_2" Desc="Caricamento..." BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_1" Desc="Caricamento..." d:BackgroundColor="#FFCCCCCC" BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_2" Desc="Caricamento..." d:BackgroundColor="#FFCCCCCC" BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
                                                     </DockPanel>
                                                 </StackPanel>
                                             </DockPanel>
                                         </Grid>
 
                                         <Grid Grid.Column="1" Margin="20,0,20,0" Height="{Binding ElementName=uc1, Path=ActualHeight}">
-                                            <Label Panel.ZIndex="1" Name="graph_loading" Visibility="{Binding Path=DataFetched,Converter={StaticResource ResourceKey=VisibilityConverter}, ConverterParameter=swap}" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" HorizontalAlignment="Center"></Label>
+                                            <Label Panel.ZIndex="1" Name="graph_loading" Visibility="{Binding Path=DataFetched,Converter={StaticResource ResourceKey=VisibilityConverter}, ConverterParameter=swap}" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" HorizontalAlignment="Center"></Label>
                                             <graphs:CVColumnsGraph x:Name="Graph" Margin="0,20,0,0"></graphs:CVColumnsGraph>
 
                                             <WrapPanel Margin="4,4,0,0" Panel.ZIndex="2" Cursor="">
                                                 <Border
                                                     Cursor="Hand"
-                                                    Background="{themes:ThemeBinding Path=CVGenericBackground}"
+                                                    d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}"
                                                     MouseLeftButtonDown="GraphSettingsClick"
                                                     Margin="{Binding Path=Margin, ElementName=Graph}"
                                                     VerticalAlignment="Top" HorizontalAlignment="Left"
                                                     CornerRadius="100" BorderBrush="Black" BorderThickness="0.4">
-                                                    <advicons:CVSettingsIcon Margin="1" BordersColor="Gray" Color="Gray" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" Height="20" Width="20"></advicons:CVSettingsIcon>
+                                                    <advicons:CVSettingsIcon Margin="1" BordersColor="Gray" Color="Gray" d:CenterColor="#FFFFFFFF" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" Height="20" Width="20"></advicons:CVSettingsIcon>
                                                 </Border>
                                             </WrapPanel>
                                             <Canvas HorizontalAlignment="Left" Panel.ZIndex="1" Name="cv">
@@ -143,7 +143,7 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Canvas.Resources>
-                                                <Border CornerRadius="16" Background="{themes:ThemeBinding Path=CVGenericBackground}"
+                                                <Border CornerRadius="16" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}"
                                                         BorderThickness="0.3" BorderBrush="Black"
                                                         Canvas.Top="-68" Panel.ZIndex="1"
                                                         x:Name="GraphWrapper" Canvas.Left="0"
@@ -229,7 +229,7 @@
                                                     </StackPanel.Resources>
                                                 </StackPanel>
                                             </ScrollViewer>
-                                            <Label Panel.ZIndex="1" Name="grades_placeholder" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" HorizontalAlignment="Center"></Label>
+                                            <Label Panel.ZIndex="1" Name="grades_placeholder" Content="Caricamento...." FontSize="28" VerticalAlignment="Center" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" HorizontalAlignment="Center"></Label>
                                         </Grid>
                                     </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="0,10,0,0">
@@ -249,10 +249,10 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" RectColor="{themes:ThemeBinding Path=CVAbsencesAbsent}" Desc="Assenze"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="l" Grid.Column="1" RectColor="{themes:ThemeBinding Path=CVAbsencesLate}" Desc="Ritardi"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="2" RectColor="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}" Desc="Assenze Parziali"></local:CVRegistryAbsence>
-                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" RectColor="{themes:ThemeBinding Path=CVAbsencesEarlyExit}" Desc="Uscite"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="abs" Grid.Column="0" d:RectColor="#FFD05A50" RectColor="{themes:ThemeBinding Path=CVAbsencesAbsent}" Desc="Assenze"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="l" Grid.Column="1" d:RectColor="#FFEB9850" RectColor="{themes:ThemeBinding Path=CVAbsencesLate}" Desc="Ritardi"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="pabs" Grid.Column="2" d:RectColor="#FF0080B8" RectColor="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}" Desc="Assenze Parziali"></local:CVRegistryAbsence>
+                                            <local:CVRegistryAbsence x:Name="ee" Grid.Column="3" d:RectColor="#FFDBB73B" RectColor="{themes:ThemeBinding Path=CVAbsencesEarlyExit}" Desc="Uscite"></local:CVRegistryAbsence>
                                         </Grid>
                                     </StackPanel>
                                 </Grid>

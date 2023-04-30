@@ -8,11 +8,11 @@
              mc:Ignorable="d" Height="0"
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <Border Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" MaxHeight="128">
+        <Border d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" MaxHeight="128">
             <DockPanel>
-                <TextBlock Text="{Binding Path=HeaderName}" FontWeight="DemiBold" FontSize="14" Foreground="{themes:ThemeBinding Path=CVGenericRed}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="16,0,0,0"></TextBlock>
-                <Border CornerRadius="3" Margin="0,4,16,4" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Background="{themes:ThemeBinding Path=CVGenericRed}" HorizontalAlignment="Right">
-                    <TextBlock FontWeight="DemiBold" Margin="4" HorizontalAlignment="Center" Text="0" Name="Counter" Foreground="{themes:ThemeBinding Path=CVGenericOpaqueBackground}"></TextBlock>
+                <TextBlock Text="{Binding Path=HeaderName}" FontWeight="DemiBold" FontSize="14" d:Foreground="#FFC62828" Foreground="{themes:ThemeBinding Path=CVGenericRed}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="16,0,0,0"></TextBlock>
+                <Border CornerRadius="3" Margin="0,4,16,4" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVGenericRed}" HorizontalAlignment="Right">
+                    <TextBlock FontWeight="DemiBold" Margin="4" HorizontalAlignment="Center" Text="0" Name="Counter" d:Foreground="#FFF0F0F0" Foreground="{themes:ThemeBinding Path=CVGenericOpaqueBackground}"></TextBlock>
                 </Border>
             </DockPanel>
         </Border>

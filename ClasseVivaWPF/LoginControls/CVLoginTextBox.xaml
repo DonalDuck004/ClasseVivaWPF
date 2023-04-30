@@ -7,7 +7,7 @@
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.LoginControls"
              mc:Ignorable="d"
-             d:DesignHeight="70" d:DesignWidth="800" Background="{themes:ThemeBinding Path=CVGenericBackground}">
+             d:DesignHeight="70" d:DesignWidth="800" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}">
     <UserControl.Resources>
         <Storyboard x:Name="show_popup" x:Key="show_popup">
             <DoubleAnimation From="0" To="1" Duration="0:0:0.4" Storyboard.TargetProperty="Opacity"></DoubleAnimation>
@@ -62,7 +62,7 @@
                 </Style>
             </Label.Style>
         </Label>
-        <Label Content="{Binding Path=PlaceHolder}" Grid.Row="1" VerticalContentAlignment="Center" Name="placeholder_txt" HorizontalAlignment="Left" Width="{Binding Path=ActualWidth, ElementName=Input}" Background="{themes:ThemeBinding Path=CVTextBoxBackground}" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
+        <Label Content="{Binding Path=PlaceHolder}" Grid.Row="1" VerticalContentAlignment="Center" Name="placeholder_txt" HorizontalAlignment="Left" Width="{Binding Path=ActualWidth, ElementName=Input}" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVTextBoxBackground}" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
             <Label.Style>
                 <Style TargetType="Label">
                     <Setter Property="Visibility" Value="Hidden"/>
@@ -74,7 +74,7 @@
                 </Style>
             </Label.Style>
         </Label>
-        <TextBox x:Name="Input" CaretBrush="{themes:ThemeBinding Path=CVGenericRed}"  BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" TextChanged="Input_TextChanged">
+        <TextBox x:Name="Input" d:CaretBrush="#FFC62828" CaretBrush="{themes:ThemeBinding Path=CVGenericRed}"  BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" TextChanged="Input_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Setter Property="BorderBrush" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
@@ -99,10 +99,10 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Rectangle Width="12" Height="12" Fill="{themes:ThemeBinding Path=CVGenericRed}" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,4,0" Visibility="Hidden" x:Name="warn_symbol"></Rectangle>
+        <Rectangle Width="12" Height="12" d:Fill="#FFC62828" Fill="{themes:ThemeBinding Path=CVGenericRed}" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,4,0" Visibility="Hidden" x:Name="warn_symbol"></Rectangle>
         <StackPanel Width="90" Height="30" HorizontalAlignment="Right" Grid.Row="2" Visibility="Hidden" x:Name="warn_box">
             <Canvas>
-                <Path Fill="{themes:ThemeBinding Path=CVGenericRed}">
+                <Path d:Fill="#FFC62828" Fill="{themes:ThemeBinding Path=CVGenericRed}">
                     <Path.Data>
                         <PathGeometry>
                             <PathGeometry.Figures>

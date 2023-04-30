@@ -10,20 +10,20 @@
                    xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
                    mc:Ignorable="d" Loaded="OnLoad" x:Name="ot"
                    d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{themes:ThemeBinding Path=CVGenericBackground}" Name="wp">
+    <Grid d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Name="wp">
         <Grid.RowDefinitions>
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" Background="{themes:ThemeBinding Path=CVHeader}">
+        <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
             <WrapPanel Panel.ZIndex="1" HorizontalAlignment="Left" Grid.Column="0" MouseLeftButtonDown="OnClose" Cursor="Hand" Width="48" Background="Transparent">
-                <ContentControl x:Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}" Background="{themes:ThemeBinding Path=CVBackIcon}"/>
+                <ContentControl x:Name="BackIcon" Template="{StaticResource ResourceKey=BackIcon}" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}"/>
             </WrapPanel>
             <shared:CVReloadButton Margin="5" Grid.Column="2" MouseLeftButtonDown="ReloadBtn" Height="32" Width="32" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="1"></shared:CVReloadButton>
         </DockPanel>
         <TextBlock Grid.Row="1" Text="Caricamento..." HorizontalAlignment="Center"
                    VerticalAlignment="Center" FontSize="48" Panel.ZIndex="1"
-                   Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Opacity="0">
+                   d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" Opacity="0">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Style.Triggers>
@@ -80,7 +80,7 @@
 
             <Border CornerRadius="0,0,10,10" Grid.ColumnSpan="2" 
                     HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Background="{themes:ThemeBinding Path=CVGenericBackground}" Panel.ZIndex="1"
+                    d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Panel.ZIndex="1"
                     BorderThickness="0.2" BorderBrush="Black">
                 <StackPanel Margin="4" Orientation="Horizontal">
                     <StackPanel.Resources>
@@ -93,23 +93,23 @@
                         </Style>
                     </StackPanel.Resources>
                     <WrapPanel>
-                        <Border CornerRadius="100" Width="12" Height="12" Background="{themes:ThemeBinding Path=CVAbsencesPresent}"></Border>
+                        <Border CornerRadius="100" Width="12" Height="12" d:Background="#FF83B588" Background="{themes:ThemeBinding Path=CVAbsencesPresent}"></Border>
                         <TextBlock Text="Presenza"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Border CornerRadius="100" Width="12" Height="12" Background="{themes:ThemeBinding Path=CVAbsencesAbsent}"></Border>
+                        <Border CornerRadius="100" Width="12" Height="12" d:Background="#FFD05A50" Background="{themes:ThemeBinding Path=CVAbsencesAbsent}"></Border>
                         <TextBlock Text="Assenza"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Border CornerRadius="100" Width="12" Height="12" Background="{themes:ThemeBinding Path=CVAbsencesEarlyExit}"></Border>
+                        <Border CornerRadius="100" Width="12" Height="12" d:Background="#FFDBB73B" Background="{themes:ThemeBinding Path=CVAbsencesEarlyExit}"></Border>
                         <TextBlock Text="Uscita anticipata"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Border CornerRadius="100" Width="12" Height="12" Background="{themes:ThemeBinding Path=CVAbsencesLate}"></Border>
+                        <Border CornerRadius="100" Width="12" Height="12" d:Background="#FFEB9850" Background="{themes:ThemeBinding Path=CVAbsencesLate}"></Border>
                         <TextBlock Text="Ritardo"></TextBlock>
                     </WrapPanel>
                     <WrapPanel>
-                        <Border CornerRadius="100" Width="12" Height="12" Background="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}"></Border>
+                        <Border CornerRadius="100" Width="12" Height="12" d:Background="#FF0080B8" Background="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}"></Border>
                         <TextBlock Text="Assenza Paziale"></TextBlock>
                     </WrapPanel>
                 </StackPanel>

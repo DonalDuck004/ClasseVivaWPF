@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <Border VerticalAlignment="Top" Background="{Binding Path=EllipseColor}" Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="100">
-            <Label Content="{Binding Path=Grade.DisplayValue}" Foreground="{themes:ThemeBinding Path=CVGradeFont}" FontSize="24" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+            <Label Content="{Binding Path=Grade.DisplayValue}" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGradeFont}" FontSize="24" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
         </Border>
         <Grid Grid.Column="1" Margin="16,0,0,0" x:Name="Grid">
             <Grid.Resources>
@@ -30,14 +30,14 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Path=Grade.SubjectDesc}" FontWeight="Regular"></TextBlock>
-            <TextBlock Grid.Row="1" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
+            <TextBlock Grid.Row="1" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
                 <Run Text="{Binding Path=Grade.EvtDate, Converter={StaticResource ResourceKey=DateTimeConverter}, ConverterParameter=dd MMMM yyyy -}"></Run>
                 <Run Text="{Binding Path=Grade.ComponentDesc}"></Run>
                 <Run Text="-"></Run>
                 <Run Text="{Binding Path=Grade.PeriodDesc}"></Run>
             </TextBlock>
-            <TextBlock Grid.Row="2" Text="{Binding Path=Grade.OldskillDesc}" Name="OldSkill" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
-            <TextBlock Grid.Row="3" Text="{Binding Path=Grade.NotesForFamily}" Name="Notes" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+            <TextBlock Grid.Row="2" Text="{Binding Path=Grade.OldskillDesc}" Name="OldSkill" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+            <TextBlock Grid.Row="3" Text="{Binding Path=Grade.NotesForFamily}" Name="Notes" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
         </Grid>
     </Grid>
 </local:CVGradeBase>

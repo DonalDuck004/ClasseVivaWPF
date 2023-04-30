@@ -14,9 +14,9 @@
             <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{themes:ThemeBinding Path=CVHeader}">
+        <DockPanel d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
             <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
-                <ContentControl Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
+                <ContentControl d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </DockPanel>
         <wv2:WebView2 Source="{Binding Uri}" Grid.Row="2" Name="WebView">

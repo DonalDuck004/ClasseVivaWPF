@@ -8,7 +8,7 @@
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
-             mc:Ignorable="d" Background="{themes:ThemeBinding Path=CVGenericBackground}"
+             mc:Ignorable="d" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="wp">
         <Grid.RowDefinitions>
@@ -19,16 +19,16 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="{Binding Path=ActualWidth, Converter={StaticResource DivisionConverter}, ConverterParameter=3, ElementName=wp}"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Background="{themes:ThemeBinding Path=CVHeader}" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <WrapPanel Grid.Column="0" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent" MouseLeftButtonDown="OnClose">
-                <ContentControl Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
+                <ContentControl d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
             <DockPanel Grid.Column="1">
-                <Label Content="ClasseViva Extra" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" VerticalAlignment="Center" FontSize="26" FontWeight="SemiBold" Margin="0,2,0,0"></Label>
+                <Label Content="ClasseViva Extra" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" VerticalAlignment="Center" FontSize="26" FontWeight="SemiBold" Margin="0,2,0,0"></Label>
             </DockPanel>
         </Grid>
         <Grid Grid.Row="1" Margin="32">
@@ -60,7 +60,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </Border>
-            <Border Grid.Row="1" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" CornerRadius="0,0,30,30">
+            <Border Grid.Row="1" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" CornerRadius="0,0,30,30">
                 <Grid>
                     <Grid.Style>
                         <Style TargetType="Grid">
@@ -103,7 +103,7 @@
                             </Border.Style>
                             <Viewbox Height="32" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <WrapPanel Margin="00.5,2,0,0" Background="Transparent" Width="48" Height="48">
-                                    <ContentControl Background="{themes:ThemeBinding Path=CVExtraInteractIcons}" Template="{StaticResource ResourceKey=FilledHeartIcon}"/>
+                                    <ContentControl d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVExtraInteractIcons}" Template="{StaticResource ResourceKey=FilledHeartIcon}"/>
                                 </WrapPanel>
                             </Viewbox>
                         </Border>
@@ -120,7 +120,7 @@
                             </Border.Style>
                             <Viewbox Height="32" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <WrapPanel Margin="2,0,0,0" Background="Transparent" Width="50" Height="50">
-                                    <ContentControl Background="{themes:ThemeBinding Path=CVExtraInteractIcons}" Template="{StaticResource ResourceKey=FilledSaveIcon}"/>
+                                    <ContentControl d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVExtraInteractIcons}" Template="{StaticResource ResourceKey=FilledSaveIcon}"/>
                                 </WrapPanel>
                             </Viewbox>
                         </Border>
@@ -143,7 +143,7 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Name="Points">
                             <Canvas Width="0" Height="0">
                                 <Canvas x:Name="Pointer" Width="12" Height="12" Canvas.Left="80" Margin="0,-6,0,0">
-                                    <Border Background="{themes:ThemeBinding Path=CVGenericRed}" Margin="0,0,0,0"></Border>
+                                    <Border d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVGenericRed}" Margin="0,0,0,0"></Border>
                                 </Canvas>
                             </Canvas>
                         </StackPanel>

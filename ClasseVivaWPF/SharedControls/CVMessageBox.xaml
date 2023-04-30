@@ -9,7 +9,7 @@
                    xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
                    mc:Ignorable="d" 
                    d:DesignHeight="450" d:DesignWidth="800" Background="#BF000000">
-    <DockPanel Background="{themes:ThemeBinding Path=CVGenericBackground}" Width="400" Height="250" VerticalAlignment="Center">
+    <DockPanel d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Width="400" Height="250" VerticalAlignment="Center">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="43"></RowDefinition>

@@ -11,7 +11,7 @@
              d:DesignHeight="128" d:DesignWidth="800">
     <Grid ClipToBounds="True">
         <Canvas x:Name="GradeStackWP" Margin="{Binding Path=ActualHeight, ElementName=grid, Converter={StaticResource ResourceKey=ThicknessConverter}, ConverterParameter=Top}" Height="0">
-            <StackPanel Orientation="Vertical" Name="GradeStack" Width="{Binding ElementName=GradeStackWP, Path=ActualWidth}" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" Cursor="">
+            <StackPanel Orientation="Vertical" Name="GradeStack" Width="{Binding ElementName=GradeStackWP, Path=ActualWidth}" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" Cursor="">
                 <StackPanel.Resources>
                     <Style TargetType="local:CVGrade">
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
@@ -19,7 +19,7 @@
                 </StackPanel.Resources>
             </StackPanel>
         </Canvas>
-        <Grid x:Name="grid" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonUp="OnMouseUp" MouseLeftButtonDown="OnMouseDown" VerticalAlignment="Top" Cursor="Hand">
+        <Grid x:Name="grid" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonUp="OnMouseUp" MouseLeftButtonDown="OnMouseDown" VerticalAlignment="Top" Cursor="Hand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="9"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -31,9 +31,9 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle Margin="5,5,0,5" Name="SubjectColor" Grid.RowSpan="2"></Rectangle>
-            <TextBlock Name="Subject" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="24" Margin="10,5,0,0" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Cursor=""></TextBlock>
-            <TextBlock Margin="10,5,0,5" Name="Teachers" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontSize="18" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
-            <shared:CVProgressEllipse CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" Max="10" x:Name="avg" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" Width="80" Margin="0,0,16,0" Cursor=""></shared:CVProgressEllipse>
+            <TextBlock Name="Subject" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="24" Margin="10,5,0,0" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Cursor=""></TextBlock>
+            <TextBlock Margin="10,5,0,5" Name="Teachers" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontSize="18" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+            <shared:CVProgressEllipse d:CenterColor="#FFFFFFFF" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" Max="10" x:Name="avg" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" Width="80" Margin="0,0,16,0" Cursor=""></shared:CVProgressEllipse>
         </Grid>
     </Grid>
 </UserControl>

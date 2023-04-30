@@ -54,8 +54,8 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Content="QR Code" Grid.Column="0" Background="{themes:ThemeBinding Path=CVHeader}"></Label>
-                <Label Content="Bar Code" Grid.Column="1" Background="{themes:ThemeBinding Path=CVHeader}"></Label>
+                <Label Content="QR Code" Grid.Column="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}"></Label>
+                <Label Content="Bar Code" Grid.Column="1" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}"></Label>
             </Grid>
         </DockPanel>
         <Grid Grid.Row="0" Grid.RowSpan="2">
@@ -67,10 +67,10 @@
                     Panel.ZIndex="1">
                 <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp}"
                            Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
-                           Fill="{themes:ThemeBinding Path=CVHeader}"></Rectangle>
+                           d:Fill="#FFC62828" Fill="{themes:ThemeBinding Path=CVHeader}"></Rectangle>
                 <Rectangle Width="{Binding Path=ActualWidth, ElementName=wp_canvas}"
                                Height="{Binding Path=ActualHeight, ElementName=wp_canvas}"
-                               Fill="{themes:ThemeBinding Path=CVMultiMenuFontSlider}" Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=2}"></Rectangle>
+                               d:Fill="#FFFFFFFF" Fill="{themes:ThemeBinding Path=CVMultiMenuFontSlider}" Canvas.Left="{Binding Path=HorizontalOffset, ElementName=Scroller, Converter={StaticResource DivisionConverter}, ConverterParameter=2}"></Rectangle>
             </Canvas>
             <DockPanel x:Name="scroller_wp" Panel.ZIndex="0">
                 <ScrollViewer x:Name="Scroller"

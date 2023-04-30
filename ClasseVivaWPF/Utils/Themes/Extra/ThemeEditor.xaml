@@ -37,7 +37,7 @@
             <Rectangle></Rectangle>
             <Rectangle></Rectangle>
         </WrapPanel>
-        <DockPanel Width="300" Height="410" d:Background="White" Background="{themes:ThemeBinding Path=CVGenericRed}" Panel.ZIndex="1">
+        <DockPanel Width="300" Height="410" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVGenericRed}" Panel.ZIndex="1">
             <DockPanel.Style>
                 <Style TargetType="DockPanel">
                     <Setter Property="Canvas.Left" Value="-300"></Setter>
@@ -62,14 +62,14 @@
                 </Style>
             </DockPanel.Style>
         </DockPanel>
-        <Grid Background="{themes:ThemeBinding Path=CVGenericBackground}" Height="410" Width="800">
+        <Grid d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Height="410" Width="800">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <DockPanel Background="{themes:ThemeBinding Path=CVHeader}" Grid.Row="0">
-                <TextBlock Margin="42,0,0,0" Text="{Binding Path=CurrentTheme.Name, Source={x:Static root:MainWindow.INSTANCE}}" VerticalAlignment="Center" FontSize="24" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"></TextBlock>
+            <DockPanel d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Grid.Row="0">
+                <TextBlock Margin="42,0,0,0" Text="{Binding Path=CurrentTheme.Name, Source={x:Static root:MainWindow.INSTANCE}}" VerticalAlignment="Center" FontSize="24" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"></TextBlock>
             </DockPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" Grid.Row="1" Margin="0,0,0,2">
                 <StackPanel x:Name="ThemePropertiesWP">

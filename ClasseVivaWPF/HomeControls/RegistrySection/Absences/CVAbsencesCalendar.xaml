@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Canvas VerticalAlignment="Center" Cursor="Hand" Height="18" Width="18" MouseLeftButtonDown="GoBackClick" Margin="12,0,0,0">
-                    <Path Fill="{themes:ThemeBinding Path=CVGenericFont}" Margin="2" Opacity="0.6">
+                    <Path d:Fill="#FF000000" Fill="{themes:ThemeBinding Path=CVGenericFont}" Margin="2" Opacity="0.6">
                         <Path.Data>
                             <PathGeometry>
                                 <PathGeometry.Figures>
@@ -35,10 +35,10 @@
                     </Path>
                 </Canvas>
                 <Canvas Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ElementName=date_header, Path=ActualWidth}" Height="{Binding ElementName=date_header, Path=ActualHeight}">
-                    <TextBlock Text="{Binding Path=SelectedDate, StringFormat='{}MMMM yyyy'}" FontSize="18" Name="date_header" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
+                    <TextBlock Text="{Binding Path=SelectedDate, StringFormat='{}MMMM yyyy'}" FontSize="18" Name="date_header" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}"></TextBlock>
                 </Canvas>
                 <Canvas Grid.Column="2" Cursor="Hand" VerticalAlignment="Center" Height="18" Width="18" MouseLeftButtonDown="GoNextClick" Margin="0,0,12,0">
-                    <Path Fill="{themes:ThemeBinding Path=CVGenericFont}" Margin="2" Opacity="0.6">
+                    <Path d:Fill="#FF000000" Fill="{themes:ThemeBinding Path=CVGenericFont}" Margin="2" Opacity="0.6">
                         <Path.Data>
                             <PathGeometry>
                                 <PathGeometry.Figures>

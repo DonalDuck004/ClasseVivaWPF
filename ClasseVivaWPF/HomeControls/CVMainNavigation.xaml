@@ -17,7 +17,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Name="Header" Grid.Row="0" Background="{themes:ThemeBinding Path=CVHeader}">
+        <Grid Name="Header" Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="159"></ColumnDefinition>
@@ -72,7 +72,7 @@
                         </PathGeometry>
                     </Path.Data>
                 </Path>
-                <Path Fill="{themes:ThemeBinding Path=CVGenericRed}" Panel.ZIndex="1">
+                <Path d:Fill="#FFC62828" Fill="{themes:ThemeBinding Path=CVGenericRed}" Panel.ZIndex="1">
                     <Path.Data>
                         <PathGeometry>
                             <PathGeometry.Figures>
@@ -84,7 +84,7 @@
                         </PathGeometry>
                     </Path.Data>
                 </Path>
-                <Border Name="top" Margin="5,0,0,0" Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.15" BorderBrush="Black" CornerRadius="5" Canvas.Top="9.85">
+                <Border Name="top" Margin="5,0,0,0" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.15" BorderBrush="Black" CornerRadius="5" Canvas.Top="9.85">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="4"></RowDefinition>
@@ -92,18 +92,18 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Background="{themes:ThemeBinding Path=CVGenericRed}" CornerRadius="5,5,0,0"></Border>
+                        <Border Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVGenericRed}" CornerRadius="5,5,0,0"></Border>
                         <StackPanel Grid.Row="1" Name="accounts_wp">
                         </StackPanel>
-                        <Rectangle Grid.Row="2" Height="0.7" Fill="{themes:ThemeBinding Path=CVGenericOpaqueBackground}"></Rectangle>
+                        <Rectangle Grid.Row="2" Height="0.7" d:Fill="#FFF0F0F0" Fill="{themes:ThemeBinding Path=CVGenericOpaqueBackground}"></Rectangle>
                         <StackPanel Grid.Row="3" Margin="0,0,0,3">
                             <WrapPanel MouseLeftButtonDown="OnAddAccount" Cursor="Hand" Background="Transparent">
-                                <ContentControl Width="32" Height="32" Template="{StaticResource ResourceKey=AddIcon}" Background="{themes:ThemeBinding Path=CVGenericFont}"></ContentControl>
-                                <Label VerticalAlignment="Center" Content="Aggiungi un account" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.Column="1" Grid.Row="0"></Label>
+                                <ContentControl Width="32" Height="32" Template="{StaticResource ResourceKey=AddIcon}" d:Background="#FF000000" Background="{themes:ThemeBinding Path=CVGenericFont}"></ContentControl>
+                                <Label VerticalAlignment="Center" Content="Aggiungi un account" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.Column="1" Grid.Row="0"></Label>
                             </WrapPanel>
                             <WrapPanel MouseLeftButtonDown="OnHandleAccounts" Cursor="Hand" Background="Transparent">
-                                <advicons:CVSettingsIcon Width="32" Height="32" Color="{themes:ThemeBinding Path=CVGenericFont}" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" BordersColor="{themes:ThemeBinding Path=CVGenericFont}"></advicons:CVSettingsIcon>
-                                <Label VerticalAlignment="Center" Content="Gestisci account" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.Column="1" Grid.Row="1"></Label>
+                                <advicons:CVSettingsIcon Width="32" Height="32" d:Color="#FF000000" Color="{themes:ThemeBinding Path=CVGenericFont}" d:CenterColor="#FFFFFFFF" CenterColor="{themes:ThemeBinding Path=CVGenericBackground}" d:BordersColor="#FF000000" BordersColor="{themes:ThemeBinding Path=CVGenericFont}"></advicons:CVSettingsIcon>
+                                <Label VerticalAlignment="Center" Content="Gestisci account" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.Column="1" Grid.Row="1"></Label>
                             </WrapPanel>
                         </StackPanel>
                     </Grid>
@@ -124,7 +124,7 @@
                         </Style.Triggers>
                     </Style>
                 </Canvas.Style>
-                <Border Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.15" BorderBrush="Black" CornerRadius="5">
+                <Border d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.15" BorderBrush="Black" CornerRadius="5">
                     <StackPanel x:Name="logout_wp"></StackPanel>
                 </Border>
             </Canvas>
@@ -133,7 +133,7 @@
         <DockPanel Name="Current" Grid.Row="1">
         </DockPanel>
 
-        <Grid Grid.Row="2" x:Name="wp_buttons" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}">
+        <Grid Grid.Row="2" x:Name="wp_buttons" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

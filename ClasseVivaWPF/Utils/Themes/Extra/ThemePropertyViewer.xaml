@@ -13,7 +13,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="property_name" Foreground="{themes:ThemeBinding Path=CVGenericFont}" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+        <TextBlock x:Name="property_name" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
         <DockPanel Grid.Column="1">
             <Border Width="48" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Gray" BorderThickness="1" Name="ColorViewer" Background="{Binding Path=BindendColor}" MouseLeftButtonDown="OpenColorPicker" Cursor="Hand">
                 <Border.ToolTip>

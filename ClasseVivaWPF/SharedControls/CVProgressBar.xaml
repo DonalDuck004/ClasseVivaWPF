@@ -14,7 +14,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=Desc}" Name="Header" FontSize="16"></TextBlock>
+        <TextBlock d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=Desc}" Name="Header" FontSize="16"></TextBlock>
         <Grid Grid.Row="1">
             <Canvas Height="18" Name="c" Width="{Binding Path=ActualWidth, ElementName=g}">
                 <Rectangle x:Name="to"
@@ -35,7 +35,7 @@
                     </Rectangle.Width>
                 </Rectangle>
             </Canvas>
-            <TextBlock Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
 
     </Grid>

@@ -8,7 +8,7 @@
                    xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
                    xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
                    xmlns:local="clr-namespace:ClasseVivaWPF.LoginControls"
-                   mc:Ignorable="d" Background="{themes:ThemeBinding Path=CVGenericBackground}"
+                   mc:Ignorable="d" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}"
                    d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,11 +16,11 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Background="{themes:ThemeBinding Path=CVHeader}">
+        <DockPanel DockPanel.Dock="Top" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
             <WrapPanel MouseLeftButtonDown="OnClose" x:Name="BackIcon" Background="Transparent" Cursor="Hand">
-                <ContentControl Width="48" Height="48" Template="{StaticResource ResourceKey=BackIcon}" Background="{themes:ThemeBinding Path=CVBackIcon}"></ContentControl>
+                <ContentControl Width="48" Height="48" Template="{StaticResource ResourceKey=BackIcon}" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}"></ContentControl>
             </WrapPanel>
-            <Label Content="Login" VerticalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" FontSize="20"></Label>
+            <Label Content="Login" VerticalAlignment="Center" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" FontSize="20"></Label>
         </DockPanel> 
         <StackPanel Grid.Row="1">
             <local:CVTextBox PlaceHolder="Username/Email" Margin="22,30,22,0" x:Name="username"></local:CVTextBox>
