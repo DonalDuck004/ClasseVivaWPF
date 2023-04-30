@@ -59,7 +59,8 @@ namespace ClasseVivaWPF
 
         static MainWindow()
         {
-            ThemeOperations.Register(ThemeCreator.New<WhiteTheme>());
+            ThemeOperations.Register(ThemeInitializer.New<WhiteTheme>());
+            ThemeOperations.LoadFromThemeDir();
 
             CurrentThemeProperty = DependencyProperty.Register("CurrentTheme", typeof(ITheme), typeof(MainWindow), new PropertyMetadata(ThemeOperations.Get(Config.DEFAULT_THEME_NAME)));
             DefaultFontColorProperty = DependencyProperty.Register("DefaultFontColor", typeof(SolidColorBrush), typeof(MainWindow));

@@ -2,48 +2,65 @@
 
 namespace ClasseVivaWPF.Utils.Themes
 {
-    public class ThemeCreator
+    public class ThemeInitializer
     {
+        public bool FromFile { get; init; }
         public Type? Type { get; init; }
         public string? Name { get; init; }
         public ITheme? INSTANCE { get; private set; }
 
-        private ThemeCreator()
+        private ThemeInitializer()
         {
 
         }
 
-        public static ThemeCreator New<T>(T instance) where T : ITheme
+        public static ThemeInitializer New<T>(T instance) where T : ITheme
         {
             return new()
             {
                 Type = null,
                 Name = instance.Name,
-                INSTANCE = instance
+                INSTANCE = instance,
+                FromFile = false
             };
         }
 
-        public static ThemeCreator New<T>() where T : ITheme
+        public static ThemeInitializer New<T>() where T : ITheme
         {
             return new()
             {
                 Type = typeof(T),
-                Name = typeof(T).Name
+                Name = typeof(T).Name,
+                FromFile = false
             };
         }
 
-        public static ThemeCreator New<T>(string Name) where T : IDynamicTheme, new()
+        public static ThemeInitializer New<T>(string Name) where T : IDynamicTheme, new()
         {
             return new()
             {
                 Type = typeof(T),
-                Name = Name
+                Name = Name,
+                FromFile = false
+            };
+        }
+
+        public static ThemeInitializer NewFromFile(string Name)
+        {
+            return new()
+            {
+                Name = Name,
+                FromFile = true
             };
         }
 
         public ITheme Create()
         {
-            if (this.INSTANCE is null)
+            if (this.FromFile)
+            {
+                this.INSTANCE = ThemeOperations.GetFromFile(this.Name!);
+            }
+            else if (this.INSTANCE is null)
             {
                 this.INSTANCE = (ITheme)Activator.CreateInstance(Type!)!;
 

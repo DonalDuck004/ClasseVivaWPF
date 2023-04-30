@@ -2,9 +2,9 @@
 
 namespace ClasseVivaWPF.Utils.Themes
 {
-    public class FromJSTheme : ITheme
+    public class FromJSTheme : IDynamicTheme
     {
-        public required string Name { get; init; }
+        public required string Name { get; set; }
         public bool Hidden { get; } = false;
 
         public required Color CV_GRADE_INSUFFICIENT { get; init; } 

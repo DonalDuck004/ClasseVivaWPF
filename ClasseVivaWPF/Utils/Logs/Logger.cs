@@ -43,7 +43,7 @@ namespace ClasseVivaWPF.Utils.Logs
 
                 while (true)
                 {
-                    while (File.Exists(path = Path.Join(Config.LOG_DIR_PATH, string.Format(Config.LOG_FILE_TEMPLATE, ++c))))
+                    while (File.Exists(path = Path.Join(Config.LOGS_DIR_PATH, string.Format(Config.LOG_FILE_TEMPLATE, ++c))))
                         ;
 
                     try

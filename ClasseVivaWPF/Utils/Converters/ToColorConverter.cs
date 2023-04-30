@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColorPicker.Models;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -14,6 +15,9 @@ namespace ClasseVivaWPF.Utils.Converters
 
         public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
         {
+            if (value is Color x)
+                return new SolidColorBrush(x);
+
             throw new NotSupportedException("ConvertBack should never be called");
         }
     }

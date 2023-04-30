@@ -43,7 +43,7 @@ namespace ClasseVivaWPF.Utils
         public static string VERSION_LONG_STRING => $"{VERSION_SHORTEST_STRING} {VERSION.Item3}";
         public static string VERSION_LONGEST_STRING => $"{VERSION_LONG_STRING} ({VERSION.Item4})";
 
-        public static readonly string LOG_DIR_PATH = Path.Join(INSTALL_PATH, "Logs");
+        public static readonly string LOGS_DIR_PATH = Path.Join(INSTALL_PATH, "Logs");
         public static readonly string LOG_FILE_TEMPLATE = $"Log_{DateTime.Now:dd_MM_yyyy}_{{0}}.log";
         public static readonly long MAX_LOG_SIZE = 0xFFFFFFFF; // 1 = 1 byte
         public static readonly int LOG_BUFF_SIZE = 0xFFF;
@@ -56,8 +56,8 @@ namespace ClasseVivaWPF.Utils
             if (!Directory.Exists(SESSIONS_DIR_PATH))
                 Directory.CreateDirectory(SESSIONS_DIR_PATH);
 
-            if (!Directory.Exists(LOG_DIR_PATH))
-                Directory.CreateDirectory(LOG_DIR_PATH);
+            if (!Directory.Exists(LOGS_DIR_PATH))
+                Directory.CreateDirectory(LOGS_DIR_PATH);
 
             if (!Directory.Exists(THEMES_DIR_PATH))
                 Directory.CreateDirectory(THEMES_DIR_PATH);

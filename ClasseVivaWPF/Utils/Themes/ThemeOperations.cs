@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace ClasseVivaWPF.Utils.Themes
 {
     public static class ThemeOperations
     {
-        public static List<ThemeCreator> THEMES = new List<ThemeCreator>();
+        public static List<ThemeInitializer> THEMES = new List<ThemeInitializer>();
         
         public const string CV_GRADE_NOTE_PATH = "CV_GRADE_NOTE";
 
@@ -77,12 +81,61 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_ACCOUNT_BUBBLE_FONT_PATH = "CV_ACCOUNT_BUBBLE_FONT";
         public const string CV_ACCOUNT_BUBBLE_PATH = "CV_ACCOUNT_BUBBLE";
 
-        public static void Register(ThemeCreator creator)
+        public static void Register(ThemeInitializer creator)
         {
             THEMES.Add(creator);
         }
 
-        public static ITheme Get(string name) => THEMES.Where(x => x.Name == name).First().Create();
-        public static ITheme Get(ThemeCreator creator) => creator.Create();
+        public static ThemeInitializer? GetCreator(string name) => THEMES.Where(x => x.Name == name).FirstOrDefault();
+        public static ITheme Get(string name) => GetCreator(name)!.Create();
+        public static ITheme Get(ThemeInitializer creator) => creator.Create();
+        public static bool Exists(string theme)
+        {
+            return THEMES.Where(x => x.Name == theme).Any();
+        }
+
+        public static ITheme GetFromFile(string name)
+        {
+            var path = Path.Join(Config.THEMES_DIR_PATH, name + ".theme.json");
+            var t = JsonConvert.DeserializeObject<FromJSTheme>(File.ReadAllText(path))!;
+            t.Name = name;
+
+            return t;
+        }
+
+        public static bool TryGetFromFile(string name, out ITheme? theme)
+        {
+            try
+            {
+                theme = GetFromFile(name);
+                return true;
+            }catch
+            {
+                theme = null;
+                return false;
+            }
+        }
+
+        public static void LoadFromThemeDir()
+        {
+            string theme_name;
+
+            foreach (var theme in Directory.GetFiles(Config.THEMES_DIR_PATH, "*.theme.json"))
+            {
+                theme_name = Path.GetFileName(theme);
+                theme_name = theme_name.Substring(0, theme_name.Length - 11);
+                ThemeOperations.Register(ThemeInitializer.NewFromFile(theme_name));
+            }
+        }
+
+        public static void Unregister(ThemeInitializer theme)
+        {
+            THEMES.Remove(theme);
+        }
+
+        public static bool ThemeFileExists(string name)
+        {
+            return File.Exists(Path.Join(Config.THEMES_DIR_PATH, name + ".theme.json"));
+        }
     }
 }

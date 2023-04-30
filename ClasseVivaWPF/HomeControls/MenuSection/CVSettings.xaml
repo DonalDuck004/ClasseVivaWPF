@@ -33,16 +33,19 @@
                         <Setter Property="Margin" Value="0,10,0,7"></Setter>
                         <Setter Property="FontSize" Value="18"></Setter>
                         <Setter Property="Foreground" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVSettingsSectionHeader}"></Setter>
+                        <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
                     </Style>
                     <Style TargetType="TextBlock" x:Key="VoiceTitle">
                         <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
                     </Style>
                     <Style TargetType="TextBlock" x:Key="Paragraph">
                         <Setter Property="FontSize" Value="12"></Setter>
                         <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         <Setter Property="Margin" Value="0,0,0,5"></Setter>
                         <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                        <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
                     </Style>
                     <Style TargetType="ContentControl" x:Key="SettingSetter">
                         <Setter Property="Grid.Column" Value="1"></Setter>
@@ -93,6 +96,10 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
@@ -107,10 +114,21 @@
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3">
                             <Run Name="ShowDBSize"></Run> utilizzati per il database
                             <LineBreak></LineBreak>
-                            <Run Name="ShowCache"></Run> utilizzati per la cache
+                            <Run Name="ShowCacheSize"></Run> utilizzati per la cache
                         </TextBlock>
                         <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenThemeEditor"></shared:CVButton>
                         <shared:CVButton Content="Svuota Cache" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Click="DropSessionCache"></shared:CVButton>
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Spazio Utilizzato Dai Log" Grid.Row="4"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="5">
+                            <Run Name="ShowLogsDirSize"></Run> utilizzati per i log
+                        </TextBlock>
+                        <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenLogsDir"></shared:CVButton>
+
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Spazio Utilizzato Dai Temi" Grid.Row="6"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="7">
+                            <Run Name="ShowThemesDirSize"></Run> utilizzati per i temi
+                        </TextBlock>
+                        <shared:CVButton Content="Apri Cartella" Grid.Column="1" Grid.RowSpan="2" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Left" Click="OpenThemesDir"></shared:CVButton>
                     </Grid>
                 </StackPanel>
                 <StackPanel>
