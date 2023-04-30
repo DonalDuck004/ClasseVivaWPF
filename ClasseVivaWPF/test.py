@@ -12,8 +12,6 @@ for file in files:
             span = setter.span()
             setter = setter.group(0)
             p = setter.split("=")[0]
-            if p == "Value":
-                continue
 
             path = r.group(1).strip("\"}") if (r := re.search(r"Path=(\S+)", setter)) else p.split(" ")[1]
             content = content[:span[0]] + f"d:{p}=\"{color_map[path]}\" {setter}" + content[span[1]:]

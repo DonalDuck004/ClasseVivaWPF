@@ -11,10 +11,10 @@
     <Border CornerRadius="25" BorderThickness="2" d:BorderBrush="#FFFFFFFF" BorderBrush="{themes:ThemeBinding Path=CVExtraHeaderEllipse}">
         <Border.Style>
             <Style TargetType="Border">
-                <Setter Property="Background" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                <Setter Property="Background" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVExtraHeaderEllipse}"></Setter>
+                        <Setter Property="Background" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVExtraHeaderEllipse}"></Setter>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -23,10 +23,10 @@
             <Label Content="{Binding HeaderText}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24">
                 <Label.Style>
                     <Style TargetType="Label">
-                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVExtraHeaderEllipse}"></Setter>
+                        <Setter Property="Foreground" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVExtraHeaderEllipse}"></Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                                <Setter Property="Foreground" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

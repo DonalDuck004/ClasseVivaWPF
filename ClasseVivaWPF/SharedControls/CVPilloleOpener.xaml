@@ -93,10 +93,10 @@
                         <Border CornerRadius="100" Width="50" Height="50"  Cursor="Hand" MouseLeftButtonDown="OnLikeBtnClick">
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <Setter Property="Background" Value="{themes:ThemeBinding Path=CVGenericGray}"></Setter>
+                                    <Setter Property="Background" d:Value="#FF808080" Value="{themes:ThemeBinding Path=CVGenericGray}"></Setter>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=Liked}" Value="True">
-                                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                                            <Setter Property="Background" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -110,10 +110,10 @@
                         <Border Margin="10,0,0,0" CornerRadius="100" Width="50" Height="50" Cursor="Hand" MouseLeftButtonDown="OnSaveBtnClick">
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <Setter Property="Background" Value="{themes:ThemeBinding Path=CVGenericGray}"></Setter>
+                                    <Setter Property="Background" d:Value="#FF808080" Value="{themes:ThemeBinding Path=CVGenericGray}"></Setter>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=Saved}" Value="True">
-                                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                                            <Setter Property="Background" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -136,7 +136,7 @@
                                 <Setter Property="Background" Value="Transparent"></Setter>
                                 <Setter Property="Cursor" Value="Hand"></Setter>
                                 <Setter Property="Margin" Value="5,0,5,0"></Setter>
-                                <Setter Property="BorderBrush" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                                <Setter Property="BorderBrush" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                                 <Setter Property="BorderThickness" Value="2"></Setter>
                             </Style>
                         </DockPanel.Resources>

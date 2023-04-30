@@ -89,7 +89,7 @@
                         </Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Margin" Value="4,0,0,0"></Setter>
-                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                            <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         </Style>
                     </StackPanel.Resources>
                     <WrapPanel>

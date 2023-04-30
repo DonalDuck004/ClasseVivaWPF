@@ -12,7 +12,7 @@
             <Style TargetType="Border">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IsPresent}" Value="True">
-                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesPresent}"></Setter>
+                        <Setter Property="Background" d:Value="#FF83B588" Value="{themes:ThemeBinding Path=CVAbsencesPresent}"></Setter>
                         <Setter Property="ToolTip">
                             <Setter.Value>
                                 <ToolTip>
@@ -22,7 +22,7 @@
                         </Setter>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=IsAbsent}" Value="True">
-                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesAbsent}"></Setter>
+                        <Setter Property="Background" d:Value="#FFD05A50" Value="{themes:ThemeBinding Path=CVAbsencesAbsent}"></Setter>
                         <Setter Property="ToolTip">
                             <Setter.Value>
                                 <ToolTip>
@@ -32,7 +32,7 @@
                         </Setter>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=IsLate}" Value="True">
-                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesLate}"></Setter>
+                        <Setter Property="Background" d:Value="#FFEB9850" Value="{themes:ThemeBinding Path=CVAbsencesLate}"></Setter>
                         <Setter Property="ToolTip">
                             <Setter.Value>
                                 <ToolTip>
@@ -42,7 +42,7 @@
                         </Setter>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=IsEarlyExit}" Value="True">
-                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesEarlyExit}"></Setter>
+                        <Setter Property="Background" d:Value="#FFDBB73B" Value="{themes:ThemeBinding Path=CVAbsencesEarlyExit}"></Setter>
                         <Setter Property="ToolTip">
                             <Setter.Value>
                                 <ToolTip>
@@ -52,7 +52,7 @@
                         </Setter>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=IsPartiallyAbsent}" Value="True">
-                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}"></Setter>
+                        <Setter Property="Background" d:Value="#FF0080B8" Value="{themes:ThemeBinding Path=CVAbsencesPartiallyAbsent}"></Setter>
                         <Setter Property="ToolTip">
                             <Setter.Value>
                                 <ToolTip>
@@ -69,10 +69,10 @@
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
-                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEventFont}"></Setter>
+                    <Setter Property="Foreground" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVAbsencesCalendarHasEventFont}"></Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=AllFalse}" Value="True">
-                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVAbsencesCalendarNoEventFont}"></Setter>
+                            <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVAbsencesCalendarNoEventFont}"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

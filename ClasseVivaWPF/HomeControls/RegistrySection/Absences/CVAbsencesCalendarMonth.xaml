@@ -13,7 +13,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center"></Setter>
                 <Setter Property="FontSize" Value="14"></Setter>
                 <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
-                <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericGrayFont}"></Setter>
+                <Setter Property="Foreground" d:Value="#FF6E6E6E" Value="{themes:ThemeBinding Path=CVGenericGrayFont}"></Setter>
             </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>

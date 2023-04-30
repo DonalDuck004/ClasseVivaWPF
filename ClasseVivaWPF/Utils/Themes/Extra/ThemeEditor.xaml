@@ -27,7 +27,7 @@
                     </Style.Triggers>
                 </Style>
                 <Style TargetType="Rectangle">
-                    <Setter Property="Fill" Value="{themes:ThemeBinding Path=CVGenericHeaderFont}"></Setter>
+                    <Setter Property="Fill" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVGenericHeaderFont}"></Setter>
                     <Setter Property="Width" Value="32"></Setter>
                     <Setter Property="Height" Value="3"></Setter>
                     <Setter Property="Margin" Value="2.5"></Setter>

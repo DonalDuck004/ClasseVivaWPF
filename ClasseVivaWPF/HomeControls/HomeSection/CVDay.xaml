@@ -10,19 +10,19 @@
              d:DesignHeight="64" d:DesignWidth="64">
     <UserControl.Resources>
         <Style TargetType="Border">
-            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDayBgUnselected}"></Setter>
+            <Setter Property="Background" d:Value="#00000000" Value="{themes:ThemeBinding Path=CVDayBgUnselected}"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDayBgSelected}"></Setter>
+                    <Setter Property="Background" d:Value="#FF6A96AE" Value="{themes:ThemeBinding Path=CVDayBgSelected}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="Label">
             <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVDayTextUnselected}"></Setter>
+            <Setter Property="Foreground" d:Value="#FF6E6E6E" Value="{themes:ThemeBinding Path=CVDayTextUnselected}"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVDayTextSelected}"></Setter>
+                    <Setter Property="Foreground" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVDayTextSelected}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>

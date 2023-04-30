@@ -41,7 +41,7 @@
                                 <Setter Property="Margin" Value="5,0,0,0"></Setter>
                                 <Setter Property="FontSize" Value="20"></Setter>
                                 <Setter Property="FontWeight" Value="DemiBold"></Setter>
-                                <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                                <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                                 <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
                             </Style>
                         </StackPanel.Resources>

@@ -60,7 +60,7 @@
                                     <Setter Property="Background" Value="Transparent"></Setter>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=Liked}" Value="True">
-                                            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVExtraInteractIcons}"></Setter>
+                                            <Setter Property="Background" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVExtraInteractIcons}"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -77,7 +77,7 @@
                                 <Setter Property="Background" Value="Transparent"></Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=Saved}" Value="True">
-                                        <Setter Property="Background" Value="{themes:ThemeBinding Path=CVExtraInteractIcons}"></Setter>
+                                        <Setter Property="Background" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVExtraInteractIcons}"></Setter>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

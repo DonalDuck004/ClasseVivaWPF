@@ -32,15 +32,15 @@
                     <Style TargetType="TextBlock" x:Key="Title">
                         <Setter Property="Margin" Value="0,10,0,7"></Setter>
                         <Setter Property="FontSize" Value="18"></Setter>
-                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVSettingsSectionHeader}"></Setter>
+                        <Setter Property="Foreground" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVSettingsSectionHeader}"></Setter>
                     </Style>
                     <Style TargetType="TextBlock" x:Key="VoiceTitle">
-                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                        <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         <Setter Property="FontSize" Value="14"></Setter>
                     </Style>
                     <Style TargetType="TextBlock" x:Key="Paragraph">
                         <Setter Property="FontSize" Value="12"></Setter>
-                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                        <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         <Setter Property="Margin" Value="0,0,0,5"></Setter>
                         <Setter Property="TextWrapping" Value="Wrap"></Setter>
                     </Style>

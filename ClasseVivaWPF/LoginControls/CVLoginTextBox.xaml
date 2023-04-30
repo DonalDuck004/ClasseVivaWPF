@@ -23,13 +23,13 @@
         <Label x:Name="top_lbl" Panel.ZIndex="1" Content="{Binding Path=PlaceHolder}" Grid.Row="0" FontSize="14" Height="32" HorizontalAlignment="Left" Margin="-5,0,0,0">
             <Label.Style>
                 <Style TargetType="Label">
-                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                    <Setter Property="Foreground" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=Text, ElementName=Input}" Value="">
                             <Setter Property="Foreground" Value="Black"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=IsFocused, ElementName=Input}" Value="True">
-                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
+                            <Setter Property="Foreground" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=Visibility, ElementName=placeholder_txt}" Value="Visible">
                             <Setter Property="Visibility" Value="Visible"></Setter>
@@ -77,8 +77,8 @@
         <TextBox x:Name="Input" d:CaretBrush="#FFC62828" CaretBrush="{themes:ThemeBinding Path=CVGenericRed}"  BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" TextChanged="Input_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
-                    <Setter Property="BorderBrush" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
-                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"/>
+                    <Setter Property="BorderBrush" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
+                    <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TextBox">
@@ -90,7 +90,7 @@
                                         <Setter Property="BorderBrush" Value="Black"/>
                                     </Trigger>
                                     <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
+                                        <Setter Property="BorderBrush" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

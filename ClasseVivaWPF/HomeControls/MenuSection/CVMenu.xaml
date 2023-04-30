@@ -14,7 +14,7 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="FontSize" Value="16"></Setter>
             <Setter Property="FontWeight" Value="SemiBold"></Setter>
-            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVSettingsText}"></Setter>
+            <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVSettingsText}"></Setter>
         </Style>
         
         <Style TargetType="Label" x:Key="OpenBridgeSP" BasedOn="{StaticResource MenuVoice}">
@@ -27,7 +27,7 @@
         </Style>
 
         <Style TargetType="Label" x:Key="OpenBridgeBW" BasedOn="{StaticResource MenuVoice}">
-            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVSettingsSectionHeader}"></Setter>
+            <Setter Property="Foreground" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVSettingsSectionHeader}"></Setter>
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="Margin" Value="0,0,16,0"></Setter>
             <Setter Property="Grid.Column" Value="2"></Setter>
@@ -35,14 +35,14 @@
         </Style>
         
         <Style TargetType="Rectangle" x:Key="HR">
-            <Setter Property="Fill" Value="{themes:ThemeBinding Path=CVHr}"></Setter>
+            <Setter Property="Fill" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVHr}"></Setter>
             <Setter Property="Height" Value="0.2"></Setter>
             <Setter Property="Grid.ColumnSpan" Value="3"></Setter>
         </Style>
 
         <Style TargetType="ContentControl">
             <Setter Property="Grid.Column" Value="0"></Setter>
-            <Setter Property="Background" Value="{themes:ThemeBinding Path=CVSettingsText}"></Setter>
+            <Setter Property="Background" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVSettingsText}"></Setter>
         </Style>
     </UserControl.Resources>
     <StackPanel>

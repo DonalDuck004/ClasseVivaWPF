@@ -43,7 +43,7 @@
             <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="Text">
                 <TextBlock.Resources>
                     <Style TargetType="Run">
-                        <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                        <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                     </Style>
                 </TextBlock.Resources>
                 <Run Name="PrimatyText" FontSize="72" Text="{Binding Path=Value, StringFormat=\{0:0.0\}, Converter={StaticResource ResourceKey=StrCoalesceConverter}, ConverterParameter=N/D}" FontWeight="Bold"></Run>

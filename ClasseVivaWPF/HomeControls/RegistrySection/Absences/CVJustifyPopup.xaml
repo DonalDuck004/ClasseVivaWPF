@@ -53,7 +53,7 @@
                 <WrapPanel Orientation="Horizontal" Name="wp">
                     <WrapPanel.Resources>
                         <Style TargetType="RadioButton">
-                            <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
+                            <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
                         </Style>
                         <Style TargetType="Line">
                             <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=wp}"></Setter>
