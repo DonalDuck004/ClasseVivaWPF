@@ -226,7 +226,7 @@ namespace ClasseVivaWPF
 
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (KonamiCode[KonamiCodeIndex] == e.Key && ThemeProperties.INSTANCE.Editing)
+            if (KonamiCode[KonamiCodeIndex] == e.Key && !ThemeProperties.INSTANCE.Editing)
             {
                 KonamiCodeIndex++;
 
