@@ -29,11 +29,9 @@ using System.Windows.Forms;
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 {
 
-    public partial class CVAbsencesViewer : Injectable, IUpdate, ICVMeta
+    public partial class CVAbsencesViewer : DFInjectable, IUpdate, ICVMeta
     {
         public static CVAbsencesViewer? INSTANCE { get; set; } = null;
-
-        public static readonly DependencyProperty DataFetchedProperty;
 
         private SemaphoreSlim ReloadLock = new SemaphoreSlim(1, 1);
         private const int MonthOffset = 9;
@@ -43,18 +41,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
         public bool CountsInStack { get; } = false;
         private SemaphoreSlim PreventOverlap { get; } = new SemaphoreSlim(0, 1);
         private CalendarDay[]? Days = null;
-
-
-        public bool DataFetched
-        {
-            get => (bool)base.GetValue(DataFetchedProperty);
-            set => base.SetValue(DataFetchedProperty, value);
-        }
-
-        static CVAbsencesViewer()
-        {
-            DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVAbsencesViewer), new PropertyMetadata(false));
-        }
 
         public CVAbsencesViewer() : base()
         {

@@ -13,8 +13,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ContentControl Template="{StaticResource ResourceKey=VirtualClassIcon}" Height="32" Width="32" Grid.Column="0"></ContentControl>
-            <TextBlock Text="Ciao" FontWeight="DemiBold" Grid.Column="1" VerticalAlignment="Center" FontSize="24"></TextBlock>
+            <ContentControl Template="{Binding Path=Icon}" Height="32" Width="32" Grid.Column="0"></ContentControl>
+            <TextBlock Text="{Binding Path=Text}" FontWeight="DemiBold" Grid.Column="1" VerticalAlignment="Center" FontSize="24"></TextBlock>
             <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center" Opacity="0.6" Template="{StaticResource ResourceKey=RightArrowIcon}" Height="48" Width="48" Background="Black" Grid.Column="2"></ContentControl> 
         </Grid>
     </Border>

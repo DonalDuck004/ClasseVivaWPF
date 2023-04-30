@@ -26,6 +26,13 @@ namespace ClasseVivaWPF.SharedControls
             this.Description = description;
         }
 
+        public static CVMessageBox Show(string title, string description)
+        {
+            var rt = new CVMessageBox(title, description);
+            rt.Inject();
+            return rt;
+        }
+
         public string Title
         {
             get => (string)base.GetValue(TitleProperty);

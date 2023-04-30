@@ -11,12 +11,11 @@ using System.Windows.Input;
 
 namespace ClasseVivaWPF.SharedControls
 {
-    public class CVExtraBase : Injectable
+    public class CVExtraBase : DFInjectable
     {
         protected static DependencyProperty CounterProperty;
         protected static DependencyProperty SavedProperty;
         protected static DependencyProperty LikedProperty;
-        protected static DependencyProperty DataFetchedProperty;
 
         protected SemaphoreSlim PreventOverlap { get; } = new SemaphoreSlim(0, 1);
 
@@ -26,7 +25,6 @@ namespace ClasseVivaWPF.SharedControls
 
         static CVExtraBase()
         {
-            DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVExtraBase), new PropertyMetadata(false));
             SavedProperty = DependencyProperty.Register("Saved", typeof(bool), typeof(CVExtraBase), new PropertyMetadata(false));
             LikedProperty = DependencyProperty.Register("Liked", typeof(bool), typeof(CVExtraBase), new PropertyMetadata(false));
             CounterProperty = DependencyProperty.Register("Counter", typeof(int), typeof(CVExtraBase), new PropertyMetadata(0));
@@ -57,11 +55,6 @@ namespace ClasseVivaWPF.SharedControls
         {
             get => (bool)base.GetValue(LikedProperty);
             set => base.SetValue(LikedProperty, value);
-        }
-        public bool DataFetched
-        {
-            get => (bool)base.GetValue(DataFetchedProperty);
-            set => base.SetValue(DataFetchedProperty, value);
         }
 
         public int Counter

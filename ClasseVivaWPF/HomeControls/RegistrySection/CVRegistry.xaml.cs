@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.HomeControls.RegistrySection.Absences;
+using ClasseVivaWPF.HomeControls.RegistrySection.Didactic;
 using ClasseVivaWPF.HomeControls.RegistrySection.Grades;
 using ClasseVivaWPF.HomeControls.RegistrySection.Graphs;
 using ClasseVivaWPF.SharedControls;
@@ -435,6 +436,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             }
 
             new CVAbsencesViewer().Inject();
+        }
+
+        private void OnOpenDidatic(object sender, MouseButtonEventArgs e)
+        {
+            new CVDidatic().Inject();
         }
     }
 

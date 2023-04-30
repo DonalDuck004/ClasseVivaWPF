@@ -371,6 +371,7 @@ namespace ClasseVivaWPF.Utils
                                  SizeSuffixes[mag]);
         }
 
+
         public static IEnumerable<T> Merge<T>(this IEnumerable<IEnumerable<T>> src)
         {
             foreach (var e in src)

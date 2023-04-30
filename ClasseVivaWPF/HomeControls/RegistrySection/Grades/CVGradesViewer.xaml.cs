@@ -37,20 +37,19 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
     /// Logica di interazione per CVGradesViewer.xaml
     /// </summary>
     /// 
-    public partial class CVGradesViewer : Injectable, IOnKeyDown
+    public partial class CVGradesViewer : DFInjectable, IOnKeyDown
     {
         public static readonly DependencyProperty SelectedGradeProperty;
         public static readonly DependencyProperty SelectedSectionProperty;
-        public static readonly DependencyProperty DataFetchedProperty;
 
         private SemaphoreSlim ReloadLock = new SemaphoreSlim(1, 1);
 
         public CVGrade? SelectedGrade
         {
-            get => (CVGrade?)base.GetValue(SelectedGradeProperty);
+            get => (CVGrade?)GetValue(SelectedGradeProperty);
             set
             {
-                base.SetValue(SelectedGradeProperty, value);
+                SetValue(SelectedGradeProperty, value);
                 this.s_fp_wp.Children.Clear();
                 this.s_lp_wp.Children.Clear();
 
@@ -62,28 +61,22 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
             }
         }
 
-        public bool DataFetched
-        {
-            get => (bool)base.GetValue(DataFetchedProperty);
-            set => base.SetValue(DataFetchedProperty, value);
-        }
-
         public FrameworkElement SelectedSection
         {
-            get => (FrameworkElement)base.GetValue(SelectedSectionProperty);
-            set => base.SetValue(SelectedSectionProperty, value);
+            get => (FrameworkElement)GetValue(SelectedSectionProperty);
+            set => SetValue(SelectedSectionProperty, value);
         }
 
         static CVGradesViewer()
         {
             SelectedGradeProperty = DependencyProperty.Register("SelectedGrade", typeof(CVGrade), typeof(CVGradesViewer), new PropertyMetadata(null));
             SelectedSectionProperty = DependencyProperty.Register("SelectedSection", typeof(FrameworkElement), typeof(CVGradesViewer), new PropertyMetadata(null));
-            DataFetchedProperty = DependencyProperty.Register("DataFetched", typeof(bool), typeof(CVGradesViewer), new PropertyMetadata(true));
         }
 
         public CVGradesViewer() : base()
         {
             InitializeComponent();
+            this.DataFetched = true;
 
             this.Update();
             this.DataContext = this;

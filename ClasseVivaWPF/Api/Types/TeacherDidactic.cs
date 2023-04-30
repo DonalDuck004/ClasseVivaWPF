@@ -5,7 +5,7 @@ namespace ClasseVivaWPF.Api.Types
     public class TeacherDidactic : ApiObject
     {
         [JsonProperty(Required = Required.Always)]
-        public required int TeacherID { get; init; }
+        public required string TeacherID { get; init; }
 
         [JsonProperty(Required = Required.Always)]
         public required string TeacherName { get; init; }

@@ -20,9 +20,31 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
     /// </summary>
     public partial class CVRegistryOption : UserControl
     {
+        public static readonly DependencyProperty TextProperty;
+        public static readonly DependencyProperty IconProperty;
+
+        public string Text
+        {
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
+        }
+
+        public ControlTemplate Icon
+        {
+            get => (ControlTemplate)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
+
+        static CVRegistryOption()
+        {
+            TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(CVRegistryOption));
+            IconProperty = DependencyProperty.Register("Icon", typeof(ControlTemplate), typeof(CVRegistryOption));
+        }
+
         public CVRegistryOption()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
     }
 }
