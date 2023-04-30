@@ -30,6 +30,10 @@ namespace ClasseVivaWPF
         public static readonly DependencyProperty CurrentThemeProperty;
         public static readonly DependencyProperty DefaultFontColorProperty;
 
+
+        private readonly Key[] KonamiCode = new Key[] { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.A, Key.Enter };
+        private int KonamiCodeIndex = 0;
+
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;
         public Forms.NotifyIcon icon = new Forms.NotifyIcon();
         public Forms.ToolStripMenuItem? NotifyIcon = null;
@@ -122,7 +126,7 @@ namespace ClasseVivaWPF
         {
             var f = this.wrapper.Children.OfType<FrameworkElement>().Where(x => x is not ICVMeta y || y.CountsInStack is true);
 
-            if (f.Count() > this.PagesStackSize)
+            if (f.Count() >= this.PagesStackSize)
                 this.RemoveField(f.First());
 
             this.wrapper.Children.Add(element);
@@ -220,18 +224,15 @@ namespace ClasseVivaWPF
             }
         }
 
-        private readonly Key[] KonamiCode = new Key[] { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.A, Key.Enter };
-        private int KonamiCodeIndex = 0;
-
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (KonamiCode[KonamiCodeIndex] == e.Key)
+            if (KonamiCode[KonamiCodeIndex] == e.Key && ThemeProperties.INSTANCE.Editing)
             {
                 KonamiCodeIndex++;
 
                 if (KonamiCodeIndex == KonamiCode.Length)
                 {
-                    this.CurrentTheme = new EasterEggTheme();
+                    this.CurrentTheme = this.CurrentTheme is not EasterEggTheme ? new EasterEggTheme() : this.LastTheme;
                     KonamiCodeIndex = 0;
                     return;
                 }
@@ -239,10 +240,6 @@ namespace ClasseVivaWPF
             else
                 KonamiCodeIndex = 0;
 
-            if (e.Key is Key.K)
-            {
-                this.CurrentTheme = this.CurrentTheme is not EasterEggTheme ? new EasterEggTheme() : this.LastTheme;
-            }
 
             if (e.Key is Key.Escape)
             {

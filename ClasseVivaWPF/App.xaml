@@ -23,7 +23,8 @@
         <converters:SubConverter x:Key="SubConverter"></converters:SubConverter>
         <converters:ThicknessConverter x:Key="ThicknessConverter"></converters:ThicknessConverter>
         <converters:ProgressConverter x:Key="ProgressConverter"></converters:ProgressConverter>
-
+        <converters:StrFormatIfNotEmpty x:Key="StrFormatIfNotEmpty"></converters:StrFormatIfNotEmpty>
+        
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>

@@ -203,8 +203,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
                 @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVAbsencesAbsentProperty);
                 @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVAbsencesAbsentProperty);
                 @this.UpperImgWPContainer.SetThemeBinding(WrapPanel.BackgroundProperty, ThemeProperties.CVAbsencesAbsentProperty);
-                @this.line.Visibility = Visibility.Hidden;
-                @this.line.Height = 0;
                 @this.Title = "Assenze";
             }
             else if (e.IsEarlyExit)
@@ -224,23 +222,39 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             else
                 throw new Exception();
 
-            @this.lesson_txt.Inlines.Add(new Run() { Text = e.IsJustified ? e.JustifReasonDesc : "Da giustificare" });
-
-            if (e.EvtHPos.HasValue)
-                @this.Row2 = $"A {e.EvtHPos}° ora";
+            if (e.JustifReasonDesc == "" && e.IsJustified)
+            {
+                @this.line.Visibility = Visibility.Hidden;
+                @this.line.Height = 0;
+                @this.last_wp.Height = 0;
+                @this.last_wp.Visibility = Visibility.Hidden;
+                Grid.SetRowSpan(@this.UpperImgWPContainer, 2);
+            }
             else
             {
-                Grid.SetRowSpan(@this.TitleControl, 2);
-                @this.Row2Control.Height = 0;
+                @this.lesson_txt.Inlines.Add(new Run() { Text = e.IsJustified ? e.JustifReasonDesc : "Da giustificare" });
+                Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
             }
 
-            @this.TitleControl.VerticalAlignment = VerticalAlignment.Bottom;
+            if (e.EvtHPos.HasValue)
+            {
+                @this.Row2 = $"A {e.EvtHPos}° ora";
+                @this.TitleControl.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+            else
+            {
+                Grid.SetRowSpan(@this.TitleControl, 4);
+                Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
+                
+                @this.Row2Control.Height = 0;
+                @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
+            }
+
             @this.LowerImgWP.Height = 0;
 
             @this.SetThemeBinding(CVHomeTextBox.FontColorProperty, ThemeProperties.CVAbsencesFontProperty);
 
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("AbsenceIcon");
-            Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
             Grid.SetZIndex(@this.UpperImgWPContainer, 1);
             @this.UpperImgWP.Margin = new Thickness(0, 10, 0, 10);
 
