@@ -24,6 +24,7 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
     public partial class ThemeEditor : Window
     {
         public static readonly DependencyProperty SelectedThemeProperty;
+        public static readonly DependencyProperty LeftExapandedProperty;
 
         public bool EditedFlag = false;
         private bool ApplyCurrent = false;
@@ -36,9 +37,16 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
             set => SetValue(SelectedThemeProperty, value);
         }
 
+        public bool LeftExapanded
+        {
+            get => (bool)GetValue(LeftExapandedProperty);
+            set => SetValue(LeftExapandedProperty, value);
+        }
+
         static ThemeEditor()
         {
             SelectedThemeProperty = DependencyProperty.Register("SelectedTheme", typeof(BaseTheme), typeof(ThemeEditor));
+            LeftExapandedProperty = DependencyProperty.Register("LeftExapanded", typeof(bool), typeof(ThemeEditor), new PropertyMetadata(false));
         }
 
         private ThemeEditor()
@@ -93,6 +101,12 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
         private void OnSave(object sender, RoutedEventArgs e)
         {
             var js = ThemeProperties.FreezeAsJson();
+
+        }
+
+        private void OnExpand(object sender, MouseButtonEventArgs e)
+        {
+            this.LeftExapanded = !this.LeftExapanded;
         }
     }
 }

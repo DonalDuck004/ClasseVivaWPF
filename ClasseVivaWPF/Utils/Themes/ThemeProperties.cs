@@ -709,10 +709,10 @@ namespace ClasseVivaWPF.Utils.Themes
 
             var obj = new JObject();
             foreach (var item in ThemeProperties.GetProperties())
-                obj.Add(ThemeProperties.GetTargetThemePath(item), ThemeProperties.INSTANCE.GetValue(item).ToString());
+                obj.Add(item.Name/*ThemeProperties.GetTargetThemePath(item)*/, ThemeProperties.INSTANCE.GetValue(item).ToString());
 
             obj.WriteTo(writer);
-            return writer.ToString()!;
+            return sw.ToString()!;
         }
     }
 }
