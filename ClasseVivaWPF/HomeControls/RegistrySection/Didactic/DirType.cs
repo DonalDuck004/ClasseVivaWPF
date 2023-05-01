@@ -1,6 +1,6 @@
 ﻿namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
 {
-    public enum FolderType
+    public enum DirType
     {
         User,
         Folder

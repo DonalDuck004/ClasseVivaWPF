@@ -136,7 +136,7 @@ namespace ClasseVivaWPF.Sessions
 
         public void SetCache(string url_path, string response, string? etag)
         {
-            var sql = "INSERT OR REPLACE INTO RequestsCache(url_path, response, update_date, etag) VALUES ($url_path, $response, DATE('now'), $etag)";
+            var sql = "INSERT OR REPLACE INTO RequestsCache(url_path, response, update_date, etag) VALUES ($url_path, $response, DATETIME('now'), $etag)";
             using (var cur = this.conn.CreateCommand())
             {
                 cur.CommandText = sql;

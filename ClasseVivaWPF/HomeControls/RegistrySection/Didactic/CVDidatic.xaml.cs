@@ -47,6 +47,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         {
             this.TreeDisplayer.Items.Clear();
 
+            CVFolder parent_folder;
+            CVFolder item_folder;
+
             TreeViewItem parent;
             TreeViewItem item;
 
@@ -55,10 +58,18 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                 parent = new TreeViewItem()
                 {
                     Header = "Cartelle di " + teacher.TeacherName.ToTitle(),
-                    Tag = teacher.TeacherID,
-                    IsExpanded = true
+                    Tag = teacher.TeacherID
                 };
                 this.TreeDisplayer.Items.Add(parent);
+
+                parent_folder = new CVFolder()
+                {
+                    Teacher = teacher,
+                    Tag = teacher.TeacherID,
+                    DirType = DirType.User
+                };
+                this.FolderRoot.Children.Add(parent_folder);
+
 
                 foreach (var folder in teacher.Folders.OrderByDescending(y => y.LastShareDT))
                 {
@@ -72,6 +83,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                     };
                     parent.Items.Add(item);
 
+                    item_folder = new CVFolder()
+                    {
+                        Folder = folder,
+                        Tag = folder.FolderID,
+                        DirType = DirType.Folder
+                    };
+
+                    parent_folder.AddFolder(item_folder);
+
+
                     foreach (var content in folder.Contents.OrderByDescending(z => z.ShareDT))
                     {
                         item.Items.Add(new TreeViewItem()
@@ -79,6 +100,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                             Header = content.ContentName,
                             Tag = content.ContentID,
                         });
+
+                        if (content.ObjectType is FolderContentType.Link)
+                            item_folder.AddMedia(new CVLink()
+                            {
+                                Media = content,
+                                Tag = content.ContentID
+                            });
                     }
                 }
             }

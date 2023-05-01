@@ -93,7 +93,7 @@ namespace ClasseVivaWPF.Utils.Logs
                     Stream.Flush();
                 }
                 return true;
-            }catch (Exception e)
+            }catch
             {
                 return false;
             }

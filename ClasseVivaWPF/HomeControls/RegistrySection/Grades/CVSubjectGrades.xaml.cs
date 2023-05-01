@@ -199,10 +199,5 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 
             this.grades = null;
         }
-
-        private void grid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }

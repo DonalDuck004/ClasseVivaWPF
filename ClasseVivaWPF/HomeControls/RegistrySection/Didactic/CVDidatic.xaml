@@ -67,25 +67,17 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel></StackPanel>
+            <ScrollViewer shared:CVScollerView.IsEnabled="True"
+                          shared:CVScollerView.CatchWidthProperty="False"
+                          VerticalScrollBarVisibility="Hidden"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Grid.Column="0" Name="FolderRoot"></StackPanel>
+            </ScrollViewer>
             <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
                           Grid.Column="1" Width="4" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}"
                           VerticalAlignment="Stretch"></GridSplitter>
             <StackPanel Grid.Column="2">
                 <StackPanel.Resources>
-                    <!--Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource {x:Type TreeView}}">
-                        <Setter Property="ItemContainerStyle">
-                            <Setter.Value>
-                                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                                    <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}" d:Value="#FFC62828"></Setter>
-                                    <Setter Property="Focusable" Value="False"></Setter>
-                                    <Setter Property="Cursor" Value="Hand"></Setter>
-                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                    <Setter Property="VerticalContentAlignment" Value="Top"/>
-                                </Style>
-                            </Setter.Value>
-                        </Setter>
-                    </Style-->
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}" d:Value="#FFC62828"></Setter>
                         <Setter Property="Focusable" Value="False"></Setter>
@@ -93,10 +85,6 @@
                     </Style>
                 </StackPanel.Resources>
                 <TreeView Background="Transparent" BorderThickness="0" Name="TreeDisplayer">
-                    <!--TreeView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type TreeViewItem}"></Style>
-                    </TreeView.ItemContainerStyle-->
-                    
                     <d:TreeViewItem Header="Silvester" IsExpanded="True">
                         <TreeViewItem Header="SocketMonoThread" Cursor="Hand">
                             <TreeViewItem Header="Video brutto"></TreeViewItem>

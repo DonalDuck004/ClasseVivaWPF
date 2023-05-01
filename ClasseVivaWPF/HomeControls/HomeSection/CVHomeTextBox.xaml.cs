@@ -214,10 +214,10 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
             else if (e.IsLate || e.IsShortLate)
             {
-                @this.Title = "Ritardi";
                 @this.SetThemeBinding(CVHomeTextBox.BackgroundColorProperty, ThemeProperties.CVAbsencesLateProperty);
                 @this.SetThemeBinding(CVHomeTextBox.FillerColorProperty, ThemeProperties.CVAbsencesLateProperty);
                 @this.UpperImgWPContainer.SetThemeBinding(WrapPanel.BackgroundProperty, ThemeProperties.CVAbsencesLateProperty);
+                @this.Title = "Ritardi";
             }
             else
                 throw new Exception();
@@ -243,7 +243,11 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             }
             else
             {
-                Grid.SetRowSpan(@this.TitleControl, 4);
+                if (e.JustifReasonDesc != "" || e.IsJustified)
+                    Grid.SetRowSpan(@this.TitleControl, 2);
+                else
+                    Grid.SetRowSpan(@this.TitleControl, 4);
+
                 Grid.SetRowSpan(@this.UpperImgWPContainer, 4);
                 
                 @this.Row2Control.Height = 0;
@@ -293,11 +297,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private static void OpenUrl(object sender, RequestNavigateEventArgs e)
         {
             e.Uri.SystemOpening();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // MessageBox.Show(this.lesson_txt);
         }
     }
 }

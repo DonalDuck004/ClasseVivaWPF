@@ -1,4 +1,4 @@
-﻿<local:Injectable x:Class="ClasseVivaWPF.SharedControls.CVRestBridgeViewer"
+﻿<local:Injectable x:Class="ClasseVivaWPF.SharedControls.CVWebView"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

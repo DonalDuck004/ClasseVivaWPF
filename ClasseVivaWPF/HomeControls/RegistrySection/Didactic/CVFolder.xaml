@@ -5,49 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Didactic"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Name="c"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid ClipToBounds="True">
-        <Canvas x:Name="GradeStackWP" Margin="{Binding Path=ActualHeight, ElementName=grid, Converter={StaticResource ResourceKey=ThicknessConverter}, ConverterParameter=Top}" Height="0">
-            <StackPanel Orientation="Vertical" Name="GradeStack" Width="{Binding ElementName=GradeStackWP, Path=ActualWidth}" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" Cursor="">
+        <Canvas x:Name="ItemsStackWP" Margin="{Binding Path=ActualHeight, ElementName=grid, Converter={StaticResource ResourceKey=ThicknessConverter}, ConverterParameter=Top}" Height="0">
+            <StackPanel Orientation="Vertical" Name="ItemsStack" Width="{Binding ElementName=ItemsStackWP, Path=ActualWidth}">
                 <StackPanel.Resources>
                     <Style TargetType="local:CVFolder">
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
                     </Style>
-                    <!-- Style TargetType="local:CVMedia">
+                    <Style TargetType="local:CVLink">
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-                    </Style -->
+                    </Style>
+                    <Style TargetType="local:CVText">
+                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                    </Style>
                 </StackPanel.Resources>
             </StackPanel>
         </Canvas>
-        <Grid x:Name="grid" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonDown="OnExpand" VerticalAlignment="Top" Cursor="Hand">
+        <Grid x:Name="grid" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" MouseLeftButtonDown="OnMouseDown" MouseLeftButtonUp="OnMouseUp" VerticalAlignment="Top" Cursor="Hand">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="9"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="69"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Rectangle Margin="5,5,0,5" Name="SubjectColor" Grid.RowSpan="2"></Rectangle>
-            <TextBlock Name="Subject" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="24" Margin="10,5,0,0" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Cursor=""></TextBlock>
-            <TextBlock Margin="10,5,0,5" Name="Teachers" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontSize="18" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
-            <ContentControl Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" Width="80" Margin="0,0,16,0">
+            <ContentControl Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" Background="Black">
                 <ContentControl.Style>
-                    <Style>
-                        <!--Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=DirType}" Value="{x:Static local:FolderType.Folder}">
-                                <Setter Property="Template" Value="{StaticResource ResourceKey=DirIcon}"></Setter>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.Folder}">
+                                <Setter Property="Template" Value="{StaticResource ResourceKey=FolderIcon}"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=DirType}" Value="{x:Static local:FolderType.User}">
-                                <Setter Property="Template" Value="{StaticResource ResourceKey=TeacherIcon}"></Setter>
-                            </DataTrigger>  
-                        </Style.Triggers-->
+                            <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.User}">
+                                <Setter Property="Template" Value="{StaticResource ResourceKey=TeachersIcon}"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </ContentControl.Style>
             </ContentControl>
+            <TextBlock d:Text="DirName" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="24" Margin="10,5,0,0" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Teacher}" Value="{x:Null}">
+                                <Setter Property="Text" Value="{Binding Path=Folder.FolderName}"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=Folder}" Value="{x:Null}">
+                                <Setter Property="Text" Value="{Binding Path=Teacher.TeacherName}"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBlock Margin="10,5,0,5" d:Text="Ultima modifica: 01/05/2023" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" FontSize="18" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Teacher}" Value="{x:Null}">
+                                <Setter Property="Text" Value="{Binding Path=Folder.LastShareDT, StringFormat='Ultima modifica: {0}'}"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </Grid>
     </Grid>
 </UserControl>

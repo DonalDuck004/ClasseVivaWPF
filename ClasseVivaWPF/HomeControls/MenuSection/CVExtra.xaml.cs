@@ -80,9 +80,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         public void OnChildClosed()
         {
             if (CVExtraHeader.SavedUpdated && CVExtraHeader.SelectedH!.HeaderText == CVExtraHeader.NAMES[CVExtraHeader.NAMES.Length - 1])
-            {
                 CVExtraHeader.SelectedH!.IsSelected = true;
-            }
         }
     }
 }

@@ -10,16 +10,16 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVRestBridgeViewer.xaml
     /// </summary>
-    public partial class CVRestBridgeViewer : Injectable
+    public partial class CVWebView : Injectable
     {
         private static DependencyProperty UriProperty;
 
-        static CVRestBridgeViewer()
+        static CVWebView()
         {
-            UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVRestBridgeViewer));
+            UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(CVWebView));
         }
 
-        public CVRestBridgeViewer() : base()
+        public CVWebView() : base()
         {
             InitializeComponent();
             var Options = new CoreWebView2EnvironmentOptions();

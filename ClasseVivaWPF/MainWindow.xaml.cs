@@ -30,8 +30,11 @@ namespace ClasseVivaWPF
         public static readonly DependencyProperty CurrentThemeProperty;
         public static readonly DependencyProperty DefaultFontColorProperty;
 
-
+#if DEBUG
+        private readonly Key[] KonamiCode = new Key[] { Key.K, Key.Enter };
+#else
         private readonly Key[] KonamiCode = new Key[] { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.A, Key.Enter };
+#endif
         private int KonamiCodeIndex = 0;
 
         public static MainWindow INSTANCE => (MainWindow)Application.Current.MainWindow;

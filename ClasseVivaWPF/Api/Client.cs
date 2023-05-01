@@ -61,7 +61,7 @@ namespace ClasseVivaWPF.Api
                 message.Content = new StringContent(data.ToString(Formatting.None), Encoding.UTF8, "application/json");
 
             if (cached_date is not null)
-                message.Headers.IfModifiedSince = cached_date.Value; // TODO Fixxare bug, non cotiene orario, ma solo data
+                message.Headers.IfModifiedSince = cached_date.Value;
 
             if (cached_etag is not null)
                 message.Headers.Add("z-if-none-match", cached_etag);
@@ -388,6 +388,17 @@ namespace ClasseVivaWPF.Api
         {
             var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/didactics", null, allow_cache: true).ConfigureAwait(false);
             var content = response.GetObject<Didactics>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<FolderContentContentItem> GetDidaticitem(int ItemID)
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/didactics/item/{ItemID}", null, allow_cache: true).ConfigureAwait(false);
+            var content = response.GetObject<FolderContentContentItem>();
 
             if (content is null)
                 response.GetError();

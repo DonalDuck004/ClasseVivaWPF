@@ -1,0 +1,30 @@
+﻿<local:CVBaseMedia x:Class="ClasseVivaWPF.HomeControls.RegistrySection.Didactic.CVLink"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                     xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Didactic"
+                     xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
+                     xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+                     mc:Ignorable="d" 
+                     d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="grid" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" VerticalAlignment="Top" Cursor="Hand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.RowSpan="3" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" d:Foreground="#FFFFFFFF" Background="Black" Foreground="{themes:ThemeBinding Path=CVGenericBackground}" Template="{StaticResource ResourceKey=LargeLinkIcon}" Cursor=""></ContentControl>
+        <TextBlock VerticalAlignment="Bottom" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="18" Margin="10,5,0,0" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.ColumnSpan="2">
+            <Hyperlink Name="HyperLink" NavigateUri="{Binding Path=Media.CachedItem.Item.Link, FallbackValue='file://placeholder'}" Cursor="Hand" TextDecorations="None" d:Foreground="#FFC62828" Foreground="{themes:ThemeBinding Path=CVGenericRed}" RequestNavigate="OpenUrl">
+                <Run d:Text="https://www.google.it" Text="{Binding Path=Media.ContentName}"></Run>
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1" d:Text="Ultima modifica: 01/05/2023" Text="{Binding Path=Media.ShareDT, StringFormat='Ultima modifica: {0}'}" Margin="10,5,0,5" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
+        <shared:CVButton Grid.Column="1" Grid.Row="2" FontSize="14" Content="Apri nel browser" Cursor="Hand" Click="OpenBrowser" HorizontalAlignment="Left" Margin="10,0,0,0"></shared:CVButton>
+    </Grid>
+</local:CVBaseMedia>

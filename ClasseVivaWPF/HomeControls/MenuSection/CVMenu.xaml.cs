@@ -32,7 +32,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
                 return;
 
             await PreventOverlap.WaitAsync();
-            var t = new CVRestBridgeViewer() { Uri = await Client.INSTANCE.GetUriFromTicket((string)((FrameworkElement)sender).Tag) };
+            var t = new CVWebView() { Uri = await Client.INSTANCE.GetUriFromTicket((string)((FrameworkElement)sender).Tag) };
             t.Inject();
 
             PreventOverlap.Release();
@@ -55,7 +55,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
                 return;
 
             await PreventOverlap.WaitAsync();
-            var t = new CVRestBridgeViewer() { Uri = await Client.INSTANCE.GetUriFromTicket("https://web.spaggiari.eu/") };
+            var t = new CVWebView() { Uri = await Client.INSTANCE.GetUriFromTicket("https://web.spaggiari.eu/") };
             t.WebView.ContentLoading += (s, e) =>
             {
                 t.Uri = new("https://web.spaggiari.eu/home/app/default/xasapi.php?a=lap&bu=https://web21.spaggiari.eu&ru=/home/&fu=xasapi-ERROR.php");

@@ -17,11 +17,13 @@ namespace ClasseVivaWPF.Utils.Converters
             if (value is null)
                 return null;
 
+#pragma warning disable CS0642
             if (value is BitmapImage img) ;
             else if (value is Uri)
                 img = new((Uri)value);
             else
                 throw new Exception();
+#pragma warning restore CS0642
 
             // 31 0 192 255
             var rect = new Int32Rect(0, 0, img.PixelWidth, img.PixelHeight / 6);
