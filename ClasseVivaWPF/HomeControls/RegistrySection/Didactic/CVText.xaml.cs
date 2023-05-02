@@ -18,11 +18,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
     /// <summary>
     /// Logica di interazione per CVText.xaml
     /// </summary>
-    public partial class CVText : UserControl
+    public partial class CVText : CVBaseMedia
     {
-        public CVText() : base()
+        public CVText()
         {
             InitializeComponent();
+
+            this.DataContext = this;
         }
     }
 }

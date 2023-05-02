@@ -25,11 +25,5 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         {
             MediaProperty = DependencyProperty.Register("Media", typeof(FolderContent), typeof(CVBaseMedia));
         }
-
-        public CVBaseMedia()
-        {
-            this.DataContext = this;
-        }
-
     }
 }

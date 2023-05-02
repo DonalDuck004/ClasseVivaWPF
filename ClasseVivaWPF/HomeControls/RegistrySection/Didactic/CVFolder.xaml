@@ -32,14 +32,16 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <ContentControl Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" Background="Black">
+            <ContentControl Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" Foreground="Transparent">
                 <ContentControl.Style>
                     <Style TargetType="ContentControl">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.Folder}">
+                                <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDidaticsFolder}" d:Value="#FF000000"></Setter>
                                 <Setter Property="Template" Value="{StaticResource ResourceKey=FolderIcon}"></Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.Teacher}">
+                                <Setter Property="Background" Value="{themes:ThemeBinding Path=CVDidaticsTeachers}" d:Value="#FF000000"></Setter>
                                 <Setter Property="Template" Value="{StaticResource ResourceKey=TeachersIcon}"></Setter>
                             </DataTrigger>
                         </Style.Triggers>

@@ -80,7 +80,10 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_ABSENCES_FONT_PATH = "CV_ABSENCES_FONT";
         public const string CV_ACCOUNT_BUBBLE_FONT_PATH = "CV_ACCOUNT_BUBBLE_FONT";
         public const string CV_ACCOUNT_BUBBLE_PATH = "CV_ACCOUNT_BUBBLE";
-
+        public const string CV_DIDATICS_ICONS_PATH = "CV_DIDATICS_ICONS";
+        public const string CV_DIDATICS_TEACHERS_PATH = "CV_DIDATICS_TEACHERS";
+        public const string CV_DIDATICS_FOLDER_PATH = "CV_DIDATICS_FOLDER";
+        
         public static void Register(ThemeInitializer creator)
         {
             THEMES.Add(creator);

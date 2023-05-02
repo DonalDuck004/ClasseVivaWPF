@@ -223,7 +223,7 @@
             </Viewbox>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="LargeLinkIcon">
+        <ControlTemplate x:Key="MediaLinkIcon">
             <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Canvas Width="500" Height="500">
                     <Canvas.Resources>
@@ -266,7 +266,7 @@
             </Viewbox>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="FileIcon">
+        <ControlTemplate x:Key="MediaFileIcon">
             <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Canvas Width="500" Height="500">
                     <Canvas.Resources>
@@ -283,6 +283,28 @@
                     <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M172.75,233.46L340.81,233.46"></Path>
                     <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M172.75,308.16L340.81,308.16"></Path>
                     <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M172.75,382.85L340.81,382.85"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="MediaTextIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="500" Height="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M262.58,138.55L430.65,138.55"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M262.58,212.4L430.65,212.4"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M75.35,286.25L430.65,286.25"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M75.35,360.1L430.65,360.1"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M75.35,433.95L430.65,433.95"></Path>
+                    <Path Style="{x:Null}" Stroke="{TemplateBinding Background}" Fill="{TemplateBinding Foreground}" Data="M69.35,66.05V104.8H79A19.43,19.43 0,0 1,98.42 85.43h29.06V192a9.59,9.59 0,0 1,-9.5 9.69H108.1v19.38h77.51V201.68h-9.69a9.59,9.59 0,0 1,-9.69 -9.5V85.43H195.3a19.43,19.43 0,0 1,19.37 19.37h9.69V66.05Z"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>

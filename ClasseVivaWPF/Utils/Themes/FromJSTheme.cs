@@ -7,6 +7,7 @@ namespace ClasseVivaWPF.Utils.Themes
         public required string Name { get; set; }
         public bool Hidden { get; } = false;
 
+        public required Color CV_DIDATICS_ICONS { get; init; } 
         public required Color CV_GRADE_INSUFFICIENT { get; init; } 
         public required Color CV_GRADE_SLIGHTLY_INSUFFICIENT { get; init; } 
         public required Color CV_GRADE_SUFFICIENT { get; init; } 
@@ -62,6 +63,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public required Color CV_ACCOUNT_BUBBLE { get; init; } 
         public required Color CV_ABSENCES_PRESENT { get; init; } 
         public required Color CV_ABSENCES_CALENDAR_HAS_EVENT_FONT { get; init; } 
-        public required Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; init; } 
+        public required Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; init; }
+        public required Color CV_DIDATICS_FOLDER { get; init; }
+        public required Color CV_DIDATICS_TEACHERS { get; init; }
     }
 }

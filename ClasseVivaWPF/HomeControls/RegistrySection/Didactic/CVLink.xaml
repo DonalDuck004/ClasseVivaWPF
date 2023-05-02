@@ -18,7 +18,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ContentControl Grid.RowSpan="3" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" d:Foreground="#FFFFFFFF" Background="Black" Foreground="{themes:ThemeBinding Path=CVGenericBackground}" Template="{StaticResource ResourceKey=LargeLinkIcon}" Cursor=""></ContentControl>
+        <ContentControl Grid.RowSpan="3" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" Background="{themes:ThemeBinding Path=CVDidaticsIcons}" d:Background="#FF000000"  Foreground="Transparent" Template="{StaticResource ResourceKey=MediaLinkIcon}" Cursor=""></ContentControl>
         <TextBlock VerticalAlignment="Bottom" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="18" Margin="10,5,0,0" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.ColumnSpan="2">
             <Hyperlink Name="HyperLink" NavigateUri="{Binding Path=Media.CachedItem.Item.Link, FallbackValue='file://placeholder'}" Cursor="Hand" TextDecorations="None" d:Foreground="#FFC62828" Foreground="{themes:ThemeBinding Path=CVGenericRed}" RequestNavigate="OpenUrl">
                 <Run d:Text="https://www.google.it" Text="{Binding Path=Media.ContentName}"></Run>

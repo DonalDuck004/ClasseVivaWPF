@@ -23,6 +23,15 @@ namespace ClasseVivaWPF.Utils.Themes
 
         public static readonly DependencyProperty EditingProperty;
 
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_DIDATICS_FOLDER_PATH)]
+        public static readonly DependencyProperty CVDidaticsFolderProperty;
+        
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_DIDATICS_TEACHERS_PATH)]
+        public static readonly DependencyProperty CVDidaticsTeachersProperty;
+       
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_DIDATICS_ICONS_PATH)]
+        public static readonly DependencyProperty CVDidaticsIconsProperty;
+
         [ThemePropertyMeta(BindsTo = ThemeOperations.CV_ABSENCES_ABSENT_PATH)]
         public static readonly DependencyProperty CVAbsencesAbsentProperty;
 
@@ -533,11 +542,32 @@ namespace ClasseVivaWPF.Utils.Themes
             set => SetValue(CVGradeSufficientBgProperty, value);
         }
 
+        public SolidColorBrush CVDidaticsIcons
+        {
+            get => (SolidColorBrush)GetValue(CVDidaticsIconsProperty);
+            set => SetValue(CVDidaticsIconsProperty, value);
+        }
+
+        public SolidColorBrush CVDidaticsFolder
+        {
+            get => (SolidColorBrush)GetValue(CVDidaticsFolderProperty);
+            set => SetValue(CVDidaticsFolderProperty, value);
+        }
+
+        public SolidColorBrush CVDidaticsTeachers
+        {
+            get => (SolidColorBrush)GetValue(CVDidaticsTeachersProperty);
+            set => SetValue(CVDidaticsTeachersProperty, value);
+        }
+
 
         static ThemeProperties()
         {
             ThemeProperties.EditingProperty = DependencyProperty.Register("Editing", typeof(bool), typeof(ThemeProperties), new PropertyMetadata(false));
 
+            ThemeProperties.CVDidaticsFolderProperty = DependencyProperty.Register("CVDidaticsFolder", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVDidaticsTeachersProperty = DependencyProperty.Register("CVDidaticsTeachers", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVDidaticsIconsProperty = DependencyProperty.Register("CVDidaticsIcons", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVGradeInsufficientBgProperty = DependencyProperty.Register("CVGradeInsufficientBg", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVGradeSlightlyInsufficientBgProperty = DependencyProperty.Register("CVGradeSlightlyInsufficientBg", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVGradeSufficientBgProperty = DependencyProperty.Register("CVGradeSufficientBg", typeof(SolidColorBrush), typeof(ThemeProperties));
@@ -600,6 +630,9 @@ namespace ClasseVivaWPF.Utils.Themes
 
         private ThemeProperties()
         {
+            this.SetThemeBinding(ThemeProperties.CVDidaticsFolderProperty);
+            this.SetThemeBinding(ThemeProperties.CVDidaticsTeachersProperty);
+            this.SetThemeBinding(ThemeProperties.CVDidaticsIconsProperty);
             this.SetThemeBinding(ThemeProperties.CVGradeInsufficientBgProperty);
             this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientBgProperty);
             this.SetThemeBinding(ThemeProperties.CVGradeSufficientBgProperty);

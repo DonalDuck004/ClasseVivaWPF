@@ -7,6 +7,7 @@ using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Logs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
     /// <summary>
     /// Logica di interazione per CVDidatic.xaml
     /// </summary>
+    /// 
+    // todo handle spam on reload button
     public partial class CVDidatic : DFInjectable, ICVMeta
     {
         public bool CountsInStack { get; } = false;
@@ -185,15 +188,27 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                         });
 
                         if (content.ObjectType is FolderContentType.Link)
+                        {
                             item_folder.AddMedia(new CVLink()
                             {
-                                Media = content,
+                                Media = content
                             });
+                        }
                         else if (content.ObjectType is FolderContentType.File)
+                        {
                             item_folder.AddMedia(new CVFile()
                             {
-                                Media = content,
+                                Media = content
                             });
+                        }
+                        else if (content.ObjectType is FolderContentType.Text)
+                        {
+                            item_folder.AddMedia(new CVText()
+                            {
+                                Media = content
+                            });
+                        }else
+                            Debugger.Break();
                     }
                 }
             }

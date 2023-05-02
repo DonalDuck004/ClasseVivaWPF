@@ -59,7 +59,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ContentControl Grid.RowSpan="3" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" Background="Transparent" d:Foreground="Black" Foreground="Black" Template="{StaticResource ResourceKey=FileIcon}"></ContentControl>
+        <ContentControl Grid.RowSpan="3" Grid.Column="0" HorizontalAlignment="Right" Width="64" Margin="10,0,16,0" Background="Transparent" d:Foreground="Black" Foreground="{themes:ThemeBinding Path=CVDidaticsIcons}" Template="{StaticResource ResourceKey=MediaFileIcon}"></ContentControl>
         <TextBlock d:Text="File" Text="{Binding Path=Media.ContentName}" VerticalAlignment="Bottom" TextWrapping="Wrap" Grid.Column="1" FontWeight="DemiBold" FontSize="18" Margin="10,5,0,0" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Grid.ColumnSpan="2"></TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="1" d:Text="Ultima modifica: 01/05/2023" Text="{Binding Path=Media.ShareDT, StringFormat='Ultima modifica: {0}'}" Margin="10,5,0,5" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"></TextBlock>
         <ContentControl Grid.Column="1" Grid.Row="2" Margin="10,0,0,0" Style="{StaticResource ResourceKey=ActionsStyle}"></ContentControl>

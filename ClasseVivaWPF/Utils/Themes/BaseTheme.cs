@@ -82,6 +82,9 @@ namespace ClasseVivaWPF.Utils.Themes
         public abstract Color CV_ABSENCES_FONT { get; }
         public abstract Color CV_ABSENCES_CALENDAR_HAS_EVENT_FONT { get; }
         public abstract Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; }
+        public abstract Color CV_DIDATICS_ICONS { get; }
+        public abstract Color CV_DIDATICS_FOLDER { get; }
+        public abstract Color CV_DIDATICS_TEACHERS { get; }
 
         protected BaseTheme()
         {

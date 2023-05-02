@@ -65,5 +65,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public Color CV_ABSENCES_PRESENT { get; } = rnd.NextColor();
         public Color CV_ABSENCES_CALENDAR_HAS_EVENT_FONT { get; } = rnd.NextColor();
         public Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; } = rnd.NextColor();
+        public Color CV_DIDATICS_ICONS { get; } = rnd.NextColor();
+        public Color CV_DIDATICS_FOLDER { get; } = rnd.NextColor();
+        public Color CV_DIDATICS_TEACHERS { get; } = rnd.NextColor();
     }
 }
