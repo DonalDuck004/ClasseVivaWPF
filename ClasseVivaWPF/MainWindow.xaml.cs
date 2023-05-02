@@ -5,6 +5,7 @@ using ClasseVivaWPF.LoginControls;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Themes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
@@ -129,7 +130,7 @@ namespace ClasseVivaWPF
         {
             var f = this.wrapper.Children.OfType<FrameworkElement>().Where(x => x is not ICVMeta y || y.CountsInStack is true);
 
-            if (f.Count() >= this.PagesStackSize)
+            if (this.PagesStackSize != 0 && f.Count() >= this.PagesStackSize)
                 this.RemoveField(f.First());
 
             this.wrapper.Children.Add(element);

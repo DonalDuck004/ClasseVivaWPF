@@ -32,7 +32,7 @@ namespace ClasseVivaWPF.Api
         {
             try
             {
-                var res = await this.client.GetAsync(url);
+                var res = await this.CVClient.GetAsync(url);
                 if (!res.IsSuccessStatusCode)
                 {
                     if (Logger.CanLog(LogLevel.TRACE))

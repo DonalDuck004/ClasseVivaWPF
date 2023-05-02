@@ -19,37 +19,41 @@ namespace ClasseVivaWPF.Api
     public partial class Client
     {
         public static Client INSTANCE { get; private set; } = new Client();
-        private const string ENDPOINT = "https://web.spaggiari.eu/";
+        public const string ENDPOINT = "https://web.spaggiari.eu/";
 
-        private int UserID => SessionHandler.Me!.Id;
-        private Me Me => SessionHandler.Me!;
+        public int UserID => SessionHandler.Me!.Id;
+        public Me Me => SessionHandler.Me!;
 
-        private HttpClient client;
+        public HttpClient CVClient { get; private set; }
 
         public Client(bool set_instance = true)
         {
             if (Config.USE_PROXY)
                 HttpClient.DefaultProxy = new WebProxy(Config.PROXY_HOST, Config.PROXY_PORT);
 
-            this.client = new HttpClient(new HttpClientHandler()
+            this.CVClient = new HttpClient(new HttpClientHandler()
             {
                 AutomaticDecompression = DecompressionMethods.GZip,
             });
 
+            this.CVClient.DefaultRequestHeaders.Clear();
 
-            this.client.DefaultRequestHeaders.Clear();
+            this.CVClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
+            this.CVClient.DefaultRequestHeaders.Add("z-dev-apikey", "Tg1NWEwNGIgIC0K");
+            this.CVClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
 
-            this.client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-            this.client.DefaultRequestHeaders.Add("z-dev-apikey", "Tg1NWEwNGIgIC0K");
-            this.client.DefaultRequestHeaders.Add("Connection", "keep-alive");
-
-            this.client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "CVVS/std/4.2.2 C# App/7.1.2");
+            this.CVClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "CVVS/std/4.2.2 C# App/7.1.2");
             
             if (set_instance)
-                Client.INSTANCE = this;
+                Api.Client.INSTANCE = this;
         }
 
-        private HttpRequestMessage BuildMessage(HttpMethod method, string path, JObject? data, string? cached_etag, DateTime? cached_date, bool path_is_full_url)
+        private HttpRequestMessage BuildMessage(HttpMethod method, 
+                                                string path,
+                                                JObject? data,
+                                                string? cached_etag,
+                                                DateTime? cached_date,
+                                                bool path_is_full_url)
         {
             var message = new HttpRequestMessage()
             {
@@ -69,7 +73,7 @@ namespace ClasseVivaWPF.Api
             return message;
         }
 
-        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache, bool path_is_full_url = false)
+        private async Task<Response> Send(HttpMethod method, string path, JObject? data, bool allow_cache, bool allow_redirect = true, bool path_is_full_url = false)
         {
             allow_cache = allow_cache && SessionHandler.INSTANCE is not null;
 
@@ -86,7 +90,7 @@ namespace ClasseVivaWPF.Api
             HttpResponseMessage raw_response;
             try
             {
-                raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
+                raw_response = await this.CVClient.SendAsync(message).ConfigureAwait(false);
             }catch (TaskCanceledException e) {
                 throw new ApiError(e);
             }
@@ -104,7 +108,7 @@ namespace ClasseVivaWPF.Api
             {
                 SessionHandler.INSTANCE.RenewToken();
                 message = BuildMessage(method, path, data, cached_etag, cached_date, path_is_full_url);
-                raw_response = await this.client.SendAsync(message).ConfigureAwait(false);
+                raw_response = await this.CVClient.SendAsync(message).ConfigureAwait(false);
             }
 
             if (raw_response.StatusCode is HttpStatusCode.NotModified && cached_json_response is not null)
@@ -157,17 +161,17 @@ namespace ClasseVivaWPF.Api
 
         public void UnSetLoginToken()
         {
-            this.client.DefaultRequestHeaders.Remove("z-auth-token");
+            this.CVClient.DefaultRequestHeaders.Remove("z-auth-token");
         }
 
         public void SetLoginToken(Me me) => SetLoginToken(me.Token);
 
         public void SetLoginToken(string z_auth_token)
         {
-            if (this.client.DefaultRequestHeaders.Contains("z-auth-token"))
+            if (this.CVClient.DefaultRequestHeaders.Contains("z-auth-token"))
                 UnSetLoginToken();
 
-            this.client.DefaultRequestHeaders.Add("z-auth-token", z_auth_token);
+            this.CVClient.DefaultRequestHeaders.Add("z-auth-token", z_auth_token);
         }
 
         public Task<Overview> Overview(DateTime from) => this.Overview(from.AddDays(-6), from.AddDays(6));
@@ -199,7 +203,7 @@ namespace ClasseVivaWPF.Api
         public async Task Download(string url, string path, int buffer_size = 1024 * 1024)
         {
             var buff = new byte[buffer_size];
-            using (var r = await (await this.client.GetAsync(url)).Content.ReadAsStreamAsync())
+            using (var r = await (await this.CVClient.GetAsync(url)).Content.ReadAsStreamAsync())
             {
                 using (var w = File.OpenWrite(path))
                 {

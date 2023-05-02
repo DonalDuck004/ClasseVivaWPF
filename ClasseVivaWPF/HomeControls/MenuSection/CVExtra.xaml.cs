@@ -1,10 +1,10 @@
-﻿using ClasseVivaWPF.Utils;
-using System.Windows;
+﻿using System.Windows;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System;
 using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils.Interfaces;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {

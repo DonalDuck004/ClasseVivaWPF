@@ -10,6 +10,7 @@ using ClasseVivaWPF.SharedControls;
 using System.Windows.Media;
 using ClasseVivaWPF.Utils.Themes;
 using ClasseVivaWPF.Utils.Themes.Extra;
+using ClasseVivaWPF.Utils.Interfaces;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {

@@ -23,9 +23,10 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
     /// </summary>
     public partial class CVLink : CVBaseMedia
     {
-        public CVLink() : base()
+        public CVLink()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
         private async Task<Uri?> GetUri()

@@ -30,7 +30,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         public static readonly DependencyProperty FolderProperty;
         public static readonly DependencyProperty DirTypeProperty;
         public static readonly DependencyProperty TeacherProperty;
-        
+
+        public delegate void IsExpandedHandler(CVFolder sender);
+        public event IsExpandedHandler IsExpandedChanged;
+
+        private Point? DownPos = null;
+
         public bool IsExpanded
         {
             get => (bool)GetValue(IsExpandedProperty);
@@ -52,11 +57,15 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
             get => (Folder?)GetValue(FolderProperty);
             set => SetValue(FolderProperty, value);
         }
+
         public TeacherDidactic? Teacher
         {
             get => (TeacherDidactic?)GetValue(TeacherProperty);
             set => SetValue(TeacherProperty, value);
         }
+
+        public IEnumerable<CVFolder> SubFolders => this.ItemsStack.Children.OfType<CVFolder>();
+        public IEnumerable<CVBaseMedia> Files => this.ItemsStack.Children.OfType<CVBaseMedia>();
 
         static CVFolder()
         {
@@ -82,7 +91,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
             this.ItemsStack.Children.Add(media);
         }
 
-        private Point? DownPos = null;
+        private void RaiseIsExpandedChanged()
+        {
+            if (IsExpandedChanged is not null)
+                IsExpandedChanged(this);
+        }
 
         private void Expand(bool expand)
         {
@@ -95,7 +108,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
             Storyboard ExpandHAnimation = new();
             DoubleAnimation animationCT;
             DoubleAnimation animationH;
-            var duration = new Duration(TimeSpan.FromSeconds(0.5));
+            var duration = new Duration(TimeSpan.FromSeconds(0.1));
 
             if (expand)
             {
@@ -157,6 +170,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                 }
 
                 SetValue(IsExpandedProperty, expand);
+                RaiseIsExpandedChanged();
             };
 
             ExpandHAnimation.Begin(this.ItemsStackWP);

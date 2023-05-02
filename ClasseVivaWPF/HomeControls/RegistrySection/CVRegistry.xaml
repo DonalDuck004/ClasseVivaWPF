@@ -86,12 +86,14 @@
                                                             <Setter Property="Min" Value="0"></Setter>
                                                             <Setter Property="Max" Value="10"></Setter>
                                                             <Setter Property="Value" Value="NaN"></Setter>
+                                                            <Setter Property="Desc" Value="Caricamento..."></Setter>
                                                             <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=c2}"></Setter>
+                                                            <Setter Property="BackgroundColor" d:Value="#FFCCCCCC" Value="{themes:ThemeBinding Path=CVPercentageBackground}"></Setter>
                                                         </Style>
                                                     </StackPanel.Resources>
                                                     <DockPanel x:Name="pps">
-                                                        <shared:CVProgressBar x:Name="sb_avg_1" Desc="Caricamento..." d:BackgroundColor="#FFCCCCCC" BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
-                                                        <shared:CVProgressBar x:Name="sb_avg_2" Desc="Caricamento..." d:BackgroundColor="#FFCCCCCC" BackgroundColor="{themes:ThemeBinding Path=CVPercentageBackground}"/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_1"/>
+                                                        <shared:CVProgressBar x:Name="sb_avg_2"/>
                                                     </DockPanel>
                                                 </StackPanel>
                                             </DockPanel>

@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Converters;
+using ClasseVivaWPF.Utils.Interfaces;
 using System;
 using System.Linq;
 using System.Windows;

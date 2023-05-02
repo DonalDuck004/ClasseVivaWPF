@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.ConstrainedExecution;
 using System.Threading;
 
 namespace ClasseVivaWPF.Sessions
@@ -99,6 +100,7 @@ namespace ClasseVivaWPF.Sessions
                 "CREATE TABLE Session(ident VARCHAR(16) PRIMARY KEY, firstName VARCHAR(48) NOT NULL, lastName VARCHAR(48) NOT NULL, showPwdChangeReminder BOOL NOT NULL, token VARCHAR(512) NOT NULL, release VARCHAR(25) NOT NULL, expire VARCHAR(25) NOT NULL, uid VARCHAR(128) NOT NULL, pass NOT NULL)",
                 "CREATE TABLE RequestsCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))",
                 "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6, PagesStackSize INT DEFAULT 5)",
+                "CREATE TABLE MappedFiles(MediaID int PRIMARY KEY, FileName TEXT)",
                 "INSERT INTO Settings DEFAULT VALUES"
             };
             foreach (var sql in sqls)
@@ -109,6 +111,35 @@ namespace ClasseVivaWPF.Sessions
                     cur.ExecuteNonQuery();
                 }
             }
+        }
+
+        public void AddMappedFile(int id, string fname)
+        {
+            var sql = "INSERT OR REPLACE INTO MappedFiles(MediaID, FileName) VALUES ($id, $fname)";
+            using (var cur = this.conn.CreateCommand())
+            {
+                cur.CommandText = sql;
+                cur.Parameters.AddWithValue("$id", id);
+                cur.Parameters.AddWithValue("$fname", fname);
+                cur.ExecuteNonQuery();
+            }
+        }
+
+        public string? GetMappedFile(int id)
+        {
+            var sql = "SELECT FileName FROM MappedFiles WHERE MediaID = $id";
+            using (var cur = this.conn.CreateCommand())
+            {
+                cur.CommandText = sql;
+                cur.Parameters.AddWithValue("$id", id);
+                using (var row = cur.ExecuteReader())
+                {
+                    if (row.Read())
+                        return row.IsDBNull(0) ? null : row.GetString(0);
+                }
+            }
+
+            return null;
         }
 
         public DateTime? CheckCache(string url_path, out string? response, out string? etag)

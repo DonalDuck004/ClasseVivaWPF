@@ -6,6 +6,7 @@ using ClasseVivaWPF.HomeControls.RegistrySection.Grades;
 using ClasseVivaWPF.HomeControls.RegistrySection.Graphs;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections.Generic;

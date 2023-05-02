@@ -28,6 +28,7 @@ using System.Xaml;
 
 namespace ClasseVivaWPF.Utils
 {
+
     static class Extensions
     {
         public static void Shuffle<T>(this List<T> src, int cycles = 2)

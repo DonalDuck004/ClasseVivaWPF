@@ -1,10 +1,10 @@
-﻿ using ClasseVivaWPF.Api;
+﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.HomeControls;
 using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
-using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;

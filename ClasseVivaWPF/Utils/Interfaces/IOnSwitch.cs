@@ -1,4 +1,4 @@
-﻿namespace ClasseVivaWPF.Utils
+﻿namespace ClasseVivaWPF.Utils.Interfaces
 {
     public interface IOnSwitch
     {

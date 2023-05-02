@@ -3,6 +3,7 @@ using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.HomeControls.RegistrySection.Absences;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Logs;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
 {
@@ -46,6 +46,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         public void Update()
         {
             this.TreeDisplayer.Items.Clear();
+            this.FolderRoot.Children.Clear();
 
             CVFolder parent_folder;
             CVFolder item_folder;
@@ -68,6 +69,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                     Tag = teacher.TeacherID,
                     DirType = DirType.User
                 };
+
+                parent_folder.IsExpandedChanged += OnExpandFromFolder;
+
                 this.FolderRoot.Children.Add(parent_folder);
 
 
@@ -92,20 +96,24 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
 
                     parent_folder.AddFolder(item_folder);
 
+                    item_folder.IsExpandedChanged += OnExpandFromFolder;
 
                     foreach (var content in folder.Contents.OrderByDescending(z => z.ShareDT))
                     {
                         item.Items.Add(new TreeViewItem()
                         {
                             Header = content.ContentName,
-                            Tag = content.ContentID,
                         });
 
                         if (content.ObjectType is FolderContentType.Link)
                             item_folder.AddMedia(new CVLink()
                             {
                                 Media = content,
-                                Tag = content.ContentID
+                            });
+                        else if (content.ObjectType is FolderContentType.File)
+                            item_folder.AddMedia(new CVFile()
+                            {
+                                Media = content,
                             });
                     }
                 }
@@ -119,14 +127,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                 this.DataFetched = false;
 
                 this.DidicaticsContent = (await Client.INSTANCE.Didatics()).DidacticsContent;
-                // this.DidicaticsContent = new TeacherDidactic[0];
                 this.Update();
             }
             catch(Exception ex)
             {
                 CVMessageBox.Show("Errore", "Errore imprevisto, consulta i log per ulteriori informazioni");
                 Logger.Log($"Failed to load/update CVDidatic due: {ex.Message}", LogLevel.ERROR);
-                // this.Close();
+                this.Close();
             }
             finally
             {
@@ -141,6 +148,39 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
             this.Loaded -= OnLoad;
 
             await ApiUpdate();
+        }
+
+        private void OnExpandFromTree(object sender, RoutedEventArgs e)
+        {
+            var item = (TreeViewItem)sender;
+            CVFolder folder;
+            if (item.Parent is TreeView) // Teacher
+                folder = this.FolderRoot.Children.OfType<CVFolder>().Where(y => (string)y.Tag == (string)item.Tag).First();
+            else
+                folder = this.FolderRoot.Children.OfType<CVFolder>().Select(x => x.SubFolders).Merge().Where(y => (int)y.Tag == (int)item.Tag).First();
+            /*else
+                folder = this.FolderRoot.Children.OfType<CVFolder>().Select(x => x.SubFolders).Merge().Where(y =>
+                                (int)y.Tag == (int)item.Tag
+                ).First();*/
+
+            if (folder.IsExpanded != item.IsExpanded)
+                folder.IsExpanded = item.IsExpanded;
+        }
+
+        private void OnExpandFromFolder(CVFolder folder)
+        {
+            TreeViewItem item;
+
+            if (folder.DirType is DirType.User)
+                item = this.TreeDisplayer.Items.OfType<TreeViewItem>().Where(y => (string)y.Tag == (string)folder.Tag).First();
+            else
+            {
+                var d = this.TreeDisplayer.Items.OfType<TreeViewItem>().Select(x => x.Items.OfType<TreeViewItem>()).Merge().ToArray();
+                item = this.TreeDisplayer.Items.OfType<TreeViewItem>().Select(x => x.Items.OfType<TreeViewItem>()).Merge().Where(y => (int)y.Tag == (int)folder.Tag).First();
+            }
+
+            if (item.IsExpanded != folder.IsExpanded)
+                item.IsExpanded = folder.IsExpanded;
         }
     }
 }

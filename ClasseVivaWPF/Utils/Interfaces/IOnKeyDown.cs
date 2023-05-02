@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using System.Windows.Documents;
 
-namespace ClasseVivaWPF.Utils
+namespace ClasseVivaWPF.Utils.Interfaces
 {
     public interface IOnKeyDown
     {

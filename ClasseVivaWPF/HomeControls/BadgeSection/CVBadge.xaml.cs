@@ -3,6 +3,7 @@ using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Themes;
 using QRCoder;
 using QRCoder.Xaml;

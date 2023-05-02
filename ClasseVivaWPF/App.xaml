@@ -25,7 +25,8 @@
         <converters:ProgressConverter x:Key="ProgressConverter"></converters:ProgressConverter>
         <converters:StrFormatIfNotEmpty x:Key="StrFormatIfNotEmpty"></converters:StrFormatIfNotEmpty>
         <converters:EqualToConverter x:Key="EqualToConverter"></converters:EqualToConverter>
-
+        <converters:PercentageConverter x:Key="PercentageConverter"></converters:PercentageConverter>
+        
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>
         </Style>
@@ -261,6 +262,27 @@
                     <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M325.41,145.78m-81.44,0a81.44,81.44 0,1 1,162.88 0a81.44,81.44 0,1 1,-162.88 0"></Path>
                     <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M209.41,275.63a121.31,121.31 0,0 0,-71.62 -23.22c-59.45,0 -108.93,42.56 -119.93,98.75C15.42,363.38 25.6,374.58 38,374.58h99.77"></Path>
                     <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M321,272.77h0A162.94,162.94 0,0 0,159.78 412.52a20.48,20.48 0,0 0,20.34 23.14H462a20.47,20.47 0,0 0,20.33 -23.14A162.93,162.93 0,0 0,321 272.77Z"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="FileIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="500" Height="500">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="14"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M167.83,149.57H76.52L186.09,40v91.3A18.27,18.27 0,0 1,167.83 149.57Z"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M76.52,187.24v254.5A18.27,18.27 0,0 0,94.78 460H405.22a18.27,18.27 0,0 0,18.26 -18.26V58.26A18.27,18.27 0,0 0,405.22 40H186.09L76.52,149.57Z"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M172.75,233.46L340.81,233.46"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M172.75,308.16L340.81,308.16"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M172.75,382.85L340.81,382.85"></Path>
                 </Canvas>
             </Viewbox>
         </ControlTemplate>

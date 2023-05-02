@@ -71,7 +71,8 @@
                           shared:CVScollerView.CatchWidthProperty="False"
                           VerticalScrollBarVisibility="Hidden"
                           HorizontalScrollBarVisibility="Disabled">
-                <StackPanel Grid.Column="0" Name="FolderRoot"></StackPanel>
+                <StackPanel Grid.Column="0" Name="FolderRoot">
+                </StackPanel>
             </ScrollViewer>
             <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
                           Grid.Column="1" Width="4" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}"
@@ -82,6 +83,8 @@
                         <Setter Property="Foreground" Value="{themes:ThemeBinding Path=CVGenericRed}" d:Value="#FFC62828"></Setter>
                         <Setter Property="Focusable" Value="False"></Setter>
                         <Setter Property="Cursor" Value="Hand"></Setter>
+                        <EventSetter Event="Expanded" Handler="OnExpandFromTree"></EventSetter>
+                        <EventSetter Event="Collapsed" Handler="OnExpandFromTree"></EventSetter>
                     </Style>
                 </StackPanel.Resources>
                 <TreeView Background="Transparent" BorderThickness="0" Name="TreeDisplayer">

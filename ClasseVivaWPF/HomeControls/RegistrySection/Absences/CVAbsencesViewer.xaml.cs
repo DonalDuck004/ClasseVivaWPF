@@ -25,6 +25,7 @@ using System.Drawing;
 using ClasseVivaWPF.HomeControls.MenuSection;
 using Microsoft.VisualBasic;
 using System.Windows.Forms;
+using ClasseVivaWPF.Utils.Interfaces;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 {

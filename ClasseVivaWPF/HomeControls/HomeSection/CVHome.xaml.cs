@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Themes;
 using System;
 using System.Collections.Generic;
