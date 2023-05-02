@@ -48,7 +48,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <TextBox d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" 
+                <TextBox d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" KeyDown="SearchBox_KeyDown"
                          d:Background="Transparent" Background="Transparent" AcceptsReturn="False" d:SelectionBrush="#FFC62828" 
                          AcceptsTab="False" Name="SearchBox" VerticalAlignment="Center" d:CaretBrush="#FFFFFFFF" CaretBrush="{themes:ThemeBinding Path=CVGenericHeaderFont}"
                          BorderThickness="0" SelectionBrush="{themes:ThemeBinding Path=CVGenericRed}" FontSize="20"></TextBox>

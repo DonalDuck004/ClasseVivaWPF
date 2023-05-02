@@ -13,6 +13,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
     {
         public static readonly DependencyProperty MediaProperty;
 
+        public virtual string EffectiveText => Media.ContentName.ToString();
+
         public FolderContent Media
         {
             get => (FolderContent)GetValue(MediaProperty);

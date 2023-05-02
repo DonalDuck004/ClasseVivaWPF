@@ -67,6 +67,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         public IEnumerable<CVFolder> SubFolders => this.ItemsStack.Children.OfType<CVFolder>();
         public IEnumerable<CVBaseMedia> Files => this.ItemsStack.Children.OfType<CVBaseMedia>();
 
+        public string EffectiveText => this.DirType is DirType.Teacher ? this.Teacher.TeacherName : this.Folder.FolderName;
+
         static CVFolder()
         {
             IsExpandedProperty = DependencyProperty.Register("IsExpanded", typeof(bool), typeof(CVFolder), new PropertyMetadata(false));

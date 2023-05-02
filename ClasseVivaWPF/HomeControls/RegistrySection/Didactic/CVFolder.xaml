@@ -39,7 +39,7 @@
                             <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.Folder}">
                                 <Setter Property="Template" Value="{StaticResource ResourceKey=FolderIcon}"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.User}">
+                            <DataTrigger Binding="{Binding Path=DirType, ElementName=c}" Value="{x:Static local:DirType.Teacher}">
                                 <Setter Property="Template" Value="{StaticResource ResourceKey=TeachersIcon}"></Setter>
                             </DataTrigger>
                         </Style.Triggers>

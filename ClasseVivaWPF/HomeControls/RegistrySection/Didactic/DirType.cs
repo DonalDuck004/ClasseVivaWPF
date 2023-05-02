@@ -2,7 +2,7 @@
 {
     public enum DirType
     {
-        User,
+        Teacher,
         Folder
     }
 }

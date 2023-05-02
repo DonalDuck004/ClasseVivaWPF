@@ -67,7 +67,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                     _tree = "";
                     do
                     {
-                        _tree = System.IO.Path.Join(parent.DirType is DirType.User ?
+                        _tree = System.IO.Path.Join(parent.DirType is DirType.Teacher ?
                                             FNameFilter(parent.Teacher!.TeacherName.ToTitle(), $"Teacher{parent.Teacher.TeacherID}") :
                                             FNameFilter(parent.Folder!.FolderName.ToTitle(), $"Teacher{parent.Folder!.FolderID}"), _tree);
                     } while ((parent = parent!.FindAncestor<CVFolder>()) is not null);

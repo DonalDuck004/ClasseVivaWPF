@@ -38,9 +38,88 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
 
         private void OnClose(object sender, MouseButtonEventArgs e) => Close();
 
-        private void OnSearch(object sender, MouseButtonEventArgs e)
+        private void Search()
         {
-            // TODO
+            var q = this.SearchBox.Text.ToLower();
+            var items = this.TreeDisplayer.Items.OfType<TreeViewItem>().Concat(this.TreeDisplayer.Items.OfType<TreeViewItem>().Select(x => x.Items.OfType<TreeViewItem>()).Merge());
+            var folders = this.FolderRoot.Children.OfType<CVFolder>().Concat(this.FolderRoot.Children.OfType<CVFolder>().Select(x => x.SubFolders).Merge());
+            var files = folders.Select(x => x.Files).Merge();
+            CVFolder? tmp;
+            TreeViewItem? ttmp;
+
+            if (this.SearchBox.Text == "")
+            {
+                foreach (var item in items.Cast<FrameworkElement>().Concat(folders).Concat(files))
+                    item.Visibility = Visibility.Visible;
+            } else {
+                foreach (var item in items.Cast<FrameworkElement>().Concat(folders).Concat(files))
+                    item.Visibility = Visibility.Collapsed;
+
+                foreach (var item in items)
+                {
+                    if (item.Header.ToString()!.ToLower().Contains(q))
+                    {
+                        ttmp = item;
+                        while (true)
+                        {
+                            if (ttmp.IsExpanded)
+                                ttmp.IsExpanded = false;
+
+                            if (ttmp.Visibility is Visibility.Collapsed)
+                                ttmp.Visibility = Visibility.Visible;
+
+                            if (ttmp.Parent is TreeView)
+                                break;
+
+                            ttmp = (TreeViewItem)ttmp.Parent;
+                        }
+                    }
+                }
+
+                foreach (var folder in folders)
+                {
+                    if (folder.EffectiveText.ToLower().Contains(q))
+                    {
+                        tmp = folder;
+                        while (true)
+                        {
+                            if (tmp.IsExpanded)
+                                tmp.IsExpanded = false;
+
+                            if (tmp.Visibility is Visibility.Collapsed)
+                                tmp.Visibility = Visibility.Visible;
+
+                            tmp = tmp.FindAncestor<CVFolder>();
+                            if (tmp is null)
+                                break;
+
+                            tmp.IsExpanded = true;
+                        }
+                    }
+                }
+
+
+                foreach (var file in files)
+                {
+                    if (file.EffectiveText.ToLower().Contains(q))
+                    {
+                        file.Visibility = Visibility.Visible;
+                        tmp = file.FindAncestor<CVFolder>()!;
+
+                        if (!tmp.IsExpanded && tmp.Visibility is Visibility.Collapsed)
+                        {
+                            file.Visibility = Visibility.Visible;
+                            tmp = file.FindAncestor<CVFolder>()!;
+                            if (tmp.Visibility is Visibility.Collapsed)
+                                file.Visibility = Visibility.Visible;
+                        }
+                        else
+                            tmp.IsExpanded = true;
+                    }
+                    else if ((tmp = file.FindAncestor<CVFolder>()) is not null && tmp.Visibility is Visibility.Visible)
+                        file.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         public void Update()
@@ -67,7 +146,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                 {
                     Teacher = teacher,
                     Tag = teacher.TeacherID,
-                    DirType = DirType.User
+                    DirType = DirType.Teacher
                 };
 
                 parent_folder.IsExpandedChanged += OnExpandFromFolder;
@@ -118,6 +197,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                     }
                 }
             }
+
+            if (this.SearchBox.Text != "")
+                this.Search();
         }
 
         public async Task ApiUpdate()
@@ -153,15 +235,16 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         private void OnExpandFromTree(object sender, RoutedEventArgs e)
         {
             var item = (TreeViewItem)sender;
+
+            if (!item.HasItems)
+                return;
+
             CVFolder folder;
             if (item.Parent is TreeView) // Teacher
                 folder = this.FolderRoot.Children.OfType<CVFolder>().Where(y => (string)y.Tag == (string)item.Tag).First();
             else
                 folder = this.FolderRoot.Children.OfType<CVFolder>().Select(x => x.SubFolders).Merge().Where(y => (int)y.Tag == (int)item.Tag).First();
-            /*else
-                folder = this.FolderRoot.Children.OfType<CVFolder>().Select(x => x.SubFolders).Merge().Where(y =>
-                                (int)y.Tag == (int)item.Tag
-                ).First();*/
+
 
             if (folder.IsExpanded != item.IsExpanded)
                 folder.IsExpanded = item.IsExpanded;
@@ -171,16 +254,21 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         {
             TreeViewItem item;
 
-            if (folder.DirType is DirType.User)
+            if (folder.DirType is DirType.Teacher)
                 item = this.TreeDisplayer.Items.OfType<TreeViewItem>().Where(y => (string)y.Tag == (string)folder.Tag).First();
             else
-            {
-                var d = this.TreeDisplayer.Items.OfType<TreeViewItem>().Select(x => x.Items.OfType<TreeViewItem>()).Merge().ToArray();
                 item = this.TreeDisplayer.Items.OfType<TreeViewItem>().Select(x => x.Items.OfType<TreeViewItem>()).Merge().Where(y => (int)y.Tag == (int)folder.Tag).First();
-            }
 
             if (item.IsExpanded != folder.IsExpanded)
                 item.IsExpanded = folder.IsExpanded;
+        }
+
+        private void OnSearch(object sender, MouseButtonEventArgs e) => Search();
+
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is Key.Enter)
+                Search();
         }
     }
 }
