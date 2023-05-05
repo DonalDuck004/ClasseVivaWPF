@@ -30,13 +30,7 @@ namespace ClasseVivaWPF.LoginControls
 
             this.CountsInStack = injectable_mode;
             if (!injectable_mode)
-            {
-                this.BackIcon.Width = 0;
-                this.BackIcon.Visibility = Visibility.Hidden;
-            }
-
-            this.username.Text = "leonardo.burla@ittvt.edu.it";
-            this.password.Text = "L2004b2007!";
+                this.BackIcon.Visibility = Visibility.Collapsed;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

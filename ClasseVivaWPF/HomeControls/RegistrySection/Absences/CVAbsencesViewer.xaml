@@ -12,7 +12,7 @@
                      d:DesignHeight="450" d:DesignWidth="800">
     <Grid d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Name="wp">
         <Grid.RowDefinitions>
-            <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" x:Name="r1" Panel.ZIndex="1" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">

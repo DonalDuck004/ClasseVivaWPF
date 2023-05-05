@@ -1,11 +1,12 @@
 ﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class AgendaEvent : BaseEvent
+    public class AgendaEvent : BaseEvent, IBuildNotifyCalendar
     {
         [JsonProperty(Required = Required.Always)]
         public required DateTime EvtDatetimeBegin { get; init; }
@@ -34,14 +35,14 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.AllowNull)]
         public required object? HomeworkId { get; init; }
 
-        public override void BuildNotifyText(ToastContentBuilder toast)
+        public void BuildNotify(ToastContentBuilder toast)
         {
             var when = IsFullDay ? "tutto il giorno" : $"{EvtDatetimeBegin:dddd d}";
             var header = (SubjectDesc is null ? AuthorName : SubjectDesc).ToTitle();
             toast.AddText($"{header} per {when}");
-            toast.AddText(Notes);  // TODO
+            toast.AddText(Notes);
         }
 
-        public override DateTime GetGotoDate() => this.EvtDatetimeBegin;
+        public DateTime GetGotoDate() => this.EvtDatetimeBegin.Date;
     }
 }

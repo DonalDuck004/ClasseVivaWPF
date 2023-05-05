@@ -33,6 +33,8 @@ namespace ClasseVivaWPF.HomeControls.Icons
                     this.IsSelected = !this.IsSelected;
             };
             this.Loaded += OnLoad;
+
+            INSTANCES[Icon] = this;
         }
 
         private void OnLoad(object sender, EventArgs e)

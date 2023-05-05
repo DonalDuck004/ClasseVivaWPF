@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.HomeControls.RegistrySection.Absences;
+using ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Interfaces;
@@ -32,11 +33,13 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
     {
         public bool CountsInStack { get; } = false;
         private TeacherDidactic[]? DidicaticsContent = null;
+        private int? highlight;
 
-        public CVDidatic()
+        public CVDidatic(int? highlight = null)
         {
             InitializeComponent();
             this.DataContext = this;
+            this.highlight = highlight;
         }
 
         private void OnClose(object sender, MouseButtonEventArgs e) => Close();
@@ -130,6 +133,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
             this.TreeDisplayer.Items.Clear();
             this.FolderRoot.Children.Clear();
 
+            if (this.DidicaticsContent!.Length == 0)
+                this.no_content.Visibility = Visibility.Visible;
+            else
+                this.no_content.Visibility = Visibility.Collapsed;
+
             CVFolder parent_folder;
             CVFolder item_folder;
 
@@ -209,6 +217,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
                             });
                         }else
                             Debugger.Break();
+
+                        if (content.ContentID == highlight)
+                        {
+                            item_folder.IsExpanded = true;
+                            highlight = null;
+                        }
                     }
                 }
             }
@@ -284,6 +298,11 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
         {
             if (e.Key is Key.Enter)
                 Search();
+        }
+
+        private void OnOpenHomeworks(object sender, MouseButtonEventArgs e)
+        {
+            new CVHomeworks().Inject();
         }
     }
 }

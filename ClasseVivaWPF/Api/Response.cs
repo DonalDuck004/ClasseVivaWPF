@@ -58,7 +58,7 @@ namespace ClasseVivaWPF.Api
                 return null;
 
             if (this.Text == "") // Bug in backend
-                return null;
+                return new T[0];
 
             return JsonConvert.DeserializeObject<T[]>(this.Text, settings);
         }

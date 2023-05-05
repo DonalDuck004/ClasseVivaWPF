@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using ClasseVivaWPF.Utils.Interfaces;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
 
@@ -101,9 +102,6 @@ namespace ClasseVivaWPF.Api.Types
 
             throw new NotImplementedException();
         }
-
-        public abstract void BuildNotifyText(ToastContentBuilder toast);
-        public abstract DateTime GetGotoDate();
 
         public override int GetHashCode()
         {

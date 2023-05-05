@@ -15,6 +15,8 @@
 		<None Remove="Assets\Fonts\materialdrawerfont-font-v5.0.0.ttf" />
 		<None Remove="Assets\Fonts\password.ttf" />
 		<None Remove="Assets\Images\header_classeviva.png" />
+		<None Remove="Assets\Images\homeworks_checked.png" />
+		<None Remove="Assets\Images\homeworks_not_checked.png" />
 		<None Remove="Assets\Images\home_classeviva.png" />
 		<None Remove="Assets\Images\icon.ico" />
 		<None Remove="Assets\Images\logo.png" />
@@ -52,6 +54,12 @@
 		</Resource>
 		<Resource Include="Assets\Images\header_classeviva.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Images\homeworks_checked.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Images\homeworks_not_checked.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Assets\Images\home_classeviva.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>

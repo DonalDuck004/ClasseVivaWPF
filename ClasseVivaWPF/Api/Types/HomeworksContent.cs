@@ -4,7 +4,7 @@ namespace ClasseVivaWPF.Api.Types
 {
     public class HomeworksContent : ApiObject
     {
-        [JsonProperty(Required = Required.Always)]
-        public required Homework[] Items { get; init; }
+        [JsonProperty("Items", Required = Required.Always)]
+        public required Homework[] Homeworks { get; init; }
     }
 }

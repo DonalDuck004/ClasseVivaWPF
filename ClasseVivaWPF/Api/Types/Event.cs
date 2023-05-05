@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using ClasseVivaWPF.Utils.Interfaces;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class Event : BaseEvent
+    public class Event : BaseEvent, IBuildNotifyCalendar
     {
         [JsonProperty(Required = Required.Always)]
         public required DateTime EvtDate { get; init; }
@@ -52,11 +53,23 @@ namespace ClasseVivaWPF.Api.Types
         public static string[] AllowedGiustificationsCodes => AllowedGiustifications.Keys.ToArray();
 
 
-        public override void BuildNotifyText(ToastContentBuilder toast)
+        public void BuildNotify(ToastContentBuilder toast)
         {
-            toast.AddText(GetHeader() + "_TODO_evt");  // TODO
+            Debug.Assert(this.IsAbsence || this.IsShortLate || this.IsLate || this.IsEarlyExit);
+
+            toast.AddText(this.IsAbsence ? "Assenza" : this.IsShortLate ? "Ritardo breve" : this.IsLate ? "Ritardo" : this.IsEarlyExit ? "Uscita anticipata" : "Assenza parziale"); 
+            var msg = $"In data {this.FormattedDate}";
+            if (this.EvtHPos is not null)
+                msg += $" a {this.EvtHPos}° ora";
+
+            toast.AddText(msg);
         }
 
-        public override DateTime GetGotoDate() => this.EvtDate;
+        public DateTime GetGotoDate() => this.EvtDate.Date;
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.EvtId, this.EvtCode);
+        }
     }
 }

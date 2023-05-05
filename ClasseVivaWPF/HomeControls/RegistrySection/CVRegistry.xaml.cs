@@ -439,10 +439,12 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             new CVAbsencesViewer().Inject();
         }
 
-        private void OnOpenDidatic(object sender, MouseButtonEventArgs e)
+        public void OpenDidatic(int? highlight = null)
         {
-            new CVDidatic().Inject();
+            new CVDidatic(highlight).Inject();
         }
+
+        private void OnOpenDidatic(object sender, MouseButtonEventArgs e) => OpenDidatic();
     }
 
 }

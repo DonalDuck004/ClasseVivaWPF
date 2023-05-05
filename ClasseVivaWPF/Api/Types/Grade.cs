@@ -1,4 +1,5 @@
 ﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
 using ClasseVivaWPF.Utils.Themes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ using System.Windows.Media;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class Grade : BaseEvent
+    public class Grade : BaseEvent, IBuildNotifyCalendar
     {
         [JsonProperty(Required = Required.Always)]
         public required int SubjectId { get; init; }
@@ -125,20 +126,20 @@ namespace ClasseVivaWPF.Api.Types
             this.DecimalValue < 6 ? ThemeProperties.CVGradeSlightlyInsufficientProperty :
             ThemeProperties.CVGradeSufficientProperty;
 
-        public override void BuildNotifyText(ToastContentBuilder toast)
+        public void BuildNotify(ToastContentBuilder toast)
         {
             string s;
             if (this.SubjectCode != "" && this.SubjectDesc.Length > 24)
                 s = $"{this.SubjectCode} ({this.SubjectDesc.Substring(0, 24 - this.SubjectCode.Length - 6)}...)";
             else
-                s = this.SubjectDesc;
+                s = this.SubjectDesc.ToTitle();
 
-            var ext = this.DecimalValue is null ? "" : $"({this.DecimalValue:0.00})";
+            var ext = this.DecimalValue is null ? "" : $" - {this.DecimalValue:0.00} decimi";
             toast.AddText($"Nuovo voto in {s}");
             toast.AddText($"{this.ComponentDesc} {this.DisplayValue}{ext}");
             toast.AddText(this.NotesForFamily);
         }
 
-        public override DateTime GetGotoDate() => this.EvtDate;
+        public DateTime GetGotoDate() => this.EvtDate.Date;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.HomeControls;
 using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.HomeControls.Icons;
+using ClasseVivaWPF.HomeControls.RegistrySection;
 using ClasseVivaWPF.LoginControls;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
@@ -10,6 +11,7 @@ using ClasseVivaWPF.Utils.Themes;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using Forms = System.Windows.Forms;
 
 namespace ClasseVivaWPF
@@ -279,59 +282,77 @@ namespace ClasseVivaWPF
 
         public void RaisePostLogin()
         {
-            MainWindow.INSTANCE.PostLogin();
+            if (MainWindow.INSTANCE.PostLogin is not null)
+                MainWindow.INSTANCE.PostLogin();
         }
 
         internal void Goto(ToastArguments args)
         {
-            if (args.TryGetValue("goto_home_date", out string v))
-            {
-                this.Show();
+            this.Show();
 
-                var date = DateTime.Parse(v);
+            if (args.TryGetValue(NotificationSystem.GOTO_HOME, out string v))
+                HandleGotoDate(DateTime.Parse(v));
+            else if (args.TryGetValue(NotificationSystem.GOTO_DIDATIC, out v))
+                HandleGotoDitatic(int.Parse(v));
+
+            return;
+
+            void SetAppSection(CVMainMenuIconValues section)
+            {
+                if (CVBaseIcon.Selected is null || CVBaseIcon.Selected.IconValue != section)
+                    CVBaseIcon.INSTANCES[section].IsSelected = true;
+            }
+
+            void GotoDate(DateTime date)
+            {
+                if (CVHome.INSTANCE.IsLoaded)
+                    CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
+                else
+                    CVHome.INSTANCE.Loaded += (s, e) => CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
+            }
+
+            void HandleGotoDate(DateTime date)
+            {
 
                 if (!SessionHandler.Logged)
                 {
                     PostLoginEventHandler? fn = null;
                     this.PostLogin += fn = () =>
                     {
-                        RemoveFields();
+                        SetAppSection(CVMainMenuIconValues.Home);
 
-                        if (CVBaseIcon.Selected is not null && CVBaseIcon.Selected.IconValue is not CVMainMenuIconValues.Home)
-                            CVBaseIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
+                        GotoDate(date);
+                        this.PostLogin -= fn!;
+                    };
+                }
+                else
+                {
+                    SetAppSection(CVMainMenuIconValues.Home);
 
-
-                        if (CVHome.INSTANCE.IsLoaded)
-                            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
-                        else
-                            CVHome.INSTANCE.Loaded += (s, e) =>
-                            {
-                                CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek);
-                            };
- 
+                    GotoDate(date);
+                }
+            }
+        
+            void HandleGotoDitatic(int id)
+            {
+                if (!SessionHandler.Logged)
+                {
+                    PostLoginEventHandler? fn = null;
+                    this.PostLogin += fn = () =>
+                    {
+                        SetAppSection(CVMainMenuIconValues.Registro);
+                        CVRegistry.INSTANCE!.OpenDidatic(id);
 
                         this.PostLogin -= fn!;
                     };
                 }
                 else
                 {
-                    RemoveFields();
+                    SetAppSection(CVMainMenuIconValues.Registro);
 
-                    if (CVBaseIcon.Selected!.IconValue is not CVMainMenuIconValues.Home)
-                        CVBaseIcon.INSTANCES[CVMainMenuIconValues.Home].IsSelected = true;
-
-
-                    if (CVHome.INSTANCE.IsLoaded)
-                        CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
-                    else
-                        CVHome.INSTANCE.Loaded += (s, e) =>
-                        {
-                            CVWeek.GetWeekContaining(date).SelectChild(date.DayOfWeek, update: true);
-                        };
+                    CVRegistry.INSTANCE!.OpenDidatic(id);
                 }
-                return;
             }
-            return;
         }
 
         private void window_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

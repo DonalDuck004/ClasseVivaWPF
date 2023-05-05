@@ -147,10 +147,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             if (lesson.LessonArg == "")
             {
                 @this.TitleControl.VerticalAlignment = VerticalAlignment.Center;
-                @this.line.Visibility = Visibility.Hidden;
-                @this.line.Height = 0;
-                @this.last_wp.Visibility = Visibility.Hidden;
-                @this.last_wp.Height = 0;
+                @this.line.Visibility = Visibility.Collapsed;
+                @this.last_wp.Visibility = Visibility.Collapsed;
 
                 @this.Row2Control.VerticalAlignment = VerticalAlignment.Bottom;
                 @this.main_wp.RowDefinitions.RemoveAt(2);
@@ -224,10 +222,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             if (e.JustifReasonDesc == "" && e.IsJustified)
             {
-                @this.line.Visibility = Visibility.Hidden;
-                @this.line.Height = 0;
-                @this.last_wp.Height = 0;
-                @this.last_wp.Visibility = Visibility.Hidden;
+                @this.line.Visibility = Visibility.Collapsed;
+                @this.last_wp.Visibility = Visibility.Collapsed;
                 Grid.SetRowSpan(@this.UpperImgWPContainer, 2);
             }
             else
@@ -288,7 +284,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
             @this.lesson_txt.Inlines.Add(new Run() { FontSize = 24, Text = evt.DisplayValue, FontWeight = FontWeights.SemiBold });
             @this.lesson_txt.Inlines.Add(new Run() { Text = $"\t{evt.ComponentDesc}", BaselineAlignment = BaselineAlignment.Center, FontSize = 16 });
-            @this.UpperImgWP.Visibility = Visibility.Hidden;
+            @this.UpperImgWP.Visibility = Visibility.Collapsed;
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("GradeIcon");
 
             return @this;

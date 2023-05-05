@@ -13,7 +13,7 @@
                    d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="{x:Static utils:Config.HEADER_HEIGHT_GL}"></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">

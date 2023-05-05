@@ -1,10 +1,11 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using ClasseVivaWPF.Utils.Interfaces;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class Noticeboard : BaseEvent
+    public class Noticeboard : BaseEvent, IBuildNotifyCalendar
     {
         [JsonProperty(Required = Required.Always)]
         public required int PubId { get; init; }
@@ -63,9 +64,9 @@ namespace ClasseVivaWPF.Api.Types
         [JsonProperty(Required = Required.Always)]
         public required NoticeboardAttachment[] Attachments { get; init; }
 
-        public override DateTime GetGotoDate() => PubDT;
+        public DateTime GetGotoDate() => this.PubDT.Date;
 
-        public override void BuildNotifyText(ToastContentBuilder toast)
+        public void BuildNotify(ToastContentBuilder toast)
         {
             toast.AddText(GetHeader() + "_TODO_evt");  // TODO
         }

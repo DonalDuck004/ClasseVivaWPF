@@ -10,9 +10,6 @@ namespace ClasseVivaWPF.Utils
 
     public static class Config
     {
-        public const double HEADER_HEIGHT = 48.0D;
-        public static readonly GridLength HEADER_HEIGHT_GL = new GridLength(HEADER_HEIGHT);
-
         public const string DEFAULT_THEME_NAME = "WhiteTheme";
 
         public const int NOTIFY_UPDATE_DELAY = 60000;

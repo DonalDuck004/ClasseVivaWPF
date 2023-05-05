@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Sessions;
+using ClasseVivaWPF.Utils.Interfaces;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,10 @@ namespace ClasseVivaWPF.Utils
 {
     public class NotificationSystem
     {
+        public const string GOTO_HOME = "goto_home_date";
+        public const string GOTO_DIDATIC = "goto_ditatic_ditatic";
+        public const string GOTO_HOMEWORKS = "goto_ditatic_homeworks";
+
         public static NotificationSystem INSTANCE { get; private set; } = new();
 
         private Task? task;
@@ -55,12 +60,19 @@ namespace ClasseVivaWPF.Utils
             });
         }
 
-        private async Task<IEnumerable<BaseEvent>> Fetch()
+        private async Task<IEnumerable<IBuildNotify>> Fetch()
         {
-            IEnumerable<BaseEvent> events = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents(Grades: false, Absences: false);
+            IEnumerable<IBuildNotify> events = (await Client.INSTANCE.Overview(DateTime.Now, this.Range)).GetBaseEvents(Grades: false, Absences: false).Cast<IBuildNotify>();
             events = events.Concat((await Client.INSTANCE.GetGrades()).ContentGrades); // Grades
             events = events.Concat((await Client.INSTANCE.GetAbsences()).ContentEvents); // Absences
+            events = events.Concat((await Client.INSTANCE.Didatics()).DidacticsContent.Select(x => x.Folders.Select(x => x.Contents).Merge()).Merge()); // Didatics
+
+#if DEBUG
+            var rnd = new Random();
+            return events.Where(x => rnd.Next(0, 51) != 0);
+#else
             return events;
+#endif
         }
 
         private async Task Listener()
@@ -80,8 +92,19 @@ namespace ClasseVivaWPF.Utils
                     if (!quiteNext)
                     {
                         builder = new ToastContentBuilder();
-                        builder.AddArgument("goto_home_date", item.GetGotoDate().ToString());
-                        item.BuildNotifyText(builder);
+                        if (item is IBuildNotifyCalendar x)
+                        {
+#if DEBUG
+                            var t = x.GetGotoDate();
+                            var msg = $"Invalid date returned ({t}) in type {item.GetType().Name}";
+                            Debug.Assert(t == t.Date, msg);
+#endif
+                            builder.AddArgument(GOTO_HOME, x.GetGotoDate().ToString());
+                        }
+                        else if (item is IBuildNotifyDidatic y)
+                            builder.AddArgument(y.GetSection(), y.GetHighlightID().ToString());
+
+                        item.BuildNotify(builder);
                         builder.Show();
                     }
                 }

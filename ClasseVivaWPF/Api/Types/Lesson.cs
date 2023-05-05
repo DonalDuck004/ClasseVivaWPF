@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using ClasseVivaWPF.Utils;
+using ClasseVivaWPF.Utils.Interfaces;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -6,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ClasseVivaWPF.Api.Types
 {
-    public class Lesson : BaseEvent
+    public class Lesson : BaseEvent, IBuildNotifyCalendar
     {
         private int? _color_id = null;
 
@@ -56,13 +58,13 @@ namespace ClasseVivaWPF.Api.Types
             MainTeacher = this;
         }
 
-        public override void BuildNotifyText(ToastContentBuilder toast)
+        public void BuildNotify(ToastContentBuilder toast)
         {
-            toast.AddText($"{AuthorName} a {EvtHPos}°");
+            toast.AddText($"{AuthorName.ToTitle()} a {EvtHPos}°");
             toast.AddText(LessonArg);
             toast.AddText(LessonType);
         }
 
-        public override DateTime GetGotoDate() => this.EvtDate;
+        public DateTime GetGotoDate() => this.EvtDate.Date;
     }
 }

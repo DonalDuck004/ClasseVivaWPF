@@ -20,9 +20,13 @@ namespace ClasseVivaWPF
         private Mutex RunLock; // prevent from get destructed
 
         public App() : base() {
-#if !DEBUG
-            this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+            if (!Debugger.IsAttached)
+            {
+#if DEBUG
+                if (!Debugger.Launch())
 #endif
+                    this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+            }
         }
 
         protected override void OnStartup(StartupEventArgs e)
