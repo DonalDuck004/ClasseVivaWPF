@@ -27,6 +27,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
     {
         public static CVHomeworks? INSTANCE = null;
         public bool CountsInStack => false;
+
         public Homework[] Homeworks { get; private set; }
 
         public CVHomeworks()
@@ -49,8 +50,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
             
             no_content.Visibility = Visibility.Collapsed;
 
-            foreach (var homework in this.Homeworks.OrderByDescending(x => x.HomeworkDone ? 0 : 1).ThenBy(x => x.ExpiryDate))
-                this.HomeworksWP.Children.Add(new CVHomeworkPreview(homework));
+            var c = 0;
+            foreach (var homework in this.Homeworks)
+                this.HomeworksWP.Children.Add(new CVHomeworkPreview(homework, c++));
         }
 
         public async Task ApiUpdate()
@@ -59,7 +61,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
             {
                 this.DataFetched = false;
 
-                this.Homeworks = (await Client.INSTANCE.Homeworks()).Homeworks;
+                this.Homeworks = (await Client.INSTANCE.Homeworks()).Homeworks.OrderByDescending(x => x.HomeworkDone ? 0 : 1).ThenBy(x => x.ExpiryDate).ToArray();
                 this.Update();
             }
             catch (Exception ex)

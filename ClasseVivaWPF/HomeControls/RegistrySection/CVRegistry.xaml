@@ -37,17 +37,15 @@
                     <shared:CVReloadButton MouseLeftButtonDown="OnReload" Height="32" Width="32" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="22" Panel.ZIndex="1"></shared:CVReloadButton>
                     <StackPanel>
                         <StackPanel.Resources>
-                            <Style TargetType="TextBlock" x:Key="Header">
+                            <Style TargetType="TextBlock" x:Key="Header" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
                                 <Setter Property="Margin" Value="5,0,0,0"></Setter>
                                 <Setter Property="FontSize" Value="20"></Setter>
                                 <Setter Property="FontWeight" Value="DemiBold"></Setter>
                                 <Setter Property="Foreground" d:Value="#FF000000" Value="{themes:ThemeBinding Path=CVGenericFont}"></Setter>
-                                <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"></Setter>
                             </Style>
                         </StackPanel.Resources>
                         <Border Margin="10,10,10,5" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" CornerRadius="25">
-                            <StackPanel Style="{StaticResource ResourceKey=WaitForDataFetching}">
-                                <!--Seem to be too much expanded ^-->
+                            <StackPanel Style="{StaticResource ResourceKey=WaitForDataFetching}" MinHeight="450">
                                 <Grid Name="upper_grid">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"></RowDefinition>
@@ -91,10 +89,48 @@
                                                             <Setter Property="BackgroundColor" d:Value="#FFCCCCCC" Value="{themes:ThemeBinding Path=CVPercentageBackground}"></Setter>
                                                         </Style>
                                                     </StackPanel.Resources>
-                                                    <DockPanel x:Name="pps">
+                                                    <StackPanel x:Name="pps">
                                                         <shared:CVProgressBar x:Name="sb_avg_1"/>
                                                         <shared:CVProgressBar x:Name="sb_avg_2"/>
-                                                    </DockPanel>
+                                                        <TextBlock FontSize="14" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
+                                                                    <Style.Triggers>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding ElementName=sb_avg_1, Path=Value}" Value="NaN"></Condition>
+                                                                                <Condition Binding="{Binding ElementName=sb_avg_2, Path=Value}" Value="NaN"></Condition>
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                                                        </MultiDataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                            <Run Text="Periodo migliore:"></Run>
+                                                            <Run>
+                                                                <Run.Style>
+                                                                    <Style TargetType="Run">
+                                                                        <Setter Property="Text" Value="{Binding ElementName=sb_avg_2, Path=Desc}"></Setter>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Value="True">
+                                                                                <DataTrigger.Binding>
+                                                                                    <MultiBinding Converter="{StaticResource ResourceKey=IsGreaterConverter}">
+                                                                                        <Binding Path="Value" ElementName="sb_avg_1"></Binding>
+                                                                                        <Binding Path="Value" ElementName="sb_avg_2"></Binding>
+                                                                                    </MultiBinding>
+                                                                                </DataTrigger.Binding>
+                                                                                <Setter Property="Text" Value="{Binding ElementName=sb_avg_1, Path=Desc}"></Setter>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Run.Style>
+                                                            </Run>
+                                                        </TextBlock>
+                                                        <TextBlock FontSize="14" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Name="estimated_credits_wp" Visibility="Collapsed">
+                                                            <Run Text="Crediti stimati:"></Run>
+                                                            <Run Name="estimated_credits"></Run>
+                                                        </TextBlock>
+                                                    </StackPanel>
                                                 </StackPanel>
                                             </DockPanel>
                                         </Grid>

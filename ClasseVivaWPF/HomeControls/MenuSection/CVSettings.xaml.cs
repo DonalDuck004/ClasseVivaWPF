@@ -70,6 +70,7 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             this.NotificationsCB.CheckStateChanged += OnCheckStateChanged!;
             this.NotificationsRangeSlider.ValueChanged += OnNotifyRangeChanged!;
             this.PagesStackSlider.ValueChanged += OnPagesStackSizeChanged!;
+            this.YearSlider.ValueChanged += OnYearChanged!;
         }
 
         private void OnNotificationsFlagChanged(SessionHandler sender, bool Flag)
@@ -93,6 +94,8 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             this.NotificationsCB.IsChecked = NotificationSystem.INSTANCE.IsActive;
             this.NotificationsRangeSlider.Value = SessionHandler.INSTANCE!.GetNotificationsRange();
             this.PagesStackSlider.Value = SessionHandler.INSTANCE!.GetPagesStackSize();
+            var x = SessionHandler.INSTANCE!.GetYear();
+            this.YearSlider.Value = x is null ? 1 : x.Value;
         }
 
         protected void OnClose(object sender, MouseButtonEventArgs e) => Close();
@@ -150,6 +153,11 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         private void OnPagesStackSizeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SessionHandler.INSTANCE!.SetPagesStackSize((int)e.NewValue);
+        }
+
+        private void OnYearChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SessionHandler.INSTANCE!.SetYear((int)e.NewValue);
         }
 
         private async void OpenThemeEditor(object sender, RoutedEventArgs e)

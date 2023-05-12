@@ -99,7 +99,7 @@ namespace ClasseVivaWPF.Sessions
             {
                 "CREATE TABLE Session(ident VARCHAR(16) PRIMARY KEY, firstName VARCHAR(48) NOT NULL, lastName VARCHAR(48) NOT NULL, showPwdChangeReminder BOOL NOT NULL, token VARCHAR(512) NOT NULL, release VARCHAR(25) NOT NULL, expire VARCHAR(25) NOT NULL, uid VARCHAR(128) NOT NULL, pass NOT NULL)",
                 "CREATE TABLE RequestsCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))",
-                "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6, PagesStackSize INT DEFAULT 5)",
+                "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6, PagesStackSize INT DEFAULT 5, Year INT DEFAULT NULL)",
                 "CREATE TABLE MappedFiles(MediaID int PRIMARY KEY, FileName TEXT)",
                 "INSERT INTO Settings DEFAULT VALUES"
             };
@@ -387,6 +387,35 @@ namespace ClasseVivaWPF.Sessions
             if (PagesStackSizeChanged is not null)
                 PagesStackSizeChanged(this, newValue);
         }
+
+        public int? GetYear()
+        {
+            var sql = "SELECT Year FROM Settings";
+            using (var cur = this.conn.CreateCommand())
+            {
+                cur.CommandText = sql;
+                using (var row = cur.ExecuteReader())
+                {
+                    row.Read();
+                    return row.IsDBNull(0) ? null :  row.GetInt32(0);
+                }
+            }
+        }
+
+        public void SetYear(int newValue)
+        {
+            var sql = "UPDATE Settings SET Year = $y";
+            using (var cur = this.conn.CreateCommand())
+            {
+                cur.CommandText = sql;
+                cur.Parameters.AddWithValue("$y", newValue);
+                cur.ExecuteNonQuery();
+            }
+
+            if (PagesStackSizeChanged is not null)
+                PagesStackSizeChanged(this, newValue);
+        }
+
 
         public void Close()
         {

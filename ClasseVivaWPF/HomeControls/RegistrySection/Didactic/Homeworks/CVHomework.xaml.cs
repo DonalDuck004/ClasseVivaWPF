@@ -33,5 +33,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
 
             this.DataContext = homework;
         }
+
+        private void OnClose(object sender, MouseButtonEventArgs e) => Close();
     }
 }

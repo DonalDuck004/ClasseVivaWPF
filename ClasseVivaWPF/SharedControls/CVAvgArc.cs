@@ -7,58 +7,49 @@ namespace ClasseVivaWPF.SharedControls
 {
     internal class CVAvgArc : Shape
     {
-        public double StartAngle
+        public static readonly DependencyProperty StartAngleProperty;
+        public static readonly DependencyProperty EndAngleProperty;
+        public static readonly DependencyProperty DirectionProperty;
+        public static readonly DependencyProperty OriginRotationDegreesProperty;
+
+        static CVAvgArc()
         {
-            get { return (double)GetValue(StartAngleProperty); }
-            set { SetValue(StartAngleProperty, value); }
+            StartAngleProperty = DependencyProperty.Register("StartAngle", typeof(double), typeof(CVAvgArc), new UIPropertyMetadata(0.0, new PropertyChangedCallback(UpdateArc)));
+            EndAngleProperty = DependencyProperty.Register("EndAngle", typeof(double), typeof(CVAvgArc), new UIPropertyMetadata(90.0, new PropertyChangedCallback(UpdateArc)));
+            DirectionProperty = DependencyProperty.Register("Direction", typeof(SweepDirection), typeof(CVAvgArc), new UIPropertyMetadata(SweepDirection.Clockwise));
+            OriginRotationDegreesProperty = DependencyProperty.Register("OriginRotationDegrees", typeof(double), typeof(CVAvgArc), new UIPropertyMetadata(270.0, new PropertyChangedCallback(UpdateArc)));
         }
 
-        // Using a DependencyProperty as the backing store for StartAngle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty StartAngleProperty =
-            DependencyProperty.Register("StartAngle", typeof(double), typeof(CVAvgArc), new UIPropertyMetadata(0.0, new PropertyChangedCallback(UpdateArc)));
+        public double StartAngle
+        {
+            get => (double)GetValue(StartAngleProperty);
+            set => SetValue(StartAngleProperty, value);
+        }
 
         public double EndAngle
         {
-            get { return (double)GetValue(EndAngleProperty); }
-            set { SetValue(EndAngleProperty, value); }
+            get => (double)GetValue(EndAngleProperty);
+            set => SetValue(EndAngleProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for EndAngle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty EndAngleProperty =
-            DependencyProperty.Register("EndAngle", typeof(double), typeof(CVAvgArc), new UIPropertyMetadata(90.0, new PropertyChangedCallback(UpdateArc)));
-
-        //This controls whether or not the progress bar goes clockwise or counterclockwise
         public SweepDirection Direction
         {
-            get { return (SweepDirection)GetValue(DirectionProperty); }
-            set { SetValue(DirectionProperty, value); }
+            get => (SweepDirection)GetValue(DirectionProperty);
+            set => SetValue(DirectionProperty, value);
         }
 
-        public static readonly DependencyProperty DirectionProperty =
-            DependencyProperty.Register("Direction", typeof(SweepDirection), typeof(CVAvgArc),
-                new UIPropertyMetadata(SweepDirection.Clockwise));
-
-        //rotate the start/endpoint of the arc a certain number of degree in the direction
-        //ie. if you wanted it to be at 12:00 that would be 270 Clockwise or 90 counterclockwise
         public double OriginRotationDegrees
         {
-            get { return (double)GetValue(OriginRotationDegreesProperty); }
-            set { SetValue(OriginRotationDegreesProperty, value); }
+            get => (double)GetValue(OriginRotationDegreesProperty);
+            set => SetValue(OriginRotationDegreesProperty, value);
         }
-
-        public static readonly DependencyProperty OriginRotationDegreesProperty =
-            DependencyProperty.Register("OriginRotationDegrees", typeof(double), typeof(CVAvgArc),
-                new UIPropertyMetadata(270.0, new PropertyChangedCallback(UpdateArc)));
 
         protected static void UpdateArc(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((CVAvgArc)d).InvalidateVisual();
         }
 
-        protected override Geometry DefiningGeometry
-        {
-            get { return GetArcGeometry(); }
-        }
+        protected override Geometry DefiningGeometry => GetArcGeometry();
 
         protected override void OnRender(DrawingContext drawingContext)
         {

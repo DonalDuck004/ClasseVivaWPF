@@ -34,19 +34,18 @@ namespace ClasseVivaWPF.SharedControls
             get => (string)base.GetValue(DescProperty);
             set{
                 base.SetValue(DescProperty, value);
-                var x = (TextBlock)this.Text;
 
                 if (value is null)
                 {
-                    if (x.Inlines.Count != 1) {
-                        x.Inlines.Remove(x.Inlines.Last());
-                        x.Inlines.Remove(x.Inlines.Last());
+                    if (this.Text.Inlines.Count != 1) {
+                        this.Text.Inlines.Remove(this.Text.Inlines.Last());
+                        this.Text.Inlines.Remove(this.Text.Inlines.Last());
                     }
                 }
                 else
                 {
-                    x.Inlines.Add(new LineBreak());
-                    x.Inlines.Add(new Run(text: value) { FontSize = 24 });
+                    this.Text.Inlines.Add(new LineBreak());
+                    this.Text.Inlines.Add(new Run(text: value) { FontSize = 24 });
                 }
             }
         }

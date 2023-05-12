@@ -4,6 +4,7 @@ using ClasseVivaWPF.HomeControls.RegistrySection.Absences;
 using ClasseVivaWPF.HomeControls.RegistrySection.Didactic;
 using ClasseVivaWPF.HomeControls.RegistrySection.Grades;
 using ClasseVivaWPF.HomeControls.RegistrySection.Graphs;
+using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Interfaces;
@@ -31,7 +32,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
     /// </summary>
     public partial class CVRegistry : UserControl, IOnSwitch, IOnKeyDown, IOnChildClosed, IOnFullReload
     {
-
         public static CVRegistry? INSTANCE { get; private set; }
 
         protected static DependencyProperty FirstPeriodNameProperty;
@@ -103,6 +103,32 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             
 
             this.Graph.ColumnAdded += (c) => this.SetAVG(c.Value, c);
+
+#if TEST_GetCredits
+            Debug.Assert(GetCredits(5, 3) == (0,0));
+            Debug.Assert(GetCredits(5, 4) == (0,0));
+            Debug.Assert(GetCredits(5, 5) == (7,8));
+
+            Debug.Assert(GetCredits(6, 3) == (7, 8));
+            Debug.Assert(GetCredits(6, 4) == (8, 9));
+            Debug.Assert(GetCredits(6, 5) == (9, 10));
+
+            Debug.Assert(GetCredits(7, 3) == (8, 9));
+            Debug.Assert(GetCredits(7, 4) == (9, 10));
+            Debug.Assert(GetCredits(7, 5) == (10, 11));
+
+            Debug.Assert(GetCredits(8, 3) == (9, 10));
+            Debug.Assert(GetCredits(8, 4) == (10, 11));
+            Debug.Assert(GetCredits(8, 5) == (11, 12));
+
+            Debug.Assert(GetCredits(9, 3) == (10, 11));
+            Debug.Assert(GetCredits(9, 4) == (11, 12));
+            Debug.Assert(GetCredits(9, 5) == (13, 14));
+
+            Debug.Assert(GetCredits(10, 3) == (11, 12));
+            Debug.Assert(GetCredits(10, 4) == (12, 13));
+            Debug.Assert(GetCredits(10, 5) == (14, 15));
+#endif
         }
 
         private void SetAVG(double avg, BaseCVPercentage target)
@@ -194,6 +220,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
 
                 this.FirstPeriodCB.Check();
                 this.FirstPeriodName = sb_avg_1.Desc!;
+                var filtered_cols = g.Merge().OnlyDisplayable();
 
                 if (g.Count == 1)
                 {
@@ -217,6 +244,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                         default:
                             throw new Exception();
                     }
+
+                    this.estimated_credits_wp.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
@@ -224,11 +253,20 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
                     this.LastPeriodName = sb_avg_2.Desc!;
                     this.LastPeriodCB.Check();
                     this.LastPeriodCB.CanAlterCheck = true;
+
+                    var c = this.GetCredits(this.sb_avg_2.Value);
+                    if (c is null)
+                        this.estimated_credits_wp.Visibility = Visibility.Collapsed;
+                    else
+                    {
+                        this.estimated_credits.Text = $"da {c.Value.min} a {c.Value.max}";
+                        this.estimated_credits_wp.Visibility = Visibility.Visible;
+                    }
+
                 }
 
                 this.ShowNaNCB.CanAlterCheck = true;
 
-                var filtered_cols = g.Merge().OnlyDisplayable();
 
                 var columns = (from subject in _CachedSubjects
                                join grade in filtered_cols
@@ -337,6 +375,47 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection
             {
                 ReloadLock.Release();
             }
+        }
+
+        private (int min, int max)? GetCredits(double avg, int? year = null)
+        {
+            year ??= SessionHandler.INSTANCE!.GetYear();
+            if (year is null || year < 3)
+                return null;
+
+            // https://cdn.studenti.stbm.it/images/2018/07/11/crediti-scolastici-maturita-2019-orig.png
+
+            if (avg < 6 && (year == 3 || year == 4))
+                return (0, 0);
+            else if (avg < 6)
+                return (7, 8);
+
+            int min = 7;
+            int max = 8;
+
+            int c = 6;
+
+            while (avg > c++)
+            {
+                min++;
+                max++;
+            }
+
+            c = 4;
+            while(year >= c++)
+            {
+                min++;
+                max++;
+            }
+
+            if (avg > 8 && avg <= 10 && year == 5)
+            {
+                min++;
+                max++;
+            }
+
+
+            return (min, max);
         }
 
         private async void OnReload(object sender, MouseButtonEventArgs e)

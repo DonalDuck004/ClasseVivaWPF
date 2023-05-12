@@ -7,7 +7,7 @@
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="200">
-    <Grid Margin="3,5,3,5" MouseLeftButtonDown="OnSelected" Cursor="Hand">
+    <Grid Margin="3,5,3,5" MouseLeftButtonDown="OnSelected" Cursor="Hand" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>

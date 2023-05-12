@@ -17,7 +17,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
-            <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="{x:Static utils:Config.HEADER_HEIGHT}" Width="48" Background="Transparent">
+            <WrapPanel HorizontalAlignment="Left" MouseLeftButtonDown="OnClose" Cursor="Hand" Height="48" Width="48" Background="Transparent">
                 <ContentControl Name="BackIcon" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </DockPanel>
@@ -185,23 +185,38 @@
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition Style="{StaticResource ResourceKey=LastCol}"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Limite Stack Pagine" Grid.Row="0"></TextBlock>
-                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="1">Imposta la quantità massima di pagine sovrapponibili</TextBlock>
-                        <DockPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" MaxWidth="200" HorizontalAlignment="Left">
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="1" Text="Imposta la quantità massima di pagine sovrapponibili"></TextBlock>
+                        <DockPanel Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" MaxWidth="200" HorizontalAlignment="Left">
                             <Slider MinWidth="120"
                                 VerticalAlignment="Center"
                                 x:Name="PagesStackSlider"
-                                Ticks="2,3,4,5,6,7,8,9,10,10" 
+                                Ticks="2,3,4,5,6,7,8,9,10" 
                                 Minimum="2" 
                                 Maximum="10" 
                                 IsSnapToTickEnabled="True"></Slider>
                             <Label d:Foreground="#FFC62828" Foreground="{themes:ThemeBinding Path=CVSettingsSectionHeader}"
                                    Content="{Binding Path=Value, ElementName=PagesStackSlider}" ContentStringFormat="{}{0} Pagine"></Label>
+                        </DockPanel>
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Anno scolastico" Grid.Row="2"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3" Text="Imposta l'anno scolastico per sbloccare alcune funzioni"></TextBlock>
+                        <DockPanel Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" MaxWidth="200" HorizontalAlignment="Left">
+                            <Slider MinWidth="120"
+                                VerticalAlignment="Center"
+                                x:Name="YearSlider"
+                                Ticks="1,2,3,4,5" 
+                                Minimum="1" 
+                                Maximum="5" 
+                                IsSnapToTickEnabled="True"></Slider>
+                            <Label d:Foreground="#FFC62828" Foreground="{themes:ThemeBinding Path=CVSettingsSectionHeader}"
+                                   Content="{Binding Path=Value, ElementName=YearSlider}" ContentStringFormat="{}{0}° anno"></Label>
                         </DockPanel>
                     </Grid>
                 </StackPanel>

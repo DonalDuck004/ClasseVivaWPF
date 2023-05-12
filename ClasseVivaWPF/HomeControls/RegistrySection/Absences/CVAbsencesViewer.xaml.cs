@@ -79,6 +79,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
                     else
                         abs = null;
 
+
                     DayStates.Add(new(Date: year_begin,
                                       IsPresent: abs is null && is_school_day && year_begin < today,
                                       IsAbsent: abs is null ? false : abs.IsAbsence,
@@ -90,7 +91,6 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 
                 Debug.Assert(1 == year_begin.Day);
             }
-            DayStates.Capacity = DayStates.Count;
 
             this.Calendar.Init(DayStates);
 
@@ -147,6 +147,8 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
                             Content = g.Key,
                             Tag = 0,
                          });
+
+            var d = q.ToArray();
 
             this.Graph.Update(columns: q,
                               order_func: x => x.OrderBy(y => y.Tag).ToArray(), 

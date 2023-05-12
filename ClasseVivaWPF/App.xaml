@@ -27,6 +27,7 @@
         <converters:EqualToConverter x:Key="EqualToConverter"></converters:EqualToConverter>
         <converters:PercentageConverter x:Key="PercentageConverter"></converters:PercentageConverter>
         <converters:ToTitleConverter x:Key="ToTitleConverter"></converters:ToTitleConverter>
+        <converters:IsGreaterConverter x:Key="IsGreaterConverter"></converters:IsGreaterConverter>
         
         <Style TargetType="Control" x:Key="FT">
             <Setter Property="FontFamily" Value="/Assets/Fonts/#materialdrawerfont-font-v5.0.0"/>

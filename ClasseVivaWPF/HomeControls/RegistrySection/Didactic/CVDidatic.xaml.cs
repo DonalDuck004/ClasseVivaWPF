@@ -28,7 +28,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic
     /// Logica di interazione per CVDidatic.xaml
     /// </summary>
     /// 
-    // todo handle spam on reload button
+    // todo handle spam on reload button (reload lock) 
     public partial class CVDidatic : DFInjectable, ICVMeta
     {
         public bool CountsInStack { get; } = false;
