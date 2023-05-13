@@ -173,6 +173,7 @@ namespace ClasseVivaWPF.HomeControls
             Client.INSTANCE.SetLoginToken(SessionHandler.Me!.Token);
 
             MainWindow.INSTANCE.RemoveField(this);
+            CVDay.DestroyCache(true);
 
             CVLoginPage.EndLogin(set_content: false);
 

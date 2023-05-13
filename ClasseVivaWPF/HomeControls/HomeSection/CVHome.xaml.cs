@@ -213,7 +213,6 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         public void OnFullReload()
         {
-            CVDay.DestroyCache();
             this.UpdateSelected();
         }
     }

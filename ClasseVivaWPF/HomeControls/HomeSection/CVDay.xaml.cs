@@ -307,9 +307,13 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             SelectedDay = null;
         }
 
-        public static void DestroyCache()
+        public static void DestroyCache(bool deep = false)
         {
             READY_CONTENT.Clear();
+
+            if (deep)
+                foreach (var item in INSTANCES)
+                    item.Value.Update(false);
         }
     }
 }
