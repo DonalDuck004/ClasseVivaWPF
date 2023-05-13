@@ -17,8 +17,6 @@ namespace ClasseVivaWPF.Utils.Themes
     [JsonObject(MemberSerialization.OptIn)]
     public class ThemeProperties : FrameworkElement
     {
-        private static Dictionary<DependencyProperty, object>? FrozenStatus = null;
-        
         public static readonly ThemeProperties INSTANCE;
         
         public static readonly DependencyProperty EditingProperty;
@@ -640,66 +638,13 @@ namespace ClasseVivaWPF.Utils.Themes
 
         private ThemeProperties()
         {
-            this.SetThemeBinding(ThemeProperties.CVHomeworkDoneProperty);
-            this.SetThemeBinding(ThemeProperties.CVDidaticsFolderProperty);
-            this.SetThemeBinding(ThemeProperties.CVDidaticsTeachersProperty);
-            this.SetThemeBinding(ThemeProperties.CVDidaticsIconsProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientBgProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientBgProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeSufficientBgProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarNoEventFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesCalendarHasEventFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesPresentProperty);
-            this.SetThemeBinding(ThemeProperties.CVAccountBubbleProperty);
-            this.SetThemeBinding(ThemeProperties.CVAccountBubbleFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVExtraInteractIconsProperty);
-            this.SetThemeBinding(ThemeProperties.CVExtraHeaderEllipseProperty);
-            this.SetThemeBinding(ThemeProperties.CVTextBoxBackgroundProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesAbsentProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesPartiallyAbsentProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesEarlyExitProperty);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesLateProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradesFilterProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeNoteProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeInsufficientProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeSlightlyInsufficientProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeSufficientProperty);
-            this.SetThemeBinding(ThemeProperties.CVMainMenuIconSelectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVMainMenuIconUnselectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVUriProperty);
-            this.SetThemeBinding(ThemeProperties.CVHeaderProperty);
-            this.SetThemeBinding(ThemeProperties.CVCalendarProperty);
-            this.SetThemeBinding(ThemeProperties.CVButtonProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericRedProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericGrayProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericBackgroundProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericOpaqueBackgroundProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericGrayFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVPercentageBackgroundProperty);
-            this.SetThemeBinding(ThemeProperties.CVHomeCurrentDayProperty);
-            this.SetThemeBinding(ThemeProperties.CVSpinnerProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericTextSelectionProperty);
-            this.SetThemeBinding(ThemeProperties.CVHrProperty);
-            this.SetThemeBinding(ThemeProperties.CVSettingsSectionHeaderProperty);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseSelectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseUnselectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseBackgroundSelectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVCheckBoxEllipseBackgroundUnselectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontSelectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontUnselectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVMultiMenuFontSliderProperty);
-            this.SetThemeBinding(ThemeProperties.CVBackIconProperty);
-            this.SetThemeBinding(ThemeProperties.CVDayBgSelectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVDayBgUnselectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVDayTextSelectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVDayTextUnselectedProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVGenericHeaderFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVDayHomeContainerProperty);
-            this.SetThemeBinding(ThemeProperties.CVSettingsTextProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeFontProperty);
-            this.SetThemeBinding(ThemeProperties.CVGradeGRV2Property);
-            this.SetThemeBinding(ThemeProperties.CVAbsencesFontProperty);
+            this.SetBindings();
+        }
+
+        private void SetBindings()
+        {
+            foreach(var property in GetProperties())
+                this.SetThemeBinding(property);
         }
 
         public static IEnumerable<DependencyProperty> GetProperties()
@@ -769,35 +714,23 @@ namespace ClasseVivaWPF.Utils.Themes
         }
 
 
-
         public static void BeginThemeEditing()
         {
-            if (FrozenStatus is not null)
+            if (INSTANCE.Editing)
                 throw new InvalidOperationException("BeginThemeEditing called twice");
 
-            FrozenStatus = new();
             INSTANCE.Editing = true;
-
-            foreach (var item in ThemeProperties.GetProperties())
-                FrozenStatus[item] = INSTANCE.GetValue(item);
-
-            FrozenStatus.EnsureCapacity(FrozenStatus.Count);
         }
 
         public static void EndThemeEditing(bool CommitCurrent)
         {
-            if (FrozenStatus is null)
+            if (INSTANCE.Editing is false)
                 throw new InvalidOperationException("BeginThemeEditing not called");
 
-            INSTANCE.Editing = false;
-
             if (!CommitCurrent)
-            {
-                foreach (var item in FrozenStatus)
-                    INSTANCE.SetValue(item.Key, item.Value);
-            }
+                INSTANCE.SetBindings();
 
-            FrozenStatus = null;
+            INSTANCE.Editing = false;
         }
 
         public static string FreezeAsJson()
