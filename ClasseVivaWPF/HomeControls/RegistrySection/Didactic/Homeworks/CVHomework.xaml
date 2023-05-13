@@ -9,6 +9,43 @@
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="Completed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <ContentControl Template="{StaticResource ResourceKey=DoneIcon}" Width="64" Height="64" Background="{themes:ThemeBinding Path=CVHomeworkDone}" d:Background="#09A309"></ContentControl>
+                    <TextBlock Text="Compito caricato" HorizontalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVHomeworkDone}" d:Foreground="#09A309"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Cursor="Hand" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Background="Transparent">
+                    <ContentControl Template="{StaticResource ResourceKey=MediaFileIcon}" Width="64" Height="64" Foreground="{themes:ThemeBinding Path=CVGenericFont}" d:Foreground="#FF000000"></ContentControl>
+                    <TextBlock Text="File caricati" HorizontalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericFont}" d:Foreground="#FF000000"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </ControlTemplate>
+
+        <Style TargetType="ContentControl" x:Key="ActionSetter">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=HomeworkDone}" Value="True">
+                    <Setter Property="Template" Value="{StaticResource ResourceKey=Completed}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=HomeworkDone}" Value="False">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <!-- todo -->
+                                <Rectangle Width="64" Height="64" Fill="Blue"></Rectangle>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"></RowDefinition>
@@ -16,12 +53,41 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
-            <WrapPanel HorizontalAlignment="Left" Grid.Column="0" Cursor="Hand" Width="48" Background="Transparent" MouseLeftButtonDown="OnClose">
+            <WrapPanel HorizontalAlignment="Left" Grid.Column="0" Cursor="Hand" Width="48" Height="48" Background="Transparent" MouseLeftButtonDown="OnClose">
                 <ContentControl d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVBackIcon}" Template="{StaticResource ResourceKey=BackIcon}"/>
             </WrapPanel>
         </StackPanel>
         <Grid Grid.Row="1" Background="{themes:ThemeBinding Path=CVGenericBackground}" d:Background="#FFFFFFFF">
-            
+            <Grid.Resources>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Margin" Value="0,2,0,2"></Setter>
+                    <Setter Property="Height" Value="0.2"></Setter>
+                    <Setter Property="Fill" d:Value="#FF808080" Value="{themes:ThemeBinding Path=CVGenericGray}"></Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="22" Margin="12,12,12,0" Grid.Row="0" TextWrapping="Wrap" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
+                <Run d:Text="Giosuè Silvestro" Text="{Binding Path=TeacherName, Converter={StaticResource ResourceKey=ToTitleConverter}}"></Run>
+                -
+                <Run d:Text="faccio skyf" Text="{Binding Path=SubjectDesc, Converter={StaticResource ResourceKey=ToTitleConverter}}"></Run>
+            </TextBlock>
+            <TextBlock d:Foreground="#FF808080" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}" 
+                       d:Text="16 Settembre 2022" Text="{Binding Path=ExpiryDate, Converter={StaticResource ResourceKey=DateTimeConverter}, ConverterParameter='dd MMMM yyyy'}" 
+                       Margin="12,0,12,0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
+            <Rectangle Grid.Row="2"></Rectangle>
+            <TextBlock d:Text="Napoli merda" Text="{Binding Path=HomeworkDesc}" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}" Margin="12,4,12,0" Grid.Row="3" FontSize="13" TextWrapping="Wrap"></TextBlock>
+            <Rectangle Grid.Row="4"></Rectangle>
+            <ContentControl Grid.Row="5" Margin="12" Style="{StaticResource ResourceKey=ActionSetter}"></ContentControl>
+            <Rectangle Grid.Row="6"></Rectangle>
         </Grid>
         <Grid Grid.Row="2" VerticalAlignment="Center" Background="{themes:ThemeBinding Path=CVGenericRed}" d:Background="#FFC62828">
             <Grid.ColumnDefinitions>
@@ -46,9 +112,9 @@
                 </Label.Style>
             </Label>
             <TextBox Margin="10,0,0,0" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"
-                      d:Background="Transparent" Background="Transparent" AcceptsReturn="False" d:SelectionBrush="#FFC62828" 
-                         AcceptsTab="False" Name="SendBox" VerticalAlignment="Center" d:CaretBrush="#FFFFFFFF" CaretBrush="{themes:ThemeBinding Path=CVGenericHeaderFont}"
-                         BorderThickness="0" SelectionBrush="{themes:ThemeBinding Path=CVGenericRed}" FontSize="20"></TextBox>
+                     d:Background="Transparent" Background="Transparent" AcceptsReturn="False" d:SelectionBrush="#FFC62828" 
+                     AcceptsTab="False" Name="SendBox" VerticalAlignment="Center" d:CaretBrush="#FFFFFFFF" CaretBrush="{themes:ThemeBinding Path=CVGenericHeaderFont}"
+                     BorderThickness="0" SelectionBrush="{themes:ThemeBinding Path=CVGenericRed}" FontSize="20"></TextBox>
             <Label Content="INVIA QUI" Grid.Column="1"></Label>
         </Grid>
     </Grid>

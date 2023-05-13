@@ -86,6 +86,8 @@ namespace ClasseVivaWPF.Utils.Themes
         public abstract Color CV_DIDATICS_FOLDER { get; }
         public abstract Color CV_DIDATICS_TEACHERS { get; }
 
+        public abstract Color CV_HOMEWORK_DONE { get; }
+
         protected BaseTheme()
         {
 

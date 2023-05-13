@@ -10,8 +10,7 @@
                    d:DesignHeight="450" d:DesignWidth="800">
     <local:CVBaseMedia.Resources>
         <ControlTemplate x:Key="StartDownload">
-            <shared:CVButton FontSize="14" Content="Scarica" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Left" Click="OnBeginDownload">
-            </shared:CVButton>
+            <shared:CVButton FontSize="14" Content="Scarica" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Left" Click="OnBeginDownload"></shared:CVButton>
         </ControlTemplate>
 
         <ControlTemplate x:Key="PostDownload">

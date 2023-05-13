@@ -33,7 +33,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
         {
             InitializeComponent();
 
-            this.DataContext = homework;
+            this.DataContext = this.Homework = homework;
             this.src_idx = src_idx;
         }
 

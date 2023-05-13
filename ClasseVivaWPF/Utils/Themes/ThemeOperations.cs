@@ -83,6 +83,7 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_DIDATICS_ICONS_PATH = "CV_DIDATICS_ICONS";
         public const string CV_DIDATICS_TEACHERS_PATH = "CV_DIDATICS_TEACHERS";
         public const string CV_DIDATICS_FOLDER_PATH = "CV_DIDATICS_FOLDER";
+        public const string CV_HOMEWORK_DONE_PATH = "CV_HOMEWORK_DONE";
         
         public static void Register(ThemeInitializer creator)
         {

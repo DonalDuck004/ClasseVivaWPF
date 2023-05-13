@@ -7,7 +7,7 @@
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" 
              d:DesignHeight="80" d:DesignWidth="512">
-    <Border Margin="5,10,7,10" Background="{themes:ThemeBinding Path=CVGenericBackground}" d:Background="#FFFFFFFF" CornerRadius="15" d:BorderBrush="#FFF0F0F0" BorderBrush="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" BorderThickness="1">
+    <Border Margin="5,10,7,10" Background="{themes:ThemeBinding Path=CVGenericBackground}" d:Background="#FFFFFFFF" CornerRadius="10" d:BorderBrush="#FFF0F0F0" BorderBrush="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" BorderThickness="1">
         <Border.Effect>
             <DropShadowEffect BlurRadius="12"></DropShadowEffect>
         </Border.Effect>

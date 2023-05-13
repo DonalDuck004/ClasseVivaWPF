@@ -30,10 +30,15 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
         public CVHomework(Homework homework, int src_idx) // TODO Reload
         {
             InitializeComponent();
-
+            
             this.DataContext = homework;
         }
 
         private void OnClose(object sender, MouseButtonEventArgs e) => Close();
+
+        private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

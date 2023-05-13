@@ -66,5 +66,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_DIDATICS_ICONS { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
         public override Color CV_DIDATICS_FOLDER { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
         public override Color CV_DIDATICS_TEACHERS { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00); 
+        public override Color CV_HOMEWORK_DONE { get; } = Color.FromArgb(0xFF, 0x09, 0xA3, 0x09);
     }
 }

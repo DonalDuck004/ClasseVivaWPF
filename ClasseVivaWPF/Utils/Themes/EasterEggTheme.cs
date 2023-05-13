@@ -68,5 +68,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public Color CV_DIDATICS_ICONS { get; } = rnd.NextColor();
         public Color CV_DIDATICS_FOLDER { get; } = rnd.NextColor();
         public Color CV_DIDATICS_TEACHERS { get; } = rnd.NextColor();
+        public Color CV_HOMEWORK_DONE { get; } = rnd.NextColor();
     }
 }

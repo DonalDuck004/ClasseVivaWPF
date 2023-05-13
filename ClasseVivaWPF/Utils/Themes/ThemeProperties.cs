@@ -20,8 +20,11 @@ namespace ClasseVivaWPF.Utils.Themes
         private static Dictionary<DependencyProperty, object>? FrozenStatus = null;
         
         public static readonly ThemeProperties INSTANCE;
-
+        
         public static readonly DependencyProperty EditingProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_HOMEWORK_DONE_PATH)]
+        public static readonly DependencyProperty CVHomeworkDoneProperty;
 
         [ThemePropertyMeta(BindsTo = ThemeOperations.CV_DIDATICS_FOLDER_PATH)]
         public static readonly DependencyProperty CVDidaticsFolderProperty;
@@ -199,13 +202,19 @@ namespace ClasseVivaWPF.Utils.Themes
 
         [ThemePropertyMeta(BindsTo = ThemeOperations.CV_EXTRA_INTERACT_ICONS_PATH)]
         public static readonly DependencyProperty CVExtraInteractIconsProperty;
-        
+       
+        public SolidColorBrush CVHomeworkDone
+        {
+            get => (SolidColorBrush)GetValue(CVHomeworkDoneProperty);
+            set => SetValue(CVHomeworkDoneProperty, value);
+        }
+
         public SolidColorBrush CVAbsencesCalendarNoEventFont
         {
             get => (SolidColorBrush)GetValue(CVAbsencesCalendarNoEventFontProperty);
             set => SetValue(CVAbsencesCalendarNoEventFontProperty, value);
         }
-
+        
         public bool Editing
         {
             get => (bool)GetValue(EditingProperty);
@@ -565,6 +574,7 @@ namespace ClasseVivaWPF.Utils.Themes
         {
             ThemeProperties.EditingProperty = DependencyProperty.Register("Editing", typeof(bool), typeof(ThemeProperties), new PropertyMetadata(false));
 
+            ThemeProperties.CVHomeworkDoneProperty = DependencyProperty.Register("CVHomeworkDone", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDidaticsFolderProperty = DependencyProperty.Register("CVDidaticsFolder", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDidaticsTeachersProperty = DependencyProperty.Register("CVDidaticsTeachers", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDidaticsIconsProperty = DependencyProperty.Register("CVDidaticsIcons", typeof(SolidColorBrush), typeof(ThemeProperties));
@@ -630,6 +640,7 @@ namespace ClasseVivaWPF.Utils.Themes
 
         private ThemeProperties()
         {
+            this.SetThemeBinding(ThemeProperties.CVHomeworkDoneProperty);
             this.SetThemeBinding(ThemeProperties.CVDidaticsFolderProperty);
             this.SetThemeBinding(ThemeProperties.CVDidaticsTeachersProperty);
             this.SetThemeBinding(ThemeProperties.CVDidaticsIconsProperty);

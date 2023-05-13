@@ -66,5 +66,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public required Color CV_ABSENCES_CALENDAR_NO_EVENT_FONT { get; init; }
         public required Color CV_DIDATICS_FOLDER { get; init; }
         public required Color CV_DIDATICS_TEACHERS { get; init; }
+        public required Color CV_HOMEWORK_DONE { get; init; }
     }
 }
