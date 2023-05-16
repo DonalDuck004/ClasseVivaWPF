@@ -5,14 +5,12 @@ using ClasseVivaWPF.Utils.Logs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Windows;
 
 namespace ClasseVivaWPF.Api
 {
@@ -410,11 +408,8 @@ namespace ClasseVivaWPF.Api
             return content!;
         }
 
-        public async Task<HomeworksContent> Homeworks(int? fc = null)
+        public async Task<HomeworksContent> Homeworks()
         {
-            if (fc is not null)
-                throw new NotImplementedException(); // ???
-            
             var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/homeworks", null, allow_cache: true).ConfigureAwait(false);
             var content = response.GetObject<HomeworksContent>();
 
@@ -422,6 +417,97 @@ namespace ClasseVivaWPF.Api
                 response.GetError();
 
             return content!; // Click on component requires another call
+        }
+
+        public async Task<Homework> SetTeacherMsgStatus(int evt_id)
+        {
+            var data = new JObject() {
+                { "messageRead", true }
+            };
+            var response = await this.Send(HttpMethod.Post, $"rest/v1/students/{UserID}/homeworks/setTeacherMsgStatus/NEWDC/{evt_id}", data, allow_cache: false).ConfigureAwait(false);
+            var content = response.GetObject<Homework>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<S3FileHeader> GetHeaderS3(int evt_id)
+        {
+            var response = await this.Send(HttpMethod.Get, $"rest/v1/students/{UserID}/homeworks/getHeaderS3/NEWDC/{evt_id}", null, allow_cache: false).ConfigureAwait(false);
+            var content = response.GetObject<S3FileHeader>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
+        }
+
+        public async Task<bool> UploadToS3(S3FileHeader header, Uri path)
+        {
+            var url = $"https://s3.eu-south-1.amazonaws.com/{header.Bucket}";
+            var fname = Path.GetFileName(path.LocalPath);
+            MultipartFormDataContent form = new();
+            
+            AddBinaryContent(header.ACL, "acl");
+            AddStrContent(header.Key, "key");
+            AddStrContent($"attachment; filename=\"{fname}\"", "Content-Disposition");
+            AddStrContent(header.SAS.ToString(), "success_action_status", "application/json; charset=utf-8");
+            AddStrContent(header.ContentType, "Content-Type");
+            AddStrContent(header.Tags, "Tagging");
+            AddStrContent(header.XAC, "X-Amz-Credential");
+            AddStrContent(header.XAA, "X-Amz-Algorithm");
+            AddStrContent(header.XAD, "X-Amz-Date");
+            AddStrContent(header.Policy, "Policy");
+            AddStrContent(header.XAS, "X-Amz-Signature");
+
+            var tmp = new StreamContent(new FileStream(path.LocalPath, FileMode.Open, FileAccess.Read));
+            tmp.Headers.Add("Content-Type", "text/plain");
+            tmp.Headers.Add("Content-Length", "0");
+            tmp.Headers.Add("Content-Disposition", $"form-data; name=\"file\"; filename=\"{fname}\"");
+            form.Add(tmp);
+
+            var reply = await this.CVClient.SendAsync(new HttpRequestMessage(header.EffectiveMethod, url)
+            {
+                Content = form
+            });
+
+            return reply.StatusCode == (HttpStatusCode)header.SAS;
+
+            void AddBinaryContent(string data, string key)
+            {
+                var bytes = Encoding.UTF8.GetBytes(data);
+                var tmp = new ByteArrayContent(bytes, 0, bytes.Length);
+                form.Add(tmp, $"\"{key}\"");
+            }
+
+            void AddStrContent(string text, string key, string content_type = "text/plain; charset=utf-8")
+            {
+                var l = Encoding.UTF8.GetBytes(text);
+                var content = new StringContent(text);
+                content.Headers.Add("Content-Transfer-Encoding", "binary");
+                content.Headers.Add("Content-Length", l.Length.ToString());
+                content.Headers.TryAddWithoutValidation("Content-Type", content_type);
+                form.Add(content, $"\"{key}\"");
+            }
+        }
+
+        public async Task<Homework> AddS3Homework(int file_id, string filename, int evt_id)
+        {
+            var req = new JObject()
+            {
+                { "fileId", file_id },
+                { "filename", filename },
+            };
+
+            var response = await this.Send(HttpMethod.Post, $"rest/v1/students/{UserID}/homeworks/addFileS3/NEWDC/{evt_id}", req, allow_cache: false).ConfigureAwait(false);
+            var content = response.GetObject<Homework>();
+
+            if (content is null)
+                response.GetError();
+
+            return content!;
         }
     }
 }

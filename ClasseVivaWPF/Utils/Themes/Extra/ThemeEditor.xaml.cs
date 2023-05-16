@@ -108,7 +108,7 @@ namespace ClasseVivaWPF.Utils.Themes.Extra
 
         public void OnClose(object sender, EventArgs e)
         {
-            ThemeProperties.EndThemeEditing(this.ApplyCurrent);
+            ThemeProperties.EndThemeEditing();
             ThemePropertyViewer.SelectedInstance = null;
             ShowLock.Release();
         }

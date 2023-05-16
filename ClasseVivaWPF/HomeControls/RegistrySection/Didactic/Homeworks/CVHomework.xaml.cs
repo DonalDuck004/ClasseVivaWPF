@@ -1,5 +1,7 @@
-﻿using ClasseVivaWPF.Api.Types;
+﻿using ClasseVivaWPF.Api;
+using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.Media.Audio;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
 {
@@ -22,6 +25,9 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
     /// </summary>
     public partial class CVHomework : Injectable
     {
+        private int src_idx;
+        private Homework homework => (Homework)this.DataContext;
+
         private CVHomework()
         {
             InitializeComponent();
@@ -32,6 +38,7 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
             InitializeComponent();
             
             this.DataContext = homework;
+            this.src_idx = src_idx;
         }
 
         private void OnClose(object sender, MouseButtonEventArgs e) => Close();
@@ -39,6 +46,46 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        private void Update(Homework homework)
+        {
+            this.DataContext = homework;
+            CVHomeworks.INSTANCE!.Homeworks[this.src_idx] = homework;
+        }
+
+        private async void OnUploadHomework(object sender, MouseButtonEventArgs e)
+        {
+            var fd = new OpenFileDialog()
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                Multiselect = false,
+                DereferenceLinks = true,
+            };
+
+            if (fd.ShowDialog() is true)
+            {
+                var header = await Client.INSTANCE.GetHeaderS3(this.homework.EvtId);
+                await Client.INSTANCE.UploadToS3(header, new Uri(fd.FileName));
+                var upd = await Client.INSTANCE.AddS3Homework(header.FileID, System.IO.Path.GetFileName(fd.FileName), this.homework.EvtId);
+                Update(upd);
+            }
+        }
+
+        private async void OnLoad(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= OnLoad;
+
+            try
+            {
+                var upd = await Client.INSTANCE.SetTeacherMsgStatus(this.homework.EvtId);
+                Update(upd);
+            }
+            catch
+            {
+
+            }
         }
     }
 }
