@@ -3,6 +3,7 @@ using System;
 
 namespace ClasseVivaWPF.Api.Types
 {
+
     public class CalendarDay : ApiObject
     {
         [JsonProperty(Required = Required.Always)]

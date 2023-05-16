@@ -19,7 +19,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border Margin="16,4,0,4" CornerRadius="100" Grid.RowSpan="2" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+        <Border Margin="16,4,0,4" CornerRadius="100" Grid.RowSpan="2" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" d:Background="#FFD05A50">
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>
@@ -76,7 +76,7 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <TextBlock>
+            <TextBlock d:Text="A">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -107,8 +107,8 @@
         </Border>
 
         <TextBlock Grid.Column="1" Margin="6,8,0,0" FontSize="13" VerticalAlignment="Bottom" d:Foreground="#FF000000" Foreground="{themes:ThemeBinding Path=CVGenericFont}">
-            <Run Text="{Binding Path=FormattedDate, Mode=OneWay}"></Run>
-            <Run Text="{Binding Path=EvtHPos, StringFormat='a {0}° ora'}">
+            <Run Text="{Binding Path=FormattedDate, Mode=OneWay}" d:Text="24/12/2023"></Run>
+            <Run Text="{Binding Path=EvtHPos, StringFormat='a {0}° ora'}" d:Text="a 1° ora" d:FontSize="13">
                 <Run.Style>
                     <Style TargetType="Run">
                         <Setter Property="FontSize" Value="13"></Setter>
@@ -121,7 +121,7 @@
                 </Run.Style>
             </Run>
         </TextBlock>
-        <TextBlock Text="{Binding Path=JustifReasonDesc}" FontSize="13" TextWrapping="Wrap" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
+        <TextBlock Text="{Binding Path=JustifReasonDesc}" d:Text="Mezzi" FontSize="13" TextWrapping="Wrap" d:Foreground="#FF6E6E6E" Foreground="{themes:ThemeBinding Path=CVGenericGrayFont}"
                    Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Top" Grid.Row="1"></TextBlock>
 
         <WrapPanel Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0">

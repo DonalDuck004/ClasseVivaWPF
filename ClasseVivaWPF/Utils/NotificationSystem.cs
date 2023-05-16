@@ -69,7 +69,7 @@ namespace ClasseVivaWPF.Utils
 
 #if DEBUG
             var rnd = new Random();
-            return events.Where(x => rnd.Next(0, 51) != 0);
+            return events.Where(x => rnd.Next(0, 101) == 0);
 #else
             return events;
 #endif

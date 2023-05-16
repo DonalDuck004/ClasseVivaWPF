@@ -7,7 +7,7 @@
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils.Themes"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Loaded="OnLoad"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ControlTemplate x:Key="Completed">
@@ -27,20 +27,22 @@
             </Grid>
         </ControlTemplate>
 
+        <ControlTemplate x:Key="Todo">
+            <StackPanel Cursor="Hand">
+                <WrapPanel Background="Transparent" MouseLeftButtonDown="OnUploadHomework" HorizontalAlignment="Center" Orientation="Vertical">
+                    <ContentControl Template="{StaticResource ResourceKey=LinkIcon}" Width="64" Height="64" Foreground="{themes:ThemeBinding Path=CVGenericFont}" d:Foreground="#FF000000"></ContentControl>
+                    <TextBlock Text="Carica compito" HorizontalAlignment="Center" Foreground="{themes:ThemeBinding Path=CVGenericFont}" d:Foreground="#FF000000"></TextBlock>
+                </WrapPanel>
+            </StackPanel>
+        </ControlTemplate>
+
         <Style TargetType="ContentControl" x:Key="ActionSetter">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=HomeworkDone}" Value="True">
                     <Setter Property="Template" Value="{StaticResource ResourceKey=Completed}"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=HomeworkDone}" Value="False">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <!-- todo -->
-                                <Rectangle Width="64" Height="64" Fill="Blue"></Rectangle>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Template" Value="{StaticResource ResourceKey=Todo}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
 

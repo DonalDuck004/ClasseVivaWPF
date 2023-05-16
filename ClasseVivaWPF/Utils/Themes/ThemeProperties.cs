@@ -722,13 +722,12 @@ namespace ClasseVivaWPF.Utils.Themes
             INSTANCE.Editing = true;
         }
 
-        public static void EndThemeEditing(bool CommitCurrent)
+        public static void EndThemeEditing()
         {
             if (INSTANCE.Editing is false)
                 throw new InvalidOperationException("BeginThemeEditing not called");
 
-            if (!CommitCurrent)
-                INSTANCE.SetBindings();
+            INSTANCE.SetBindings();
 
             INSTANCE.Editing = false;
         }
