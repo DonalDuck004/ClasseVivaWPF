@@ -1,10 +1,14 @@
 ﻿using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Api.Types;
+using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
+using ClasseVivaWPF.Utils;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Windows.Media.Audio;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
 {
@@ -66,9 +71,18 @@ namespace ClasseVivaWPF.HomeControls.RegistrySection.Didactic.Homeworks
 
             if (fd.ShowDialog() is true)
             {
-                var header = await Client.INSTANCE.GetHeaderS3(this.homework.EvtId);
-                await Client.INSTANCE.UploadToS3(header, new Uri(fd.FileName));
-                var upd = await Client.INSTANCE.AddS3Homework(header.FileID, System.IO.Path.GetFileName(fd.FileName), this.homework.EvtId);
+                var tmp = new FileStream(fd.FileName, FileMode.Open, FileAccess.Read);
+                var hash = tmp.GetMD5();
+                var cached_id = SessionHandler.INSTANCE!.GetMappedHomework(tmp.GetMD5());
+                if (cached_id is null)
+                {
+                    var header = await Client.INSTANCE.GetHeaderS3(this.homework.EvtId);
+                    await Client.INSTANCE.UploadToS3(header, tmp);
+                    cached_id = header.FileID;
+                    SessionHandler.INSTANCE.AddMappedHomework(hash, cached_id.Value);
+                }
+
+                var upd = await Client.INSTANCE.AddS3Homework(cached_id!.Value, System.IO.Path.GetFileName(fd.FileName), this.homework.EvtId);
                 Update(upd);
             }
         }

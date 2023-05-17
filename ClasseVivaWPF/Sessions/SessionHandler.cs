@@ -101,6 +101,7 @@ namespace ClasseVivaWPF.Sessions
                 "CREATE TABLE RequestsCache(url_path VARCHAR(256) PRIMARY KEY, response TEXT, update_date VARCHAR(32) NOT NULL, etag VARCHAR(32))",
                 "CREATE TABLE Settings(NotificationsEnabled BOOL DEFAULT True, NotificationsRange INT DEFAULT 6, PagesStackSize INT DEFAULT 5, Year INT DEFAULT NULL)",
                 "CREATE TABLE MappedFiles(MediaID int PRIMARY KEY, FileName TEXT)",
+                "CREATE TABLE MappedHomeworksFiles(MD5 BLOB(32) PRIMARY KEY, FileID INT NOT NULL)",
                 "INSERT INTO Settings DEFAULT VALUES"
             };
             foreach (var sql in sqls)
@@ -109,6 +110,36 @@ namespace ClasseVivaWPF.Sessions
                 {
                     cur.CommandText = sql;
                     cur.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddMappedHomework(byte[] hash, int id)
+        {
+            var sql = "INSERT OR REPLACE INTO MappedHomeworksFiles(MD5, FileID) VALUES ($md5, $id)";
+            using (var cur = this.conn.CreateCommand())
+            {
+                cur.CommandText = sql;
+                cur.Parameters.AddWithValue("$md5", hash);
+                cur.Parameters.AddWithValue("$id", id);
+                cur.ExecuteNonQuery();
+            }
+        }
+
+        public int? GetMappedHomework(byte[] hash)
+        {
+            var sql = "SELECT FileID FROM MappedHomeworksFiles WHERE MD5 = $hash";
+            using (var cur = this.conn.CreateCommand())
+            {
+                cur.CommandText = sql;
+                cur.Parameters.AddWithValue("$md5", hash);
+                using (var row = cur.ExecuteReader())
+                {
+                    row.Read();
+                    if (row.IsDBNull(0))
+                        return null;
+                   
+                    return row.GetInt32(0);
                 }
             }
         }

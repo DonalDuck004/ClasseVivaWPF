@@ -444,10 +444,10 @@ namespace ClasseVivaWPF.Api
             return content!;
         }
 
-        public async Task<bool> UploadToS3(S3FileHeader header, Uri path)
+        public async Task<bool> UploadToS3(S3FileHeader header, FileStream stream)
         {
             var url = $"https://s3.eu-south-1.amazonaws.com/{header.Bucket}";
-            var fname = Path.GetFileName(path.LocalPath);
+            var fname = Path.GetFileName(stream.Name);
             MultipartFormDataContent form = new();
             
             AddBinaryContent(header.ACL, "acl");
@@ -462,7 +462,7 @@ namespace ClasseVivaWPF.Api
             AddStrContent(header.Policy, "Policy");
             AddStrContent(header.XAS, "X-Amz-Signature");
 
-            var tmp = new StreamContent(new FileStream(path.LocalPath, FileMode.Open, FileAccess.Read));
+            var tmp = new StreamContent(stream);
             tmp.Headers.Add("Content-Type", "text/plain");
             tmp.Headers.Add("Content-Length", "0");
             tmp.Headers.Add("Content-Disposition", $"form-data; name=\"file\"; filename=\"{fname}\"");
