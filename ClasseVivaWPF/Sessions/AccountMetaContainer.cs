@@ -7,6 +7,7 @@ namespace ClasseVivaWPF.Sessions
     {
         [JsonProperty(Required = Required.Always)]
         public required int? LastIdx { get; set; }
+
         [JsonProperty(Required = Required.Always)]
         public required List<AccountMeta> Accounts { get; set; }
 

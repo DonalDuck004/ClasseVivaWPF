@@ -70,13 +70,15 @@ namespace ClasseVivaWPF.Sessions
             SessionMetaController.Dump();
         }
 
-        public static void RemoveAt(int idx)
+        private static void RemoveAt(int idx, bool dump = true) // Private as unsafe index
         {
             SessionMetaController.Current.Accounts.RemoveAt(idx);
-            SessionMetaController.Dump();
+
+            if (dump)
+                SessionMetaController.Dump();
         }
 
-        public static void SelectAt(int idx)
+        private static void SelectAt(int idx)
         {
             SessionMetaController.Current.LastIdx = idx;
             SessionMetaController.Dump();
@@ -96,10 +98,14 @@ namespace ClasseVivaWPF.Sessions
         public static void Remove(AccountMeta meta)
         {
             var idx = SessionMetaController.Current.Accounts.TakeWhile(x => x.Ident != meta.Ident).Count();
-            RemoveAt(idx);
+            RemoveAt(idx, dump: false);
 
             if (idx == SessionMetaController.Current.LastIdx)
                 SessionMetaController.Current.LastIdx = SessionMetaController.Current.Accounts.Count == 0 ? null : 0;
+            else if (idx < SessionMetaController.Current.LastIdx)
+                SessionMetaController.Current.LastIdx--;
+
+            SessionMetaController.Dump();
         }
     }
 }

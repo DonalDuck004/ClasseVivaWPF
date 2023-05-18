@@ -215,20 +215,42 @@ namespace ClasseVivaWPF
 
         private void window_Loaded(object sender, EventArgs e)
         {
-            if (SessionHandler.TryInit(out string? api_error_message))
-                CVLoginPage.EndLogin();
-            else
+
+            if (SessionMetaController.Current.Accounts.Count == 0)
             {
                 this.ReplaceMainContent(new CVLoginPage());
+                return;
+            }
+                
+            string? api_error_message;
+
+            if (SessionHandler.TryInit(out api_error_message))
+            {
+                CVLoginPage.EndLogin();
                 return;
             }
 
-            if (api_error_message is not null)
+            string errors = "";
+            while (SessionMetaController.Current.HasAccounts)
             {
-                this.ReplaceMainContent(new CVLoginPage());
-                new CVMessageBox("Errore di Login", api_error_message).Inject();
-                return;
+                errors += $"{SessionMetaController.Current.CurrentAccount!.Ident}: {api_error_message}\n";
+                    
+                SessionMetaController.RemoveCurrent();
+                if (SessionHandler.TryInit(out api_error_message))
+                {
+                    CVLoginPage.EndLogin();
+
+                    if (errors != "")
+                        CVMessageBox.Show("Errore di Login", errors);
+
+                    return;
+                }
             }
+
+            this.ReplaceMainContent(new CVLoginPage());
+
+            CVMessageBox.Show("Errore di Login", errors);
+
         }
 
         private void window_KeyDown(object sender, KeyEventArgs e)

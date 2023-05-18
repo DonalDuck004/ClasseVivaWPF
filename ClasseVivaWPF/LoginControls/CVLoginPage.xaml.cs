@@ -82,6 +82,7 @@ namespace ClasseVivaWPF.LoginControls
 
                             var cards = await client.Cards(id: me.Id);
                             Me other;
+                            SessionHandler tmp;
 
                             foreach (var card in cards.ContentCards)
                             {
@@ -91,7 +92,9 @@ namespace ClasseVivaWPF.LoginControls
                                 if (card.Ident != me.Ident)
                                 {
                                     other = (Me)await client.Login(pass: pass, uid: uid, ident: card.Ident);
-                                    SessionHandler.InitConn(card.Ident).SetMe(other, pass: pass, uid: uid, just_register: true);
+                                    tmp = SessionHandler.InitConn(card.Ident);
+                                    tmp.SetMe(other, pass: pass, uid: uid, just_register: true);
+                                    tmp.Close();
                                 }
                             }
                         });

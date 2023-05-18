@@ -88,9 +88,12 @@ namespace ClasseVivaWPF.Sessions
             return File.Exists(SessionFileFor(ident));
         }
 
-        public static SessionHandler InitConn(string ident)
+        public static SessionHandler InitConn(string ident, bool reg_as_instance = true)
         {
-            return SessionHandler.INSTANCE = new(SessionFileFor(ident));
+            var s = new SessionHandler(SessionFileFor(ident));
+            if (reg_as_instance)
+                SessionHandler.INSTANCE = s;
+            return s;
         }
 
         public void LoadSchema()
@@ -245,7 +248,7 @@ namespace ClasseVivaWPF.Sessions
 
             try
             {
-                this.RenewToken(SessionHandler.Me.Expire);
+                this.RenewToken(SessionHandler.Me.Expire, check: false); // Force token renew for test ok from the api
             }catch (ApiError e)
             {
                 throw new InvalidDataException("Api call failed", innerException: e);
@@ -297,9 +300,9 @@ namespace ClasseVivaWPF.Sessions
                 SessionHandler.Me = me;
         }
 
-        public void RenewToken(DateTime? expire = null)
+        public void RenewToken(DateTime? expire = null, bool check = true)
         {
-            if ((expire ?? Me!.Expire) < DateTime.Now)
+            if (!check || (expire ?? Me!.Expire) < DateTime.Now)
             {
                 Client.INSTANCE.UnSetLoginToken();
 
@@ -450,13 +453,9 @@ namespace ClasseVivaWPF.Sessions
 
         public void Close()
         {
-            SqliteConnection.ClearPool(this.conn);
-            this.conn.Handle!.manual_close();
-            this.conn.Handle!.manual_close_v2();
-            this.conn.Handle!.Close();
             this.conn.Close();
+            SqliteConnection.ClearPool(this.conn);
             this.conn.Dispose();
-            this.conn = null;
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -470,11 +469,9 @@ namespace ClasseVivaWPF.Sessions
                 {
                     File.Delete(v);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     ;
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
                 }
             }
 

@@ -156,9 +156,7 @@ namespace ClasseVivaWPF.HomeControls
                 {
                     if (!SessionMetaController.Current.HasAccounts)
                     {
-                        NotificationSystem.INSTANCE.Stop();
-                        MainWindow.INSTANCE.HideIcon();
-                        Client.INSTANCE.UnSetLoginToken();
+                        this.FinalizeAccountSwitching(kill_db: false);
                         old.Close();
 
                         MainWindow.INSTANCE.ReplaceMainContent(new CVLoginPage());
@@ -219,12 +217,38 @@ namespace ClasseVivaWPF.HomeControls
         private void OnAccountLogout(object sender, EventArgs e)
         {
             var meta = ((CVAccountLogout)sender).Account;
+            bool tmp;
+            if (tmp = meta == SessionMetaController.Current.CurrentAccount)
+                SessionMetaController.RemoveCurrent();
+            else
+                SessionMetaController.Remove(meta);
 
-            SessionMetaController.Remove(meta);
-            SessionMetaController.Select(SessionMetaController.Current.CurrentAccount!);
+            if (!SessionMetaController.Current.HasAccounts)
+            {
+                this.FinalizeAccountSwitching();
+
+                MainWindow.INSTANCE.ReplaceMainContent(new CVLoginPage());
+                return;
+            }
+
+            if (tmp)
+                SessionHandler.INSTANCE!.Close();
+            else
+                SessionMetaController.Select(SessionMetaController.Current.CurrentAccount!);
+
             if (ChangeAccount())
                 this.BuildAccountSection();
             SessionHandler.DestroyFile(SessionHandler.SessionFileFor(meta.Ident));
+        }
+
+        private void FinalizeAccountSwitching(bool kill_db = true)
+        {
+            NotificationSystem.INSTANCE.Stop();
+            MainWindow.INSTANCE.HideIcon();
+            Client.INSTANCE.UnSetLoginToken();
+
+            if (kill_db)
+                SessionHandler.INSTANCE!.Close();
         }
     }
 }
