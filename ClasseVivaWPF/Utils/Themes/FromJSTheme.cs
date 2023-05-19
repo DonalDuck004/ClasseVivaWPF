@@ -28,7 +28,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public required Color CV_HOME_CURRENT_DAY { get; init; } 
         public required Color CV_GENERIC_GRAY_FONT { get; init; } 
         public required Color CV_SPINNER { get; init; } 
-        public required Color CV_GENERIC_TEXT_SELECTION { get; init; } 
         public required Color CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED { get; init; } 
         public required Color CV_CHECK_BOX_ELLIPSE_BACKGROUND_UNSELECTED { get; init; } 
         public required Color CV_CHECK_BOX_ELLIPSE_SELECTED { get; init; } 
@@ -67,5 +66,12 @@ namespace ClasseVivaWPF.Utils.Themes
         public required Color CV_DIDATICS_FOLDER { get; init; }
         public required Color CV_DIDATICS_TEACHERS { get; init; }
         public required Color CV_HOMEWORK_DONE { get; init; }
+        public required Color CV_CARET_BRUSH { get; init; }
+        public required Color CV_SELECTION_BRUSH { get; init; }
+        public required Color CV_REGISTRY_OPTION_BACKGROUND { get; init; }
+        public required Color CV_RELOAD_BACKGROUND { get; init; }
+        public required Color CV_RELOAD_BORDER { get; init; }
+        public required Color CV_RELOAD { get; init; }
+        public required Color CV_SPINNER_BACKGROUND { get; init; }
     }
 }

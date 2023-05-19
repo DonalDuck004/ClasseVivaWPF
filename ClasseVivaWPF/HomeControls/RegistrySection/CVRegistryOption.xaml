@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="512">
-    <Border Background="White" CornerRadius="20" Cursor="Hand">
+    <Border d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVRegistryOptionBackground}" CornerRadius="20" Cursor="Hand">
         <Grid x:Name="wp" Margin="16,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="32"></ColumnDefinition>

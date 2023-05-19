@@ -20,9 +20,9 @@ namespace ClasseVivaWPF.SharedControls
     /// <summary>
     /// Logica di interazione per CVReload.xaml
     /// </summary>
-    public partial class CVReload : UserControl
+    public partial class CVSpinner : UserControl
     {
-        public CVReload()
+        public CVSpinner()
         {
             InitializeComponent();
             this.DataContext = this;

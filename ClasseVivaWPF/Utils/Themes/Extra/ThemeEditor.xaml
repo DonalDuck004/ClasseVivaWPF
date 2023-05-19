@@ -81,7 +81,7 @@
                 <TextBox FontSize="24" Margin="0,5,0,0" BorderThickness="0" d:Text="Tema1" d:Background="#FFC62828" Name="NewThemeInput"
                          Background="{themes:ThemeBinding Path=CVHeader}" d:Foreground="#FFFFFFFF" Text="{Binding Path=NewThemeName}"
                          Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" HorizontalAlignment="Center" 
-                         SelectionBrush="{themes:ThemeBinding Path=CVGenericRed}" d:SelectionBrush="#FFC62828"></TextBox>
+                         SelectionBrush="{themes:ThemeBinding Path=CVSelectionBrush}" d:SelectionBrush="#FFC62828"></TextBox>
                 <Border Grid.Row="2" d:Background="White" Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.3" BorderBrush="Black" CornerRadius="10" Width="126" Margin="0,0,0,16">
                     <shared:CVButton Content="Salva" FontSize="20" Click="OnSave"></shared:CVButton>
                 </Border>

@@ -51,7 +51,7 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <shared:CVReload x:Name="Loader" Grid.Row="1" Panel.ZIndex="1"></shared:CVReload>
+        <shared:CVSpinner x:Name="Loader" Grid.Row="1" Panel.ZIndex="1"></shared:CVSpinner>
         <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel.Resources>
                 <Style TargetType="StackPanel">

@@ -49,7 +49,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_MAIN_MENU_ICON_UNSELECTED_PATH = "CV_MAIN_MENU_ICON_UNSELECTED";
 
         public const string CV_SPINNER_PATH = "CV_SPINNER";
-        public const string CV_GENERIC_TEXT_SELECTION_PATH = "CV_GENERIC_TEXT_SELECTION";
 
         public const string CV_CHECK_BOX_ELLIPSE_SELECTED_PATH = "CV_CHECK_BOX_ELLIPSE_SELECTED";
         public const string CV_CHECK_BOX_ELLIPSE_UNSELECTED_PATH = "CV_CHECK_BOX_ELLIPSE_UNSELECTED";
@@ -84,7 +83,14 @@ namespace ClasseVivaWPF.Utils.Themes
         public const string CV_DIDATICS_TEACHERS_PATH = "CV_DIDATICS_TEACHERS";
         public const string CV_DIDATICS_FOLDER_PATH = "CV_DIDATICS_FOLDER";
         public const string CV_HOMEWORK_DONE_PATH = "CV_HOMEWORK_DONE";
-        
+        public const string CV_CARET_BRUSH_PATH = "CV_CARET_BRUSH";
+        public const string CV_SELECTION_BRUSH_PATH = "CV_SELECTION_BRUSH";
+        public const string CV_REGISTRY_OPTION_BACKGROUND_PATH = "CV_REGISTRY_OPTION_BACKGROUND";
+        public const string CV_RELOAD_BACKGROUND_PATH = "CV_RELOAD_BACKGROUND";
+        public const string CV_RELOAD_BORDER_PATH = "CV_RELOAD_BORDER";
+        public const string CV_RELOAD_PATH = "CV_RELOAD";
+        public const string CV_SPINNER_BACKGROUND_PATH = "CV_SPINNER_BACKGROUND";
+
         public static void Register(ThemeInitializer creator)
         {
             THEMES.Add(creator);

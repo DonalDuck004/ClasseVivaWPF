@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ClasseVivaWPF.Utils.AdvancedIcons
+namespace ClasseVivaWPF.SharedControls.AdvancedIcons
 {
     /// <summary>
     /// Logica di interazione per CVSettingsIcon.xaml

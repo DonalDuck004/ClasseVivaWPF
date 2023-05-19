@@ -74,7 +74,9 @@
                 </Style>
             </Label.Style>
         </Label>
-        <TextBox x:Name="Input" d:CaretBrush="#FFC62828" CaretBrush="{themes:ThemeBinding Path=CVGenericRed}"  BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center" d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" TextChanged="Input_TextChanged">
+        <TextBox x:Name="Input" d:CaretBrush="#FFC62828" CaretBrush="{themes:ThemeBinding Path=CVCaretBrush}"
+                 BorderThickness="0,0,0,1" Grid.Row="1" Background="Transparent" VerticalContentAlignment="Center"
+                 d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVSelectionBrush}" TextChanged="Input_TextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Setter Property="BorderBrush" d:Value="#FFC62828" Value="{themes:ThemeBinding Path=CVGenericRed}"/>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
              xmlns:graphs="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Graphs"
-             xmlns:advicons="clr-namespace:ClasseVivaWPF.Utils.AdvancedIcons"
+             xmlns:advicons="clr-namespace:ClasseVivaWPF.SharedControls.AdvancedIcons"
              xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
              xmlns:grades="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
@@ -110,13 +110,13 @@
                                                             <Run>
                                                                 <Run.Style>
                                                                     <Style TargetType="Run">
-                                                                        <Setter Property="Text" Value="{Binding ElementName=sb_avg_2, Path=Desc}"></Setter>
+                                                                        <Setter Property="Text" Value="{Binding ElementName=sb_avg_1, Path=Desc}"></Setter>
                                                                         <Style.Triggers>
                                                                             <DataTrigger Value="True">
                                                                                 <DataTrigger.Binding>
                                                                                     <MultiBinding Converter="{StaticResource ResourceKey=IsGreaterConverter}">
-                                                                                        <Binding Path="Value" ElementName="sb_avg_1"></Binding>
                                                                                         <Binding Path="Value" ElementName="sb_avg_2"></Binding>
+                                                                                        <Binding Path="Value" ElementName="sb_avg_1"></Binding>
                                                                                     </MultiBinding>
                                                                                 </DataTrigger.Binding>
                                                                                 <Setter Property="Text" Value="{Binding ElementName=sb_avg_1, Path=Desc}"></Setter>

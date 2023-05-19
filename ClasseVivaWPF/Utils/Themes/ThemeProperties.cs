@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -111,9 +110,6 @@ namespace ClasseVivaWPF.Utils.Themes
         [ThemePropertyMeta(BindsTo = ThemeOperations.CV_SPINNER_PATH)]
         public static readonly DependencyProperty CVSpinnerProperty;
 
-        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_GENERIC_TEXT_SELECTION_PATH)]
-        public static readonly DependencyProperty CVGenericTextSelectionProperty;
-
         [ThemePropertyMeta(BindsTo = ThemeOperations.CV_HR_PATH)]
         public static readonly DependencyProperty CVHrProperty;
 
@@ -200,7 +196,71 @@ namespace ClasseVivaWPF.Utils.Themes
 
         [ThemePropertyMeta(BindsTo = ThemeOperations.CV_EXTRA_INTERACT_ICONS_PATH)]
         public static readonly DependencyProperty CVExtraInteractIconsProperty;
-       
+        
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_SELECTION_BRUSH_PATH)]
+        public static readonly DependencyProperty CVSelectionBrushProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_RELOAD_BORDER_PATH)]
+        public static readonly DependencyProperty CVReloadBorderProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_RELOAD_PATH)]
+        public static readonly DependencyProperty CVReloadProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_SPINNER_BACKGROUND_PATH)]
+        public static readonly DependencyProperty CVSpinnerBackgroundProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_CARET_BRUSH_PATH)]
+        public static readonly DependencyProperty CVCaretBrushProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_RELOAD_BACKGROUND_PATH)]
+        public static readonly DependencyProperty CVReloadBackgroudProperty;
+
+        [ThemePropertyMeta(BindsTo = ThemeOperations.CV_REGISTRY_OPTION_BACKGROUND_PATH)]
+        public static readonly DependencyProperty CVRegistryOptionBackgroundProperty;
+
+
+        public SolidColorBrush CVReloadBackgroud
+        {
+            get => (SolidColorBrush)GetValue(CVReloadBackgroudProperty);
+            set => SetValue(CVReloadBackgroudProperty, value);
+        }
+
+        public SolidColorBrush CVSelectionBrush
+        {
+            get => (SolidColorBrush)GetValue(CVSelectionBrushProperty);
+            set => SetValue(CVSelectionBrushProperty, value);
+        }
+
+        public SolidColorBrush CVReloadBorder
+        {
+            get => (SolidColorBrush)GetValue(CVReloadBorderProperty);
+            set => SetValue(CVReloadBorderProperty, value);
+        }
+
+        public SolidColorBrush CVReload
+        {
+            get => (SolidColorBrush)GetValue(CVReloadProperty);
+            set => SetValue(CVReloadProperty, value);
+        }
+
+        public SolidColorBrush CVSpinnerBackground
+        {
+            get => (SolidColorBrush)GetValue(CVSpinnerBackgroundProperty);
+            set => SetValue(CVSpinnerBackgroundProperty, value);
+        }
+
+        public SolidColorBrush CVCaretBrush
+        {
+            get => (SolidColorBrush)GetValue(CVCaretBrushProperty);
+            set => SetValue(CVCaretBrushProperty, value);
+        }
+
+        public SolidColorBrush CVRegistryOptionBackground
+        {
+            get => (SolidColorBrush)GetValue(CVRegistryOptionBackgroundProperty);
+            set => SetValue(CVRegistryOptionBackgroundProperty, value);
+        }
+
         public SolidColorBrush CVHomeworkDone
         {
             get => (SolidColorBrush)GetValue(CVHomeworkDoneProperty);
@@ -435,12 +495,6 @@ namespace ClasseVivaWPF.Utils.Themes
             set => SetValue(CVSpinnerProperty, value);
         }
 
-        public SolidColorBrush CVGenericTextSelection
-        {
-            get => (SolidColorBrush)GetValue(CVGenericTextSelectionProperty);
-            set => SetValue(CVGenericTextSelectionProperty, value);
-        }
-
         public SolidColorBrush CVHr
         {
             get => (SolidColorBrush)GetValue(CVHrProperty);
@@ -567,11 +621,17 @@ namespace ClasseVivaWPF.Utils.Themes
             set => SetValue(CVDidaticsTeachersProperty, value);
         }
 
-
         static ThemeProperties()
         {
             ThemeProperties.EditingProperty = DependencyProperty.Register("Editing", typeof(bool), typeof(ThemeProperties), new PropertyMetadata(false));
 
+            ThemeProperties.CVCaretBrushProperty = DependencyProperty.Register("CVCaretBrush", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVSelectionBrushProperty = DependencyProperty.Register("CVSelectionBrush", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVRegistryOptionBackgroundProperty = DependencyProperty.Register("CVRegistryOptionBackground", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVReloadBackgroudProperty = DependencyProperty.Register("CVReloadBackgroud", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVReloadBorderProperty = DependencyProperty.Register("CVReloadBorder", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVReloadProperty = DependencyProperty.Register("CVReload", typeof(SolidColorBrush), typeof(ThemeProperties));
+            ThemeProperties.CVSpinnerBackgroundProperty = DependencyProperty.Register("CVSpinnerBackground", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVHomeworkDoneProperty = DependencyProperty.Register("CVHomeworkDone", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDidaticsFolderProperty = DependencyProperty.Register("CVDidaticsFolder", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVDidaticsTeachersProperty = DependencyProperty.Register("CVDidaticsTeachers", typeof(SolidColorBrush), typeof(ThemeProperties));
@@ -603,7 +663,6 @@ namespace ClasseVivaWPF.Utils.Themes
             ThemeProperties.CVPercentageBackgroundProperty = DependencyProperty.Register("CVPercentageBackground", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVHomeCurrentDayProperty = DependencyProperty.Register("CVHomeCurrentDay", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVSpinnerProperty = DependencyProperty.Register("CVSpinner", typeof(SolidColorBrush), typeof(ThemeProperties));
-            ThemeProperties.CVGenericTextSelectionProperty = DependencyProperty.Register("CVGenericTextSelection", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVHrProperty = DependencyProperty.Register("CVHr", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVSettingsSectionHeaderProperty = DependencyProperty.Register("CVSettingsSectionHeader", typeof(SolidColorBrush), typeof(ThemeProperties));
             ThemeProperties.CVCheckBoxEllipseSelectedProperty = DependencyProperty.Register("CVCheckBoxEllipseSelected", typeof(SolidColorBrush), typeof(ThemeProperties));

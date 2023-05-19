@@ -93,7 +93,7 @@ namespace ClasseVivaWPF
         {
             if (this.NotifyIcon is not null)
                 this.NotifyIcon!.Checked = SessionHandler.INSTANCE!.GetNotificationsFlag();
-
+            // TODO Load user theme here
    
             if (this.icon.Visible is false)
             {

@@ -5,6 +5,7 @@ using ClasseVivaWPF.HomeControls.HomeSection;
 using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils.Interfaces;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,7 +78,7 @@ namespace ClasseVivaWPF.LoginControls
                         me = (Me)await client.Login(pass: pass, uid: uid, ident: choicer.Result);
                         client.SetLoginToken(me.Token);
 
-                        this.LoginFinalizer = new Task(async () =>
+                        this.LoginFinalizer = Task.Run(async () =>
                         {
 
                             var cards = await client.Cards(id: me.Id);
@@ -92,14 +93,12 @@ namespace ClasseVivaWPF.LoginControls
                                 if (card.Ident != me.Ident)
                                 {
                                     other = (Me)await client.Login(pass: pass, uid: uid, ident: card.Ident);
-                                    tmp = SessionHandler.InitConn(card.Ident);
+                                    tmp = SessionHandler.InitConn(card.Ident, reg_as_instance: false);
                                     tmp.SetMe(other, pass: pass, uid: uid, just_register: true);
                                     tmp.Close();
                                 }
                             }
                         });
-
-                        this.LoginFinalizer.Start();
                     }
                     else
                     {
@@ -153,6 +152,8 @@ namespace ClasseVivaWPF.LoginControls
             if (set_content)
             {
                 var navigation = CVMainNavigation.New();
+
+
                 MainWindow.INSTANCE.ReplaceMainContent(navigation);
             }
 

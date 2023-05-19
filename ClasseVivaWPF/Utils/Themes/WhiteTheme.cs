@@ -28,7 +28,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_HOME_CURRENT_DAY { get; } = Color.FromArgb(0xFF, 0x6A, 0x96, 0xAE);
         public override Color CV_GENERIC_GRAY_FONT { get; } = Color.FromArgb(0xFF, 0x6E, 0x6E, 0x6E);
         public override Color CV_SPINNER { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0xFF);
-        public override Color CV_GENERIC_TEXT_SELECTION { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
         public override Color CV_CHECK_BOX_ELLIPSE_BACKGROUND_UNSELECTED { get; } = Color.FromArgb(0xFF, 0x7C, 0x7C, 0x7C);
         public override Color CV_CHECK_BOX_ELLIPSE_SELECTED { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
@@ -67,5 +66,12 @@ namespace ClasseVivaWPF.Utils.Themes
         public override Color CV_DIDATICS_FOLDER { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
         public override Color CV_DIDATICS_TEACHERS { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00); 
         public override Color CV_HOMEWORK_DONE { get; } = Color.FromArgb(0xFF, 0x09, 0xA3, 0x09);
+        public override Color CV_CARET_BRUSH { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
+        public override Color CV_SELECTION_BRUSH { get; } = Color.FromArgb(0xFF, 0xC6, 0x28, 0x28);
+        public override Color CV_REGISTRY_OPTION_BACKGROUND { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_RELOAD_BACKGROUND { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+        public override Color CV_RELOAD_BORDER { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
+        public override Color CV_RELOAD { get; } = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
+        public override Color CV_SPINNER_BACKGROUND { get; } = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
     }
 }

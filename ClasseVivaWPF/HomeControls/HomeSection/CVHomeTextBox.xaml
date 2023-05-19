@@ -45,7 +45,7 @@
                 <WrapPanel Grid.Column="1" Grid.Row="4" Margin="0,3,0,8" Grid.ColumnSpan="3" Name="last_wp">
                     <RichTextBox IsDocumentEnabled="True" VerticalAlignment="Top" HorizontalAlignment="Right" IsReadOnly="True" 
                                  BorderThickness="0" Background="{Binding Path=BackgroundColor}" 
-                                 d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVGenericTextSelection}" Name="ContentTextBox">
+                                 d:SelectionBrush="#FFC62828" SelectionBrush="{themes:ThemeBinding Path=CVSelectionBrush}" Name="ContentTextBox">
                         <FlowDocument Foreground="{Binding Path=FontColor}">
                             <Paragraph Name="lesson_txt"></Paragraph>
                         </FlowDocument>

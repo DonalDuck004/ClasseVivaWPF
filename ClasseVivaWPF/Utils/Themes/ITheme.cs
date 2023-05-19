@@ -45,7 +45,6 @@ namespace ClasseVivaWPF.Utils.Themes
 
         Color CV_HOME_CURRENT_DAY { get; }
         Color CV_SPINNER { get; }
-        Color CV_GENERIC_TEXT_SELECTION { get; }
 
         Color CV_HR { get; }
         Color CV_SETTINGS_SECTION_HEADER { get; }
@@ -80,5 +79,14 @@ namespace ClasseVivaWPF.Utils.Themes
         Color CV_DIDATICS_FOLDER { get; }
         Color CV_DIDATICS_TEACHERS { get; }
         Color CV_HOMEWORK_DONE { get; }
+        
+        Color CV_CARET_BRUSH { get; }
+        Color CV_SELECTION_BRUSH { get; }
+        Color CV_REGISTRY_OPTION_BACKGROUND { get; }
+        Color CV_RELOAD_BACKGROUND { get; }
+        Color CV_RELOAD_BORDER { get; }
+        Color CV_RELOAD { get; }
+        Color CV_SPINNER_BACKGROUND { get; }
+        // todo Color CV_REGISTRY_ICONS { get; }
     }
 }

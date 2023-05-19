@@ -51,11 +51,9 @@ namespace ClasseVivaWPF.HomeControls
         {
             InitializeComponent();
             this.DataContext = this;
-
-            this.BuildAccountSection();
         }
 
-        private void BuildAccountSection()
+        public void BuildAccountSection()
         {
             this.accounts_wp.Children.Clear();
             this.logout_wp.Children.Clear();
@@ -80,8 +78,7 @@ namespace ClasseVivaWPF.HomeControls
         {
             if (CVMainNavigation.INSTANCE is null)
                 CVMainNavigation.INSTANCE = new();
-            else
-                CVMainNavigation.INSTANCE.BuildAccountSection();
+            CVMainNavigation.INSTANCE.BuildAccountSection();
 
             return CVMainNavigation.INSTANCE;
         }
@@ -228,6 +225,8 @@ namespace ClasseVivaWPF.HomeControls
                 this.FinalizeAccountSwitching();
 
                 MainWindow.INSTANCE.ReplaceMainContent(new CVLoginPage());
+
+                this.AccountSectionExpanded = false;
                 return;
             }
 

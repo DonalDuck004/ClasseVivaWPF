@@ -94,7 +94,7 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             InitializeComponent();
             this.DataContext = this;
 
-            this.ContentTextBox.SetThemeBinding(RichTextBox.SelectionBrushProperty, ThemeProperties.CVGenericTextSelectionProperty);
+            this.ContentTextBox.SetThemeBinding(RichTextBox.SelectionBrushProperty, ThemeProperties.CVSelectionBrushProperty);
         }
 
         private void ParseText(string text, InlineCollection target, string init_value = "")

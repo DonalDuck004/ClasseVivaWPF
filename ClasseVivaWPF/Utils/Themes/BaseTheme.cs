@@ -52,8 +52,6 @@ namespace ClasseVivaWPF.Utils.Themes
         
         public abstract Color CV_HOME_CURRENT_DAY { get; }
         public abstract Color CV_SPINNER { get; }
-        public abstract Color CV_GENERIC_TEXT_SELECTION { get; }
-
         public abstract Color CV_HR { get; }
         public abstract Color CV_SETTINGS_SECTION_HEADER { get; }
 
@@ -87,6 +85,14 @@ namespace ClasseVivaWPF.Utils.Themes
         public abstract Color CV_DIDATICS_TEACHERS { get; }
 
         public abstract Color CV_HOMEWORK_DONE { get; }
+
+        public abstract Color CV_CARET_BRUSH { get; }
+        public abstract Color CV_SELECTION_BRUSH { get; }
+        public abstract Color CV_REGISTRY_OPTION_BACKGROUND { get; }
+        public abstract Color CV_RELOAD_BACKGROUND { get; }
+        public abstract Color CV_RELOAD_BORDER { get; }
+        public abstract Color CV_RELOAD { get; }
+        public abstract Color CV_SPINNER_BACKGROUND { get; }
 
         protected BaseTheme()
         {

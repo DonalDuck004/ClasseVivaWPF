@@ -27,7 +27,6 @@ namespace ClasseVivaWPF.Utils.Themes
         public Color CV_GENERIC_GRAY_FONT { get; } = rnd.NextColor();
         public Color CV_HEADER { get; } = rnd.NextColor();
         public Color CV_SPINNER { get; } = rnd.NextColor();
-        public Color CV_GENERIC_TEXT_SELECTION { get; } = rnd.NextColor();
         public Color CV_CHECK_BOX_ELLIPSE_SELECTED { get; } = rnd.NextColor();
         public Color CV_CHECK_BOX_ELLIPSE_UNSELECTED { get; } = rnd.NextColor();
         public Color CV_CHECK_BOX_ELLIPSE_BACKGROUND_SELECTED { get; } = rnd.NextColor();
@@ -69,5 +68,12 @@ namespace ClasseVivaWPF.Utils.Themes
         public Color CV_DIDATICS_FOLDER { get; } = rnd.NextColor();
         public Color CV_DIDATICS_TEACHERS { get; } = rnd.NextColor();
         public Color CV_HOMEWORK_DONE { get; } = rnd.NextColor();
+        public Color CV_CARET_BRUSH { get; } = rnd.NextColor();
+        public Color CV_SELECTION_BRUSH { get; } = rnd.NextColor();
+        public Color CV_REGISTRY_OPTION_BACKGROUND { get; } = rnd.NextColor();
+        public Color CV_RELOAD_BACKGROUND { get; } = rnd.NextColor();
+        public Color CV_RELOAD_BORDER { get; } = rnd.NextColor();
+        public Color CV_RELOAD { get; } = rnd.NextColor();
+        public Color CV_SPINNER_BACKGROUND { get; } = rnd.NextColor();
     }
 }

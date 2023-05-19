@@ -116,7 +116,7 @@
             <TextBox Margin="10,0,0,0" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"
                      d:Background="Transparent" Background="Transparent" AcceptsReturn="False" d:SelectionBrush="#FFC62828" 
                      AcceptsTab="False" Name="SendBox" VerticalAlignment="Center" d:CaretBrush="#FFFFFFFF" CaretBrush="{themes:ThemeBinding Path=CVGenericHeaderFont}"
-                     BorderThickness="0" SelectionBrush="{themes:ThemeBinding Path=CVGenericRed}" FontSize="20"></TextBox>
+                     BorderThickness="0" SelectionBrush="{themes:ThemeBinding Path=CVSelectionBrush}" FontSize="20"></TextBox>
             <Label Content="INVIA QUI" Grid.Column="1"></Label>
         </Grid>
     </Grid>
