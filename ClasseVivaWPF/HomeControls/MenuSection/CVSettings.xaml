@@ -250,6 +250,21 @@
                         <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="5" Text="{x:Static utils:Config.VERSION_LONGEST_STRING}"></TextBlock>
                     </Grid>
                 </StackPanel>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ResourceKey=Title}" Text="Costanti di compilazione"></TextBlock>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Tema di default" Grid.Row="0"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="1">Il tema di default è impostato su <Run Text="{x:Static utils:Config.DEFAULT_THEME_NAME}"></Run></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=VoiceTitle}" Text="Proxy" Grid.Row="2"></TextBlock>
+                        <TextBlock Style="{StaticResource ResourceKey=Paragraph}" Grid.Row="3">Il proxy (usato generalmente per debug) è impostato su <Run Text="{Binding Path=ProxyStatusString, Mode=OneTime}"></Run></TextBlock>
+                    </Grid>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

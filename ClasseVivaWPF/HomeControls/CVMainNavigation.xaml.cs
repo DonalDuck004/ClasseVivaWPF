@@ -95,7 +95,7 @@ namespace ClasseVivaWPF.HomeControls
             if (idx is CVMainMenuIconValues.Home)
             {
                 Current.Children.Add(CVHome.INSTANCE);
-                if (Config.UNLOAD_TABS_ON_SWITCH)
+                if (Config.UNLOAD_HOME_ON_SWITCH)
                     CVHome.GlobDispose();
             }
             else if (idx is CVMainMenuIconValues.Menu)

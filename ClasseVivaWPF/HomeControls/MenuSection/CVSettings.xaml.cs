@@ -26,13 +26,13 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
         public static string ThemesDirSize => new DirectoryInfo(Config.THEMES_DIR_PATH).GetFiles().Sum(x => x.Length).SizeSuffix();
         public static string? SessionCacheSize => SessionHandler.INSTANCE?.GetCacheSize().SizeSuffix();
         public static string? DBSize => SessionHandler.INSTANCE is null ? null : new FileInfo(SessionHandler.INSTANCE?.FileName!).Length.SizeSuffix();
+        
         private FileSystemWatcher MediaDirChanged = new FileSystemWatcher(Config.MEDIA_DIR_PATH)
         {
             EnableRaisingEvents = true,
             IncludeSubdirectories = true,
             NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName
         };
-
 
         private FileSystemWatcher LogsDirChanged = new FileSystemWatcher(Config.LOGS_DIR_PATH)
         {
@@ -47,6 +47,8 @@ namespace ClasseVivaWPF.HomeControls.MenuSection
             IncludeSubdirectories = true,
             NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName
         };
+
+        public string ProxyStatusString => Config.USE_PROXY ? $"attivo con indirizzo {Config.PROXY_HOST}:{Config.PROXY_PORT}" : "disattivo";
 
         public CVSettings() : base()
         {

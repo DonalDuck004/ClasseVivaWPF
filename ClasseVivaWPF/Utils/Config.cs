@@ -24,8 +24,7 @@ namespace ClasseVivaWPF.Utils
         public const int PROXY_PORT = 8000;
         public const string PROXY_HOST = "localhost";
 
-        public const bool UNLOAD_TABS_ON_SWITCH = false;
-
+        public const bool UNLOAD_HOME_ON_SWITCH = true;
 
         public const string REPO_URL = "https://github.com/DonalDuck004/ClasseVivaWPF";
 
@@ -43,7 +42,7 @@ namespace ClasseVivaWPF.Utils
 
         public static readonly string LOGS_DIR_PATH = Path.Join(INSTALL_PATH, "Logs");
         public static readonly string LOG_FILE_TEMPLATE = $"Log_{DateTime.Now:dd_MM_yyyy}_{{0}}.log";
-        public static readonly long MAX_LOG_SIZE = 0xFFFFFFFF; // 1 = 1 byte
+        public static readonly long MAX_LOG_SIZE = 0xFFFFFFFF; // 1 = 1 byte todo: implement
         public static readonly int LOG_BUFF_SIZE = 0xFFF;
 
         static Config()
