@@ -164,9 +164,9 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             this.Scroll();
         }
 
-        internal void BeginDestroy()
+        internal void BeginDestroy(bool safe = true)
         {
-            if (ReferenceEquals(CVDay.SelectedDay!.Parent, this))
+            if (safe && ReferenceEquals(CVDay.SelectedDay!.Parent, this))
                 throw new Exception();
             cached_objects.Remove(this.From);
 

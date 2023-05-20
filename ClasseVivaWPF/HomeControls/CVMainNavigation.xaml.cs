@@ -85,30 +85,28 @@ namespace ClasseVivaWPF.HomeControls
 
         internal void SelectVoice(CVMainMenuIconValues idx)
         {
-            if (Current.Children.Count != 0)
+            if (this.Current.Children.Count != 0)
             {
-                ((IOnSwitch)Current.Children[0]).OnSwitch();
-                Current.Children.Clear();
+                ((IOnSwitch)this.Current.Children[0]).OnSwitch();
+                this.Current.Children.Clear();
             }
 
             // IOnSwitch
             if (idx is CVMainMenuIconValues.Home)
             {
-                Current.Children.Add(CVHome.INSTANCE);
-                if (Config.UNLOAD_HOME_ON_SWITCH)
-                    CVHome.GlobDispose();
+                this.Current.Children.Add(CVHome.NewInstance());
             }
             else if (idx is CVMainMenuIconValues.Menu)
             {
-                Current.Children.Add(new CVMenu());
+                this.Current.Children.Add(new CVMenu());
             }
             else if (idx is CVMainMenuIconValues.Badge)
             {
-                Current.Children.Add(new CVBadge());
+                this.Current.Children.Add(new CVBadge());
             }
             else if (idx is CVMainMenuIconValues.Registro)
             {
-                Current.Children.Add(new CVRegistry());
+                this.Current.Children.Add(new CVRegistry());
             }
         }
 

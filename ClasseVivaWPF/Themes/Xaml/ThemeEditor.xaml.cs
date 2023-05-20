@@ -20,13 +20,20 @@ using System.Text.RegularExpressions;
 using ClasseVivaWPF.Themes.Abs;
 using ClasseVivaWPF.Themes.Handling;
 using ClasseVivaWPF.Utils;
+using System.Resources;
 
 namespace ClasseVivaWPF.Themes.Xaml
 {
+    public enum ThemeEditorMountModes
+    {
+        Window,
+        InternalWindow
+    }
+
     /// <summary>
     /// Logica di interazione per ThemeEditor.xaml
     /// </summary>
-    public partial class ThemeEditor : Window
+    public partial class ThemeEditor : Canvas
     {
         public static readonly DependencyProperty NewThemeNameProperty;
         public static readonly DependencyProperty SelectedThemeProperty;
@@ -35,7 +42,6 @@ namespace ClasseVivaWPF.Themes.Xaml
 
         public bool EditedFlag = false;
         public bool AllowOverwrite = false;
-        private bool ApplyCurrent = false;
         private static SemaphoreSlim ShowLock = new SemaphoreSlim(1, 1);
         public static ThemeEditor? INSTANCE { get; private set; }
 
@@ -75,7 +81,7 @@ namespace ClasseVivaWPF.Themes.Xaml
         {
             InitializeComponent();
 
-            this.DataContext = this;
+            this.mobile_wp.DataContext = this;
         }
 
         public static async Task<bool> New()
@@ -105,21 +111,78 @@ namespace ClasseVivaWPF.Themes.Xaml
 
             INSTANCE.NewThemeName = $"Tema{last_generic + 1}";
 
-            INSTANCE.Show();
+            INSTANCE.SetMountMode(ThemeEditorMountModes.Window);
             return true;
         }
 
-        public void OnClose(object sender, EventArgs e)
+        private void Activate()
+        {
+            if (this.Parent is Window x)
+                x.Activate();
+            else if (this.Parent is InternalWindow y)
+                y.Collapsed = false;
+        }
+
+        private void SetMountMode(ThemeEditorMountModes mode)
+        {
+            if (this.Parent is Window x)
+            {
+                x.Closed -= OnWinClose;
+                x.Closing -= OnWinClosing;
+                x.Content = null;
+                x.Close();
+            }
+            else if (this.Parent is InternalWindow y)
+            {
+                y.Closed -= OnIntWinClose;
+                y.Closing -= OnIntWinClosing;
+                y.ContentItem = null;
+                y.Unmount();
+            }
+
+            if (mode is ThemeEditorMountModes.InternalWindow)
+            {
+                var in_win = new InternalWindow()
+                {
+                    Title = "Theme Editor",
+                    ContentItem = this,
+                    MountOnMainWindow = true,
+                };
+                in_win.Closed += OnIntWinClose;
+                in_win.Closing += OnIntWinClosing;
+                in_win.AddCustomAction((FrameworkElement)this.Resources["ExtraIntWinIcon"]);
+                in_win.ManualMount();
+            }else
+            {
+                var win = new Window()
+                {
+                    Title = "Theme Editor",
+                    Content = this,
+                    ResizeMode = ResizeMode.CanMinimize,
+                    Height = 450,
+                    Width = 800
+                };
+
+                win.Closed += OnWinClose;
+                win.Closing += OnWinClosing; // Todo for InternalWindow
+                win.Show();
+            }
+        }
+
+        private void OnWinClose(object sender, EventArgs e) => OnClose();
+        private void OnIntWinClose(InternalWindow sender) => OnClose();
+        private void OnWinClosing(object sender, CancelEventArgs e) => e.Cancel = OnClosing();
+        private void OnIntWinClosing(object sender, IntWinClosingEventArgs e) => e.Cancel = OnClosing();
+
+        private void OnClose()
         {
             ThemeProperties.EndThemeEditing();
             ThemePropertyViewer.SelectedInstance = null;
             ShowLock.Release();
         }
 
-        private void OnClosing(object sender, CancelEventArgs e)
+        private bool OnClosing()
         {
-            this.ApplyCurrent = !this.EditedFlag;
-
             if (this.EditedFlag)
             {
                 var confirm = MessageBox.Show("Non hai salvato il tema modificato, vuoi continuare?", "Tema non salvato", MessageBoxButton.OKCancel);
@@ -127,8 +190,7 @@ namespace ClasseVivaWPF.Themes.Xaml
                 if (confirm is MessageBoxResult.Cancel)
                 {
                     this.LeftExapanded = true;
-                    e.Cancel = true;
-                    return;
+                    return true;
                 }
             }
             else if (ThemeOperations.ThemeFileExists(this.NewThemeName))
@@ -141,6 +203,8 @@ namespace ClasseVivaWPF.Themes.Xaml
                 else
                     MessageBox.Show("Tema non salvato correttamente", "Errore", MessageBoxButton.OK);
             }
+
+            return false;
         }
 
         private void OnSave(object sender, RoutedEventArgs e)
@@ -194,6 +258,11 @@ namespace ClasseVivaWPF.Themes.Xaml
         private void OnExpand(object sender, MouseButtonEventArgs e)
         {
             this.LeftExapanded = !this.LeftExapanded;
+        }
+
+        private void OnOpenWindow(object sender, MouseButtonEventArgs e)
+        {
+
         }
 
         /*private void OnPicker(object sender, RoutedEventArgs e)

@@ -24,7 +24,7 @@ namespace ClasseVivaWPF.Utils
         public const int PROXY_PORT = 8000;
         public const string PROXY_HOST = "localhost";
 
-        public const bool UNLOAD_HOME_ON_SWITCH = true;
+        public const bool UNLOAD_HOME_ON_SWITCH = false;
 
         public const string REPO_URL = "https://github.com/DonalDuck004/ClasseVivaWPF";
 

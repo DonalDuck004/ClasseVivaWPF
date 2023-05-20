@@ -17,7 +17,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Name="Header" Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}">
+        <Grid Name="Header" Grid.Row="0" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Panel.ZIndex="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="159"></ColumnDefinition>
@@ -130,10 +130,10 @@
             </Canvas>
         </Canvas>
         
-        <DockPanel Name="Current" Grid.Row="1">
-        </DockPanel>
+        <Grid Name="Current" Grid.Row="1">
+        </Grid>
 
-        <Grid Grid.Row="2" x:Name="wp_buttons" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}">
+        <Grid Grid.Row="2" x:Name="wp_buttons" d:Background="#FFF0F0F0" Background="{themes:ThemeBinding Path=CVGenericOpaqueBackground}" Panel.ZIndex="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

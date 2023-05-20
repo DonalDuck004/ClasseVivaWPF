@@ -283,8 +283,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
             else
                 @this.Row2 = evt.NotesForFamily;
 
-            @this.lesson_txt.Inlines.Add(new Run() { FontSize = 24, Text = evt.DisplayValue, FontWeight = FontWeights.SemiBold });
-            @this.lesson_txt.Inlines.Add(new Run() { Text = $"\t{evt.ComponentDesc}", BaselineAlignment = BaselineAlignment.Center, FontSize = 16 });
+            @this.lesson_txt.Inlines.Add(new Run() { FontSize = 28, Text = evt.DisplayValue, FontWeight = FontWeights.SemiBold });
+            @this.lesson_txt.Inlines.Add(new Run() { Text = $"  {evt.ComponentDesc}", BaselineAlignment = BaselineAlignment.Bottom, FontSize = 20 });
             @this.UpperImgWP.Visibility = Visibility.Collapsed;
             @this.IconTemplate = (ControlTemplate)Application.Current.FindResource("GradeIcon");
 

@@ -131,7 +131,7 @@ namespace ClasseVivaWPF.LoginControls
         public static void EndLogin(bool set_content = true, CVLoginPage? src = null)
         {
             var raw_content = Client.INSTANCE.Contents().ConfigureAwait(false).GetAwaiter().GetResult();
-            CVHome.INSTANCE.Contents = new();
+            CVHome.INSTANCE.Contents!.Clear();
 
             foreach (var item in raw_content.OrderByDescending(x => x.BeginDate))
             {

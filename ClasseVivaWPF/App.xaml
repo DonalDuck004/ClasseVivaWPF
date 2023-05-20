@@ -444,5 +444,91 @@
                 </Canvas>
             </Viewbox>
         </ControlTemplate>
+
+        <ControlTemplate x:Key="ExpandIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="2"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M4 9L4 6C4 4.89543 4.89543 4 6 4L9 4"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M20 15V18C20 19.1046 19.1046 20 18 20H15"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M15 4L18 4C19.1046 4 20 4.89543 20 6L20 9"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M9 20L6 20C4.89543 20 4 19.1046 4 18L4 15"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        
+        <ControlTemplate x:Key="RestoreIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="2"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M9 4.00012V7.00012C9 8.10469 8.10457 9.00012 7 9.00012H4"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M15 20.0001L15 17.0001C15 15.8956 15.8954 15.0001 17 15.0001L20 15.0001"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M20 9.00012L17 9.00012C15.8954 9.00012 15 8.10469 15 7.00012L15 4.00012"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M4 15.0001L7 15.0001C8.10457 15.0001 9 15.8956 9 17.0001L9 20.0001"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+        
+        <ControlTemplate x:Key="CloseIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="2"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M4 4.00098H20V18.001C20 19.1055 19.1046 20.001 18 20.001H6C4.89543 20.001 4 19.1055 4 18.001V4.00098Z"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M14 10L10 14"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M10 10L14 14"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="CollapseIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M 12 18.460938 L 1.507812 7.96875 C 0.953125 7.414062 0.953125 6.515625 1.507812 5.957031 C 2.0625 5.402344 2.964844 5.402344 3.523438 5.957031 L 12 14.4375 L 20.476562 5.957031 C 21.035156 5.402344 21.9375 5.402344 22.492188 5.957031 C 23.046875 6.515625 23.046875 7.414062 22.492188 7.972656 Z M 12 18.460938 "></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="OpenExternallyIcon">
+            <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Canvas Width="24" Height="24">
+                    <Canvas.Resources>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeEndLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeStartLineCap" Value="Round"></Setter>
+                            <Setter Property="StrokeLineJoin" Value="Round"></Setter>
+                            <Setter Property="StrokeThickness" Value="2"></Setter>
+                        </Style>
+                    </Canvas.Resources>
+
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M11 4H4V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V13"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M9 15L20 4"></Path>
+                    <Path Stroke="{TemplateBinding Foreground}" Fill="{TemplateBinding Background}" Data="M15 4H20V9"></Path>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
     </Application.Resources>
 </Application>

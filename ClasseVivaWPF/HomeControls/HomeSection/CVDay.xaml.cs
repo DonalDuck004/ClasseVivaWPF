@@ -304,8 +304,13 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         internal static void GlobDispose()
         {
+            foreach (var item in INSTANCES)
+            {
+                if (item.Value.Parent is not null)
+                    item.Value.Parent.BeginDestroy(safe: false);
+            }
             INSTANCES.Clear();
-            SelectedDay = null;
+            CVDay.SelectedDay = null;
         }
 
         public static void DestroyCache(bool deep = false)

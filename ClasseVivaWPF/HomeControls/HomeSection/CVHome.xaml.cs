@@ -23,11 +23,21 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
         private CVHome()
         {
             InitializeComponent();
+            this.Contents = new();
             this.DataContext = this;
+        }
+
+        public static CVHome NewInstance()
+        {
+            if (INSTANCE is null)
+                INSTANCE = new();
+
+            return INSTANCE;
         }
 
         public static void GlobDispose()
         {
+            CVHome.INSTANCE = null;
             CVDay.GlobDispose();
         }
 
@@ -204,6 +214,8 @@ namespace ClasseVivaWPF.HomeControls.HomeSection
 
         public void OnSwitch()
         {
+            if (Config.UNLOAD_HOME_ON_SWITCH)
+                CVHome.GlobDispose();
         }
 
         private void OnSnapScroller(object sender, SnapEventArgs e)

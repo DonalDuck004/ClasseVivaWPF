@@ -1,4 +1,4 @@
-﻿<Window x:Class="ClasseVivaWPF.Themes.Xaml.ThemeEditor"
+﻿<Canvas x:Class="ClasseVivaWPF.Themes.Xaml.ThemeEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,105 +7,107 @@
         xmlns:local="clr-namespace:ClasseVivaWPF.Themes.Xaml"
         xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
-        xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
-        mc:Ignorable="d" Closing="OnClosing" Closed="OnClose" ResizeMode="CanMinimize"
-        Title="ThemeEditor" Height="450" Width="800">
-    <Canvas Height="410.5" Width="800">
-        <!--shared:CVButton Panel.ZIndex="1" Content="Scegli" FontSize="18" Canvas.Top="193" Canvas.Left="650" Width="64" Height="32" Click="OnPicker"></shared:CVButton-->
-        <WrapPanel Panel.ZIndex="2" Orientation="Vertical" Canvas.Top="7" Canvas.Left="2" Background="Transparent" Cursor="Hand" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="OnExpand">
-            <WrapPanel.RenderTransform>
-                <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
-            </WrapPanel.RenderTransform>
-            <WrapPanel.Resources>
-                <Style TargetType="WrapPanel">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=LeftExapanded}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.5" To="-1" Storyboard.TargetProperty="(WrapPanel.RenderTransform).(ScaleTransform.ScaleX)"></DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.5" To="1" Storyboard.TargetProperty="(WrapPanel.RenderTransform).(ScaleTransform.ScaleX)"></DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-                <Style TargetType="Rectangle">
-                    <Setter Property="Fill" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVGenericHeaderFont}"></Setter>
-                    <Setter Property="Width" Value="32"></Setter>
-                    <Setter Property="Height" Value="3"></Setter>
-                    <Setter Property="Margin" Value="2.5"></Setter>
-                </Style>
-            </WrapPanel.Resources>
-            <Rectangle></Rectangle>
-            <Rectangle></Rectangle>
-            <Rectangle></Rectangle>
+        xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml" ClipToBounds="True"
+        mc:Ignorable="d" Height="410.5" Width="800" Name="mobile_wp">
+    <Canvas.Resources>
+        <WrapPanel Background="Transparent" MouseLeftButtonDown="OnOpenWindow" x:Key="ExtraIntWinIcon">
+            <ContentControl Template="{StaticResource ResourceKey=OpenExternallyIcon}" Width="24" Height="24" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"></ContentControl>
         </WrapPanel>
-        <DockPanel Width="200" Height="410.5" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Panel.ZIndex="1">
-            <DockPanel.Style>
-                <Style TargetType="DockPanel">
-                    <Setter Property="Canvas.Left" Value="-200"></Setter>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=LeftExapanded}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation To="0" Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:0.5"></DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation To="-200" Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:0.5"></DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DockPanel.Style>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <TextBox FontSize="24" Margin="0,5,0,0" BorderThickness="0" d:Text="Tema1" d:Background="#FFC62828" Name="NewThemeInput"
-                         Background="{themes:ThemeBinding Path=CVHeader}" d:Foreground="#FFFFFFFF" Text="{Binding Path=NewThemeName}"
-                         Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" HorizontalAlignment="Center" 
-                         SelectionBrush="{themes:ThemeBinding Path=CVSelectionBrush}" d:SelectionBrush="#FFC62828"></TextBox>
-                <Border Grid.Row="2" d:Background="White" Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.3" BorderBrush="Black" CornerRadius="10" Width="126" Margin="0,0,0,16">
-                    <shared:CVButton Content="Salva" FontSize="20" Click="OnSave"></shared:CVButton>
-                </Border>
-            </Grid>
-        </DockPanel>
-        <Grid d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Height="410.5" Width="800">
+    </Canvas.Resources>
+        <!--shared:CVButton Panel.ZIndex="1" Content="Scegli" FontSize="18" Canvas.Top="193" Canvas.Left="650" Width="64" Height="32" Click="OnPicker"></shared:CVButton-->
+    <WrapPanel Panel.ZIndex="2" Orientation="Vertical" Canvas.Top="7" Canvas.Left="2" Background="Transparent" Cursor="Hand" RenderTransformOrigin="0.5,0.5" MouseLeftButtonDown="OnExpand">
+        <WrapPanel.RenderTransform>
+            <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
+        </WrapPanel.RenderTransform>
+        <WrapPanel.Resources>
+            <Style TargetType="WrapPanel">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=LeftExapanded}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0:0:0.5" To="-1" Storyboard.TargetProperty="(WrapPanel.RenderTransform).(ScaleTransform.ScaleX)"></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Duration="0:0:0.5" To="1" Storyboard.TargetProperty="(WrapPanel.RenderTransform).(ScaleTransform.ScaleX)"></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Rectangle">
+                <Setter Property="Fill" d:Value="#FFFFFFFF" Value="{themes:ThemeBinding Path=CVGenericHeaderFont}"></Setter>
+                <Setter Property="Width" Value="32"></Setter>
+                <Setter Property="Height" Value="3"></Setter>
+                <Setter Property="Margin" Value="2.5"></Setter>
+            </Style>
+        </WrapPanel.Resources>
+        <Rectangle></Rectangle>
+        <Rectangle></Rectangle>
+        <Rectangle></Rectangle>
+    </WrapPanel>
+    <DockPanel Width="200" Height="410.5" d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Panel.ZIndex="1">
+        <DockPanel.Style>
+            <Style TargetType="DockPanel">
+                <Setter Property="Canvas.Left" Value="-200"></Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=LeftExapanded}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation To="0" Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:0.5"></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation To="-200" Storyboard.TargetProperty="(Canvas.Left)" Duration="0:0:0.5"></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </DockPanel.Style>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <DockPanel d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Grid.Row="0" Grid.ColumnSpan="2">
-                <TextBlock Margin="42,0,0,0" d:Text="WhiteTheme" Text="{Binding Path=CurrentTheme.Name, Source={x:Static root:MainWindow.INSTANCE}}" VerticalAlignment="Center" FontSize="24" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"></TextBlock>
-            </DockPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" Grid.Row="1" Margin="0,0,0,2">
-                <StackPanel x:Name="ThemePropertiesWP">
-                </StackPanel>
-            </ScrollViewer>
-            <WrapPanel Height="410.5" Grid.Column="1" Grid.Row="1">
-                <colorpicker:StandardColorPicker Margin="0,0,15,0" SelectedColor="{Binding Path=SelectedViewer.BindendColor, Mode=TwoWay, Converter={StaticResource ResourceKey=ToColorConverter}}"/>
-            </WrapPanel>
+            <TextBox FontSize="24" Margin="0,5,0,0" BorderThickness="0" d:Text="Tema1" d:Background="#FFC62828" Name="NewThemeInput"
+                        Background="{themes:ThemeBinding Path=CVHeader}" d:Foreground="#FFFFFFFF" Text="{Binding Path=NewThemeName}"
+                        Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}" HorizontalAlignment="Center" 
+                        SelectionBrush="{themes:ThemeBinding Path=CVSelectionBrush}" d:SelectionBrush="#FFC62828"></TextBox>
+            <Border Grid.Row="2" d:Background="White" Background="{themes:ThemeBinding Path=CVGenericBackground}" BorderThickness="0.3" BorderBrush="Black" CornerRadius="10" Width="126" Margin="0,0,0,16">
+                <shared:CVButton Content="Salva" FontSize="20" Click="OnSave"></shared:CVButton>
+            </Border>
         </Grid>
-    </Canvas>
-</Window>
+    </DockPanel>
+    <Grid d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}" Height="410.5" Width="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DockPanel d:Background="#FFC62828" Background="{themes:ThemeBinding Path=CVHeader}" Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock Margin="42,0,0,0" d:Text="WhiteTheme" Text="{Binding Path=CurrentTheme.Name, Source={x:Static root:MainWindow.INSTANCE}}" VerticalAlignment="Center" FontSize="24" d:Foreground="#FFFFFFFF" Foreground="{themes:ThemeBinding Path=CVGenericHeaderFont}"></TextBlock>
+        </DockPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" Grid.Row="1" Margin="0,0,0,2">
+            <StackPanel x:Name="ThemePropertiesWP">
+            </StackPanel>
+        </ScrollViewer>
+        <WrapPanel Height="410.5" Grid.Column="1" Grid.Row="1">
+            <colorpicker:StandardColorPicker Margin="0,0,15,0" SelectedColor="{Binding Path=SelectedViewer.BindendColor, Mode=TwoWay, Converter={StaticResource ResourceKey=ToColorConverter}}"/>
+        </WrapPanel>
+    </Grid>
+</Canvas>
