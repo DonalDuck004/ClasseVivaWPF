@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Interfaces;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Handling;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using System;

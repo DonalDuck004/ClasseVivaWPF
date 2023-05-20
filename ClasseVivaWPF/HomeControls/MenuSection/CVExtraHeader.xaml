@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
-             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
              mc:Ignorable="d" Cursor="Hand" MouseLeftButtonDown="OnSelected"
              d:DesignHeight="80" d:DesignWidth="240">
     <Border CornerRadius="25" BorderThickness="2" d:BorderBrush="#FFFFFFFF" BorderBrush="{themes:ThemeBinding Path=CVExtraHeaderEllipse}">

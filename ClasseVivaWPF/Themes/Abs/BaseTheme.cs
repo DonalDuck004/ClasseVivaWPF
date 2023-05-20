@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Xml.Linq;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes.Abs
 {
 
     public abstract class BaseTheme : ITheme

@@ -7,20 +7,19 @@ using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Interfaces;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Abs;
+using ClasseVivaWPF.Themes.Handling;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Forms = System.Windows.Forms;
 
 namespace ClasseVivaWPF

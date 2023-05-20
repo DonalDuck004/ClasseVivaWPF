@@ -5,7 +5,7 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                   xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
                   xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
-                  xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+                  xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
                   xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
                   mc:Ignorable="d" 
                   d:DesignHeight="450" d:DesignWidth="800">

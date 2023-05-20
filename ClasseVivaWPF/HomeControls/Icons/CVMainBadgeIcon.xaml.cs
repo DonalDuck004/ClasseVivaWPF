@@ -1,4 +1,4 @@
-﻿using ClasseVivaWPF.Utils.Themes;
+﻿using ClasseVivaWPF.Themes;
 using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.Icons
 {

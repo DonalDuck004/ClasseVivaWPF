@@ -8,9 +8,10 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using ClasseVivaWPF.SharedControls;
 using System.Windows.Media;
-using ClasseVivaWPF.Utils.Themes;
-using ClasseVivaWPF.Utils.Themes.Extra;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Xaml;
 using ClasseVivaWPF.Utils.Interfaces;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.MenuSection
 {

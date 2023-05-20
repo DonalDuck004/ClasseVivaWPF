@@ -1,6 +1,7 @@
-﻿using System.Windows.Media;
+﻿using ClasseVivaWPF.Themes.Abs;
+using System.Windows.Media;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes
 {
     public class FromJSTheme : IDynamicTheme
     {

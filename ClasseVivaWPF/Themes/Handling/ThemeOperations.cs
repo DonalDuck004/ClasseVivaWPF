@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using ClasseVivaWPF.Themes.Abs;
+using ClasseVivaWPF.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes.Handling
 {
     public static class ThemeOperations
     {

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF" Focusable="False"
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
-             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
              mc:Ignorable="d" d:Background="#FFFFFFFF" Background="{themes:ThemeBinding Path=CVGenericBackground}"

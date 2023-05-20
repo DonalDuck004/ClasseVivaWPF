@@ -1,5 +1,5 @@
 ﻿using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +8,7 @@ using System.Windows;
 using System.Linq;
 using System.Windows.Controls;
 using System.Diagnostics;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Graphs
 {

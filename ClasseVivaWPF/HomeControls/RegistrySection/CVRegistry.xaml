@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection"
              xmlns:graphs="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Graphs"
              xmlns:advicons="clr-namespace:ClasseVivaWPF.SharedControls.AdvancedIcons"
-             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
              xmlns:grades="clr-namespace:ClasseVivaWPF.HomeControls.RegistrySection.Grades"
              xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
              mc:Ignorable="d" Loaded="OnLoad" Name="control"

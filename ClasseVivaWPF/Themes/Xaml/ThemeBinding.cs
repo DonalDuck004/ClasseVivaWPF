@@ -1,6 +1,7 @@
-﻿using System.Windows.Data;
+﻿using ClasseVivaWPF.Themes.Handling;
+using System.Windows.Data;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes.Xaml
 {
     public class ThemeBinding : Binding
     {

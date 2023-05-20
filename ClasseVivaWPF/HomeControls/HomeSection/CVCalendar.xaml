@@ -6,7 +6,7 @@
                    xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
                    xmlns:root="clr-namespace:ClasseVivaWPF"
                    xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.HomeSection"
-                   xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+                   xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
                    xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
                    mc:Ignorable="d" Background="#BF000000" MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
                    d:DesignHeight="1495.339" d:DesignWidth="765.14">

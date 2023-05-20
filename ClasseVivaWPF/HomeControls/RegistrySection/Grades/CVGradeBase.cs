@@ -1,6 +1,6 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

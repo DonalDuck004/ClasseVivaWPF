@@ -1,5 +1,5 @@
 ﻿using ClasseVivaWPF.SharedControls;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
 using ClasseVivaWPF.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,7 @@ using ClasseVivaWPF.Api.Types;
 using System.Threading;
 using ClasseVivaWPF.Api;
 using ClasseVivaWPF.Utils.Interfaces;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 {

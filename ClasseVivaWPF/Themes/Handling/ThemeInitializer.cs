@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ClasseVivaWPF.Themes.Abs;
+using System;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes.Handling
 {
     public class ThemeInitializer
     {

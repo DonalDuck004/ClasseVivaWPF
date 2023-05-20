@@ -1,4 +1,4 @@
-﻿namespace ClasseVivaWPF.Utils.Themes
+﻿namespace ClasseVivaWPF.Themes.Abs
 {
     public interface IDynamicTheme : ITheme
     {

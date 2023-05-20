@@ -1,6 +1,7 @@
 ﻿using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Handling;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;

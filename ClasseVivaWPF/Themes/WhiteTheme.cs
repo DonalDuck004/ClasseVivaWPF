@@ -1,9 +1,10 @@
 ﻿using ClasseVivaWPF.HomeControls.RegistrySection;
+using ClasseVivaWPF.Themes.Abs;
 using System;
 using System.Windows.Media;
 using System.Xml.Linq;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes
 {
     public class WhiteTheme : BaseTheme
     {

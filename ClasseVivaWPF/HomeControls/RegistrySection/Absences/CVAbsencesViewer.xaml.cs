@@ -19,13 +19,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClasseVivaWPF.HomeControls.RegistrySection.Graphs;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
 using System.Diagnostics;
 using System.Drawing;
 using ClasseVivaWPF.HomeControls.MenuSection;
 using Microsoft.VisualBasic;
 using System.Windows.Forms;
 using ClasseVivaWPF.Utils.Interfaces;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Absences
 {

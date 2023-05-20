@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
-             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
              mc:Ignorable="d" d:Foreground="#FFC62828" Foreground="{themes:ThemeBinding Path=CVButton}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Button.Style>

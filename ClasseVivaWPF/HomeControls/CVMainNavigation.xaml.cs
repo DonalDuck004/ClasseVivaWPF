@@ -8,7 +8,7 @@ using ClasseVivaWPF.Sessions;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
 using ClasseVivaWPF.Utils.Interfaces;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
 using System;
 using System.Security.Principal;
 using System.Threading.Tasks;

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes.Abs
 {
     public interface ITheme
     {

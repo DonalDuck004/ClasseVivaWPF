@@ -2,7 +2,8 @@
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils.Converters;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Handling;
 using Newtonsoft.Json.Linq;
 using System;
 using System.CodeDom;

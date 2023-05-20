@@ -17,8 +17,9 @@ using System.Reflection;
 using ColorPicker;
 using Forms = System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using ClasseVivaWPF.Themes.Handling;
 
-namespace ClasseVivaWPF.Utils.Themes.Extra
+namespace ClasseVivaWPF.Themes.Xaml
 {
     /// <summary>
     /// Logica di interazione per ThemePropertyViewer.xaml

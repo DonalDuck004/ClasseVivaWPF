@@ -1,5 +1,5 @@
 ﻿using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

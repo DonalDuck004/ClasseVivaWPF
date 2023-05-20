@@ -1,7 +1,9 @@
-﻿using System;
+﻿using ClasseVivaWPF.Themes.Abs;
+using ClasseVivaWPF.Utils;
+using System;
 using System.Windows.Media;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes
 {
     public class EasterEggTheme : ITheme // For debug lol
     {

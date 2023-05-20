@@ -11,7 +11,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace ClasseVivaWPF.Utils.Themes
+namespace ClasseVivaWPF.Themes.Handling
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class ThemeProperties : FrameworkElement

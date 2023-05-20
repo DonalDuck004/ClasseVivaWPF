@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:root="clr-namespace:ClasseVivaWPF"
         xmlns:local="clr-namespace:ClasseVivaWPF"
-        xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+        xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
         xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
         Focusable="True"
         MouseDown="window_MouseDown"

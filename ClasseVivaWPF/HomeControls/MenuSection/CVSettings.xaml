@@ -7,7 +7,8 @@
                    xmlns:local="clr-namespace:ClasseVivaWPF.HomeControls.MenuSection"
                    xmlns:sessions="clr-namespace:ClasseVivaWPF.Sessions"
                    xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
-                   xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+                   xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
+                   xmlns:th="clr-namespace:ClasseVivaWPF.Themes.Handling"
                    xmlns:shared="clr-namespace:ClasseVivaWPF.SharedControls"
                    mc:Ignorable="d" x:Name="Control"
                    d:DesignHeight="1000" d:DesignWidth="800">
@@ -148,18 +149,18 @@
                             <StackPanel.Resources>
                                 <Style TargetType="WrapPanel">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static themes:ThemeProperties.INSTANCE}, Path=Editing}" Value="True">
+                                        <DataTrigger Binding="{Binding Source={x:Static th:ThemeProperties.INSTANCE}, Path=Editing}" Value="True">
                                             <Setter Property="IsEnabled" Value="False"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                                 <Style TargetType="StackPanel">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Source={x:Static themes:ThemeProperties.INSTANCE}, Path=Editing}" Value="True">
+                                        <DataTrigger Binding="{Binding Source={x:Static th:ThemeProperties.INSTANCE}, Path=Editing}" Value="True">
                                             <Setter Property="ToolTip">
                                                 <Setter.Value>
                                                     <ToolTip>
-                                                        <TextBlock Text="Cambiamento tema disabbilitato durante lìediting"></TextBlock>
+                                                        <TextBlock Text="Cambiamento tema disabbilitato durante l' editing"></TextBlock>
                                                     </ToolTip>
                                                 </Setter.Value>
                                             </Setter>

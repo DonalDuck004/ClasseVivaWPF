@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.Icons
 {

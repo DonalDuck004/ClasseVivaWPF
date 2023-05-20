@@ -6,7 +6,7 @@
              xmlns:utils="clr-namespace:ClasseVivaWPF.Utils"
              xmlns:homecontrols="clr-namespace:ClasseVivaWPF.HomeControls"
              xmlns:converters="clr-namespace:ClasseVivaWPF.Utils.Converters"
-             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <Application.Resources>

@@ -17,7 +17,8 @@ using System.Windows.Shapes;
 using ClasseVivaWPF.Api.Types;
 using ClasseVivaWPF.SharedControls;
 using ClasseVivaWPF.Utils;
-using ClasseVivaWPF.Utils.Themes;
+using ClasseVivaWPF.Themes;
+using ClasseVivaWPF.Themes.Handling;
 
 namespace ClasseVivaWPF.HomeControls.RegistrySection.Grades
 {

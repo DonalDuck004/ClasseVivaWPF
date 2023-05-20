@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:root="clr-namespace:ClasseVivaWPF"
              xmlns:local="clr-namespace:ClasseVivaWPF.SharedControls"
-             xmlns:themes="clr-namespace:ClasseVivaWPF.Utils.Themes"
+             xmlns:themes="clr-namespace:ClasseVivaWPF.Themes.Xaml"
              mc:Ignorable="d"
              d:DesignHeight="820" d:DesignWidth="800">
     <StackPanel Name="stack" Margin="0,10,0,10">

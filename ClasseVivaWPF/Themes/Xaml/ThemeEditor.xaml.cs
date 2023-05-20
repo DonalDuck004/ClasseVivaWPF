@@ -17,8 +17,11 @@ using ClasseVivaWPF.SharedControls;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text.RegularExpressions;
+using ClasseVivaWPF.Themes.Abs;
+using ClasseVivaWPF.Themes.Handling;
+using ClasseVivaWPF.Utils;
 
-namespace ClasseVivaWPF.Utils.Themes.Extra
+namespace ClasseVivaWPF.Themes.Xaml
 {
     /// <summary>
     /// Logica di interazione per ThemeEditor.xaml
