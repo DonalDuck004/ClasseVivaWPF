@@ -1,5 +1,5 @@
 # ClasseVivaWPF
 
-Client non ufficiale per l'app di classeviva
-Proggetto abbandonato per mancanza di credenziali valide (quinto terminato F)
-Resto dispobile per collabore se qualcuno dovesse averne voglia 
+Client non ufficiale per l'app di classeviva<br>
+Proggetto abbandonato per mancanza di credenziali valide (quinto terminato F)<br>
+Resto disponibile per collabore se qualcuno dovesse averne voglia 
